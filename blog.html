@@ -19,6 +19,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -27,6 +30,20 @@
 
     <div class="progress-bar" id="progressBar"></div>
     <div id="menuBackdrop" role="presentation"></div>
+
+    <div class="social-sidebar" id="socialSidebar">
+        <a href="https://www.facebook.com/Abrar.Trades/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Connect on Facebook"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook"></a>
+        <a href="https://www.instagram.com/abrartraders/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Connect on Instagram"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram"></a>
+        <a href="https://wa.me/917405108950" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Message us on WhatsApp"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp"></a>
+        <a href="https://www.linkedin.com/company/abrar-traders/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Connect on LinkedIn"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn"></a>
+    </div>
+
+    <div id="spinner" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white">
+        <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" class="h-20 animate-bounce mb-6" alt="Abrar Traders Logo Spinner" />
+        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600"></div>
+    </div>
+
+    <div id="tsparticles" class="absolute top-0 left-0 w-full h-full -z-10"></div>
 
     <nav class="sticky-nav flex justify-between items-center px-6 py-4" role="navigation" aria-label="Main Navigation">
         <a href="index.html#home" class="flex items-center space-x-4">
@@ -70,8 +87,8 @@
     </div>
 
     <header class="blog-hero py-20 px-6 text-center text-white">
-        <h1 class="text-5xl font-extrabold mb-4">Abrar Traders Blog</h1>
-        <p class="text-xl font-medium">Your source for industry insights, sustainable practices, and the latest in paper & packaging.</p>
+        <h1 class="text-5xl font-extrabold mb-4" data-aos="fade-down">Abrar Traders Blog</h1>
+        <p class="text-xl font-medium" data-aos="fade-up" data-aos-delay="200">Your source for industry insights, sustainable practices, and the latest in paper & packaging.</p>
     </header>
 
     <main class="py-20 px-6">
@@ -79,7 +96,7 @@
             <div class="grid lg:grid-cols-3 gap-12">
                 <div class="lg:col-span-2">
                     <div class="grid md:grid-cols-2 gap-8">
-                        <article class="blog-post-card glass rounded-2xl shadow-lg overflow-hidden">
+                        <article class="blog-post-card glass rounded-2xl shadow-lg overflow-hidden" data-aos="fade-up" data-aos-delay="100">
                             <img src="https://placehold.co/600x400/8E9BFA/FFFFFF?text=Sustainable+Packaging" alt="AI generated image of sustainable packaging" class="w-full h-48 object-cover">
                             <div class="p-6">
                                 <h3 class="font-bold text-xl mb-3 text-gray-800">The Rise of Sustainable Packaging</h3>
@@ -88,7 +105,7 @@
                             </div>
                         </article>
 
-                        <article class="blog-post-card glass rounded-2xl shadow-lg overflow-hidden">
+                        <article class="blog-post-card glass rounded-2xl shadow-lg overflow-hidden" data-aos="fade-up" data-aos-delay="200">
                             <img src="https://placehold.co/600x400/A78BFA/FFFFFF?text=Choosing+Paper+GSM" alt="AI generated image of choosing paper gsm" class="w-full h-48 object-cover">
                             <div class="p-6">
                                 <h3 class="font-bold text-xl mb-3 text-gray-800">How to Choose the Right Paper GSM</h3>
@@ -97,7 +114,7 @@
                             </div>
                         </article>
 
-                        <article class="blog-post-card glass rounded-2xl shadow-lg overflow-hidden">
+                        <article class="blog-post-card glass rounded-2xl shadow-lg overflow-hidden" data-aos="fade-up" data-aos-delay="300">
                             <img src="https://placehold.co/600x400/607AFB/FFFFFF?text=Paper+Industry+Trends" alt="AI generated image of paper industry trends" class="w-full h-48 object-cover">
                             <div class="p-6">
                                 <h3 class="font-bold text-xl mb-3 text-gray-800">Top 5 Trends in the Paper Industry for 2025</h3>
@@ -106,7 +123,7 @@
                             </div>
                         </article>
 
-                        <article class="blog-post-card glass rounded-2xl shadow-lg overflow-hidden">
+                        <article class="blog-post-card glass rounded-2xl shadow-lg overflow-hidden" data-aos="fade-up" data-aos-delay="400">
                             <img src="https://placehold.co/600x400/E6E9F4/0D0F1C?text=Kraft+Paper+Versatility" alt="AI generated image of kraft paper versatility" class="w-full h-48 object-cover">
                             <div class="p-6">
                                 <h3 class="font-bold text-xl mb-3 text-gray-800">The Versatility of Kraft Paper</h3>
@@ -118,12 +135,12 @@
                 </div>
 
                 <aside class="lg:col-span-1 space-y-8">
-                    <div class="widget glass p-6 rounded-2xl shadow-lg">
+                    <div class="widget glass p-6 rounded-2xl shadow-lg" data-aos="fade-left" data-aos-delay="500">
                         <h3 class="font-bold text-xl mb-4 text-gray-800">Search</h3>
                         <input type="text" placeholder="Search..." class="w-full p-3 rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500 transition">
                     </div>
 
-                    <div class="widget glass p-6 rounded-2xl shadow-lg">
+                    <div class="widget glass p-6 rounded-2xl shadow-lg" data-aos="fade-left" data-aos-delay="600">
                         <h3 class="font-bold text-xl mb-4 text-gray-800">Categories</h3>
                         <ul class="space-y-2">
                             <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Sustainable Packaging</a></li>
@@ -133,7 +150,7 @@
                         </ul>
                     </div>
 
-                    <div class="widget glass p-6 rounded-2xl shadow-lg">
+                    <div class="widget glass p-6 rounded-2xl shadow-lg" data-aos="fade-left" data-aos-delay="700">
                         <h3 class="font-bold text-xl mb-4 text-gray-800">Recent Posts</h3>
                         <ul class="space-y-4">
                             <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">The Rise of Sustainable Packaging</a></li>
@@ -186,5 +203,17 @@
 
     <script src="main.js" defer></script>
     <script src="blog.js" defer></script>
+    
+    <script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/6156d1f2d326bf3d2c1a8a8b/1fhg3b4h0';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
 </body>
 </html>
