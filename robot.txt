@@ -1,0 +1,6 @@
+# robots.txt for https://abrartraders.co.in
+
+User-agent: *
+Allow: /
+
+Sitemap: https://abrartraders.co.in/sitemap.xml
