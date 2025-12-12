@@ -185,6 +185,45 @@ document.addEventListener('DOMContentLoaded', function() {
         productModalBackdrop.addEventListener('click', closeModal);
     }
 
+    // Paper Weight Calculator Logic
+window.calculateWeight = () => {
+    // Get values
+    const l = parseFloat(document.getElementById('calcLength').value) || 0;
+    const w = parseFloat(document.getElementById('calcWidth').value) || 0;
+    const gsm = parseFloat(document.getElementById('calcGsm').value) || 0;
+    const qty = parseFloat(document.getElementById('calcQty').value) || 0;
+    
+    // Formula: Weight (kg) = (Length(cm)/100 * Width(cm)/100 * GSM * Qty) / 1000
+    // Dividing by 1000 converts grams to kilograms
+    const weight = ((l/100) * (w/100) * gsm * qty) / 1000;
+    
+    const resultEl = document.getElementById('calcResult');
+    
+    // Animate the result number counting up
+    let start = 0;
+    const end = weight;
+    const duration = 500; // 0.5 seconds animation
+    const startTime = performance.now();
+
+    function animate(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function for smooth effect
+        const easeOutQuad = progress * (2 - progress);
+        
+        const currentVal = (easeOutQuad * end).toFixed(2);
+        
+        resultEl.innerHTML = `${currentVal} <span class="text-lg text-blue-600 font-bold">kg</span>`;
+        
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        }
+    }
+    
+    requestAnimationFrame(animate);
+};
+
     // --- SPLIDE.JS CAROUSEL FOR REVIEWS ---
     if (document.querySelector('.splide')) {
         new Splide('.splide', {
@@ -271,4 +310,5 @@ document.addEventListener('DOMContentLoaded', function() {
     if (currentYear) {
         currentYear.textContent = new Date().getFullYear();
     }
+
 });
