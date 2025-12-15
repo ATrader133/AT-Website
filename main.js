@@ -185,42 +185,125 @@ document.addEventListener('DOMContentLoaded', function() {
         productModalBackdrop.addEventListener('click', closeModal);
     }
 
-    // Paper Weight Calculator Logic
+    
+    // --- PAPER CALCULATOR LOGIC ---
+    let currentUnit = 'cm'; // Default unit
+
+   // Toggle Unit (CM / MM / INCH)
+window.setUnit = (unit) => {
+    currentUnit = unit;
+    
+    const btnCm = document.getElementById('btn-cm');
+    const btnMm = document.getElementById('btn-mm');
+    const btnInch = document.getElementById('btn-inch');
+    const labelL = document.getElementById('labelLength');
+    const labelW = document.getElementById('labelWidth');
+
+    const activeClass = "flex-1 md:flex-none px-6 py-2 rounded-lg text-sm font-bold transition-all bg-blue-600 text-white shadow-md transform scale-105";
+    const inactiveClass = "flex-1 md:flex-none px-6 py-2 rounded-lg text-sm font-bold text-gray-500 hover:text-blue-600 transition-all";
+
+    btnCm.className = inactiveClass;
+    btnMm.className = inactiveClass;
+    btnInch.className = inactiveClass;
+
+    if (unit === 'cm') {
+        btnCm.className = activeClass;
+        labelL.textContent = "(cm)";
+        labelW.textContent = "(cm)";
+    } else if (unit === 'mm') {
+        btnMm.className = activeClass;
+        labelL.textContent = "(mm)";
+        labelW.textContent = "(mm)";
+    } else {
+        btnInch.className = activeClass;
+        labelL.textContent = "(inch)";
+        labelW.textContent = "(inch)";
+    }
+    
+    document.getElementById('calcLength').value = '';
+    document.getElementById('calcWidth').value = '';
+    document.getElementById('sizePreset').value = '';
+    document.getElementById('moqStatus').textContent = ''; // Clear status
+};
+
+window.applyPreset = () => {
+    const preset = document.getElementById('sizePreset').value;
+    const lInput = document.getElementById('calcLength');
+    const wInput = document.getElementById('calcWidth');
+
+    if (!preset) return;
+
+    if (preset === 'A4') {
+        setUnit('mm');
+        wInput.value = 210;
+        lInput.value = 297;
+    } else if (preset === 'A3') {
+        setUnit('mm');
+        wInput.value = 297;
+        lInput.value = 420;
+    } else if (['23x36', '25x36', '30x40'].includes(preset)) {
+        setUnit('inch');
+        const [w, h] = preset.split('x');
+        wInput.value = w;
+        lInput.value = h;
+    }
+};
+
 window.calculateWeight = () => {
-    // Get values
     const l = parseFloat(document.getElementById('calcLength').value) || 0;
     const w = parseFloat(document.getElementById('calcWidth').value) || 0;
     const gsm = parseFloat(document.getElementById('calcGsm').value) || 0;
     const qty = parseFloat(document.getElementById('calcQty').value) || 0;
     
-    // Formula: Weight (kg) = (Length(cm)/100 * Width(cm)/100 * GSM * Qty) / 1000
-    // Dividing by 1000 converts grams to kilograms
-    const weight = ((l/100) * (w/100) * gsm * qty) / 1000;
+    let lengthMeters = 0;
+    let widthMeters = 0;
+
+    if (currentUnit === 'cm') {
+        lengthMeters = l / 100;
+        widthMeters = w / 100;
+    } else if (currentUnit === 'mm') {
+        lengthMeters = l / 1000;
+        widthMeters = w / 1000;
+    } else if (currentUnit === 'inch') {
+        lengthMeters = l * 0.0254;
+        widthMeters = w * 0.0254;
+    }
+
+    const weightPerSheetGrams = (lengthMeters * widthMeters) * gsm;
+    const totalWeightKg = (weightPerSheetGrams * qty) / 1000;
+
+    // --- MOQ LOGIC ---
+    const moqStatus = document.getElementById('moqStatus');
+    const moqLimit = 1000; // 1 MT in kg
+
+    if (totalWeightKg === 0) {
+        moqStatus.textContent = "";
+    } else if (totalWeightKg < moqLimit) {
+        moqStatus.innerHTML = `<span class="text-red-500 font-bold">⚠️ Below MOQ (${(moqLimit - totalWeightKg).toFixed(1)}kg short)</span>`;
+    } else {
+        moqStatus.innerHTML = `<span class="text-green-600 font-bold">✅ MOQ Requirement Met</span>`;
+    }
+
+    // Display Results
+    document.getElementById('resSheet').innerHTML = `${weightPerSheetGrams.toFixed(2)} <span class="text-sm">g</span>`;
     
-    const resultEl = document.getElementById('calcResult');
-    
-    // Animate the result number counting up
+    // Animate
     let start = 0;
-    const end = weight;
-    const duration = 500; // 0.5 seconds animation
+    const end = totalWeightKg;
+    const duration = 800;
     const startTime = performance.now();
+    const resTotal = document.getElementById('resTotal');
 
     function animate(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3); 
         
-        // Easing function for smooth effect
-        const easeOutQuad = progress * (2 - progress);
+        const currentVal = (ease * end).toFixed(2);
+        resTotal.innerHTML = `${currentVal} <span class="text-xl text-blue-600 font-bold">kg</span>`;
         
-        const currentVal = (easeOutQuad * end).toFixed(2);
-        
-        resultEl.innerHTML = `${currentVal} <span class="text-lg text-blue-600 font-bold">kg</span>`;
-        
-        if (progress < 1) {
-            requestAnimationFrame(animate);
-        }
+        if (progress < 1) requestAnimationFrame(animate);
     }
-    
     requestAnimationFrame(animate);
 };
 
@@ -312,3 +395,4 @@ window.calculateWeight = () => {
     }
 
 });
+
