@@ -1,5 +1,3 @@
-// -- main.js --
-
 document.addEventListener('DOMContentLoaded', function() {
     console.log("ABRAR TRADERS: System Loaded v2.0");
 
