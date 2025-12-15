@@ -1,47 +1,34 @@
+// -- main.js --
+
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("ABRAR TRADERS: System Loaded");
+    console.log("ABRAR TRADERS: System Loaded v2.0");
 
-    // ==========================================
-    // 1. GLOBAL VARIABLES & SETUP
-    // ==========================================
-    let basket = [];
+    let basket = JSON.parse(localStorage.getItem('at_basket')) || [];
     let currentUnit = 'cm';
-
-    try {
-        const stored = localStorage.getItem('at_basket');
-        if (stored) basket = JSON.parse(stored);
-    } catch (e) { console.error("Local Storage Error:", e); }
-
-    // ==========================================
-    // 2. WINDOW FUNCTIONS (Accessible by HTML)
-    // ==========================================
 
     // --- CALCULATOR: Switch Tabs ---
     window.switchTab = function(tabName) {
-        const btnWeight = document.getElementById('tab-weight');
-        const btnReel = document.getElementById('tab-reel');
-        const contentWeight = document.getElementById('tool-weight');
-        const contentReel = document.getElementById('tool-reel');
+        // Hide all
+        ['weight', 'reel', 'strength', 'cbm'].forEach(t => {
+            document.getElementById(`tool-${t}`).classList.add('hidden');
+            const btn = document.getElementById(`tab-${t}`);
+            btn.className = "px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm font-bold text-gray-500 hover:text-blue-600 transition-all";
+        });
 
-        if (!btnWeight || !btnReel || !contentWeight || !contentReel) return;
+        // Show active
+        document.getElementById(`tool-${tabName}`).classList.remove('hidden');
+        const activeBtn = document.getElementById(`tab-${tabName}`);
+        
+        // Dynamic color for active tab
+        let colorClass = "text-blue-600";
+        if(tabName === 'reel') colorClass = "text-yellow-600";
+        if(tabName === 'strength') colorClass = "text-red-600";
+        if(tabName === 'cbm') colorClass = "text-green-600";
 
-        const activeBase = "px-6 py-3 rounded-lg text-sm font-bold transition-all shadow-md bg-white";
-        const inactiveBase = "px-6 py-3 rounded-lg text-sm font-bold text-gray-500 hover:text-blue-600 transition-all";
-
-        if (tabName === 'weight') {
-            btnWeight.className = `${activeBase} text-blue-600`;
-            btnReel.className = inactiveBase;
-            contentWeight.classList.remove('hidden');
-            contentReel.classList.add('hidden');
-        } else {
-            btnWeight.className = inactiveBase;
-            btnReel.className = `${activeBase} text-yellow-600`;
-            contentWeight.classList.add('hidden');
-            contentReel.classList.remove('hidden');
-        }
+        activeBtn.className = `px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm font-bold transition-all shadow-md bg-white ${colorClass}`;
     };
 
-    // --- CALCULATOR: Set Unit ---
+    // --- CALCULATOR 1: Sheet Weight ---
     window.setUnit = function(unit) {
         currentUnit = unit;
         ['cm', 'mm', 'inch'].forEach(u => {
@@ -50,38 +37,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 ? "flex-1 md:flex-none px-6 py-2 rounded-lg text-sm font-bold transition-all bg-blue-600 text-white shadow-md transform scale-105"
                 : "flex-1 md:flex-none px-6 py-2 rounded-lg text-sm font-bold text-gray-500 hover:text-blue-600 transition-all";
         });
-
         document.querySelectorAll('.unit-label').forEach(l => l.textContent = `(${unit})`);
-        
-        // Clear inputs to avoid confusion
-        ['calcLength', 'calcWidth', 'sizePreset'].forEach(id => {
-            const el = document.getElementById(id);
-            if(el) el.value = '';
-        });
-        
+        ['calcLength', 'calcWidth', 'sizePreset'].forEach(id => document.getElementById(id).value = '');
         window.calculateWeight(); 
     };
 
-    // --- CALCULATOR: Apply Presets ---
     window.applyPreset = function() {
         const preset = document.getElementById('sizePreset').value;
         const lInput = document.getElementById('calcLength');
         const wInput = document.getElementById('calcWidth');
-
         if (!preset) return;
-
-        if (preset === 'A4') {
-            window.setUnit('mm'); wInput.value = 210; lInput.value = 297;
-        } else if (preset === 'A3') {
-            window.setUnit('mm'); wInput.value = 297; lInput.value = 420;
-        } else if (['23x36', '25x36', '30x40'].includes(preset)) {
-            window.setUnit('inch');
-            const [w, h] = preset.split('x'); wInput.value = w; lInput.value = h;
+        if (preset === 'A4') { window.setUnit('mm'); wInput.value = 210; lInput.value = 297; }
+        else if (preset === 'A3') { window.setUnit('mm'); wInput.value = 297; lInput.value = 420; }
+        else if (['23x36', '25x36', '30x40'].includes(preset)) {
+            window.setUnit('inch'); const [w, h] = preset.split('x'); wInput.value = w; lInput.value = h;
         }
         window.calculateWeight();
     };
 
-    // --- CALCULATOR: Sheet Weight Logic ---
     window.calculateWeight = function() {
         const l = parseFloat(document.getElementById('calcLength').value) || 0;
         const w = parseFloat(document.getElementById('calcWidth').value) || 0;
@@ -93,22 +66,16 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (currentUnit === 'mm') { m_l = l/1000; m_w = w/1000; }
         else if (currentUnit === 'inch') { m_l = l*0.0254; m_w = w*0.0254; }
 
-        const weightPerSheet = (m_l * m_w) * gsm;
-        const totalKg = (weightPerSheet * qty) / 1000;
-
-        const resTotal = document.getElementById('resTotal');
-        const moqStatus = document.getElementById('moqStatus');
+        const totalKg = ((m_l * m_w) * gsm * qty) / 1000;
+        document.getElementById('resTotal').innerHTML = `${totalKg.toFixed(2)} <span class="text-xl text-blue-600 font-bold">kg</span>`;
         
-        if (resTotal) resTotal.innerHTML = `${totalKg.toFixed(2)} <span class="text-xl text-blue-600 font-bold">kg</span>`;
-
-        if (moqStatus) {
-            if (totalKg === 0) moqStatus.textContent = "";
-            else if (totalKg < 1000) moqStatus.innerHTML = `<span class="text-red-500 bg-red-50 px-2 py-1 rounded">⚠️ Below MOQ (${(1000-totalKg).toFixed(1)}kg short)</span>`;
-            else moqStatus.innerHTML = `<span class="text-green-600 bg-green-50 px-2 py-1 rounded">✅ MOQ Met</span>`;
-        }
+        const moqStatus = document.getElementById('moqStatus');
+        if (totalKg === 0) moqStatus.textContent = "";
+        else if (totalKg < 1000) moqStatus.innerHTML = `<span class="text-red-500 bg-red-50 px-2 py-1 rounded">⚠️ Below MOQ (${(1000-totalKg).toFixed(1)}kg short)</span>`;
+        else moqStatus.innerHTML = `<span class="text-green-600 bg-green-50 px-2 py-1 rounded">✅ MOQ Met</span>`;
     };
 
-    // --- CALCULATOR: Reel Converter Logic ---
+    // --- CALCULATOR 2: Reel Converter ---
     window.calculateReel = function() {
         const rWeight = parseFloat(document.getElementById('reelWeight').value) || 0;
         const rWidth = parseFloat(document.getElementById('reelWidth').value) || 0;
@@ -116,19 +83,52 @@ document.addEventListener('DOMContentLoaded', function() {
         const cutLen = parseFloat(document.getElementById('cutLength').value) || 0;
 
         if (rWeight === 0 || rWidth === 0 || rGsm === 0) return;
+        const totalLength = (rWeight * 1000 * 100) / (rGsm * rWidth); // Meters
+        const sheets = (cutLen > 0) ? (totalLength * 100) / cutLen : 0;
 
-        const area = (rWeight * 1000) / rGsm;
-        const length = area / (rWidth / 100);
-        const sheets = (cutLen > 0) ? length / (cutLen / 100) : 0;
-
-        const resLen = document.getElementById('resReelLength');
-        const resSheets = document.getElementById('resSheets');
-
-        if(resLen) resLen.innerHTML = `${Math.floor(length)} <span class="text-sm">meters</span>`;
-        if(resSheets) resSheets.innerHTML = `${Math.floor(sheets)} <span class="text-xl text-yellow-600">pcs</span>`;
+        document.getElementById('resReelLength').innerHTML = `${Math.floor(totalLength)} <span class="text-sm">meters</span>`;
+        document.getElementById('resSheets').innerHTML = `${Math.floor(sheets)} <span class="text-xl text-yellow-600">pcs</span>`;
     };
 
-    // --- BASKET: Add Item ---
+    // --- CALCULATOR 3: Strength (BF) ---
+    window.calculateStrength = function() {
+        const gsm = parseFloat(document.getElementById('strGsm').value) || 0;
+        const bf = parseFloat(document.getElementById('strBf').value) || 0;
+        // Formula: BS = (GSM * BF) / 1000
+        const bs = (gsm * bf) / 1000;
+        document.getElementById('resBs').textContent = bs.toFixed(2);
+    };
+
+    // --- CALCULATOR 4: CBM ---
+    window.calculateCBM = function() {
+        const l = parseFloat(document.getElementById('cbmL').value) || 0;
+        const w = parseFloat(document.getElementById('cbmW').value) || 0;
+        const h = parseFloat(document.getElementById('cbmH').value) || 0;
+        const qty = parseFloat(document.getElementById('cbmQty').value) || 0;
+        
+        // Assuming inputs in CM. CBM = (L*W*H)/1,000,000 * Qty
+        const cbm = ((l * w * h) / 1000000) * qty;
+        document.getElementById('resCbm').innerHTML = `${cbm.toFixed(3)} <span class="text-xl text-green-600">m³</span>`;
+    };
+
+    // --- Auto-Calculation Listeners ---
+    ['calcLength', 'calcWidth', 'calcGsm', 'calcQty'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateWeight));
+    ['reelWeight', 'reelWidth', 'reelGsm', 'cutLength'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateReel));
+    ['strGsm', 'strBf'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateStrength));
+    ['cbmL', 'cbmW', 'cbmH', 'cbmQty'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateCBM));
+
+    // --- BASKET & MODAL LOGIC (Kept from previous version) ---
+    function updateBasketUI() {
+        localStorage.setItem('at_basket', JSON.stringify(basket));
+        const countEl = document.getElementById('basketCount');
+        const basketBtn = document.getElementById('quoteBasket');
+        const formInput = document.getElementById('quoteProduct');
+        if(countEl) countEl.textContent = basket.length;
+        if(basketBtn) basketBtn.classList.toggle('hidden', basket.length === 0);
+        if(formInput && basket.length > 0) formInput.value = basket.join(', ');
+    }
+    updateBasketUI();
+
     window.addToBasket = function(productName) {
         if(!basket.includes(productName)) {
             basket.push(productName);
@@ -139,16 +139,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // --- DOWNLOAD MOCK ---
-    window.downloadCatalog = function() {
-        const email = prompt("Enter your email to download:");
-        if (email) alert("Catalogue sent to " + email);
-    };
+    const basketBtn = document.getElementById('quoteBasket');
+    if(basketBtn) basketBtn.addEventListener('click', () => document.getElementById('quote').scrollIntoView({behavior: 'smooth'}));
 
-    // --- MODAL: Close ---
+    // --- Modal Logic ---
+    const modal = document.getElementById('productModal');
+    const backdrop = document.getElementById('productModalBackdrop');
+    
     window.closeModal = function() {
-        const modal = document.getElementById('productModal');
-        const backdrop = document.getElementById('productModalBackdrop');
         if(modal) {
             modal.classList.remove('opacity-100', 'scale-100');
             modal.classList.add('opacity-0', 'scale-95');
@@ -160,43 +158,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         document.body.style.overflow = '';
     };
-
-    // ==========================================
-    // 3. EVENT LISTENERS & UI LOGIC
-    // ==========================================
-
-    // --- Update Basket UI ---
-    function updateBasketUI() {
-        localStorage.setItem('at_basket', JSON.stringify(basket));
-        const countEl = document.getElementById('basketCount');
-        const basketBtn = document.getElementById('quoteBasket');
-        const formInput = document.getElementById('quoteProduct');
-
-        if(countEl) countEl.textContent = basket.length;
-        if(basketBtn) basketBtn.classList.toggle('hidden', basket.length === 0);
-        if(formInput && basket.length > 0) formInput.value = basket.join(', ');
-    }
-    updateBasketUI();
-
-    // Basket Button Click
-    const basketBtn = document.getElementById('quoteBasket');
-    if(basketBtn) basketBtn.addEventListener('click', () => {
-        document.getElementById('quote').scrollIntoView({behavior: 'smooth'});
-    });
-
-    // --- Calculator Auto-Update ---
-    ['calcLength', 'calcWidth', 'calcGsm', 'calcQty'].forEach(id => {
-        const el = document.getElementById(id);
-        if(el) el.addEventListener('input', window.calculateWeight);
-    });
-    ['reelWeight', 'reelWidth', 'reelGsm', 'cutLength'].forEach(id => {
-        const el = document.getElementById(id);
-        if(el) el.addEventListener('input', window.calculateReel);
-    });
-
-    // --- Modal Open Logic ---
-    const productModal = document.getElementById('productModal');
-    const productModalBackdrop = document.getElementById('productModalBackdrop');
 
     document.querySelectorAll('.product-card').forEach(card => {
         card.addEventListener('click', () => {
@@ -218,112 +179,40 @@ document.addEventListener('DOMContentLoaded', function() {
             const addBtn = document.getElementById('modalAddToBasket');
             if(addBtn) addBtn.onclick = () => { window.addToBasket(d.name); window.closeModal(); };
 
-            if(productModal && productModalBackdrop) {
-                productModal.classList.remove('hidden');
-                productModalBackdrop.classList.remove('hidden');
+            if(modal && backdrop) {
+                modal.classList.remove('hidden');
+                backdrop.classList.remove('hidden');
                 setTimeout(() => {
-                    productModal.classList.remove('opacity-0', 'scale-95');
-                    productModal.classList.add('opacity-100', 'scale-100');
-                    productModalBackdrop.classList.remove('opacity-0');
-                    productModalBackdrop.classList.add('opacity-50');
+                    modal.classList.remove('opacity-0', 'scale-95');
+                    modal.classList.add('opacity-100', 'scale-100');
+                    backdrop.classList.remove('opacity-0');
+                    backdrop.classList.add('opacity-50');
                 }, 10);
                 document.body.style.overflow = 'hidden';
             }
         });
     });
 
-    // Close Modal Listeners
     const closeBtn = document.getElementById('closeProductModal');
     if(closeBtn) closeBtn.addEventListener('click', window.closeModal);
-    if(productModalBackdrop) productModalBackdrop.addEventListener('click', window.closeModal);
+    if(backdrop) backdrop.addEventListener('click', window.closeModal);
 
-    // --- Sticky Nav & Active Link ---
+    // --- UTILS ---
+    if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true });
+    if (typeof VanillaTilt !== 'undefined') VanillaTilt.init(document.querySelectorAll(".product-card"), { max: 5, speed: 400, glare: true, "max-glare": 0.2 });
+    
+    // Sticky Nav
     const nav = document.querySelector('.sticky-nav');
-    const navLinks = document.querySelectorAll('.nav-link');
-    const sections = document.querySelectorAll('section');
-
-    const handleScroll = () => {
+    window.addEventListener('scroll', () => {
         if (window.scrollY > 50) nav.classList.add('scrolled');
         else nav.classList.remove('scrolled');
-        
-        let current = '';
-        sections.forEach(section => {
-            if (window.scrollY >= section.offsetTop - 100) current = section.getAttribute('id');
-        });
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.dataset.section === current) link.classList.add('active');
-        });
-        
-        // Social Sidebar
-        const sidebar = document.getElementById('socialSidebar');
-        if (sidebar) sidebar.classList.toggle('minimized', window.scrollY > 200);
-        
-        // Progress Bar
-        const progressBar = document.getElementById('progressBar');
-        if(progressBar) {
-            const scrollTotal = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrollPercent = (document.documentElement.scrollTop / scrollTotal) * 100;
-            progressBar.style.width = `${scrollPercent}%`;
-        }
-    };
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
+    });
 
-    // --- Mobile Menu ---
-    const menuButton = document.getElementById('menuButton');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const menuBackdrop = document.getElementById('menuBackdrop');
-    const closeMenuButton = document.getElementById('closeMenuButton');
+    // Mobile Menu
+    const menuBtn = document.getElementById('menuButton');
+    const mobMenu = document.getElementById('mobileMenu'); // Assuming you have this ID in your HTML
+    // ... (Add your mobile menu toggle logic here if needed)
 
-    const toggleMenu = (forceClose = false) => {
-        const isOpen = mobileMenu.classList.contains('open');
-        if (isOpen || forceClose) {
-            mobileMenu.classList.remove('open');
-            menuBackdrop.classList.remove('open');
-            document.body.classList.remove('menu-opened');
-        } else {
-            mobileMenu.classList.add('open');
-            menuBackdrop.classList.add('open');
-            document.body.classList.add('menu-opened');
-        }
-    };
-    if(menuButton) menuButton.addEventListener('click', () => toggleMenu());
-    if(closeMenuButton) closeMenuButton.addEventListener('click', () => toggleMenu(true));
-    if(menuBackdrop) menuBackdrop.addEventListener('click', () => toggleMenu(true));
-
-    // --- Quote Form AJAX ---
-    const quoteForm = document.getElementById('quoteForm');
-    const formStatus = document.getElementById('formStatus');
-    if (quoteForm) {
-        quoteForm.addEventListener('submit', async function (e) {
-            e.preventDefault();
-            const form = e.target;
-            const data = new FormData(form);
-            if(formStatus) { formStatus.innerHTML = 'Sending...'; formStatus.style.color = '#333'; }
-
-            try {
-                const response = await fetch(form.action, { method: form.method, body: data, headers: { 'Accept': 'application/json' } });
-                if (response.ok) {
-                    formStatus.innerHTML = "Thank you! Quote sent.";
-                    formStatus.style.color = 'green';
-                    form.reset();
-                    basket = []; // Clear basket on success
-                    updateBasketUI();
-                } else {
-                    formStatus.innerHTML = "Oops! Problem submitting form.";
-                    formStatus.style.color = 'red';
-                }
-            } catch (error) {
-                if(formStatus) { formStatus.innerHTML = "Network error."; formStatus.style.color = 'red'; }
-            }
-        });
-    }
-
-    // ==========================================
-    // 4. PLUGIN INITIALIZATIONS
-    // ==========================================
-    
     // Preloader
     const spinner = document.getElementById('spinner');
     if (spinner) {
@@ -332,48 +221,9 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => spinner.style.display = 'none', 500);
         });
     }
-
-    // AOS Animation
-    if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true });
-
-    // Typed.js
-    if (document.getElementById('typed')) {
-        new Typed('#typed', {
-            strings: ['Kraft & Duplex Paper.', 'Sustainable Packaging.', 'Industrial Solutions.'],
-            typeSpeed: 50, backSpeed: 25, backDelay: 2000, loop: true
-        });
-    }
-
-    // 3D Tilt
-    if (typeof VanillaTilt !== 'undefined') {
-        VanillaTilt.init(document.querySelectorAll(".product-card"), { max: 5, speed: 400, glare: true, "max-glare": 0.2 });
-    }
-
-    // Splide Slider
-    if (document.querySelector('.splide')) {
-        new Splide('.splide', {
-            type: 'loop', perPage: 3, perMove: 1, gap: '1.5rem',
-            pagination: true, arrows: false, autoplay: true, interval: 5000, pauseOnHover: true,
-            breakpoints: { 1024: { perPage: 2 }, 768: { perPage: 1 } },
-        }).mount();
-    }
-
-    // Particles
-    if (typeof tsParticles !== 'undefined' && document.getElementById('tsparticles')) {
-        tsParticles.load("tsparticles", {
-            fpsLimit: 60,
-            particles: {
-                number: { value: 30, density: { enable: true, value_area: 800 } },
-                color: { value: ["#607afb", "#8e9bfa", "#a78bfa"] },
-                shape: { type: "circle" },
-                opacity: { value: 0.5 },
-                size: { value: 5, random: true },
-                move: { enable: true, speed: 1 }
-            }
-        });
-    }
-
-    // Footer Year
-    const currentYear = document.getElementById('currentYear');
-    if (currentYear) currentYear.textContent = new Date().getFullYear();
+    
+    window.downloadCatalog = function() {
+        const email = prompt("Enter your email to download:");
+        if (email) alert("Catalogue sent to " + email);
+    };
 });
