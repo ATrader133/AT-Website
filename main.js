@@ -186,126 +186,377 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     
-    // --- PAPER CALCULATOR LOGIC ---
-    let currentUnit = 'cm'; // Default unit
-
-   // Toggle Unit (CM / MM / INCH)
-window.setUnit = (unit) => {
-    currentUnit = unit;
+   document.addEventListener('DOMContentLoaded', function() {
     
-    const btnCm = document.getElementById('btn-cm');
-    const btnMm = document.getElementById('btn-mm');
-    const btnInch = document.getElementById('btn-inch');
-    const labelL = document.getElementById('labelLength');
-    const labelW = document.getElementById('labelWidth');
+    // ==========================================
+    // 1. GLOBAL VARIABLES & TRANSLATIONS
+    // ==========================================
+    let basket = JSON.parse(localStorage.getItem('at_basket')) || [];
+    let currentUnit = 'cm'; // Default unit for calculator
 
-    const activeClass = "flex-1 md:flex-none px-6 py-2 rounded-lg text-sm font-bold transition-all bg-blue-600 text-white shadow-md transform scale-105";
-    const inactiveClass = "flex-1 md:flex-none px-6 py-2 rounded-lg text-sm font-bold text-gray-500 hover:text-blue-600 transition-all";
+    const translations = {
+        en: {
+            nav_home: "Home", nav_products: "Products", nav_calculator: "Calculator",
+            hero_title: "ABRAR TRADERS", hero_btn_explore: "Explore Products",
+            calc_title: "Paper Weight Calculator", calc_btn: "Calculate Weight"
+        },
+        hi: {
+            nav_home: "होम", nav_products: "उत्पाद", nav_calculator: "कैलकुलेटर",
+            hero_title: "अब्रार ट्रेडर्स", hero_btn_explore: "उत्पाद देखें",
+            calc_title: "कागज वजन कैलकुलेटर", calc_btn: "वजन की गणना करें"
+        }
+    };
 
-    btnCm.className = inactiveClass;
-    btnMm.className = inactiveClass;
-    btnInch.className = inactiveClass;
+    // ==========================================
+    // 2. HELPER FUNCTIONS (Attached to Window)
+    // ==========================================
 
-    if (unit === 'cm') {
-        btnCm.className = activeClass;
-        labelL.textContent = "(cm)";
-        labelW.textContent = "(cm)";
-    } else if (unit === 'mm') {
-        btnMm.className = activeClass;
-        labelL.textContent = "(mm)";
-        labelW.textContent = "(mm)";
-    } else {
-        btnInch.className = activeClass;
-        labelL.textContent = "(inch)";
-        labelW.textContent = "(inch)";
-    }
-    
-    document.getElementById('calcLength').value = '';
-    document.getElementById('calcWidth').value = '';
-    document.getElementById('sizePreset').value = '';
-    document.getElementById('moqStatus').textContent = ''; // Clear status
-};
-
-window.applyPreset = () => {
-    const preset = document.getElementById('sizePreset').value;
-    const lInput = document.getElementById('calcLength');
-    const wInput = document.getElementById('calcWidth');
-
-    if (!preset) return;
-
-    if (preset === 'A4') {
-        setUnit('mm');
-        wInput.value = 210;
-        lInput.value = 297;
-    } else if (preset === 'A3') {
-        setUnit('mm');
-        wInput.value = 297;
-        lInput.value = 420;
-    } else if (['23x36', '25x36', '30x40'].includes(preset)) {
-        setUnit('inch');
-        const [w, h] = preset.split('x');
-        wInput.value = w;
-        lInput.value = h;
-    }
-};
-
-window.calculateWeight = () => {
-    const l = parseFloat(document.getElementById('calcLength').value) || 0;
-    const w = parseFloat(document.getElementById('calcWidth').value) || 0;
-    const gsm = parseFloat(document.getElementById('calcGsm').value) || 0;
-    const qty = parseFloat(document.getElementById('calcQty').value) || 0;
-    
-    let lengthMeters = 0;
-    let widthMeters = 0;
-
-    if (currentUnit === 'cm') {
-        lengthMeters = l / 100;
-        widthMeters = w / 100;
-    } else if (currentUnit === 'mm') {
-        lengthMeters = l / 1000;
-        widthMeters = w / 1000;
-    } else if (currentUnit === 'inch') {
-        lengthMeters = l * 0.0254;
-        widthMeters = w * 0.0254;
+    // --- Language Switcher ---
+    const langSelector = document.getElementById('languageSelector');
+    if(langSelector) {
+        langSelector.addEventListener('change', (e) => {
+            const lang = e.target.value;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+        });
     }
 
-    const weightPerSheetGrams = (lengthMeters * widthMeters) * gsm;
-    const totalWeightKg = (weightPerSheetGrams * qty) / 1000;
+    // --- Tab Switching Logic ---
+    window.switchTab = (tabName) => {
+        const btnWeight = document.getElementById('tab-weight');
+        const btnReel = document.getElementById('tab-reel');
+        const contentWeight = document.getElementById('tool-weight');
+        const contentReel = document.getElementById('tool-reel');
 
-    // --- MOQ LOGIC ---
-    const moqStatus = document.getElementById('moqStatus');
-    const moqLimit = 1000; // 1 MT in kg
+        // Styles for active/inactive tabs
+        const activeClass = "px-6 py-3 rounded-lg text-sm font-bold transition-all shadow-md bg-white text-blue-600";
+        const inactiveClass = "px-6 py-3 rounded-lg text-sm font-bold text-gray-500 hover:text-blue-600 transition-all";
+        const activeReelClass = "px-6 py-3 rounded-lg text-sm font-bold transition-all shadow-md bg-white text-yellow-600";
 
-    if (totalWeightKg === 0) {
-        moqStatus.textContent = "";
-    } else if (totalWeightKg < moqLimit) {
-        moqStatus.innerHTML = `<span class="text-red-500 font-bold">⚠️ Below MOQ (${(moqLimit - totalWeightKg).toFixed(1)}kg short)</span>`;
-    } else {
-        moqStatus.innerHTML = `<span class="text-green-600 font-bold">✅ MOQ Requirement Met</span>`;
-    }
+        if (tabName === 'weight') {
+            btnWeight.className = activeClass;
+            btnReel.className = inactiveClass;
+            contentWeight.classList.remove('hidden');
+            contentReel.classList.add('hidden');
+        } else {
+            btnWeight.className = inactiveClass;
+            btnReel.className = activeReelClass;
+            contentWeight.classList.add('hidden');
+            contentReel.classList.remove('hidden');
+        }
+    };
 
-    // Display Results
-    document.getElementById('resSheet').innerHTML = `${weightPerSheetGrams.toFixed(2)} <span class="text-sm">g</span>`;
-    
-    // Animate
-    let start = 0;
-    const end = totalWeightKg;
-    const duration = 800;
-    const startTime = performance.now();
-    const resTotal = document.getElementById('resTotal');
-
-    function animate(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const ease = 1 - Math.pow(1 - progress, 3); 
+    // --- Calculator Unit Toggling ---
+    window.setUnit = (unit) => {
+        currentUnit = unit;
         
-        const currentVal = (ease * end).toFixed(2);
-        resTotal.innerHTML = `${currentVal} <span class="text-xl text-blue-600 font-bold">kg</span>`;
+        const btnCm = document.getElementById('btn-cm');
+        const btnMm = document.getElementById('btn-mm');
+        const btnInch = document.getElementById('btn-inch');
+        const labelL = document.getElementById('labelLength');
+        const labelW = document.getElementById('labelWidth');
+
+        // Reset Styles
+        const baseClass = "flex-1 md:flex-none px-6 py-2 rounded-lg text-sm font-bold transition-all";
+        const activeStyle = `${baseClass} bg-blue-600 text-white shadow-md transform scale-105`;
+        const inactiveStyle = `${baseClass} text-gray-500 hover:text-blue-600`;
+
+        // Apply Styles
+        if (btnCm) btnCm.className = (unit === 'cm') ? activeStyle : inactiveStyle;
+        if (btnMm) btnMm.className = (unit === 'mm') ? activeStyle : inactiveStyle;
+        if (btnInch) btnInch.className = (unit === 'inch') ? activeStyle : inactiveStyle;
+
+        // Update Labels
+        if (labelL) labelL.textContent = `(${unit})`;
+        if (labelW) labelW.textContent = `(${unit})`;
+
+        // Clear Inputs
+        ['calcLength', 'calcWidth', 'sizePreset', 'calcGsm', 'calcQty'].forEach(id => {
+            const el = document.getElementById(id);
+            if(el && (id !== 'calcGsm' && id !== 'calcQty')) el.value = ''; 
+        });
+        const moqStatus = document.getElementById('moqStatus');
+        if(moqStatus) moqStatus.textContent = '';
+    };
+
+    // --- Apply Size Presets ---
+    window.applyPreset = () => {
+        const preset = document.getElementById('sizePreset').value;
+        const lInput = document.getElementById('calcLength');
+        const wInput = document.getElementById('calcWidth');
+
+        if (!preset) return;
+
+        if (preset === 'A4') {
+            window.setUnit('mm');
+            wInput.value = 210;
+            lInput.value = 297;
+        } else if (preset === 'A3') {
+            window.setUnit('mm');
+            wInput.value = 297;
+            lInput.value = 420;
+        } else if (['23x36', '25x36', '30x40'].includes(preset)) {
+            window.setUnit('inch');
+            const [w, h] = preset.split('x');
+            wInput.value = w;
+            lInput.value = h;
+        }
+    };
+
+    // --- WEIGHT CALCULATION (Tab 1) ---
+    window.calculateWeight = () => {
+        const l = parseFloat(document.getElementById('calcLength').value) || 0;
+        const w = parseFloat(document.getElementById('calcWidth').value) || 0;
+        const gsm = parseFloat(document.getElementById('calcGsm').value) || 0;
+        const qty = parseFloat(document.getElementById('calcQty').value) || 0;
         
-        if (progress < 1) requestAnimationFrame(animate);
+        let lengthMeters = 0;
+        let widthMeters = 0;
+
+        // Convert inputs to Meters based on currentUnit
+        if (currentUnit === 'cm') {
+            lengthMeters = l / 100;
+            widthMeters = w / 100;
+        } else if (currentUnit === 'mm') {
+            lengthMeters = l / 1000;
+            widthMeters = w / 1000;
+        } else if (currentUnit === 'inch') {
+            lengthMeters = l * 0.0254;
+            widthMeters = w * 0.0254;
+        }
+
+        const weightPerSheetGrams = (lengthMeters * widthMeters) * gsm;
+        const totalWeightKg = (weightPerSheetGrams * qty) / 1000;
+
+        // Display MOQ Status
+        const moqStatus = document.getElementById('moqStatus');
+        const moqLimit = 1000; // 1 MT
+        if(moqStatus) {
+            if (totalWeightKg === 0) {
+                moqStatus.textContent = "";
+            } else if (totalWeightKg < moqLimit) {
+                moqStatus.innerHTML = `<span class="text-red-500 font-bold">⚠️ Below MOQ (${(moqLimit - totalWeightKg).toFixed(1)}kg short)</span>`;
+            } else {
+                moqStatus.innerHTML = `<span class="text-green-600 font-bold">✅ MOQ Met (1 MT+)</span>`;
+            }
+        }
+
+        // Animate Result
+        const resTotal = document.getElementById('resTotal');
+        if(resTotal) {
+            let start = 0;
+            const end = totalWeightKg;
+            const duration = 800;
+            const startTime = performance.now();
+
+            function animate(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const ease = 1 - Math.pow(1 - progress, 3);
+                
+                const currentVal = (ease * end).toFixed(2);
+                resTotal.innerHTML = `${currentVal} <span class="text-xl text-blue-600 font-bold">kg</span>`;
+                
+                if (progress < 1) requestAnimationFrame(animate);
+            }
+            requestAnimationFrame(animate);
+        }
+    };
+
+    // --- REEL TO SHEET CALCULATION (Tab 2) ---
+    window.calculateReel = () => {
+        const rWeight = parseFloat(document.getElementById('reelWeight').value) || 0;
+        const rWidth = parseFloat(document.getElementById('reelWidth').value) || 0;
+        const rGsm = parseFloat(document.getElementById('reelGsm').value) || 0;
+        const cutLen = parseFloat(document.getElementById('cutLength').value) || 0;
+
+        if (rWeight === 0 || rWidth === 0 || rGsm === 0) {
+            alert("Please enter Reel Weight, Width and GSM.");
+            return;
+        }
+
+        // 1. Total Area (m2) = Weight(kg) * 1000 / GSM
+        const totalAreaM2 = (rWeight * 1000) / rGsm;
+
+        // 2. Linear Length (m) = Area / (Width_cm / 100)
+        const totalLengthMeters = totalAreaM2 / (rWidth / 100);
+
+        // 3. Sheets = Length(m) / (CutLen_cm / 100)
+        let totalSheets = 0;
+        if (cutLen > 0) {
+            totalSheets = totalLengthMeters / (cutLen / 100);
+        }
+
+        // Update UI
+        const resLen = document.getElementById('resReelLength');
+        const resSheets = document.getElementById('resSheets');
+
+        if(resLen) resLen.innerHTML = `${Math.floor(totalLengthMeters)} <span class="text-sm">meters</span>`;
+        if(resSheets) resSheets.innerHTML = `${Math.floor(totalSheets)} <span class="text-xl text-yellow-600">pcs</span>`;
+    };
+
+    // ==========================================
+    // 3. BASKET & MODAL LOGIC
+    // ==========================================
+
+    const updateBasketUI = () => {
+        const basketCount = document.getElementById('basketCount');
+        const basketBtn = document.getElementById('quoteBasket');
+        const quoteInput = document.getElementById('quoteProduct');
+        
+        if(basketCount) basketCount.textContent = basket.length;
+        
+        if (basketBtn) {
+            if(basket.length > 0) {
+                basketBtn.classList.remove('hidden');
+                basketBtn.classList.add('flex');
+            } else {
+                basketBtn.classList.add('hidden');
+            }
+        }
+        
+        if(quoteInput && basket.length > 0) {
+            quoteInput.value = basket.join(', ');
+        }
+        localStorage.setItem('at_basket', JSON.stringify(basket));
+    };
+
+    window.addToBasket = (productName) => {
+        if(!basket.includes(productName)) {
+            basket.push(productName);
+            updateBasketUI();
+        } else {
+            alert("Item already in basket.");
+        }
+    };
+    
+    // Initial Basket Load
+    updateBasketUI();
+    const basketBtn = document.getElementById('quoteBasket');
+    if(basketBtn) basketBtn.addEventListener('click', () => document.getElementById('quote').scrollIntoView({behavior: 'smooth'}));
+
+    // --- Modal Logic ---
+    const productCards = document.querySelectorAll('.product-card');
+    const productModal = document.getElementById('productModal');
+    const productModalBackdrop = document.getElementById('productModalBackdrop');
+    const closeProductModalBtn = document.getElementById('closeProductModal');
+
+    // Modal Elements
+    const modalName = document.getElementById('modalProductName');
+    const modalImage = document.getElementById('modalProductImage');
+    const modalDescription = document.getElementById('modalProductDescription');
+    const modalSpecs = document.getElementById('modalProductSpecifications');
+    const modalAddBtn = document.getElementById('modalAddToBasket');
+    const relatedSection = document.getElementById('relatedProducts');
+    const relatedGrid = document.getElementById('relatedProductsGrid');
+
+    const openModal = (card) => {
+        const data = card.dataset;
+        if(modalName) modalName.textContent = data.name;
+        if(modalImage) modalImage.src = data.image;
+        if(modalDescription) modalDescription.textContent = data.description;
+        
+        if(modalSpecs) {
+            modalSpecs.innerHTML = '';
+            try {
+                JSON.parse(data.specifications).forEach(spec => {
+                    modalSpecs.innerHTML += `<li class="flex justify-between border-b border-blue-50 py-1"><span>${spec.label}</span><span class="font-bold text-slate-700">${spec.value}</span></li>`;
+                });
+            } catch(e) {}
+        }
+
+        if(modalAddBtn) {
+            modalAddBtn.onclick = () => {
+                addToBasket(data.name);
+                closeModal();
+            };
+        }
+
+        // Related Products
+        if(relatedGrid) {
+            relatedGrid.innerHTML = '';
+            const currentCategory = data.category;
+            const related = Array.from(productCards).filter(c => c.dataset.category === currentCategory && c.dataset.name !== data.name);
+            
+            if (related.length > 0) {
+                relatedSection.classList.remove('hidden');
+                related.slice(0, 2).forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'group flex gap-3 items-center p-3 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50 cursor-pointer transition';
+                    div.innerHTML = `
+                        <img src="${item.dataset.image}" class="w-16 h-16 rounded-lg object-cover shadow-sm">
+                        <div><span class="text-sm font-bold text-slate-700 group-hover:text-blue-700 block">${item.dataset.name}</span><span class="text-xs text-blue-500">View</span></div>`;
+                    div.onclick = () => {
+                        closeModal();
+                        setTimeout(() => openModal(item), 300);
+                    };
+                    relatedGrid.appendChild(div);
+                });
+            } else {
+                relatedSection.classList.add('hidden');
+            }
+        }
+
+        if(productModal) productModal.classList.add('open');
+        if(productModalBackdrop) productModalBackdrop.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeModal = () => {
+        if(productModal) productModal.classList.remove('open');
+        if(productModalBackdrop) productModalBackdrop.classList.remove('open');
+        document.body.style.overflow = '';
+    };
+
+    productCards.forEach(card => card.addEventListener('click', () => openModal(card)));
+    if(closeProductModalBtn) closeProductModalBtn.addEventListener('click', closeModal);
+    if(productModalBackdrop) productModalBackdrop.addEventListener('click', closeModal);
+
+    // ==========================================
+    // 4. INITIALIZATION (Tilt, AOS, Typed, Preloader)
+    // ==========================================
+    
+    // Tilt
+    if (typeof VanillaTilt !== 'undefined') {
+        VanillaTilt.init(document.querySelectorAll(".product-card"), {
+            max: 5, speed: 400, glare: true, "max-glare": 0.2,
+        });
     }
-    requestAnimationFrame(animate);
-};
+
+    // AOS
+    if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true });
+
+    // Typed.js
+    if (document.getElementById('typed')) {
+        new Typed('#typed', {
+            strings: ['Kraft & Duplex Paper.', 'Sustainable Packaging.', 'Industrial Solutions.'],
+            typeSpeed: 50, backSpeed: 25, backDelay: 2000, loop: true
+        });
+    }
+
+    // Preloader
+    const spinner = document.getElementById('spinner');
+    if (spinner) {
+        window.addEventListener('load', () => {
+            spinner.classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => spinner.style.display = 'none', 500);
+        });
+    }
+    
+    // Catalogue Download Mock
+    window.downloadCatalog = () => {
+        const email = prompt("Enter your email to unlock the brochure download:");
+        if (email && email.includes('@')) {
+            alert("Brochure sent to " + email);
+        } else if (email) {
+            alert("Please enter a valid email address.");
+        }
+    };
+});
 
     // --- SPLIDE.JS CAROUSEL FOR REVIEWS ---
     if (document.querySelector('.splide')) {
@@ -395,4 +646,5 @@ window.calculateWeight = () => {
     }
 
 });
+
 
