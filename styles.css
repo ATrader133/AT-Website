@@ -344,6 +344,7 @@ button#menuButton {
     max-height: 700px;
     overflow-y: auto;
 }
+/* FIX 2: ADDED .open CLASS FOR MODAL TRANSITION */
 #productModal.open {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
@@ -410,5 +411,7 @@ button#menuButton {
 .widget:hover {
     transform: translateY(-5px);
     box-shadow: 0 12px 24px rgba(31, 38, 135, 0.2);
+
+}
 
 }
