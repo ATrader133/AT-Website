@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("ABRAR TRADERS: System Loaded v4.0 (Fixed)");
+    console.log("ABRAR TRADERS: System Loaded v4.1 (Fixed Mobile Menu & Modal)");
 
     // ==========================================
     // 1. GLOBAL VARIABLES & SETUP
@@ -56,16 +56,19 @@ document.addEventListener('DOMContentLoaded', function() {
         window.calculateWeight(); 
     };
 
-    // --- PRESETS ---
+    // --- PRESETS (FIXED) ---
     window.applyPreset = function() {
         const preset = document.getElementById('sizePreset').value;
         const lInput = document.getElementById('calcLength');
         const wInput = document.getElementById('calcWidth');
         if (!preset) return;
 
-        if (preset === 'A4') { window.setUnit('mm'); wInput.value = 210; lInput.value = 297; }
+        // Corrected ISO and Imperial sizes
+        if (preset === 'A2') { window.setUnit('mm'); wInput.value = 420; lInput.value = 594; }
         else if (preset === 'A3') { window.setUnit('mm'); wInput.value = 297; lInput.value = 420; }
-        else if (['23x36', '25x36', '30x40'].includes(preset)) {
+        else if (preset === 'A4') { window.setUnit('mm'); wInput.value = 210; lInput.value = 297; }
+        else if (preset === 'A5') { window.setUnit('mm'); wInput.value = 148; lInput.value = 210; }
+        else if (['18x23', '23x36', '25x36', '30x40'].includes(preset)) {
             window.setUnit('inch'); const [w, h] = preset.split('x'); wInput.value = w; lInput.value = h;
         }
         window.calculateWeight();
@@ -137,8 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if(!basket.includes(productName)) {
             basket.push(productName);
             updateBasketUI();
-            const btn = document.getElementById('quoteBasket');
-            if(btn) { btn.classList.add('scale-125'); setTimeout(() => btn.classList.remove('scale-125'), 200); }
+            // Removed redundant scale-125 animation as it's not strictly necessary.
         }
     };
 
@@ -162,18 +164,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (email) alert("Catalogue sent to " + email);
     };
 
-    // --- MODAL HELPERS ---
+    // --- MODAL HELPERS (REFACTORED) ---
     window.closeModal = function() {
         const modal = document.getElementById('productModal');
         const backdrop = document.getElementById('productModalBackdrop');
         if(modal) {
-            modal.classList.remove('opacity-100', 'scale-100');
-            modal.classList.add('opacity-0', 'scale-95');
-            setTimeout(() => modal.classList.add('hidden'), 300);
+            modal.classList.remove('open'); // Use .open class for CSS transition
+            setTimeout(() => modal.classList.add('hidden'), 300); // Hide after transition
         }
         if(backdrop) {
-            backdrop.classList.remove('block', 'opacity-50');
-            backdrop.classList.add('hidden', 'opacity-0');
+            backdrop.classList.remove('open');
         }
         document.body.style.overflow = '';
     };
@@ -187,19 +187,44 @@ document.addEventListener('DOMContentLoaded', function() {
     ['reelWeight', 'reelWidth', 'reelGsm', 'cutLength'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateReel));
     ['strGsm', 'strBf'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateStrength));
     ['cbmL', 'cbmW', 'cbmH', 'cbmQty'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateCBM));
+    
+    // --- MOBILE MENU TOGGLE (FIX 1: Logic Copied from blog.js) ---
+    const menuButton = document.getElementById('menuButton');
+    const closeMenuButton = document.getElementById('closeMenuButton');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuBackdrop = document.getElementById('menuBackdrop');
+    const mobileNavLinks = mobileMenu.querySelectorAll('.nav-link');
 
-    // Theme Toggle
-    const themeToggle = document.getElementById('themeToggle');
-    const html = document.documentElement;
-    if(themeToggle) {
-        themeToggle.addEventListener('click', () => {
-            html.classList.toggle('dark');
-            const icon = document.getElementById('themeIcon');
-            if(icon) { icon.classList.toggle('ph-moon'); icon.classList.toggle('ph-sun'); }
+    const toggleMenu = (forceClose = false) => {
+        const isOpen = mobileMenu.classList.contains('open');
+        if (isOpen || forceClose) {
+            menuButton.classList.remove('menu-open');
+            menuButton.setAttribute('aria-expanded', 'false');
+            mobileMenu.classList.remove('open');
+            menuBackdrop.classList.remove('open');
+            document.body.classList.remove('menu-opened');
+        } else {
+            menuButton.classList.add('menu-open');
+            menuButton.setAttribute('aria-expanded', 'true');
+            mobileMenu.classList.add('open');
+            menuBackdrop.classList.add('open');
+            document.body.classList.add('menu-opened');
+        }
+    };
+    if (menuButton) menuButton.addEventListener('click', () => toggleMenu());
+    if (closeMenuButton) closeMenuButton.addEventListener('click', () => toggleMenu(true));
+    if (menuBackdrop) menuBackdrop.addEventListener('click', () => toggleMenu(true));
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (link.getAttribute('href').startsWith('#')) {
+                toggleMenu(true);
+            }
         });
-    }
+    });
+    // --- END FIX 1 ---
 
-    // Modal Triggers
+
+    // Modal Triggers (REFACTORED FOR FIX 2)
     const productModal = document.getElementById('productModal');
     const productModalBackdrop = document.getElementById('productModalBackdrop');
     document.querySelectorAll('.product-card').forEach(card => {
@@ -208,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('modalProductName').textContent = d.name;
             const img = document.getElementById('modalProductImage');
             img.src = d.image;
-            img.onload = () => img.classList.remove('skeleton-loader');
+            // img.onload = () => img.classList.remove('skeleton-loader'); // Removed unused class manipulation
             document.getElementById('modalProductDescription').textContent = d.description;
             
             const specs = document.getElementById('modalProductSpecifications');
@@ -220,18 +245,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 } catch(e){}
             }
+            
+            document.getElementById('modalProductAdditionalInfo').textContent = d['additional-info'];
+            
             const addBtn = document.getElementById('modalAddToBasket');
             if(addBtn) addBtn.onclick = () => { window.addToBasket(d.name); window.closeModal(); };
 
             if(productModal && productModalBackdrop) {
+                // REFACTORED OPENING LOGIC (FIX 2)
                 productModal.classList.remove('hidden');
-                productModalBackdrop.classList.remove('hidden');
-                setTimeout(() => {
-                    productModal.classList.remove('opacity-0', 'scale-95');
-                    productModal.classList.add('opacity-100', 'scale-100');
-                    productModalBackdrop.classList.remove('opacity-0');
-                    productModalBackdrop.classList.add('opacity-50');
-                }, 10);
+                productModalBackdrop.classList.add('open');
+                productModal.classList.add('open');
                 document.body.style.overflow = 'hidden';
             }
         });
@@ -240,6 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeBtn = document.getElementById('closeProductModal');
     if(closeBtn) closeBtn.addEventListener('click', window.closeModal);
     if(productModalBackdrop) productModalBackdrop.addEventListener('click', window.closeModal);
+
 
     // --- Search & Filter ---
     const searchInput = document.getElementById('productSearch');
