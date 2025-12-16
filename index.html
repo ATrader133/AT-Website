@@ -260,7 +260,7 @@
             </div>
         </section>
 
-        <div id="productModal" class="glass p-6 md:p-8 rounded-2xl shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="productModalTitle">
+        <div id="productModal" class="glass p-6 md:p-8 rounded-2xl shadow-2xl hidden" role="dialog" aria-modal="true" aria-labelledby="productModalTitle">
             <button id="closeProductModal" class="close-button" aria-label="Close Product Details">
                 <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
@@ -277,8 +277,9 @@
                         <h4 class="font-semibold text-lg text-blue-700 mb-2">Additional Information:</h4>
                         <p id="modalProductAdditionalInfo" class="text-gray-600 leading-relaxed"></p>
                     </div>
-                    <div class="mt-auto">
-                        <a href="#quote" id="modalQuoteButton" class="action-button w-full text-center bg-blue-600 text-white px-6 py-3 rounded-xl shadow-lg hover:bg-blue-700 transition-all duration-300 font-bold inline-block">Request a Quote for this Product</a>
+                    <div class="mt-auto space-y-3">
+                        <button type="button" id="modalAddToBasket" class="action-button w-full text-center bg-green-600 text-white px-6 py-3 rounded-xl shadow-lg hover:bg-green-700 transition-all duration-300 font-bold inline-block">Add Product to Quote Basket</button>
+                        <a href="#quote" id="modalQuoteButton" class="action-button w-full text-center bg-blue-600 text-white px-6 py-3 rounded-xl shadow-lg hover:bg-blue-700 transition-all duration-300 font-bold inline-block">Request a Quote for this Product (Go to Form)</a>
                     </div>
                 </div>
             </div>
@@ -323,11 +324,11 @@
                 <div class="relative w-full md:w-auto">
                     <select id="sizePreset" onchange="applyPreset()" class="w-full md:w-64 p-3 pl-4 pr-10 text-sm bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 cursor-pointer font-semibold text-slate-700">
                         <option value="">Select Standard Size...</option>
-                        <option value="A4">A2 (ISO Standard)</option>
+                        <option value="A2">A2 (ISO Standard)</option>
                         <option value="A3">A3 (ISO Standard)</option>
-                        <option value="A3">A4 (ISO Standard)</option>
-                        <option value="A3">A5 (ISO Standard)</option>
-                        <option value="30x40">18" x 23" (Imperial)</option>
+                        <option value="A4">A4 (ISO Standard)</option>
+                        <option value="A5">A5 (ISO Standard)</option>
+                        <option value="18x23">18" x 23" (Imperial)</option>
                         <option value="23x36">23" x 36" (Imperial)</option>
                         <option value="25x36">25" x 36" (Imperial)</option>
                         <option value="30x40">30" x 40" (Imperial)</option>
@@ -534,7 +535,7 @@
                 </div>
                 <div class="h-96 md:h-full w-full rounded-2xl shadow-2xl overflow-hidden" data-aos="fade-left" data-aos-delay="200">
                     <iframe
-                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBpIllKiaG00I2XKmvqyqhbptNFmWY0Ub0&q=12/1419 A-2 Shahpore Char Rasta B/H Subhan Park, opp. to Rose Nursery School, Mughal Sarai, Surat, Gujarat 395003, India"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3720.2185566060163!2d72.8252538753235!3d21.187858980509653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04f981e28503b%3A0x70529d81d4512c3!2sA-2%2C%20Shahpore%20Char%20Rasta%2C%20B%2FH%20Subhan%20Park%2C%20opp.%20to%20Rose%20Nursery%20School%2C%20Mughal%20Sarai%2C%20Surat%2C%20Gujarat%20395003%2C%20India!5e0!3m2!1sen!2sus!4v1702737600000!5m2!1sen!2sus"
                         width="100%"
                         height="100%"
                         style="border:0;"
@@ -577,7 +578,7 @@
                 <h3 class="font-bold text-lg mb-4">Connect With Us</h3>
                 <div class="flex space-x-4">
                     <a href="https://www.facebook.com/Abrar.Trades" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="text-gray-400 hover:text-white transition"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.323-1.325z"/></svg></a>
-                    <a href="https://www.instagram.com/abrartraders" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="text-gray-400 hover:text-white transition"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.058-1.689-.072-4.948-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"/></svg></a>
+                    <a href="https://www.instagram.com/abrartraders" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="text-gray-400 hover:text-white transition"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.058-1.689-.072-4.948-.072z"/></svg></a>
                     <a href="https://wa.me/917405108950" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="text-gray-400 hover:text-white transition"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99 0-3.903-.52-5.586-1.457l-6.354 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.52.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg></a>
                 </div>
             </div>
@@ -602,9 +603,3 @@ s0.parentNode.insertBefore(s1,s0);
 </script>
 </body>
 </html>
-
-
-
-
-
-
