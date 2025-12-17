@@ -1,15 +1,33 @@
 /* style.css */
 
 :root {
-    --primary-color: #607afb; /* Blue */
-    --secondary-color: #8e9bfa; /* Indigo */
-    --accent-color: #a78bfa; /* Light Purple for secondary accents */
-    --text-color: #0d0f1c;
-    --bg-light: #f8f9fc;
-    --bg-medium: #e6e9f4;
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.3);
-    --glass-shadow: rgba(31, 38, 135, 0.3);
+    /* iOS System Colors */
+    --ios-blue: #007AFF;
+    --ios-indigo: #5856D6;
+    --ios-background: #F2F2F7; /* System Gray 6 */
+    --ios-card-bg: rgba(255, 255, 255, 0.72); /* Translucent Material */
+    --ios-text: #000000;
+    --ios-text-secondary: #8E8E93;
+    
+    /* Mapping to your existing variables so code doesn't break */
+    --primary-color: var(--ios-blue);
+    --secondary-color: var(--ios-indigo);
+    --text-color: var(--ios-text);
+    --bg-light: var(--ios-background);
+    
+    /* iOS Blur Settings */
+    --glass-blur: 25px;
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.08);
+}
+
+/* Update Body Font */
+body {
+    /* -apple-system targets iOS devices directly, Inter is the web fallback */
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+    background-color: var(--ios-background);
+    color: var(--ios-text);
+    letter-spacing: -0.02em; /* Tight tracking like iOS */
 }
 
 html { scroll-behavior: smooth; }
@@ -36,17 +54,29 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
 }
 
 .sticky-nav {
-    position: sticky;
-    top: 0;
-    z-index: 40;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid #e2e8f0;
-    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1000px;
+    border-radius: 100px; /* Pill shape */
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin: 0 auto;
+    padding: 10px 24px;
 }
-.sticky-nav.scrolled {
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+
+/* Update links to look like iOS buttons */
+.nav-link {
+    font-weight: 600;
+    color: var(--ios-text);
+    font-size: 0.95rem;
+}
+.nav-link:hover {
+    color: var(--ios-blue);
 }
 
 /* Navbar link hover effect */
@@ -254,10 +284,18 @@ button#menuButton {
 
 /* Glassmorphism */
 .glass {
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    background-color: rgba(255, 255, 255, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: var(--ios-card-bg);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 24px; /* iOS standard is large curves */
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Spring animation */
+}
+
+.glass:hover {
+    transform: scale(1.02); /* Subtle zoom on hover */
+    background: rgba(255, 255, 255, 0.85);
 }
 
 /* Button hover effects */
@@ -415,4 +453,5 @@ button#menuButton {
 }
 
 }
+
 
