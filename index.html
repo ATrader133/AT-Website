@@ -23,20 +23,19 @@
     <meta name="apple-mobile-web-app-title" content="Abrar Traders" />
     <link rel="manifest" href="/site.webmanifest" />
 
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700;900&display=swap" as="style">
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="main.js" as="script">
+
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700;900&display=swap" rel="stylesheet">
-    
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
-    
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.0/dist/css/splide.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.0/dist/js/splide.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QW4TG03G24"></script>
     <script>
@@ -87,7 +86,7 @@
         <a href="https://www.linkedin.com/company/abrar-traders/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Connect on LinkedIn"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn"></a>
     </div>
 
-    <div id="spinner" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white/80 backdrop-blur-xl">
+    <div id="spinner" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white">
         <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" class="h-20 animate-bounce mb-6" alt="Abrar Traders Logo Spinner" />
         <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600"></div>
     </div>
@@ -147,22 +146,22 @@
             <a href="#products" class="action-button bg-blue-600 text-white px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 font-bold text-lg relative z-10" aria-label="Explore Our Products">Explore Products</a>
         </section>
 
-        <section id="why-us" class="py-20 px-6 bg-white/50">
+        <section id="why-us" class="py-20 px-6 bg-white">
             <div class="max-w-6xl mx-auto text-center" data-aos="fade-up">
                 <h2 class="text-4xl font-extrabold text-center mb-4 text-gray-800">Why Partner With Us?</h2>
-                <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">We are more than just suppliers | we are your partners in success | committed to quality and service</p>
+                <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">We are more than just suppliers, we are your partners in success, committed to quality and service.</p>
                 <div class="grid md:grid-cols-3 gap-10">
-                    <div class="text-center p-6 glass hover:shadow-xl transition-shadow">
+                    <div class="text-center p-6">
                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 text-blue-600 mx-auto mb-4"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg></div>
                         <h3 class="font-bold text-xl mb-2">Uncompromising Quality</h3>
                         <p class="text-gray-600">We source only the finest materials from leading manufacturers to ensure superior performance and durability.</p>
                     </div>
-                    <div class="text-center p-6 glass hover:shadow-xl transition-shadow">
+                    <div class="text-center p-6">
                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-green-100 text-green-600 mx-auto mb-4"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1.667a1.667 1.667 0 01.934-1.543l.29-.145a1.667 1.667 0 011.543.934L16 6m-4-2v1.667a1.667 1.667 0 00-.934 1.543l-.29.145a1.667 1.667 0 00-1.543-.934L8 6m4 12v1.667a1.667 1.667 0 00.934 1.543l.29.145a1.667 1.667 0 001.543-.934L16 18m-4 2v-1.667a1.667 1.667 0 01-.934-1.543l-.29-.145a1.667 1.667 0 01-1.543.934L8 18"></path></svg></div>
                         <h3 class="font-bold text-xl mb-2">Sustainable Practices</h3>
                         <p class="text-gray-600">Our commitment to eco-friendly products, like recycled grey board, helps you meet your sustainability goals.</p>
                     </div>
-                    <div class="text-center p-6 glass hover:shadow-xl transition-shadow">
+                    <div class="text-center p-6">
                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-purple-100 text-purple-600 mx-auto mb-4"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div>
                         <h3 class="font-bold text-xl mb-2">Customer-Centric Service</h3>
                         <p class="text-gray-600">We pride ourselves on fast delivery, competitive pricing, and a dedicated team ready to meet your specific needs.</p>
@@ -171,91 +170,91 @@
             </div>
         </section>
 
-        <section id="products" class="py-20 px-6 overflow-hidden">
+        <section id="products" class="py-20 px-6 bg-white overflow-hidden">
             <div data-aos="fade-up">
                 <h2 class="text-4xl font-extrabold text-center mb-8 text-gray-800">Our Products</h2>
                 <div class="flex flex-wrap justify-center gap-3 mb-10 max-w-xl mx-auto">
                     <button class="filter-btn bg-blue-600 text-white px-5 py-2 rounded-full font-semibold hover:bg-blue-700 transition-colors" data-filter="all">All Products</button>
-                    <button class="filter-btn bg-white/50 text-gray-700 px-5 py-2 rounded-full font-semibold hover:bg-blue-100 hover:text-blue-700 transition-colors" data-filter="paper">Paper Products</button>
-                    <button class="filter-btn bg-white/50 text-gray-700 px-5 py-2 rounded-full font-semibold hover:bg-blue-100 hover:text-blue-700 transition-colors" data-filter="board">Paper Boards</button>
-                    <button class="filter-btn bg-white/50 text-gray-700 px-5 py-2 rounded-full font-semibold hover:bg-blue-100 hover:text-blue-700 transition-colors" data-filter="packaging">Packaging Supplies</button>
+                    <button class="filter-btn bg-gray-200 text-gray-700 px-5 py-2 rounded-full font-semibold hover:bg-blue-100 hover:text-blue-700 transition-colors" data-filter="paper">Paper Products</button>
+                    <button class="filter-btn bg-gray-200 text-gray-700 px-5 py-2 rounded-full font-semibold hover:bg-blue-100 hover:text-blue-700 transition-colors" data-filter="board">Paper Boards</button>
+                    <button class="filter-btn bg-gray-200 text-gray-700 px-5 py-2 rounded-full font-semibold hover:bg-blue-100 hover:text-blue-700 transition-colors" data-filter="packaging">Packaging Supplies</button>
                 </div>
                 <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto" id="productGrid">
                     <div class="glass p-6 product-card shadow-md hover:shadow-lg product-item" data-category="paper packaging" data-aos="fade-up" data-aos-delay="100"
                         data-name="Kraft Paper"
                         data-image="https://i.postimg.cc/ZKBYVJ4q/Kraft-Paper-1.jpg"
-                        data-description="Durable, versatile, and eco-friendly Kraft paper, ideal for packaging, wrapping, and various industrial applications."
+                        data-description="Durable, versatile, and eco-friendly Kraft paper, ideal for packaging, wrapping, and various industrial applications. Available in multiple grades and thicknesses to suit your needs."
                         data-specifications='[{"label": "GSM", "value": "80-250"}, {"label": "Widths", "value": "Custom sizes available"}, {"label": "Color", "value": "Natural Brown"}, {"label": "Usage", "value": "Industrial packaging, paper bags, protective wrapping"}]'
-                        data-additional-info="Kraft paper is known for its high tear resistance and burst strength.">
+                        data-additional-info="Kraft paper is known for its high tear resistance and burst strength, making it perfect for heavy-duty applications. Our Kraft paper is sourced sustainably.">
                         <img loading="lazy" src="https://i.postimg.cc/ZKBYVJ4q/Kraft-Paper-1.jpg" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x250.png?text=Image+Not+Found';" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="A large roll of brown Kraft paper ready for industrial use."/>
                         <h3 class="font-semibold text-2xl mb-3 text-gray-800">Kraft Paper & Board</h3>
-                        <p class="text-gray-600 leading-relaxed">High-quality Kraft paper & Board for industrial purposes.</p>
+                        <p class="text-gray-600 leading-relaxed">High-quality paper & Board for industrial purposes.</p>
                     </div>
 
                     <div class="glass p-6 product-card shadow-md hover:shadow-lg product-item" data-category="board packaging" data-aos="fade-up" data-aos-delay="200"
                         data-name="Duplex Paper, Duplex Board"
                         data-image="https://i.postimg.cc/ZqcJCRFw/duplex-paper-sheet-500x500.jpg"
-                        data-description="High-quality duplex board for all your print packaging needs. Smooth surface and excellent strength."
-                        data-specifications='[{"label": "GSM", "value": "200-450"}, {"label": "Coating", "value": "Grey back, White back"}, {"label": "Surface", "value": "Smooth for printing"}, {"label": "Usage", "value": "Pharmaceutical packaging, consumer goods boxes"}]'
-                        data-additional-info="Our Duplex boards offer excellent stiffness and consistency.">
-                        <img loading="lazy" src="https://i.postimg.cc/ZqcJCRFw/duplex-paper-sheet-500x500.jpg" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x250.png?text=Image+Not+Found';" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="Duplex paper board sheets."/>
+                        data-description="High-quality duplex board for all your print packaging needs. Its smooth surface provides excellent printability, while its strength ensures secure and attractive packaging."
+                        data-specifications='[{"label": "GSM", "value": "200-450"}, {"label": "Coating", "value": "Grey back, White back"}, {"label": "Surface", "value": "Smooth for printing"}, {"label": "Usage", "value": "Pharmaceutical packaging, consumer goods boxes, display cartons"}]'
+                        data-additional-info="Our Duplex boards offer excellent stiffness and consistency, crucial for high-speed packaging lines and premium print finishes.">
+                        <img loading="lazy" src="https://i.postimg.cc/ZqcJCRFw/duplex-paper-sheet-500x500.jpg" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x250.png?text=Image+Not+Found';" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="A stack of white and grey duplex paper board sheets."/>
                         <h3 class="font-semibold text-2xl mb-3 text-gray-800">Duplex Paper</h3>
-                        <p class="text-gray-600 leading-relaxed">Paper for all print & packaging applications.</p>
+                        <p class="text-gray-600 leading-relaxed">Paper for all print packaging.</p>
                     </div>
 
                     <div class="glass p-6 product-card shadow-md hover:shadow-lg product-item" data-category="board packaging" data-aos="fade-up" data-aos-delay="300"
                         data-name="Laminated Paper Board, Kappa Board"
                         data-image="https://i.postimg.cc/HxMDbkQG/1.jpg"
-                        data-description="Strong, multi-layered laminated boards offering superior protection and rigidity."
-                        data-specifications='[{"label": "Thickness", "value": "1mm-5mm"}, {"label": "Finish", "value": "Glossy, Matte"}, {"label": "Core", "value": "Grey board, Chipboard"}, {"label": "Usage", "value": "Luxury packaging, industrial cartons"}]'
-                        data-additional-info="Laminated boards provide enhanced moisture resistance and structural integrity.">
-                        <img loading="lazy" src="https://i.postimg.cc/HxMDbkQG/1.jpg" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x250.png?text=Image+Not+Found';" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="Thick, glossy laminated paper boards."/>
+                        data-description="Strong, multi-layered laminated boards offering superior protection and rigidity. Perfect for durable and robust packaging solutions for heavy or delicate items."
+                        data-specifications='[{"label": "Thickness", "value": "1mm-5mm"}, {"label": "Finish", "value": "Glossy, Matte"}, {"label": "Core", "value": "Grey board, Chipboard"}, {"label": "Usage", "value": "Luxury packaging, industrial cartons, book binding"}]'
+                        data-additional-info="Laminated boards provide enhanced moisture resistance and structural integrity, making them ideal for high-end applications and protective packaging.">
+                        <img loading="lazy" src="https://i.postimg.cc/HxMDbkQG/1.jpg" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x250.png?text=Image+Not+Found';" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="Thick, glossy laminated paper boards stacked neatly."/>
                         <h3 class="font-semibold text-2xl mb-3 text-gray-800">Laminated Board</h3>
-                        <p class="text-gray-600 leading-relaxed">Eco-friendly, strong packaging.</p>
+                        <p class="text-gray-600 leading-relaxed">Eco-friendly, strong packaging for businesses.</p>
                     </div>
 
                     <div class="glass p-6 product-card shadow-md hover:shadow-lg product-item" data-category="board packaging" data-aos="fade-up" data-aos-delay="400"
                         data-name="Sundry Grey Board, Puttha, Gatta"
                         data-image="https://i.postimg.cc/wBhQJK7f/grey-paper-board-500x500.jpg"
-                        data-description="Versatile and strong grey board, an economical choice for various packaging applications."
-                        data-specifications='[{"label": "Thickness", "value": "0.8mm-4mm"}, {"label": "Density", "value": "High density"}, {"label": "Color", "value": "Grey"}, {"label": "Usage", "value": "Notebook covers, file folders, puzzle backs"}]'
-                        data-additional-info="Made from 100% recycled paper.">
-                        <img loading="lazy" src="https://i.postimg.cc/wBhQJK7f/grey-paper-board-500x500.jpg" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x250.png?text=Image+Not+Found';" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="Recycled Sundry Grey Board sheets."/>
+                        data-description="Versatile and strong grey board, an economical choice for various packaging and binding applications. Made from recycled materials, it's also an environmentally conscious option."
+                        data-specifications='[{"label": "Thickness", "value": "0.8mm-4mm"}, {"label": "Density", "value": "High density"}, {"label": "Color", "value": "Grey"}, {"label": "Usage", "value": "Notebook covers, file folders, puzzle backs, general packaging"}]'
+                        data-additional-info="Our Sundry Grey Board is made from 100% recycled paper, contributing to a sustainable supply chain while offering robust performance.">
+                        <img loading="lazy" src="https://i.postimg.cc/wBhQJK7f/grey-paper-board-500x500.jpg" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x250.png?text=Image+Not+Found';" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="A pile of thick, recycled Sundry Grey Board sheets."/>
                         <h3 class="font-semibold text-2xl mb-3 text-gray-800">Sundry Grey Board</h3>
                         <p class="text-gray-600 leading-relaxed">Strong, eco-friendly grey board for packaging.</p>
                     </div>
 
                     <div class="glass p-6 product-card shadow-md hover:shadow-lg product-item" data-category="paper" data-aos="fade-up" data-aos-delay="500"
                         data-name="Writing Paper, Printing Paper, Maplitho Paper"
-                        data-image="https://placehold.co/400x250/C0D9FF/3F51B5?text=Maplitho"
-                        data-description="High-quality bond paper, perfect for office use, printing, and professional documents."
-                        data-specifications='[{"label": "GSM", "value": "52-100"}, {"label": "Finish", "value": "Smooth, bright white"}, {"label": "Usage", "value": "Printing, copying, official documents"}]'
-                        data-additional-info="Excellent ink absorption and crisp text reproduction.">
-                        <img loading="lazy" src="https://placehold.co/400x250/C0D9FF/3F51B5?text=Bond+Paper" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="Bond paper reams."/>
+                        data-image="https://placehold.co/400x250/C0D9FF/3F51B5?text=Maplitho+Paper"
+                        data-description="High-quality bond paper, perfect for office use, printing, and professional documents. Available in various weights and sizes."
+                        data-specifications='[{"label": "GSM", "value": "52-100"}, {"label": "Finish", "value": "Smooth, bright white"}, {"label": "Usage", "value": "Printing, copying, official documents, letterheads"}]'
+                        data-additional-info="Our bond paper offers excellent ink absorption and crisp text reproduction, making it ideal for all your printing needs.">
+                        <img loading="lazy" src="https://placehold.co/400x250/C0D9FF/3F51B5?text=Bond+Paper" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="Placeholder image for Bond Paper. Replace with a real photo of bond paper reams."/>
                         <h3 class="font-semibold text-2xl mb-3 text-gray-800">Maplitho Paper</h3>
-                        <p class="text-gray-600 leading-relaxed">Premium quality paper for printing & writing.</p>
+                        <p class="text-gray-600 leading-relaxed">Premium quality paper for printing & other applications</p>
                     </div>
 
                     <div class="glass p-6 product-card shadow-md hover:shadow-lg product-item" data-category="paper" data-aos="fade-up" data-aos-delay="600"
                         data-name="FBB"
                         data-image="https://placehold.co/400x250/FFE0B2/FF9800?text=FBB"
-                        data-description="Coated art paper for high-fidelity printing, ideal for brochures and marketing materials."
-                        data-specifications='[{"label": "GSM", "value": "120-400"}, {"label": "Finish", "value": "Glossy, Matte"}, {"label": "Usage", "value": "Brochures, flyers, magazines"}]'
-                        data-additional-info="Ensures vibrant colors and sharp images.">
-                        <img loading="lazy" src="https://placehold.co/400x250/FFE0B2/FF9800?text=Art+Paper" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="Glossy art paper."/>
+                        data-description="Coated art paper for high-fidelity printing, ideal for brochures, magazines, and marketing materials."
+                        data-specifications='[{"label": "GSM", "value": "120-400"}, {"label": "Finish", "value": "Glossy, Matte"}, {"label": "Usage", "value": "Brochures, flyers, magazines, book covers, calendars"}]'
+                        data-additional-info="Art paper ensures vibrant colors and sharp images, making your printed materials stand out with a premium feel.">
+                        <img loading="lazy" src="https://placehold.co/400x250/FFE0B2/FF9800?text=Art+Paper" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="Placeholder image for Art Paper. Replace with a real photo of glossy or matte art paper."/>
                         <h3 class="font-semibold text-2xl mb-3 text-gray-800">FBB</h3>
-                        <p class="text-gray-600 leading-relaxed">Coated paper for high-quality printing & packaging.</p>
+                        <p class="text-gray-600 leading-relaxed">Coated paper for high-quality printing & Packaging.</p>
                     </div>
 
                     <div class="glass p-6 product-card shadow-md hover:shadow-lg product-item" data-category="paper" data-aos="fade-up" data-aos-delay="600"
-                        data-name="FBB"
+                        data-name="SBS"
                         data-image="https://placehold.co/400x250/FFE0B2/FF9800?text=SBS"
-                        data-description="Coated art paper for high-fidelity printing, ideal for brochures and marketing materials."
-                        data-specifications='[{"label": "GSM", "value": "120-400"}, {"label": "Finish", "value": "Glossy, Matte"}, {"label": "Usage", "value": "Brochures, flyers, magazines"}]'
-                        data-additional-info="Ensures vibrant colors and sharp images.">
-                        <img loading="lazy" src="https://placehold.co/400x250/FFE0B2/FF9800?text=Art+Paper" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="Glossy art paper."/>
+                        data-description="Coated art paper for high-fidelity printing, ideal for brochures, magazines, and marketing materials."
+                        data-specifications='[{"label": "GSM", "value": "120-350"}, {"label": "Finish", "value": "Glossy, Matte"}, {"label": "Usage", "value": "Brochures, flyers, magazines, book covers, calendars"}]'
+                        data-additional-info="Art paper ensures vibrant colors and sharp images, making your printed materials stand out with a premium feel.">
+                        <img loading="lazy" src="https://placehold.co/400x250/FFE0B2/FF9800?text=Art+Paper" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="Placeholder image for Art Paper. Replace with a real photo of glossy or matte art paper."/>
                         <h3 class="font-semibold text-2xl mb-3 text-gray-800">SBS</h3>
-                        <p class="text-gray-600 leading-relaxed">Coated high bulk paper for high-quality printing & packaging.</p>
+                        <p class="text-gray-600 leading-relaxed">Coated high bulk Paper for high-quality printing & Packaging.</p>
                     </div>
                 </div>
             </div>
@@ -286,7 +285,7 @@
             </div>
         </div>
         
-    <section id="calculator" class="py-24 px-4 sm:px-6 relative overflow-hidden bg-transparent">
+    <section id="calculator" class="py-24 px-4 sm:px-6 relative overflow-hidden bg-white">
     <div class="absolute right-0 top-1/4 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
     <div class="absolute left-0 bottom-1/4 w-64 h-64 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
 
@@ -299,7 +298,7 @@
         </div>
 
         <div class="flex justify-center mb-8 overflow-x-auto">
-            <div class="bg-gray-100/50 p-1.5 rounded-xl inline-flex shadow-inner whitespace-nowrap">
+            <div class="bg-gray-100 p-1.5 rounded-xl inline-flex shadow-inner whitespace-nowrap">
                 <button onclick="switchTab('weight')" id="tab-weight" class="px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm font-bold transition-all shadow-md bg-white text-blue-600">
                     Sheet Weight
                 </button>
@@ -337,10 +336,10 @@
                 </div>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 items-start">
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Length <span class="unit-label text-blue-600">(cm)</span></label><input type="number" id="calcLength" class="w-full rounded-xl border-gray-200 bg-white/70 focus:ring-2 focus:ring-blue-500 p-3 shadow-inner font-mono text-lg" placeholder="0"></div>
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Width <span class="unit-label text-blue-600">(cm)</span></label><input type="number" id="calcWidth" class="w-full rounded-xl border-gray-200 bg-white/70 focus:ring-2 focus:ring-blue-500 p-3 shadow-inner font-mono text-lg" placeholder="0"></div>
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">GSM</label><input type="number" id="calcGsm" class="w-full rounded-xl border-gray-200 bg-white/70 focus:ring-2 focus:ring-blue-500 p-3 shadow-inner font-mono text-lg" placeholder="300"></div>
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Qty (Sheets)</label><input type="number" id="calcQty" class="w-full rounded-xl border-gray-200 bg-white/70 focus:ring-2 focus:ring-blue-500 p-3 shadow-inner font-mono text-lg" placeholder="500"></div>
+                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Length <span class="unit-label text-blue-600">(cm)</span></label><input type="number" id="calcLength" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-blue-500 p-3 shadow-inner font-mono text-lg" placeholder="0"></div>
+                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Width <span class="unit-label text-blue-600">(cm)</span></label><input type="number" id="calcWidth" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-blue-500 p-3 shadow-inner font-mono text-lg" placeholder="0"></div>
+                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">GSM</label><input type="number" id="calcGsm" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-blue-500 p-3 shadow-inner font-mono text-lg" placeholder="300"></div>
+                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Qty (Sheets)</label><input type="number" id="calcQty" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-blue-500 p-3 shadow-inner font-mono text-lg" placeholder="500"></div>
             </div>
             <div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6 bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-100">
                 <div class="w-full md:w-auto text-center md:text-left">
@@ -353,10 +352,63 @@
                 </div>
             </div>
         </div>
+
+        <div id="tool-reel" class="tool-content hidden transition-all duration-300">
+            <div class="bg-yellow-50/50 p-4 rounded-2xl border border-yellow-100 mb-8 text-center"><p class="text-sm text-yellow-800 font-medium">✨ Estimate how many sheets you can cut from a heavy industrial reel.</p></div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Reel Weight (kg)</label><input type="number" id="reelWeight" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-yellow-500 p-3 shadow-inner font-mono text-lg" placeholder="500"></div>
+                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Reel Width (cm)</label><input type="number" id="reelWidth" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-yellow-500 p-3 shadow-inner font-mono text-lg" placeholder="100"></div>
+                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">GSM</label><input type="number" id="reelGsm" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-yellow-500 p-3 shadow-inner font-mono text-lg" placeholder="150"></div>
+            </div>
+            <div class="mt-6 p-6 bg-white rounded-xl border border-gray-100 shadow-sm">
+                <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Desired Cut Length (cm)</label>
+                <div class="flex gap-4">
+                    <input type="number" id="cutLength" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-yellow-500 p-3 shadow-inner font-mono text-lg" placeholder="e.g. 70">
+                    <button onclick="calculateReel()" class="btn-glow bg-yellow-500 text-white px-8 py-3 rounded-xl font-bold hover:bg-yellow-600 transition shadow-lg whitespace-nowrap">Calculate Yield</button>
+                </div>
+            </div>
+            <div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6 bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-2xl border border-yellow-100">
+                <div class="text-left"><span class="block text-xs font-bold text-slate-400 uppercase">Total Reel Length</span><div class="text-2xl font-bold text-slate-700" id="resReelLength">0 <span class="text-sm">meters</span></div></div>
+                <div class="text-right"><span class="block text-xs font-bold text-slate-400 uppercase">Total Sheets</span><div class="text-4xl font-black text-slate-800" id="resSheets">0 <span class="text-xl text-yellow-600">pcs</span></div></div>
+            </div>
+        </div>
+
+        <div id="tool-strength" class="tool-content hidden transition-all duration-300">
+            <div class="bg-red-50/50 p-4 rounded-2xl border border-red-100 mb-8 text-center"><p class="text-sm text-red-800 font-medium">💪 Calculate Bursting Strength (BS) based on GSM and Burst Factor (BF).</p></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <div class="space-y-6">
+                    <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Paper GSM</label><input type="number" id="strGsm" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-red-500 p-3 shadow-inner font-mono text-lg" placeholder="e.g. 180"></div>
+                    <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Burst Factor (BF)</label><input type="number" id="strBf" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-red-500 p-3 shadow-inner font-mono text-lg" placeholder="e.g. 22"></div>
+                    <button onclick="calculateStrength()" class="w-full btn-glow bg-red-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-red-700 transition shadow-lg">Calculate Strength</button>
+                </div>
+                <div class="flex flex-col justify-center items-center bg-red-50 rounded-2xl p-8 border border-red-100 h-full">
+                    <div class="text-center">
+                        <span class="block text-sm font-bold text-red-400 uppercase tracking-widest mb-2">Bursting Strength (BS)</span>
+                        <div class="text-5xl font-black text-slate-800" id="resBs">0.0</div>
+                        <span class="text-lg text-red-600 font-bold">kg/cm²</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tool-cbm" class="tool-content hidden transition-all duration-300">
+            <div class="bg-green-50/50 p-4 rounded-2xl border border-green-100 mb-8 text-center"><p class="text-sm text-green-800 font-medium">📦 Estimate shipping volume for logistics.</p></div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 items-end">
+                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Length (cm)</label><input type="number" id="cbmL" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-green-500 p-3 font-mono text-lg" placeholder="0"></div>
+                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Width (cm)</label><input type="number" id="cbmW" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-green-500 p-3 font-mono text-lg" placeholder="0"></div>
+                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Height (cm)</label><input type="number" id="cbmH" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-green-500 p-3 font-mono text-lg" placeholder="0"></div>
+                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Quantity</label><input type="number" id="cbmQty" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-green-500 p-3 font-mono text-lg" placeholder="1"></div>
+            </div>
+            <div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6 bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-100">
+                <button onclick="calculateCBM()" class="btn-glow bg-green-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-green-700 transition shadow-lg w-full md:w-auto">Calculate CBM</button>
+                <div class="text-right"><span class="block text-xs font-bold text-slate-400 uppercase">Total Volume</span><div class="text-4xl font-black text-slate-800" id="resCbm">0.000 <span class="text-xl text-green-600">m³</span></div></div>
+            </div>
+        </div>
+
     </div>
-    </section>
+</section>
         
-        <section id="reviews" class="py-20 px-6 overflow-hidden">
+        <section id="reviews" class="py-20 px-6 bg-bg-light overflow-hidden">
             <div data-aos="fade-up">
                 <h2 class="text-4xl font-extrabold text-center mb-12 text-gray-800">What Our Clients Say</h2>
                 <div class="splide max-w-6xl mx-auto" role="group" aria-label="Customer Testimonials Carousel">
@@ -372,7 +424,7 @@
             </div>
         </section>
 
-        <section id="blog" class="py-20 px-6 bg-white/50 overflow-hidden">
+        <section id="blog" class="py-20 px-6 bg-white overflow-hidden">
             <div class="max-w-6xl mx-auto" data-aos="fade-up">
                 <h2 class="text-4xl font-extrabold text-center mb-12 text-gray-800">From Our Blog</h2>
                 <div class="grid md:grid-cols-3 gap-10">
@@ -398,38 +450,39 @@
             </div>
         </section>
 
-        <section id="gallery" class="py-20 px-6 overflow-hidden">
+        <section id="gallery" class="py-20 px-6 bg-bg-light overflow-hidden">
             <div class="max-w-6xl mx-auto" data-aos="fade-up">
                 <h2 class="text-4xl font-extrabold text-center mb-12 text-gray-800">Our Gallery</h2>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="gallery-item shadow-lg rounded-2xl overflow-hidden glass p-0" data-aos="zoom-in" data-aos-delay="100"><img src="https://i.postimg.cc/ZKBYVJ4q/Kraft-Paper-1.jpg" alt="Kraft Paper Rolls" class="w-full h-full object-cover"></div>
-                    <div class="gallery-item shadow-lg rounded-2xl overflow-hidden glass p-0" data-aos="zoom-in" data-aos-delay="200"><img src="https://i.postimg.cc/ZqcJCRFw/duplex-paper-sheet-500x500.jpg" alt="Duplex Paper sheets" class="w-full h-full object-cover"></div>
-                    <div class="gallery-item shadow-lg rounded-2xl overflow-hidden glass p-0" data-aos="zoom-in" data-aos-delay="300"><img src="https://i.postimg.cc/HxMDbkQG/1.jpg" alt="Laminated Boards" class="w-full h-full object-cover"></div>
-                    <div class="gallery-item shadow-lg rounded-2xl overflow-hidden glass p-0" data-aos="zoom-in" data-aos-delay="400"><img src="https://i.postimg.cc/wBhQJK7f/grey-paper-board-500x500.jpg" alt="Sundry Grey Boards" class="w-full h-full object-cover"></div>
-                    <div class="gallery-item shadow-lg rounded-2xl overflow-hidden glass p-0" data-aos="zoom-in" data-aos-delay="500"><img src="https://placehold.co/400x400/8E9BFA/FFFFFF?text=Warehouse" alt="Warehouse" class="w-full h-full object-cover"></div>
-                    <div class="gallery-item shadow-lg rounded-2xl overflow-hidden glass p-0" data-aos="zoom-in" data-aos-delay="600"><img src="https://placehold.co/400x400/A78BFA/FFFFFF?text=Logistics" alt="Delivery truck" class="w-full h-full object-cover"></div>
-                    <div class="gallery-item shadow-lg rounded-2xl overflow-hidden glass p-0" data-aos="zoom-in" data-aos-delay="700"><img src="https://placehold.co/400x400/607AFB/FFFFFF?text=Team" alt="Team" class="w-full h-full object-cover"></div>
-                    <div class="gallery-item shadow-lg rounded-2xl overflow-hidden glass p-0" data-aos="zoom-in" data-aos-delay="800"><img src="https://placehold.co/400x400/E6E9F4/0D0F1C?text=Office" alt="Front office" class="w-full h-full object-cover"></div>
+                    <div class="gallery-item shadow-lg" data-aos="zoom-in" data-aos-delay="100"><img src="https://i.postimg.cc/ZKBYVJ4q/Kraft-Paper-1.jpg" alt="Kraft Paper Rolls stacked in the warehouse" class="w-full h-full object-cover"></div>
+                    <div class="gallery-item shadow-lg" data-aos="zoom-in" data-aos-delay="200"><img src="https://i.postimg.cc/ZqcJCRFw/duplex-paper-sheet-500x500.jpg" alt="A close-up of Duplex Paper sheets" class="w-full h-full object-cover"></div>
+                    <div class="gallery-item shadow-lg" data-aos="zoom-in" data-aos-delay="300"><img src="https://i.postimg.cc/HxMDbkQG/1.jpg" alt="Laminated Boards ready for shipping" class="w-full h-full object-cover"></div>
+                    <div class="gallery-item shadow-lg" data-aos="zoom-in" data-aos-delay="400"><img src="https://i.postimg.cc/wBhQJK7f/grey-paper-board-500x500.jpg" alt="Stack of Sundry Grey Boards" class="w-full h-full object-cover"></div>
+                    <div class="gallery-item shadow-lg" data-aos="zoom-in" data-aos-delay="500"><img src="https://placehold.co/400x400/8E9BFA/FFFFFF?text=Warehouse" alt="Abrar Traders warehouse interior with paper products." class="w-full h-full object-cover"></div>
+                    <div class="gallery-item shadow-lg" data-aos="zoom-in" data-aos-delay="600"><img src="https://placehold.co/400x400/A78BFA/FFFFFF?text=Logistics" alt="A delivery truck being loaded with Abrar Traders products." class="w-full h-full object-cover"></div>
+                    <div class="gallery-item shadow-lg" data-aos="zoom-in" data-aos-delay="700"><img src="https://placehold.co/400x400/607AFB/FFFFFF?text=Team" alt="The dedicated team at Abrar Traders." class="w-full h-full object-cover"></div>
+                    <div class="gallery-item shadow-lg" data-aos="zoom-in" data-aos-delay="800"><img src="https://placehold.co/400x400/E6E9F4/0D0F1C?text=Office" alt="The front office of Abrar Traders in Surat." class="w-full h-full object-cover"></div>
                 </div>
             </div>
         </section>
 
-        <section id="about" class="py-20 px-6 bg-white/50 overflow-hidden">
+        <section id="about" class="py-20 px-6 bg-white overflow-hidden">
             <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center" data-aos="fade-up">
                 <div data-aos="fade-right" data-aos-delay="100">
                     <h2 class="text-4xl font-extrabold mb-6 text-gray-800">About Us</h2>
-                    <p class="text-gray-600 leading-relaxed mb-4">Founded with a vision to revolutionize the paper supply industry, Abrar Traders has grown to become a trusted name for quality paper products and packaging solutions in Surat, Gujarat.</p>
-                    <p class="text-gray-600 leading-relaxed mb-6">We partner with leading manufacturers to source the finest materials, ensuring our clients receive products that meet the highest standards of performance and durability.</p>
+                    <p class="text-gray-600 leading-relaxed mb-4">Founded with a vision to revolutionize the paper supply industry, Abrar Traders has grown to become a trusted name for quality paper products and packaging solutions in Surat, Gujarat. Our commitment is rooted in three core principles: uncompromising quality, sustainable practices, and customer-centric service.</p>
+                    <p class="text-gray-600 leading-relaxed mb-6">We partner with leading manufacturers to source the finest materials, ensuring our clients receive products that meet the highest standards of performance and durability. From industrial packaging to fine printing paper, we offer a comprehensive range to cater to diverse business needs across India.</p>
                 </div>
-                <div data-aos="fade-left" data-aos-delay="200" class="glass p-2 rounded-2xl">
-                    <img src="https://placehold.co/600x500/E6E9F4/0D0F1C?text=Our+Story" alt="Our Story" class="rounded-xl shadow-xl w-full">
+                <div data-aos="fade-left" data-aos-delay="200">
+                    <img src="https://placehold.co/600x500/E6E9F4/0D0F1C?text=Our+Story" alt="A representative image for Abrar Traders' journey and growth." class="rounded-2xl shadow-2xl w-full">
                 </div>
             </div>
         </section>
 
-        <section id="quote" class="py-20 px-6 overflow-hidden">
+        <section id="quote" class="py-20 px-6 bg-bg-light overflow-hidden">
             <div class="max-w-4xl mx-auto" data-aos="fade-up">
                 <h2 class="text-4xl font-extrabold text-center mb-4 text-gray-800">Request a Quote</h2>
+                <p class="text-center text-gray-600 mb-10 max-w-2xl mx-auto">Have a specific requirement? Fill out the form below, and our team will get back to you with a competitive quote tailored to your needs.</p>
                 <div class="glass p-8 md:p-12 rounded-2xl shadow-xl">
                     <form id="quoteForm" action="https://formspree.io/f/REPLACE_WITH_YOUR_FORM_ID" method="POST">
                         <div class="grid md:grid-cols-2 gap-6">
@@ -451,10 +504,11 @@
             </div>
         </section>
 
-        <section id="contact" class="py-20 px-6 bg-white/50 overflow-hidden">
+        <section id="contact" class="py-20 px-6 bg-white overflow-hidden">
             <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-start" data-aos="fade-up">
                 <div data-aos="fade-right" data-aos-delay="100">
                     <h2 class="text-4xl font-extrabold mb-6 text-gray-800">Contact Us</h2>
+                    <p class="text-gray-600 leading-relaxed mb-8">We're here to help. Whether you have a question about our products, need a quote, or want to discuss your requirements, feel free to reach out to us.</p>
                     <div class="space-y-6">
                         <div class="flex items-start gap-4">
                             <svg class="w-8 h-8 text-blue-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
@@ -479,16 +533,15 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="h-96 md:h-full w-full rounded-2xl shadow-2xl overflow-hidden glass p-2" data-aos="fade-left" data-aos-delay="200">
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3719.558364808384!2d72.8180!3d21.1925!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e6c3d0b2f1d%3A0x123456789abcdef!2sAbrar+Traders+Surat!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" 
-                        width="100%" 
-                        height="100%" 
-                        style="border:0; border-radius: 16px;" 
-                        allowfullscreen="" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer-when-downgrade">
+                <div class="h-96 md:h-full w-full rounded-2xl shadow-2xl overflow-hidden" data-aos="fade-left" data-aos-delay="200">
+                    <iframe
+                          width="100%"
+                          height="100%"
+                          style="border:0;"
+                          loading="lazy"
+                          allowfullscreen
+                          referrerpolicy="no-referrer-when-downgrade"
+                          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBpIllKiaG00I2XKmvqyqhbptNFmWY0Ub0&q=Abrar+Traders">
                     </iframe>
                 </div>
             </div>
@@ -537,15 +590,17 @@
     <script src="main.js" defer></script>
     
     <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/6156d1f2d326bf3d2c1a8a8b/1fhg3b4h0';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
-    </script>
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/6156d1f2d326bf3d2c1a8a8b/1fhg3b4h0';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
 </body>
 </html>
+
+
