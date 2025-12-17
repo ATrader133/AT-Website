@@ -409,21 +409,38 @@ input:focus {
 .animation-delay-2000 { animation-delay: 2s; }
 .animation-delay-4000 { animation-delay: 4s; }
 
-/* Product Modal specific styles */
+/* Product Modal */
+
 #productModal {
-    position: fixed;
-    top: 50%;
+    top: auto; 
+    bottom: 0;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
-    opacity: 0;
-    visibility: hidden;
-    transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
-    z-index: 1000;
-    width: 90vw;
-    height: 90vh;
-    max-width: 900px;
-    max-height: 700px;
-    overflow-y: auto;
+    transform: translate(-50%, 100%); /* Start hidden below screen */
+    width: 100%;
+    max-width: 600px;
+    height: 85vh; /* Takes up 85% of screen height */
+    border-radius: 40px 40px 0 0; /* Round top corners only */
+    background: white;
+    transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+}
+
+#productModal.open {
+    transform: translate(-50%, 0%); /* Slide up */
+}
+
+/* The Grabber Handle */
+#productModal::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 5px;
+    background-color: #E5E5EA;
+    border-radius: 10px;
+}
 }
 /* FIX 2: ADDED .open CLASS FOR MODAL TRANSITION */
 #productModal.open {
@@ -496,6 +513,7 @@ input:focus {
 }
 
 }
+
 
 
 
