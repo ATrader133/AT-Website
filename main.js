@@ -18,25 +18,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- TABS LOGIC ---
     window.switchTab = function(tabName) {
-        ['weight', 'reel', 'strength', 'cbm'].forEach(t => {
-            const content = document.getElementById('tool-' + t);
-            const btn = document.getElementById('tab-' + t);
-            if(content) content.classList.add('hidden');
-            if(btn) btn.className = "px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm font-bold text-gray-500 hover:text-blue-600 transition-all";
-        });
+    // 1. Hide all tool content
+    ['weight', 'reel', 'strength', 'cbm'].forEach(t => {
+        const content = document.getElementById('tool-' + t);
+        if(content) content.classList.add('hidden');
+    });
 
-        const activeContent = document.getElementById('tool-' + tabName);
-        if(activeContent) activeContent.classList.remove('hidden');
+    // 2. Show the active tool
+    const activeContent = document.getElementById('tool-' + tabName);
+    if(activeContent) activeContent.classList.remove('hidden');
 
-        const activeBtn = document.getElementById('tab-' + tabName);
-        if(activeBtn) {
-            let colorClass = "text-blue-600";
-            if(tabName === 'reel') colorClass = "text-yellow-600";
-            if(tabName === 'strength') colorClass = "text-red-600";
-            if(tabName === 'cbm') colorClass = "text-green-600";
-            activeBtn.className = `px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm font-bold transition-all shadow-md bg-white ${colorClass}`;
+    // 3. Update the buttons (Find buttons by their onclick attribute since IDs are gone)
+    const buttons = document.querySelectorAll('.segment');
+    buttons.forEach(btn => {
+        // Check if this button controls the requested tab
+        if(btn.getAttribute('onclick').includes(tabName)) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
         }
-    };
+    });
+};
 
     // --- UNIT TOGGLE ---
     window.setUnit = function(unit) {
@@ -362,3 +364,4 @@ document.addEventListener('DOMContentLoaded', function() {
     const yearEl = document.getElementById('currentYear');
     if(yearEl) yearEl.textContent = new Date().getFullYear();
 });
+
