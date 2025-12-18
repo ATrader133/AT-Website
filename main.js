@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("ABRAR TRADERS: System Loaded v4.1 (Fixed Mobile Menu & Modal)");
+    console.log("ABRAR TRADERS: iOS 26 System Loaded v5.0");
 
     // ==========================================
     // 1. GLOBAL VARIABLES & SETUP
@@ -13,32 +13,27 @@ document.addEventListener('DOMContentLoaded', function() {
     } catch (e) { console.error("Local Storage Error:", e); }
 
     // ==========================================
-    // 2. WINDOW FUNCTIONS (Accessible by HTML)
+    // 2. WINDOW FUNCTIONS (Logic & Tools)
     // ==========================================
 
-    // --- TABS LOGIC ---
+    // --- CALCULATOR TABS (iOS Segmented Control) ---
     window.switchTab = function(tabName) {
-    // 1. Hide all tool content
-    ['weight', 'reel', 'strength', 'cbm'].forEach(t => {
-        const content = document.getElementById('tool-' + t);
-        if(content) content.classList.add('hidden');
-    });
+        // Hide all tool content
+        document.querySelectorAll('.tool-content').forEach(el => el.classList.add('hidden'));
+        
+        // Show active tool
+        const activeContent = document.getElementById('tool-' + tabName);
+        if(activeContent) activeContent.classList.remove('hidden');
 
-    // 2. Show the active tool
-    const activeContent = document.getElementById('tool-' + tabName);
-    if(activeContent) activeContent.classList.remove('hidden');
-
-    // 3. Update the buttons (Find buttons by their onclick attribute since IDs are gone)
-    const buttons = document.querySelectorAll('.segment');
-    buttons.forEach(btn => {
-        // Check if this button controls the requested tab
-        if(btn.getAttribute('onclick').includes(tabName)) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
-        }
-    });
-};
+        // Update Buttons (Segmented Control)
+        document.querySelectorAll('.segment').forEach(btn => {
+            if(btn.getAttribute('onclick').includes(tabName)) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+    };
 
     // --- UNIT TOGGLE ---
     window.setUnit = function(unit) {
@@ -58,14 +53,13 @@ document.addEventListener('DOMContentLoaded', function() {
         window.calculateWeight(); 
     };
 
-    // --- PRESETS (FIXED) ---
+    // --- PRESETS ---
     window.applyPreset = function() {
         const preset = document.getElementById('sizePreset').value;
         const lInput = document.getElementById('calcLength');
         const wInput = document.getElementById('calcWidth');
         if (!preset) return;
 
-        // Corrected ISO and Imperial sizes
         if (preset === 'A2') { window.setUnit('mm'); wInput.value = 420; lInput.value = 594; }
         else if (preset === 'A3') { window.setUnit('mm'); wInput.value = 297; lInput.value = 420; }
         else if (preset === 'A4') { window.setUnit('mm'); wInput.value = 210; lInput.value = 297; }
@@ -76,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.calculateWeight();
     };
 
-    // --- CALC 1: WEIGHT ---
+    // --- CALCULATORS ---
     window.calculateWeight = function() {
         const l = parseFloat(document.getElementById('calcLength')?.value) || 0;
         const w = parseFloat(document.getElementById('calcWidth')?.value) || 0;
@@ -100,7 +94,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // --- CALC 2: REEL ---
     window.calculateReel = function() {
         const rWeight = parseFloat(document.getElementById('reelWeight')?.value) || 0;
         const rWidth = parseFloat(document.getElementById('reelWidth')?.value) || 0;
@@ -117,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if(resSheets) resSheets.innerHTML = `${Math.floor(sheets)} <span class="text-xl text-yellow-600">pcs</span>`;
     };
 
-    // --- CALC 3: STRENGTH ---
     window.calculateStrength = function() {
         const gsm = parseFloat(document.getElementById('strGsm')?.value) || 0;
         const bf = parseFloat(document.getElementById('strBf')?.value) || 0;
@@ -126,7 +118,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if(resBs) resBs.textContent = bs.toFixed(2);
     };
 
-    // --- CALC 4: CBM ---
     window.calculateCBM = function() {
         const l = parseFloat(document.getElementById('cbmL')?.value) || 0;
         const w = parseFloat(document.getElementById('cbmW')?.value) || 0;
@@ -137,12 +128,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if(resCbm) resCbm.innerHTML = `${cbm.toFixed(3)} <span class="text-xl text-green-600">m³</span>`;
     };
 
-    // --- BASKET & MODAL ---
+    // --- BASKET LOGIC ---
     window.addToBasket = function(productName) {
         if(!basket.includes(productName)) {
             basket.push(productName);
             updateBasketUI();
-            // Removed redundant scale-125 animation as it's not strictly necessary.
         }
     };
 
@@ -160,107 +150,136 @@ document.addEventListener('DOMContentLoaded', function() {
     const basketBtn = document.getElementById('quoteBasket');
     if(basketBtn) basketBtn.addEventListener('click', () => document.getElementById('quote').scrollIntoView({behavior: 'smooth'}));
 
-    // --- DOWNLOAD MOCK ---
-    window.downloadCatalog = function() {
-        const email = prompt("Enter your email to download:");
-        if (email) alert("Catalogue sent to " + email);
-    };
-
-    // --- MODAL HELPERS (REFACTORED) ---
-    window.closeModal = function() {
-    const modal = document.getElementById('productModal');
-    const backdrop = document.getElementById('productModalBackdrop');
-    if(modal) {
-        modal.classList.remove('open');
-    }
-    if(backdrop) {
-        backdrop.classList.remove('open');
-    }
-    document.body.style.overflow = '';
-    };
 
     // ==========================================
-    // 3. EVENT LISTENERS & INITIALIZATION
+    // 3. iOS 26 INTERFACE LOGIC
     // ==========================================
 
-    // Auto-Calculate Inputs
-    ['calcLength', 'calcWidth', 'calcGsm', 'calcQty'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateWeight));
-    ['reelWeight', 'reelWidth', 'reelGsm', 'cutLength'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateReel));
-    ['strGsm', 'strBf'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateStrength));
-    ['cbmL', 'cbmW', 'cbmH', 'cbmQty'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateCBM));
-    
-    // --- MOBILE MENU TOGGLE 
-    const menuButton = document.getElementById('menuButton');
-    const closeMenuButton = document.getElementById('closeMenuButton');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const menuBackdrop = document.getElementById('menuBackdrop');
-    const mobileNavLinks = mobileMenu.querySelectorAll('.nav-link');
+    // --- UNIFIED SCROLL ENGINE ---
+    // Handles Dynamic Island shrinking, Sidebar minimizing, and Active Link highlighting
+    const nav = document.querySelector('.sticky-nav');
+    const sidebar = document.getElementById('socialSidebar');
+    const scrollBtn = document.getElementById('scrollTopBtn');
+    const progressCircle = document.getElementById('scrollProgress');
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.sticky-nav .nav-link');
 
-    const toggleMenu = (forceClose = false) => {
-        const isOpen = mobileMenu.classList.contains('open');
-        if (isOpen || forceClose) {
-            menuButton.classList.remove('menu-open');
-            menuButton.setAttribute('aria-expanded', 'false');
-            mobileMenu.classList.remove('open');
-            menuBackdrop.classList.remove('open');
-            document.body.classList.remove('menu-opened');
+    // Pre-calculate circle circumference for scroll to top
+    let circumference = 0;
+    if(progressCircle) {
+        const radius = progressCircle.r.baseVal.value;
+        circumference = radius * 2 * Math.PI;
+        progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+        progressCircle.style.strokeDashoffset = circumference;
+    }
+
+    const optimizeScroll = () => {
+        const currentScroll = window.scrollY;
+
+        // 1. Dynamic Island Shrink
+        if (currentScroll > 50) {
+            nav.classList.add('scrolled');
         } else {
-            menuButton.classList.add('menu-open');
-            menuButton.setAttribute('aria-expanded', 'true');
-            mobileMenu.classList.add('open');
-            menuBackdrop.classList.add('open');
-            document.body.classList.add('menu-opened');
+            nav.classList.remove('scrolled');
         }
-    };
-    if (menuButton) menuButton.addEventListener('click', () => toggleMenu());
-    if (closeMenuButton) closeMenuButton.addEventListener('click', () => toggleMenu(true));
-    if (menuBackdrop) menuBackdrop.addEventListener('click', () => toggleMenu(true));
-    mobileNavLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            if (link.getAttribute('href').startsWith('#')) {
-                toggleMenu(true);
+
+        // 2. Sidebar Minimize
+        if (sidebar) {
+            if (currentScroll > 100) {
+                sidebar.classList.add('minimized');
+            } else {
+                sidebar.classList.remove('minimized');
+            }
+        }
+
+        // 3. Scroll To Top Button
+        if (scrollBtn) {
+            if (currentScroll > 300) scrollBtn.classList.add('visible');
+            else scrollBtn.classList.remove('visible');
+            
+            if(progressCircle) {
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const offset = circumference - ((currentScroll / docHeight) * circumference);
+                progressCircle.style.strokeDashoffset = offset;
+            }
+        }
+
+        // 4. Active Link Highlighter
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (scrollY >= sectionTop - 150) {
+                current = section.getAttribute('id');
             }
         });
-    });
-    
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    };
 
+    // Use passive listener for performance
+    window.addEventListener('scroll', optimizeScroll, { passive: true });
 
-    // Modal Triggers 
+    // --- PRODUCT MODAL (Bottom Sheet) ---
     const productModal = document.getElementById('productModal');
     const productModalBackdrop = document.getElementById('productModalBackdrop');
-    document.querySelectorAll('.product-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const d = card.dataset;
-            document.getElementById('modalProductName').textContent = d.name;
-            const img = document.getElementById('modalProductImage');
-            img.src = d.image;
-           
-            document.getElementById('modalProductDescription').textContent = d.description;
-            
-            const specs = document.getElementById('modalProductSpecifications');
-            if(specs) {
-                specs.innerHTML = '';
-                try {
-                    JSON.parse(d.specifications).forEach(s => {
-                        specs.innerHTML += `<li class="flex justify-between border-b border-gray-100 dark:border-gray-700 py-2"><span class="text-gray-500 dark:text-gray-400">${s.label}</span><span class="font-bold text-gray-800 dark:text-white">${s.value}</span></li>`;
-                    });
-                } catch(e){}
-            }
-            
-            document.getElementById('modalProductAdditionalInfo').textContent = d['additional-info'];
-            
-            const addBtn = document.getElementById('modalAddToBasket');
-            if(addBtn) addBtn.onclick = () => { window.addToBasket(d.name); window.closeModal(); };
 
-            if(productModal && productModalBackdrop) {
-	            productModalBackdrop.classList.add('open');
-	            requestAnimationFrame(() => {
-                productModal.classList.add('open');
-             });
-    
-                document.body.style.overflow = 'hidden';
-            }
+    // Open Function
+    window.openModal = function(data) {
+        if(!productModal) return;
+
+        // Populate Data
+        document.getElementById('modalProductName').textContent = data.name;
+        document.getElementById('modalProductImage').src = data.image;
+        document.getElementById('modalProductDescription').textContent = data.description;
+        document.getElementById('modalProductAdditionalInfo').textContent = data.additionalInfo;
+
+        const specs = document.getElementById('modalProductSpecifications');
+        if(specs) {
+            specs.innerHTML = '';
+            try {
+                JSON.parse(data.specifications).forEach(s => {
+                    specs.innerHTML += `<li class="flex justify-between border-b border-gray-100 py-2"><span class="text-gray-500">${s.label}</span><span class="font-bold text-gray-800">${s.value}</span></li>`;
+                });
+            } catch(e){}
+        }
+
+        const addBtn = document.getElementById('modalAddToBasket');
+        if(addBtn) addBtn.onclick = () => { window.addToBasket(data.name); window.closeModal(); };
+
+        // Animate Open
+        productModalBackdrop.classList.add('open');
+        productModal.classList.remove('hidden'); 
+        requestAnimationFrame(() => {
+            productModal.classList.add('open');
+        });
+        document.body.style.overflow = 'hidden';
+    };
+
+    // Close Function
+    window.closeModal = function() {
+        if(productModal) productModal.classList.remove('open');
+        if(productModalBackdrop) productModalBackdrop.classList.remove('open');
+        document.body.style.overflow = '';
+    };
+
+    // Attach Listeners to Cards
+    document.querySelectorAll('.product-item').forEach(card => {
+        card.addEventListener('click', function(e) {
+            if(e.target.closest('button')) return; // Prevent double trigger
+            
+            const d = this.dataset;
+            window.openModal({
+                name: d.name,
+                image: d.image,
+                description: d.description,
+                specifications: d.specifications,
+                additionalInfo: d['additional-info']
             });
+        });
     });
 
     const closeBtn = document.getElementById('closeProductModal');
@@ -268,7 +287,41 @@ document.addEventListener('DOMContentLoaded', function() {
     if(productModalBackdrop) productModalBackdrop.addEventListener('click', window.closeModal);
 
 
-    // --- Search & Filter ---
+    // --- MOBILE MENU ---
+    const menuButton = document.getElementById('menuButton');
+    const closeMenuButton = document.getElementById('closeMenuButton');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuBackdrop = document.getElementById('menuBackdrop');
+
+    const toggleMenu = (forceClose = false) => {
+        const isOpen = mobileMenu.classList.contains('open');
+        if (isOpen || forceClose) {
+            mobileMenu.classList.remove('open');
+            if(menuBackdrop) menuBackdrop.classList.remove('open');
+            document.body.style.overflow = '';
+            menuButton.classList.remove('menu-open');
+        } else {
+            mobileMenu.classList.add('open');
+            if(menuBackdrop) menuBackdrop.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            menuButton.classList.add('menu-open');
+        }
+    };
+
+    if (menuButton) menuButton.addEventListener('click', () => toggleMenu());
+    if (closeMenuButton) closeMenuButton.addEventListener('click', () => toggleMenu(true));
+    if (menuBackdrop) menuBackdrop.addEventListener('click', () => toggleMenu(true));
+    
+    // Close menu when clicking a link
+    document.querySelectorAll('#mobileMenu .nav-link').forEach(link => {
+        link.addEventListener('click', () => toggleMenu(true));
+    });
+
+    // ==========================================
+    // 4. UTILITIES & INITIALIZATION
+    // ==========================================
+
+    // Search & Filter
     const searchInput = document.getElementById('productSearch');
     const products = document.querySelectorAll('.product-item');
     if(searchInput) {
@@ -300,30 +353,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // --- SCROLL TO TOP ---
-    const scrollBtn = document.getElementById('scrollTopBtn');
-    const progressCircle = document.getElementById('scrollProgress');
-    if(scrollBtn && progressCircle) {
-        const radius = progressCircle.r.baseVal.value;
-        const circumference = radius * 2 * Math.PI;
-        progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
-        progressCircle.style.strokeDashoffset = circumference;
+    // Scroll To Top Click
+    if(scrollBtn) scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) scrollBtn.classList.add('visible');
-            else scrollBtn.classList.remove('visible');
-            
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const offset = circumference - ((scrollTop / docHeight) * circumference);
-            progressCircle.style.strokeDashoffset = offset;
-        });
-        scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-    }
+    // Input Listeners for Auto-Calc
+    ['calcLength', 'calcWidth', 'calcGsm', 'calcQty'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateWeight));
+    ['reelWeight', 'reelWidth', 'reelGsm', 'cutLength'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateReel));
+    ['strGsm', 'strBf'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateStrength));
+    ['cbmL', 'cbmW', 'cbmH', 'cbmQty'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateCBM));
 
-    // --- INITIALIZATIONS ---
-    
-    // 1. SPLIDE SLIDER (Fixes your Reviews visibility)
+    // Splide Slider
     if (typeof Splide !== 'undefined' && document.querySelector('.splide')) {
         new Splide('.splide', {
             type: 'loop',
@@ -339,11 +378,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }).mount();
     }
 
-    // 2. AOS ANIMATION (Fixes "invisible" elements)
+    // AOS Animation
     if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true });
 
-    // 3. TILT & TYPED
-    if (typeof VanillaTilt !== 'undefined') VanillaTilt.init(document.querySelectorAll(".product-card"), { max: 5, speed: 400, glare: true, "max-glare": 0.2 });
+    // Typed JS
     if (document.getElementById('typed')) {
         new Typed('#typed', {
             strings: ['Kraft & Duplex Paper.', 'Sustainable Packaging.', 'Industrial Solutions.'],
@@ -351,7 +389,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 4. PRELOADER
+    // Preloader
     const spinner = document.getElementById('spinner');
     if (spinner) {
         window.addEventListener('load', () => {
@@ -360,9 +398,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // 5. CURRENT YEAR
+    // Current Year
     const yearEl = document.getElementById('currentYear');
     if(yearEl) yearEl.textContent = new Date().getFullYear();
 });
-
-
