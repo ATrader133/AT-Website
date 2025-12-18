@@ -412,21 +412,41 @@ input:focus {
 /* Product Modal */
 
 #productModal {
-    top: auto; 
+    position: fixed;
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 100%); /* Start hidden below screen */
     width: 100%;
     max-width: 600px;
-    height: 85vh; /* Takes up 85% of screen height */
-    border-radius: 40px 40px 0 0; /* Round top corners only */
+    height: 85vh;
+    border-radius: 24px 24px 0 0;
     background: white;
-    transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1);
     box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+    z-index: 1000;
+    
+    /* Smooth Transition */
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.5s ease, visibility 0.5s;
 }
 
 #productModal.open {
-    transform: translate(-50%, 0%); /* Slide up */
+    transform: translate(-50%, 0%); /* Slide up to bottom */
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Grabber Handle */
+#productModal::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 5px;
+    background-color: #E5E5EA;
+    border-radius: 10px;
 }
 
 /* The Grabber Handle */
@@ -513,6 +533,7 @@ input:focus {
 }
 
 }
+
 
 
 
