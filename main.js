@@ -168,16 +168,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- MODAL HELPERS (REFACTORED) ---
     window.closeModal = function() {
-        const modal = document.getElementById('productModal');
-        const backdrop = document.getElementById('productModalBackdrop');
-        if(modal) {
-            modal.classList.remove('open'); // Use .open class for CSS transition
-            setTimeout(() => modal.classList.add('hidden'), 300); // Hide after transition
-        }
-        if(backdrop) {
-            backdrop.classList.remove('open');
-        }
-        document.body.style.overflow = '';
+    const modal = document.getElementById('productModal');
+    const backdrop = document.getElementById('productModalBackdrop');
+    if(modal) {
+        modal.classList.remove('open');
+    }
+    if(backdrop) {
+        backdrop.classList.remove('open');
+    }
+    document.body.style.overflow = '';
     };
 
     // ==========================================
@@ -190,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ['strGsm', 'strBf'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateStrength));
     ['cbmL', 'cbmW', 'cbmH', 'cbmQty'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateCBM));
     
-    // --- MOBILE MENU TOGGLE (FIX 1: Logic Copied from blog.js) ---
+    // --- MOBILE MENU TOGGLE 
     const menuButton = document.getElementById('menuButton');
     const closeMenuButton = document.getElementById('closeMenuButton');
     const mobileMenu = document.getElementById('mobileMenu');
@@ -223,10 +222,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    // --- END FIX 1 ---
+    
 
 
-    // Modal Triggers (REFACTORED FOR FIX 2)
+    // Modal Triggers 
     const productModal = document.getElementById('productModal');
     const productModalBackdrop = document.getElementById('productModalBackdrop');
     document.querySelectorAll('.product-card').forEach(card => {
@@ -235,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('modalProductName').textContent = d.name;
             const img = document.getElementById('modalProductImage');
             img.src = d.image;
-            // img.onload = () => img.classList.remove('skeleton-loader'); // Removed unused class manipulation
+           
             document.getElementById('modalProductDescription').textContent = d.description;
             
             const specs = document.getElementById('modalProductSpecifications');
@@ -254,13 +253,14 @@ document.addEventListener('DOMContentLoaded', function() {
             if(addBtn) addBtn.onclick = () => { window.addToBasket(d.name); window.closeModal(); };
 
             if(productModal && productModalBackdrop) {
-                // REFACTORED OPENING LOGIC (FIX 2)
-                productModal.classList.remove('hidden');
-                productModalBackdrop.classList.add('open');
+	            productModalBackdrop.classList.add('open');
+	            requestAnimationFrame(() => {
                 productModal.classList.add('open');
+             });
+    
                 document.body.style.overflow = 'hidden';
             }
-        });
+            });
     });
 
     const closeBtn = document.getElementById('closeProductModal');
@@ -364,4 +364,5 @@ document.addEventListener('DOMContentLoaded', function() {
     const yearEl = document.getElementById('currentYear');
     if(yearEl) yearEl.textContent = new Date().getFullYear();
 });
+
 
