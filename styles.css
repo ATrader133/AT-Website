@@ -1,313 +1,332 @@
-/* style.css */
+/* styles.css - iOS 26 Redesign */
 
 :root {
     /* iOS System Colors */
     --ios-blue: #007AFF;
     --ios-indigo: #5856D6;
-    --ios-background: #F2F2F7; /* System Gray 6 */
-    --ios-card-bg: rgba(255, 255, 255, 0.72); /* Translucent Material */
+    --ios-background: #F5F5F7; /* Slightly warmer system gray */
     --ios-text: #000000;
-    --ios-text-secondary: #8E8E93;
+    --ios-text-secondary: #86868b;
     
-    /* Mapping to your existing variables so code doesn't break */
+    /* Clear Glass Variables */
+    --glass-bg: rgba(255, 255, 255, 0.45); /* clearer transparency */
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --glass-blur: 30px; /* Heavier blur for depth */
+    --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.06);
+    
+    /* Performance & Speed */
+    --anim-speed: 0.25s; /* Snappy interactions */
+    
+    /* Legacy mapping */
     --primary-color: var(--ios-blue);
     --secondary-color: var(--ios-indigo);
     --text-color: var(--ios-text);
     --bg-light: var(--ios-background);
-    
-    /* iOS Blur Settings */
-    --glass-blur: 25px;
-    --glass-border: rgba(255, 255, 255, 0.4);
-    --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.08);
-}
-
-/* Update Body Font */
-body {
-    /* -apple-system targets iOS devices directly, Inter is the web fallback */
-    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
-    background-color: var(--ios-background);
-    color: var(--ios-text);
-    letter-spacing: -0.02em; /* Tight tracking like iOS */
 }
 
 html { scroll-behavior: smooth; }
+
 body {
-    font-family: 'Be Vietnam Pro', sans-serif;
-    color: var(--text-color);
-    background: linear-gradient(to tr, var(--bg-light), var(--bg-medium));
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary-color) var(--bg-light);
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+    background-color: var(--ios-background);
+    color: var(--ios-text);
+    letter-spacing: -0.01em;
+    overflow-x: hidden; /* Prevents horizontal scroll glitches */
 }
+
+/* Scrollbar Styling */
 body::-webkit-scrollbar { width: 8px; }
-body::-webkit-scrollbar-track { background: var(--bg-light); }
-body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-radius: 4px; border: 2px solid var(--bg-light); }
+body::-webkit-scrollbar-track { background: transparent; }
+body::-webkit-scrollbar-thumb { background-color: #C1C1C5; border-radius: 4px; border: 2px solid var(--ios-background); }
 
-
-.progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(to right, var(--primary-color), var(--secondary-color)); width: 0; z-index: 9999; }
-
+/* =========================================
+   1. THE "CLEAR GLASS" LOOK
+   ========================================= */
 .glass {
-    backdrop-filter: blur(16px) saturate(180%);
-    background-color: var(--glass-bg);
-    border-radius: 16px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
     border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px var(--glass-shadow);
+    border-radius: 24px;
+    box-shadow: var(--shadow-soft);
+    transition: transform var(--anim-speed) cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
+.glass:hover {
+    background: rgba(255, 255, 255, 0.65);
+    transform: scale(1.01);
+}
+
+/* =========================================
+   2. DYNAMIC ISLAND (Sticky Nav)
+   ========================================= */
 .sticky-nav {
     position: fixed;
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
-    max-width: 1000px;
-    border-radius: 100px; /* Pill shape */
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    margin: 0 auto;
-    padding: 10px 24px;
+    max-width: 900px;
+    height: 70px; /* Tall initially */
+    
+    /* Glass Effect */
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 100px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    
+    /* Layout & Animation */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 9999; /* Highest priority */
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Update links to look like iOS buttons */
+/* The "Shrunk" State when scrolling */
+.sticky-nav.scrolled {
+    width: 60%; 
+    max-width: 500px;
+    top: 15px;
+    height: 55px; /* Shrinks vertically */
+    background: rgba(255, 255, 255, 0.85); /* Less transparent to read easier */
+    padding: 0 15px;
+}
+
+/* Hide or shrink elements inside when scrolled */
+.sticky-nav.scrolled .nav-link {
+    font-size: 0.85rem;
+    padding: 4px 8px;
+}
+
 .nav-link {
     font-weight: 600;
     color: var(--ios-text);
     font-size: 0.95rem;
+    padding: 8px 12px;
+    border-radius: 20px;
+    transition: background var(--anim-speed), color var(--anim-speed);
 }
+
 .nav-link:hover {
     color: var(--ios-blue);
+    background: rgba(0,0,0,0.05);
 }
 
-/* Navbar link hover effect */
-.nav-link {
-    position: relative;
-    padding-bottom: 4px;
-    transition: color 0.3s ease;
-    border-radius: 4px; /* For focus outline */
+.nav-link.active {
+    color: #fff;
+    background: #000;
 }
-/* IMPROVEMENT: Added focus state for better accessibility */
-.nav-link:focus-visible {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 4px;
-}
-.nav-link::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 0;
-    left: 50%;
-    background-color: var(--primary-color);
-    transition: width 0.3s ease, left 0.3s ease;
-}
-.nav-link:hover::after, .nav-link.active::after {
-    width: 100%;
-    left: 0;
-}
-.nav-link:hover { color: var(--primary-color); }
-.nav-link.active { color: var(--primary-color); font-weight: 700; }
 
+/* =========================================
+   3. SOCIAL SIDEBAR (Pill Design)
+   ========================================= */
 .social-sidebar {
     position: fixed;
-    top: 40%;
-    left: 0;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    /* Glass Pill Look */
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 10px;
+    border-radius: 50px;
+    
     display: flex;
     flex-direction: column;
-    z-index: 9999;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    gap: 12px;
+    z-index: 999;
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
+
 .social-sidebar.minimized {
-    transform: translateX(-90%);
-    opacity: 0.4;
+    transform: translateY(-50%) scale(0.8);
+    left: -10px; /* Tucks into the side */
+    opacity: 0.6;
+    background: rgba(255, 255, 255, 0.2);
 }
+
+.social-sidebar:hover {
+    transform: translateY(-50%) scale(1);
+    left: 20px;
+    opacity: 1;
+}
+
 .social-sidebar .social-icon {
-    background-color: white;
-    border: 2px solid var(--primary-color);
-    width: 40px;
-    height: 40px;
-    margin: 5px 0;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    width: 44px;
+    height: 44px;
+    background: #fff;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+    border: none;
 }
 .social-sidebar .social-icon:hover {
-    transform: translateX(10px) scale(1.05);
-    box-shadow: 4px 4px 12px rgba(0,0,0,0.2);
-}
-.social-sidebar .social-icon img {
-    width: 22px;
-    height: 22px;
-    filter: invert(34%) sepia(86%) saturate(509%) hue-rotate(205deg) brightness(95%) contrast(91%);
+    transform: scale(1.15);
 }
 
-svg .line1, svg .line2, svg .line3 {
-    transition: all 0.3s ease;
-    transform-origin: center;
+/* =========================================
+   4. PRODUCT CARDS (Redesigned)
+   ========================================= */
+.product-card {
+    border-radius: 30px;
+    background: #fff;
+    border: none; /* Removed heavy borders */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
-.menu-open svg .line1 { transform: rotate(45deg) translate(5px, 5px); }
-.menu-open svg .line2 { opacity: 0; }
-.menu-open svg .line3 { transform: rotate(-45deg) translate(5px, -5px); }
 
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+.product-card img {
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    transform: scale(0.96);
+    transition: transform 0.4s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1); /* Image zooms to fill gap */
+}
+
+/* =========================================
+   5. MOBILE MENU
+   ========================================= */
 #mobileMenu {
     position: fixed;
     top: 0;
     right: 0;
-    width: 80%;
-    max-width: 320px;
+    width: 100%;
     height: 100vh;
-    background: rgba(255, 255, 255, 0.98);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2.5rem;
-    transform: translateX(100%);
-    pointer-events: none;
+    gap: 2rem;
+    
+    /* Hidden State */
     opacity: 0;
-    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease;
-    z-index: 60;
-}
-#mobileMenu.open {
-    transform: translateX(0);
-    opacity: 1;
-    pointer-events: auto;
-}
-#mobileMenu a {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--text-color);
-    transition: transform 0.2s ease, color 0.2s ease;
-}
-#mobileMenu a:hover {
-    color: var(--primary-color);
-    transform: scale(1.1);
+    pointer-events: none;
+    transform: scale(0.95);
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 10001;
 }
 
-#menuBackdrop, #productModalBackdrop {
+#mobileMenu.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+}
+
+#menuBackdrop {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(6px);
+    background: rgba(0,0,0,0.3);
+    z-index: 10000;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.4s ease, backdrop-filter 0.4s ease;
-    z-index: 50;
+    transition: opacity 0.3s;
 }
-#menuBackdrop.open, #productModalBackdrop.open {
-    opacity: 1;
-    pointer-events: auto;
-}
+#menuBackdrop.open { opacity: 1; pointer-events: auto; }
 
-body.menu-opened {
-    overflow: hidden;
-    touch-action: none;
-}
-
-button#menuButton {
-    padding: 0.6rem;
-    border-radius: 0.75rem;
-    transition: background-color 0.2s ease;
-}
-
-/* Product Card hover effect */
-.product-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer; /* Indicate clickability */
-}
-.product-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
+/* =========================================
+   6. MODAL (Bottom Sheet Style)
+   ========================================= */
+#productModal {
+    position: fixed;
+    bottom: 0;
     left: 0;
+    right: 0;
+    margin: 0 auto;
     width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, rgba(96,122,251,0.1), rgba(142,155,250,0.1));
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 1;
-}
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px rgba(31, 38, 135, 0.2);
-}
-.product-card:hover::before {
-    opacity: 1;
-}
-.product-card > * {
-    position: relative;
-    z-index: 2;
+    max-width: 700px;
+    height: 85vh;
+    
+    border-radius: 32px 32px 0 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(40px);
+    border-top: 1px solid rgba(255,255,255,0.5);
+    box-shadow: 0 -20px 60px rgba(0,0,0,0.15);
+    
+    z-index: 10000;
+    
+    /* Animation State */
+    transform: translateY(110%);
+    visibility: hidden;
+    transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1), visibility 0.4s;
 }
 
-/* Glowing Button Effect */
-.btn-glow {
-    position: relative;
-    overflow: hidden;
+#productModal.open {
+    transform: translateY(0%);
+    visibility: visible;
 }
-.btn-glow::after {
+
+#productModalBackdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 9998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s;
+}
+#productModalBackdrop.open { opacity: 1; pointer-events: auto; }
+
+#productModal::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
-    transform: scale(0);
-    opacity: 0;
-    transition: transform 0.6s, opacity 0.6s;
-}
-.btn-glow:hover::after {
-    transform: scale(1);
-    opacity: 1;
-    transition: 0s;
-}
-.btn-glow:hover {
-    box-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 5px;
+    background-color: #E5E5EA;
+    border-radius: 10px;
 }
 
-/* Background Blob Animation */
-@keyframes blob {
-    0% { transform: translate(0px, 0px) scale(1); }
-    33% { transform: translate(30px, -50px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.9); }
-    100% { transform: translate(0px, 0px) scale(1); }
+/* =========================================
+   7. FOOTER
+   ========================================= */
+footer {
+    background: #000;
+    color: #86868b;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
 }
-.animate-blob { animation: blob 10s infinite cubic-bezier(0.64, 0.01, 0.45, 0.94); }
-.animation-delay-2000 { animation-delay: 2s; }
+footer h3 { color: #f5f5f7; }
+footer a:hover { color: #2997ff; }
+footer svg { color: white; } /* Force icons white */
 
-/* Glassmorphism */
-.glass {
-    background: var(--ios-card-bg);
-    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 24px; /* iOS standard is large curves */
-    box-shadow: var(--shadow-soft);
-    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Spring animation */
-}
+/* =========================================
+   8. UTILITIES & ANIMATIONS
+   ========================================= */
+.animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-.glass:hover {
-    transform: scale(1.02); /* Subtle zoom on hover */
-    background: rgba(255, 255, 255, 0.85);
-}
-
+/* iOS Segmented Control for Calculator */
 .ios-segmented-control {
-    background: rgba(118, 118, 128, 0.12); /* iOS Control Gray */
+    background: rgba(118, 118, 128, 0.12);
     padding: 2px;
     border-radius: 9px;
     display: inline-flex;
-    position: relative;
     width: 100%;
     max-width: 500px;
 }
-
 .segment {
     flex: 1;
     border: none;
@@ -316,225 +335,10 @@ button#menuButton {
     font-size: 13px;
     font-weight: 600;
     border-radius: 7px;
-    cursor: pointer;
-    color: var(--ios-text);
-    transition: all 0.3s ease;
+    color: #000;
+    transition: all 0.2s;
 }
-
 .segment.active {
-    background: white;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.12), 0 3px 1px rgba(0,0,0,0.04);
+    background: #fff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
 }
-
-/* Style the Inputs to look like iOS TextFields */
-input[type="number"], select, textarea {
-    background-color: #E3E3E8; /* iOS Input Gray */
-    border: none !important;
-    border-radius: 10px !important;
-    padding: 12px 16px !important;
-    font-size: 17px; /* Prevents zoom on iPhone */
-    color: var(--ios-text);
-}
-
-input:focus {
-    background-color: #FFFFFF;
-    box-shadow: 0 0 0 2px var(--ios-blue) !important;
-}
-
-/* Button hover effects */
-.action-button {
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-}
-.action-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    z-index: -1;
-}
-.action-button:hover::before {
-    left: 100%;
-}
-.action-button:active {
-    transform: scale(0.98);
-}
-
-/* Review Card design */
-.review-card {
-    border-left: 5px solid var(--primary-color);
-    padding-left: 1.5rem;
-    position: relative;
-}
-.review-card::before {
-    content: "“";
-    position: absolute;
-    top: -0.5rem;
-    left: 0.5rem;
-    font-size: 4rem;
-    color: rgba(96,122,251,0.2);
-    font-family: sans-serif;
-    line-height: 1;
-    z-index: 0;
-}
-.review-card > * {
-    position: relative;
-    z-index: 1;
-}
-
-/* Keyframes for animations */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-@keyframes blob {
-    0% { transform: translate(0px, 0px) scale(1); }
-    33% { transform: translate(30px, -50px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.9); }
-    100% { transform: translate(0px, 0px) scale(1); }
-}
-.animate-fade-in { animation: fadeIn 1s ease-out forwards; }
-.animate-fade-in-delay { animation: fadeIn 1s ease-out 0.5s forwards; }
-.animate-slide-up { animation: slideUp 0.8s ease-out forwards; }
-.animate-blob { animation: blob 7s infinite cubic-bezier(0.64, 0.01, 0.45, 0.94); }
-.animation-delay-2000 { animation-delay: 2s; }
-.animation-delay-4000 { animation-delay: 4s; }
-
-/* Product Modal */
-
-#productModal {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 100%); /* Start hidden below screen */
-    width: 100%;
-    max-width: 600px;
-    height: 85vh;
-    border-radius: 24px 24px 0 0;
-    background: white;
-    box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
-    z-index: 1000;
-    
-    /* Smooth Transition */
-    opacity: 0;
-    visibility: hidden;
-    transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.5s ease, visibility 0.5s;
-}
-
-#productModal.open {
-    transform: translate(-50%, 0%); /* Slide up to bottom */
-    opacity: 1;
-    visibility: visible;
-}
-
-/* Grabber Handle */
-#productModal::before {
-    content: '';
-    position: absolute;
-    top: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 5px;
-    background-color: #E5E5EA;
-    border-radius: 10px;
-}
-
-/* The Grabber Handle */
-#productModal::before {
-    content: '';
-    position: absolute;
-    top: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 5px;
-    background-color: #E5E5EA;
-    border-radius: 10px;
-}
-}
-/* FIX 2: ADDED .open CLASS FOR MODAL TRANSITION */
-#productModal.open {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-    visibility: visible;
-}
-#productModal .close-button {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: white;
-    border-radius: 50%;
-    padding: 0.5rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    cursor: pointer;
-    transition: transform 0.2s;
-    z-index: 10;
-}
-#productModal .close-button:hover {
-    transform: scale(1.1);
-}
-
-/* Gallery Image Hover Effect */
-.gallery-item {
-    position: relative;
-    overflow: hidden;
-    border-radius: 1rem;
-}
-.gallery-item img {
-    transition: transform 0.3s ease;
-}
-.gallery-item:hover img {
-    transform: scale(1.05);
-}
-.gallery-item::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.2);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-.gallery-item:hover::after {
-    opacity: 1;
-}
-
-/* Blog Page Styles */
-.blog-hero {
-    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-}
-
-.blog-post-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.blog-post-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px rgba(31, 38, 135, 0.2);
-}
-
-.widget {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.widget:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px rgba(31, 38, 135, 0.2);
-
-}
-
-}
-
-
-
-
-
