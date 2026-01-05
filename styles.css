@@ -42,3 +42,59 @@ input:focus, textarea:focus, select:focus { box-shadow: 0 0 0 2px #007AFF; }
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+
+/* --- NEW ENGAGEMENT STYLES --- */
+
+/* 1. 3D Tilt Container Defaults */
+.product-item, .glass-card {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    will-change: transform;
+}
+
+/* 2. Shine Effect Overlay */
+.shine {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.4) 50%,
+        rgba(255,255,255,0) 100%
+    );
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    mix-blend-mode: overlay;
+    z-index: 10;
+    border-radius: inherit;
+}
+
+/* 3. Magnetic Button Base */
+.magnetic-btn {
+    transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+}
+
+/* 4. Enhanced Focus Rings */
+input:focus, textarea:focus, select:focus {
+    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.3) !important;
+    transform: scale(1.01);
+}
+
+/* 5. Smooth Entrance for Sections */
+section {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeSectionUp 0.8s ease-out forwards;
+}
+@keyframes fadeSectionUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Stagger animations for sections */
+section:nth-child(1) { animation-delay: 0.1s; }
+section:nth-child(2) { animation-delay: 0.2s; }
+section:nth-child(3) { animation-delay: 0.3s; }
+section:nth-child(4) { animation-delay: 0.4s; }
+
