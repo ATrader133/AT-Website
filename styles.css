@@ -1,344 +1,44 @@
-/* styles.css - iOS 26 Redesign */
+/* iOS 26 Visual Engine */
+:root { --ease-ios: cubic-bezier(0.32, 0.72, 0, 1); }
+body { font-family: 'Plus Jakarta Sans', sans-serif; }
 
-:root {
-    /* iOS System Colors */
-    --ios-blue: #007AFF;
-    --ios-indigo: #5856D6;
-    --ios-background: #F5F5F7; /* Slightly warmer system gray */
-    --ios-text: #000000;
-    --ios-text-secondary: #86868b;
-    
-    /* Clear Glass Variables */
-    --glass-bg: rgba(255, 255, 255, 0.45); /* clearer transparency */
-    --glass-border: rgba(255, 255, 255, 0.4);
-    --glass-blur: 30px; /* Heavier blur for depth */
-    --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.06);
-    
-    /* Performance & Speed */
-    --anim-speed: 0.25s; /* Snappy interactions */
-    
-    /* Legacy mapping */
-    --primary-color: var(--ios-blue);
-    --secondary-color: var(--ios-indigo);
-    --text-color: var(--ios-text);
-    --bg-light: var(--ios-background);
+/* Dynamic Island */
+.glass-island {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    border-radius: 999px;
+    transition: all 0.5s var(--ease-ios);
+    width: 320px;
 }
+#dynamicIsland.scrolled .glass-island { width: 140px; padding: 4px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+#dynamicIsland.scrolled #navTitle { max-width: 0; opacity: 0; margin: 0; }
 
-html { scroll-behavior: smooth; }
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
-    background-color: var(--ios-background);
-    color: var(--ios-text);
-    letter-spacing: -0.01em;
-    overflow-x: hidden; /* Prevents horizontal scroll glitches */
+/* Cards & Containers */
+.glass-card { 
+    background: white; 
+    border: 1px solid rgba(0,0,0,0.05); 
+    border-radius: 32px; 
+    box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.05); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
+.glass-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.1); }
 
-/* Scrollbar Styling */
-body::-webkit-scrollbar { width: 8px; }
-body::-webkit-scrollbar-track { background: transparent; }
-body::-webkit-scrollbar-thumb { background-color: #C1C1C5; border-radius: 4px; border: 2px solid var(--ios-background); }
-
-/* =========================================
-   1. THE "CLEAR GLASS" LOOK
-   ========================================= */
-.glass {
-    background: var(--glass-bg);
-    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
-    border: 1px solid var(--glass-border);
-    border-radius: 24px;
-    box-shadow: var(--shadow-soft);
-    transition: transform var(--anim-speed) cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.glass:hover {
-    background: rgba(255, 255, 255, 0.65);
-    transform: scale(1.01);
-}
-
-/* =========================================
-   2. DYNAMIC ISLAND (Sticky Nav)
-   ========================================= */
-.sticky-nav {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 900px;
-    height: 70px; /* Tall initially */
-    
-    /* Glass Effect */
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 100px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-    
-    /* Layout & Animation */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 24px;
-    z-index: 9999; /* Highest priority */
-    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-/* The "Shrunk" State when scrolling */
-.sticky-nav.scrolled {
-    width: 60%; 
-    max-width: 500px;
-    top: 15px;
-    height: 55px; /* Shrinks vertically */
-    background: rgba(255, 255, 255, 0.85); /* Less transparent to read easier */
-    padding: 0 15px;
-}
-
-/* Hide or shrink elements inside when scrolled */
-.sticky-nav.scrolled .nav-link {
-    font-size: 0.85rem;
-    padding: 4px 8px;
-}
-
-.nav-link {
-    font-weight: 600;
-    color: var(--ios-text);
-    font-size: 0.95rem;
-    padding: 8px 12px;
-    border-radius: 20px;
-    transition: background var(--anim-speed), color var(--anim-speed);
-}
-
-.nav-link:hover {
-    color: var(--ios-blue);
-    background: rgba(0,0,0,0.05);
-}
-
-.nav-link.active {
-    color: #fff;
-    background: #000;
-}
-
-/* =========================================
-   3. SOCIAL SIDEBAR (Pill Design)
-   ========================================= */
-.social-sidebar {
-    position: fixed;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    
-    /* Glass Pill Look */
-    background: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    padding: 10px;
-    border-radius: 50px;
-    
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    z-index: 999;
-    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.social-sidebar.minimized {
-    transform: translateY(-50%) scale(0.8);
-    left: -10px; /* Tucks into the side */
-    opacity: 0.6;
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.social-sidebar:hover {
-    transform: translateY(-50%) scale(1);
-    left: 20px;
-    opacity: 1;
-}
-
-.social-sidebar .social-icon {
-    width: 44px;
-    height: 44px;
-    background: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    transition: transform 0.2s;
-    border: none;
-}
-.social-sidebar .social-icon:hover {
-    transform: scale(1.15);
-}
-
-/* =========================================
-   4. PRODUCT CARDS (Redesigned)
-   ========================================= */
-.product-card {
-    border-radius: 30px;
-    background: #fff;
-    border: none; /* Removed heavy borders */
-    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.product-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-}
-
-.product-card img {
-    border-radius: 20px;
-    margin-bottom: 1rem;
-    transform: scale(0.96);
-    transition: transform 0.4s ease;
-}
-
-.product-card:hover img {
-    transform: scale(1); /* Image zooms to fill gap */
-}
-
-/* =========================================
-   5. MOBILE MENU
-   ========================================= */
-#mobileMenu {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-    
-    /* Hidden State */
-    opacity: 0;
-    pointer-events: none;
-    transform: scale(0.95);
-    transition: opacity 0.3s, transform 0.3s;
-    z-index: 10001;
-}
-
-#mobileMenu.open {
-    opacity: 1;
-    pointer-events: auto;
-    transform: scale(1);
-}
-
-#menuBackdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.3);
-    z-index: 10000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-}
-#menuBackdrop.open { opacity: 1; pointer-events: auto; }
-
-/* =========================================
-   6. MODAL (Bottom Sheet Style)
-   ========================================= */
-#productModal {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 700px;
-    height: 85vh;
-    
-    border-radius: 32px 32px 0 0;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(40px);
-    border-top: 1px solid rgba(255,255,255,0.5);
-    box-shadow: 0 -20px 60px rgba(0,0,0,0.15);
-    
-    z-index: 10000;
-    
-    /* Animation State */
-    transform: translateY(110%);
-    visibility: hidden;
-    transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1), visibility 0.4s;
-}
-
-#productModal.open {
-    transform: translateY(0%);
-    visibility: visible;
-}
-
-#productModalBackdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    z-index: 9998;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s;
-}
+/* Components */
+#mobileMenu.open { opacity: 1; pointer-events: auto; transform: scale(1); }
+#productModal.open { transform: translateY(0%); }
 #productModalBackdrop.open { opacity: 1; pointer-events: auto; }
+#scrollTopBtn.visible { opacity: 1; transform: translateY(0); }
 
-#productModal::before {
-    content: '';
-    position: absolute;
-    top: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 5px;
-    background-color: #E5E5EA;
-    border-radius: 10px;
-}
+/* Inputs */
+.ios-segmented-control { background: #f3f4f6; padding: 4px; border-radius: 12px; display: inline-flex; width: 100%; overflow-x: auto; }
+.segment { flex: 1; border: none; background: transparent; padding: 8px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; color: #6b7280; transition: all 0.2s; cursor: pointer; white-space: nowrap; }
+.segment.active { background: white; color: black; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+input, textarea, select { outline: none; transition: box-shadow 0.2s; }
+input:focus, textarea:focus, select:focus { box-shadow: 0 0 0 2px #007AFF; }
 
-/* =========================================
-   7. FOOTER
-   ========================================= */
-footer {
-    background: #000;
-    color: #86868b;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-}
-footer h3 { color: #f5f5f7; }
-footer a:hover { color: #2997ff; }
-footer svg { color: white; } /* Force icons white */
-
-/* =========================================
-   8. UTILITIES & ANIMATIONS
-   ========================================= */
-.animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-/* iOS Segmented Control for Calculator */
-.ios-segmented-control {
-    background: rgba(118, 118, 128, 0.12);
-    padding: 2px;
-    border-radius: 9px;
-    display: inline-flex;
-    width: 100%;
-    max-width: 500px;
-}
-.segment {
-    flex: 1;
-    border: none;
-    background: transparent;
-    padding: 6px 12px;
-    font-size: 13px;
-    font-weight: 600;
-    border-radius: 7px;
-    color: #000;
-    transition: all 0.2s;
-}
-.segment.active {
-    background: #fff;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
-}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
