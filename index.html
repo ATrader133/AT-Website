@@ -1,632 +1,421 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>ABRAR TRADERS - Premium Paper Products & Packaging Supplier in India</title>
     <meta name="description" content="ABRAR TRADERS: Your trusted source for premium quality paper products, sustainable packaging solutions, and bulk stationery supplies across India.">
-    <meta name="author" content="ABRAR TRADERS" />
-    
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    
-    <meta property="og:title" content="ABRAR TRADERS - Premium Paper & Packaging" />
-    <meta property="og:description" content="Premium quality paper products and packaging supplies with eco-friendly solutions and fast delivery across India." />
-    <meta property="og:image" content="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://abrartraders.co.in/" />
     
     <link rel="icon" href="https://i.postimg.cc/2j7LbY5v/favicon-96x96.png" type="image/png" />
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="Abrar Traders" />
-    <link rel="manifest" href="/site.webmanifest" />
-
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700;900&display=swap" as="style">
-    <link rel="preload" href="styles.css" as="style">
-    <link rel="preload" href="main.js" as="script">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.0/dist/css/splide.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.0/dist/js/splide.min.js"></script>
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QW4TG03G24"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-QW4TG03G24');
-    </script>
-    
     <link rel="stylesheet" href="styles.css">
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "ABRAR TRADERS",
-      "image": "https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png",
-      "@id": "https://abrartraders.co.in/",
-      "url": "https://abrartraders.co.in/",
-      "telephone": "+917405108950",
-      "email": "sales@abrartraders.co.in",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "12/1419 A-2, Shahpore Char Rasta, B/H Subhan Park, OPP. To Rose Nursery School",
-        "addressLocality": "Surat",
-        "postalCode": "395003",
-        "addressRegion": "Gujarat",
-        "addressCountry": "IN"
-      },
-      "description": "Your trusted source for premium quality paper products, sustainable packaging solutions, and bulk stationery supplies across India.",
-      "openingHours": "Mo-Sa 09:00-18:00",
-      "priceRange": "$$"
-    }
-    </script>
 </head>
 
-<body class="bg-bg-light">
+<body class="bg-[#F5F5F7] text-[#1d1d1f] antialiased overflow-x-hidden selection:bg-blue-500 selection:text-white">
 
-    <div class="progress-bar" id="progressBar"></div>
+    <div class="fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-purple-600 z-[9999] transition-all duration-300" id="progressBar" style="width: 0%"></div>
 
-    <div id="menuBackdrop" role="presentation"></div>
-    <div id="productModalBackdrop" role="presentation"></div>
-
-    <div class="social-sidebar" id="socialSidebar">
-        <a href="https://www.facebook.com/Abrar.Trades/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Connect on Facebook"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook"></a>
-        <a href="https://www.instagram.com/abrartraders/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Connect on Instagram"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram"></a>
-        <a href="https://wa.me/917405108950" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Message us on WhatsApp"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp"></a>
-        <a href="https://www.linkedin.com/company/abrar-traders/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Connect on LinkedIn"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn"></a>
-    </div>
-
-    <div id="spinner" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white">
-        <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" class="h-20 animate-bounce mb-6" alt="Abrar Traders Logo Spinner" />
-        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600"></div>
-    </div>
-
-    <div id="tsparticles" class="absolute top-0 left-0 w-full h-full -z-10"></div>
-
-    <nav class="sticky-nav flex justify-between items-center px-6 py-4" role="navigation" aria-label="Main Navigation">
-        <a href="#home" class="flex items-center space-x-4">
-            <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders Logo" class="h-12 rounded-full shadow-md" />
-            <span class="font-black text-2xl bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent">ABRAR TRADERS</span>
-        </a>
-        <div class="hidden md:flex items-center space-x-7 font-semibold text-gray-600">
-            <a href="#home" class="nav-link" data-section="home">Home</a>
-            <a href="#products" class="nav-link" data-section="products">Products</a>
-            <a href="#reviews" class="nav-link" data-section="reviews">Reviews</a>
-            <a href="blog.html" class="nav-link" data-section="blog">Blog</a>
-            <a href="#gallery" class="nav-link" data-section="gallery">Gallery</a>
-            <a href="#about" class="nav-link" data-section="about">About</a>
-            <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+    <nav id="dynamicIsland" class="fixed top-6 left-1/2 -translate-x-1/2 z-[5000] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
+        <div class="glass-island flex items-center justify-between px-2 py-2">
+            <a href="#home" class="flex items-center gap-3 pl-2 group">
+                <div class="relative w-9 h-9 rounded-full bg-white shadow-sm overflow-hidden shrink-0">
+                    <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Logo" class="object-cover w-full h-full">
+                </div>
+                <span id="navTitle" class="font-bold text-lg tracking-tight whitespace-nowrap overflow-hidden transition-all duration-500 max-w-[150px] opacity-100">ABRAR</span>
+            </a>
+            <button id="menuBtn" class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-black/5 transition-colors shrink-0">
+                <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
         </div>
-        <button id="menuButton" class="md:hidden focus:outline-none p-2 rounded-lg hover:bg-blue-100 transition-colors z-50" aria-label="Open Mobile Menu" aria-expanded="false" aria-controls="mobileMenu">
-            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path class="line1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16"/>
-                <path class="line2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16"/>
-                <path class="line3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 18h16"/>
-            </svg>
-        </button>
     </nav>
 
-    <div id="mobileMenu" role="dialog" aria-modal="true" aria-labelledby="mobileMenuTitle">
-        <h2 id="mobileMenuTitle" class="sr-only">Mobile Navigation Menu</h2>
-        <button id="closeMenuButton" class="absolute top-6 right-6 p-2 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors" aria-label="Close Mobile Menu">
-            <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
+    <div id="mobileMenu" class="fixed inset-0 bg-white/95 backdrop-blur-3xl z-[4000] opacity-0 pointer-events-none transition-all duration-500 flex flex-col items-center justify-center space-y-6 transform scale-95 origin-top">
+        <button id="closeMenuBtn" class="absolute top-8 right-8 p-4 bg-gray-100 rounded-full hover:rotate-90 transition-transform">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
-        <a href="#home" class="nav-link" data-section="home">Home</a>
-        <a href="#products" class="nav-link" data-section="products">Products</a>
-        <a href="#reviews" class="nav-link" data-section="reviews">Reviews</a>
-        <a href="blog.html" class="nav-link" data-section="blog">Blog</a>
-        <a href="#gallery" class="nav-link" data-section="gallery">Gallery</a>
-        <a href="#about" class="nav-link" data-section="about">About</a>
-        <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+        <a href="#home" class="menu-item text-4xl font-bold text-gray-300 hover:text-black hover:scale-105 transition-all">Home</a>
+        <a href="#products" class="menu-item text-4xl font-bold text-gray-300 hover:text-black hover:scale-105 transition-all">Products</a>
+        <a href="#calculator" class="menu-item text-4xl font-bold text-gray-300 hover:text-black hover:scale-105 transition-all">Tools</a>
+        <a href="#quote" class="menu-item text-4xl font-bold text-gray-300 hover:text-black hover:scale-105 transition-all">Inquiry</a>
+        <a href="#contact" class="menu-item text-4xl font-bold text-blue-600 hover:scale-105 transition-all">Contact</a>
+    </div>
+
+    <div id="socialSidebar" class="fixed left-6 bottom-8 z-[100] flex flex-col gap-3 transition-all duration-500 translate-y-20 opacity-0">
+        <a href="https://www.facebook.com/Abrar.Trades/" target="_blank" class="w-12 h-12 bg-white text-blue-600 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.323-1.325z"/></svg></a>
+        <a href="https://www.instagram.com/abrartraders/" target="_blank" class="w-12 h-12 bg-white text-pink-600 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.058-1.689-.072-4.948-.072z"/></svg></a>
+        <a href="https://wa.me/917405108950" target="_blank" class="w-12 h-12 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
+        <a href="https://www.linkedin.com/company/abrar-traders/" target="_blank" class="w-12 h-12 bg-white text-blue-700 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
     </div>
 
     <main>
-        <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center p-6 sm:p-10 relative overflow-hidden">
-            <div class="absolute top-1/4 left-1/4 w-48 h-48 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000 z-0"></div>
-            <div class="absolute top-1/2 right-1/4 w-64 h-64 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000 z-0"></div>
-            <div class="absolute bottom-1/4 left-1/3 w-56 h-56 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob z-0"></div>
-
+        <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center p-6 sm:p-10 relative overflow-hidden bg-gradient-to-b from-gray-50 to-white">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-blue-100 rounded-full blur-[100px] opacity-60 -z-10 animate-pulse"></div>
+            
             <img loading="eager" src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders Main Logo" class="h-32 sm:h-40 mb-6 relative z-10 animate-fade-in" />
             <h1 class="text-5xl sm:text-7xl font-extrabold mb-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent leading-tight relative z-10 animate-slide-up">
                 ABRAR TRADERS
             </h1>
-            <p class="text-xl sm:text-2xl text-gray-700 mb-8 font-medium relative z-10 animate-fade-in-delay"><span id="typed"></span></p>
-            <a href="#products" class="action-button bg-blue-600 text-white px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 font-bold text-lg relative z-10" aria-label="Explore Our Products">Explore Products</a>
+            <div class="h-8 mb-8 flex justify-center items-center">
+                <span id="typed" class="text-xl sm:text-2xl text-gray-700 font-medium"></span>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4 relative z-10">
+                <a href="#products" class="bg-black text-white px-8 py-3 rounded-full font-bold text-lg shadow-xl hover:scale-105 transition-transform">Explore Products</a>
+                <a href="#quote" class="bg-white text-black border border-gray-200 px-8 py-3 rounded-full font-bold text-lg shadow-md hover:bg-gray-50 transition-transform">Request Quote</a>
+            </div>
         </section>
 
-       <section id="why-us" class="py-24 px-6 relative">
-    <div class="max-w-6xl mx-auto">
-        <h2 class="text-4xl font-extrabold text-center mb-4 text-gray-900 tracking-tight">Why Partner With Us?</h2>
-        <p class="text-center text-gray-500 mb-12 max-w-2xl mx-auto font-medium">Engineered for performance. Designed for sustainability.</p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-fr">
-            
-            <div class="glass p-8 relative overflow-hidden group flex flex-col justify-between h-full transition-all duration-500 hover:scale-[1.02]">
-                <div class="absolute -right-10 -top-10 text-blue-500 opacity-[0.05] group-hover:opacity-[0.1] transition-opacity duration-500 rotate-12">
-                    <svg class="w-64 h-64" fill="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
-                </div>
-                <div class="bg-blue-500 w-14 h-14 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-blue-500/30 z-10">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                </div>
-                <div class="z-10">
-                    <h3 class="font-bold text-2xl mb-2 text-gray-900">Uncompromising Quality</h3>
-                    <p class="text-gray-500 font-medium leading-relaxed text-sm">Sourced from top-tier manufacturers for superior durability and finish.</p>
-                </div>
-            </div>
-
-            <div class="glass p-8 relative overflow-hidden group flex flex-col justify-between h-full transition-all duration-500 hover:scale-[1.02]">
-                <div class="absolute -right-10 -top-10 text-green-500 opacity-[0.05] group-hover:opacity-[0.1] transition-opacity duration-500 rotate-12">
-                     <svg class="w-64 h-64" fill="currentColor" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1.667a1.667 1.667 0 01.934-1.543l.29-.145a1.667 1.667 0 011.543.934L16 6m-4-2v1.667a1.667 1.667 0 00-.934 1.543l-.29.145a1.667 1.667 0 00-1.543-.934L8 6m4 12v1.667a1.667 1.667 0 00.934 1.543l.29.145a1.667 1.667 0 001.543-.934L16 18m-4 2v-1.667a1.667 1.667 0 01-.934-1.543l-.29-.145a1.667 1.667 0 01-1.543.934L8 18"></path></svg>
-                </div>
-                <div class="bg-green-500 w-14 h-14 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-green-500/30 z-10">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                </div>
-                <div class="z-10">
-                    <h3 class="font-bold text-2xl mb-2 text-gray-900">100% Sustainable</h3>
-                    <p class="text-gray-500 font-medium leading-relaxed text-sm">Eco-friendly recycled grey boards and responsible sourcing.</p>
-                </div>
-            </div>
-
-            <div class="glass p-8 relative overflow-hidden group flex flex-col justify-between h-full transition-all duration-500 hover:scale-[1.02]">
-                <div class="absolute -right-10 -top-10 text-indigo-500 opacity-[0.05] group-hover:opacity-[0.1] transition-opacity duration-500 rotate-12">
-                     <svg class="w-64 h-64" fill="currentColor" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                </div>
-                <div class="bg-indigo-500 w-14 h-14 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-indigo-500/30 z-10">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                </div>
-                <div class="z-10">
-                    <h3 class="font-bold text-2xl mb-2 text-gray-900">Fast Delivery</h3>
-                    <p class="text-gray-500 font-medium leading-relaxed text-sm">Optimized logistics to ensure your supply chain never stops.</p>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-        <section id="products" class="py-20 px-6 bg-white overflow-hidden">
-            <div data-aos="fade-up">
-                <h2 class="text-4xl font-extrabold text-center mb-8 text-gray-800">Our Products</h2>
-                <div class="flex flex-wrap justify-center gap-3 mb-10 max-w-xl mx-auto">
-                    <div class="max-w-md mx-auto mb-8 relative">
-                    <input type="text" id="productSearch" placeholder="Search products..." class="w-full p-4 pl-12 rounded-xl bg-gray-100 border-none focus:ring-2 focus:ring-blue-500 transition-shadow text-gray-800">
-                    <svg class="w-6 h-6 text-gray-400 absolute left-4 top-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        <section id="products" class="py-24 px-4 bg-gray-50">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl font-extrabold text-center mb-10 text-gray-800">Our Products</h2>
+                <div class="flex justify-center mb-12">
+                    <div class="bg-white p-1.5 rounded-full flex gap-1 shadow-sm border border-gray-200 overflow-x-auto">
+                        <button class="filter-btn active px-6 py-2 rounded-full text-sm font-bold bg-black text-white whitespace-nowrap transition-colors" data-filter="all">All</button>
+                        <button class="filter-btn px-6 py-2 rounded-full text-sm font-bold text-gray-500 hover:bg-gray-100 whitespace-nowrap transition-colors" data-filter="paper">Paper</button>
+                        <button class="filter-btn px-6 py-2 rounded-full text-sm font-bold text-gray-500 hover:bg-gray-100 whitespace-nowrap transition-colors" data-filter="board">Board</button>
                     </div>
-                    <button class="filter-btn bg-blue-600 text-white px-5 py-2 rounded-full font-semibold hover:bg-blue-700 transition-colors" data-filter="all">All Products</button>
-                    <button class="filter-btn bg-gray-200 text-gray-700 px-5 py-2 rounded-full font-semibold hover:bg-blue-100 hover:text-blue-700 transition-colors" data-filter="paper">Paper Products</button>
-                    <button class="filter-btn bg-gray-200 text-gray-700 px-5 py-2 rounded-full font-semibold hover:bg-blue-100 hover:text-blue-700 transition-colors" data-filter="board">Paper Boards</button>
-                    <button class="filter-btn bg-gray-200 text-gray-700 px-5 py-2 rounded-full font-semibold hover:bg-blue-100 hover:text-blue-700 transition-colors" data-filter="packaging">Packaging Supplies</button>
                 </div>
-                <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto" id="productGrid">
-                    <div class="glass p-6 product-card shadow-md hover:shadow-lg product-item" data-category="paper packaging" data-aos="fade-up" data-aos-delay="100"
-                        data-name="Kraft Paper"
-                        data-image="https://i.postimg.cc/ZKBYVJ4q/Kraft-Paper-1.jpg"
-                        data-description="Durable, versatile, and eco-friendly Kraft paper, ideal for packaging, wrapping, and various industrial applications. Available in multiple grades and thicknesses to suit your needs."
-                        data-specifications='[{"label": "GSM", "value": "80-250"}, {"label": "Widths", "value": "Custom sizes available"}, {"label": "Color", "value": "Natural Brown"}, {"label": "Usage", "value": "Industrial packaging, paper bags, protective wrapping"}]'
-                        data-additional-info="Kraft paper is known for its high tear resistance and burst strength, making it perfect for heavy-duty applications. Our Kraft paper is sourced sustainably.">
-                        <img loading="lazy" src="https://i.postimg.cc/ZKBYVJ4q/Kraft-Paper-1.jpg" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x250.png?text=Image+Not+Found';" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="A large roll of brown Kraft paper ready for industrial use."/>
-                        <h3 class="font-semibold text-2xl mb-3 text-gray-800">Kraft Paper & Board</h3>
-                        <p class="text-gray-600 leading-relaxed">High-quality paper & Board for industrial purposes.</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="productGrid">
+                    <div class="product-item cursor-pointer group h-full" data-category="paper packaging" data-name="Kraft Paper" 
+                         data-image="https://i.postimg.cc/ZKBYVJ4q/Kraft-Paper-1.jpg"
+                         data-description="High tear resistance and burst strength. Ideal for industrial packaging."
+                         data-specifications='[{"label":"GSM","value":"80-250"}, {"label":"Use","value":"Packaging"}]'
+                         data-additional-info="Eco-friendly and recyclable.">
+                        <div class="glass-card h-full flex flex-col p-4 bg-white hover:shadow-xl transition-all">
+                            <div class="h-64 overflow-hidden relative rounded-2xl mb-4">
+                                <img src="https://i.postimg.cc/ZKBYVJ4q/Kraft-Paper-1.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Kraft">
+                            </div>
+                            <h3 class="text-xl font-bold mb-1">Kraft Paper</h3>
+                            <p class="text-gray-500 text-sm">Industrial Grade</p>
+                        </div>
                     </div>
 
-                    <div class="glass p-6 product-card shadow-md hover:shadow-lg product-item" data-category="board packaging" data-aos="fade-up" data-aos-delay="200"
-                        data-name="Duplex Paper, Duplex Board"
-                        data-image="https://i.postimg.cc/ZqcJCRFw/duplex-paper-sheet-500x500.jpg"
-                        data-description="High-quality duplex board for all your print packaging needs. Its smooth surface provides excellent printability, while its strength ensures secure and attractive packaging."
-                        data-specifications='[{"label": "GSM", "value": "200-450"}, {"label": "Coating", "value": "Grey back, White back"}, {"label": "Surface", "value": "Smooth for printing"}, {"label": "Usage", "value": "Pharmaceutical packaging, consumer goods boxes, display cartons"}]'
-                        data-additional-info="Our Duplex boards offer excellent stiffness and consistency, crucial for high-speed packaging lines and premium print finishes.">
-                        <img loading="lazy" src="https://i.postimg.cc/ZqcJCRFw/duplex-paper-sheet-500x500.jpg" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x250.png?text=Image+Not+Found';" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="A stack of white and grey duplex paper board sheets."/>
-                        <h3 class="font-semibold text-2xl mb-3 text-gray-800">Duplex Paper</h3>
-                        <p class="text-gray-600 leading-relaxed">Paper for all print packaging.</p>
+                    <div class="product-item cursor-pointer group h-full" data-category="board packaging" data-name="Duplex Board" 
+                         data-image="https://i.postimg.cc/ZqcJCRFw/duplex-paper-sheet-500x500.jpg"
+                         data-description="Coated duplex board with grey/white back."
+                         data-specifications='[{"label":"GSM","value":"200-450"}, {"label":"Coating","value":"HWC"}]'
+                         data-additional-info="Perfect for printing boxes.">
+                        <div class="glass-card h-full flex flex-col p-4 bg-white hover:shadow-xl transition-all">
+                            <div class="h-64 overflow-hidden relative rounded-2xl mb-4">
+                                <img src="https://i.postimg.cc/ZqcJCRFw/duplex-paper-sheet-500x500.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Duplex">
+                            </div>
+                            <h3 class="text-xl font-bold mb-1">Duplex Board</h3>
+                            <p class="text-gray-500 text-sm">Premium Printing</p>
+                        </div>
                     </div>
 
-                    <div class="glass p-6 product-card shadow-md hover:shadow-lg product-item" data-category="board packaging" data-aos="fade-up" data-aos-delay="300"
-                        data-name="Laminated Paper Board, Kappa Board"
+                    <div class="product-item cursor-pointer group h-full" data-category="board packaging" data-name="Laminated Board"
                         data-image="https://i.postimg.cc/HxMDbkQG/1.jpg"
-                        data-description="Strong, multi-layered laminated boards offering superior protection and rigidity. Perfect for durable and robust packaging solutions for heavy or delicate items."
-                        data-specifications='[{"label": "Thickness", "value": "1mm-5mm"}, {"label": "Finish", "value": "Glossy, Matte"}, {"label": "Core", "value": "Grey board, Chipboard"}, {"label": "Usage", "value": "Luxury packaging, industrial cartons, book binding"}]'
-                        data-additional-info="Laminated boards provide enhanced moisture resistance and structural integrity, making them ideal for high-end applications and protective packaging.">
-                        <img loading="lazy" src="https://i.postimg.cc/HxMDbkQG/1.jpg" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x250.png?text=Image+Not+Found';" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="Thick, glossy laminated paper boards stacked neatly."/>
-                        <h3 class="font-semibold text-2xl mb-3 text-gray-800">Laminated Board</h3>
-                        <p class="text-gray-600 leading-relaxed">Eco-friendly, strong packaging for businesses.</p>
+                        data-description="Strong, multi-layered laminated boards offering superior protection."
+                        data-specifications='[{"label": "Thickness", "value": "1mm-5mm"}, {"label": "Finish", "value": "Glossy/Matte"}]'
+                        data-additional-info="Moisture resistant and rigid.">
+                        <div class="glass-card h-full flex flex-col p-4 bg-white hover:shadow-xl transition-all">
+                            <div class="h-64 overflow-hidden relative rounded-2xl mb-4">
+                                <img src="https://i.postimg.cc/HxMDbkQG/1.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Laminated">
+                            </div>
+                            <h3 class="text-xl font-bold mb-1">Laminated Board</h3>
+                            <p class="text-gray-500 text-sm">High Rigidity</p>
+                        </div>
                     </div>
 
-                    <div class="glass p-6 product-card shadow-md hover:shadow-lg product-item" data-category="board packaging" data-aos="fade-up" data-aos-delay="400"
-                        data-name="Sundry Grey Board, Puttha, Gatta"
-                        data-image="https://i.postimg.cc/wBhQJK7f/grey-paper-board-500x500.jpg"
-                        data-description="Versatile and strong grey board, an economical choice for various packaging and binding applications. Made from recycled materials, it's also an environmentally conscious option."
-                        data-specifications='[{"label": "Thickness", "value": "0.8mm-4mm"}, {"label": "Density", "value": "High density"}, {"label": "Color", "value": "Grey"}, {"label": "Usage", "value": "Notebook covers, file folders, puzzle backs, general packaging"}]'
-                        data-additional-info="Our Sundry Grey Board is made from 100% recycled paper, contributing to a sustainable supply chain while offering robust performance.">
-                        <img loading="lazy" src="https://i.postimg.cc/wBhQJK7f/grey-paper-board-500x500.jpg" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x250.png?text=Image+Not+Found';" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="A pile of thick, recycled Sundry Grey Board sheets."/>
-                        <h3 class="font-semibold text-2xl mb-3 text-gray-800">Sundry Grey Board</h3>
-                        <p class="text-gray-600 leading-relaxed">Strong, eco-friendly grey board for packaging.</p>
+                    <div class="product-item cursor-pointer group h-full" data-category="board" data-name="Grey Board" 
+                         data-image="https://i.postimg.cc/wBhQJK7f/grey-paper-board-500x500.jpg"
+                         data-description="High density rigid grey board."
+                         data-specifications='[{"label":"Thickness","value":"1mm-4mm"},{"label":"Type","value":"Recycled"}]'
+                         data-additional-info="Sustainable choice for hard binding.">
+                        <div class="glass-card h-full flex flex-col p-4 bg-white hover:shadow-xl transition-all">
+                            <div class="h-64 overflow-hidden relative rounded-2xl mb-4">
+                                <img src="https://i.postimg.cc/wBhQJK7f/grey-paper-board-500x500.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Grey Board">
+                            </div>
+                            <h3 class="text-xl font-bold mb-1">Grey Board</h3>
+                            <p class="text-gray-500 text-sm">Rigid Binding</p>
+                        </div>
                     </div>
 
-                    <div class="glass p-6 product-card shadow-md hover:shadow-lg product-item" data-category="paper" data-aos="fade-up" data-aos-delay="500"
-                        data-name="Writing Paper, Printing Paper, Maplitho Paper"
+                    <div class="product-item cursor-pointer group h-full" data-category="paper" data-name="Maplitho Paper"
                         data-image="https://placehold.co/400x250/C0D9FF/3F51B5?text=Maplitho+Paper"
-                        data-description="High-quality bond paper, perfect for office use, printing, and professional documents. Available in various weights and sizes."
-                        data-specifications='[{"label": "GSM", "value": "52-100"}, {"label": "Finish", "value": "Smooth, bright white"}, {"label": "Usage", "value": "Printing, copying, official documents, letterheads"}]'
-                        data-additional-info="Our bond paper offers excellent ink absorption and crisp text reproduction, making it ideal for all your printing needs.">
-                        <img loading="lazy" src="https://placehold.co/400x250/C0D9FF/3F51B5?text=Bond+Paper" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="Placeholder image for Bond Paper. Replace with a real photo of bond paper reams."/>
-                        <h3 class="font-semibold text-2xl mb-3 text-gray-800">Maplitho Paper</h3>
-                        <p class="text-gray-600 leading-relaxed">Premium quality paper for printing & other applications</p>
+                        data-description="High-quality bond paper for office and printing."
+                        data-specifications='[{"label": "GSM", "value": "52-100"}, {"label": "Finish", "value": "Smooth White"}]'
+                        data-additional-info="Excellent ink absorption.">
+                        <div class="glass-card h-full flex flex-col p-4 bg-white hover:shadow-xl transition-all">
+                            <div class="h-64 overflow-hidden relative rounded-2xl mb-4">
+                                <img src="https://placehold.co/400x250/C0D9FF/3F51B5?text=Maplitho+Paper" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Maplitho">
+                            </div>
+                            <h3 class="text-xl font-bold mb-1">Maplitho Paper</h3>
+                            <p class="text-gray-500 text-sm">Printing & Office</p>
+                        </div>
                     </div>
 
-                    <div class="glass p-6 product-card shadow-md hover:shadow-lg product-item" data-category="paper" data-aos="fade-up" data-aos-delay="600"
-                        data-name="FBB"
+                    <div class="product-item cursor-pointer group h-full" data-category="paper" data-name="FBB"
                         data-image="https://placehold.co/400x250/FFE0B2/FF9800?text=FBB"
-                        data-description="Coated art paper for high-fidelity printing, ideal for brochures, magazines, and marketing materials."
-                        data-specifications='[{"label": "GSM", "value": "120-400"}, {"label": "Finish", "value": "Glossy, Matte"}, {"label": "Usage", "value": "Brochures, flyers, magazines, book covers, calendars"}]'
-                        data-additional-info="Art paper ensures vibrant colors and sharp images, making your printed materials stand out with a premium feel.">
-                        <img loading="lazy" src="https://placehold.co/400x250/FFE0B2/FF9800?text=Art+Paper" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="Placeholder image for Art Paper. Replace with a real photo of glossy or matte art paper."/>
-                        <h3 class="font-semibold text-2xl mb-3 text-gray-800">FBB</h3>
-                        <p class="text-gray-600 leading-relaxed">Coated paper for high-quality printing & Packaging.</p>
+                        data-description="Folding Box Board for high-quality packaging."
+                        data-specifications='[{"label": "GSM", "value": "120-400"}, {"label": "Usage", "value": "Cartons"}]'
+                        data-additional-info="Great for food and cosmetic packaging.">
+                        <div class="glass-card h-full flex flex-col p-4 bg-white hover:shadow-xl transition-all">
+                            <div class="h-64 overflow-hidden relative rounded-2xl mb-4">
+                                <img src="https://placehold.co/400x250/FFE0B2/FF9800?text=FBB" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="FBB">
+                            </div>
+                            <h3 class="text-xl font-bold mb-1">FBB</h3>
+                            <p class="text-gray-500 text-sm">Folding Box Board</p>
+                        </div>
                     </div>
 
-                    <div class="glass p-6 product-card shadow-md hover:shadow-lg product-item" data-category="paper" data-aos="fade-up" data-aos-delay="600"
-                        data-name="SBS"
+                    <div class="product-item cursor-pointer group h-full" data-category="paper" data-name="SBS"
                         data-image="https://placehold.co/400x250/FFE0B2/FF9800?text=SBS"
-                        data-description="Coated art paper for high-fidelity printing, ideal for brochures, magazines, and marketing materials."
-                        data-specifications='[{"label": "GSM", "value": "120-350"}, {"label": "Finish", "value": "Glossy, Matte"}, {"label": "Usage", "value": "Brochures, flyers, magazines, book covers, calendars"}]'
-                        data-additional-info="Art paper ensures vibrant colors and sharp images, making your printed materials stand out with a premium feel.">
-                        <img loading="lazy" src="https://placehold.co/400x250/FFE0B2/FF9800?text=Art+Paper" class="rounded-xl mb-6 w-full h-48 object-cover shadow-sm" alt="Placeholder image for Art Paper. Replace with a real photo of glossy or matte art paper."/>
-                        <h3 class="font-semibold text-2xl mb-3 text-gray-800">SBS</h3>
-                        <p class="text-gray-600 leading-relaxed">Coated high bulk Paper for high-quality printing & Packaging.</p>
+                        data-description="Solid Bleached Sulphate board for luxury packaging."
+                        data-specifications='[{"label": "GSM", "value": "120-350"}, {"label": "Finish", "value": "Premium White"}]'
+                        data-additional-info="Top choice for hygiene and beauty products.">
+                        <div class="glass-card h-full flex flex-col p-4 bg-white hover:shadow-xl transition-all">
+                            <div class="h-64 overflow-hidden relative rounded-2xl mb-4">
+                                <img src="https://placehold.co/400x250/FFE0B2/FF9800?text=SBS" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="SBS">
+                            </div>
+                            <h3 class="text-xl font-bold mb-1">SBS</h3>
+                            <p class="text-gray-500 text-sm">Luxury Packaging</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <div id="productModal" class="glass p-6 md:p-8 rounded-2xl shadow-2xl hidden" role="dialog" aria-modal="true" aria-labelledby="productModalTitle">
-            <button id="closeProductModal" class="close-button" aria-label="Close Product Details">
-                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-            <div class="md:grid md:grid-cols-2 md:gap-8 items-start">
-                <img id="modalProductImage" src="" alt="Product Image" class="rounded-lg w-full h-64 object-cover mb-6 md:mb-0 shadow-lg">
-                <div class="flex flex-col h-full">
-                    <h3 id="modalProductName" class="text-3xl font-bold mb-4 text-gray-800"></h3>
-                    <p id="modalProductDescription" class="text-gray-700 mb-4 leading-relaxed"></p>
-                    <div class="mb-4">
-                        <h4 class="font-semibold text-lg text-blue-700 mb-2">Specifications:</h4>
-                        <ul id="modalProductSpecifications" class="list-disc list-inside text-gray-600 leading-relaxed space-y-1"></ul>
+        <section id="calculator" class="py-24 px-4 bg-white">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-center mb-10">Calculators</h2>
+                <div class="glass-card p-4 md:p-8 border border-gray-100">
+                    <div class="ios-segmented-control mb-8">
+                        <button onclick="switchTab('weight')" class="segment active">Weight</button>
+                        <button onclick="switchTab('reel')" class="segment">Reel</button>
+                        <button onclick="switchTab('strength')" class="segment">Strength</button>
+                        <button onclick="switchTab('cbm')" class="segment">Volume</button>
                     </div>
-                    <div class="mb-6">
-                        <h4 class="font-semibold text-lg text-blue-700 mb-2">Additional Information:</h4>
-                        <p id="modalProductAdditionalInfo" class="text-gray-600 leading-relaxed"></p>
+                    
+                    <div id="tool-weight" class="tool-content">
+                        <div class="flex flex-col md:flex-row gap-4 mb-6">
+                            <div class="flex bg-gray-100 rounded-lg p-1">
+                                <button onclick="setUnit('cm')" id="btn-cm" class="px-4 py-2 rounded-md text-xs font-bold bg-white shadow-sm text-blue-600 transition">CM</button>
+                                <button onclick="setUnit('mm')" id="btn-mm" class="px-4 py-2 rounded-md text-xs font-bold text-gray-500 hover:bg-white transition">MM</button>
+                                <button onclick="setUnit('inch')" id="btn-inch" class="px-4 py-2 rounded-md text-xs font-bold text-gray-500 hover:bg-white transition">INCH</button>
+                            </div>
+                            <select id="sizePreset" onchange="applyPreset()" class="bg-gray-100 border-none rounded-lg text-sm font-semibold p-2.5 grow outline-none cursor-pointer">
+                                <option value="">Select Standard Size...</option>
+                                <option value="A4">A4 (ISO)</option>
+                                <option value="A3">A3 (ISO)</option>
+                                <option value="18x23">18" x 23" (Imperial)</option>
+                                <option value="23x36">23" x 36" (Imperial)</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                            <div><label class="text-xs font-bold text-gray-400 uppercase">Length</label><input type="number" id="calcLength" class="w-full bg-gray-50 rounded-xl p-3 mt-1" placeholder="0"></div>
+                            <div><label class="text-xs font-bold text-gray-400 uppercase">Width</label><input type="number" id="calcWidth" class="w-full bg-gray-50 rounded-xl p-3 mt-1" placeholder="0"></div>
+                            <div><label class="text-xs font-bold text-gray-400 uppercase">GSM</label><input type="number" id="calcGsm" class="w-full bg-gray-50 rounded-xl p-3 mt-1" placeholder="0"></div>
+                            <div><label class="text-xs font-bold text-gray-400 uppercase">Qty</label><input type="number" id="calcQty" class="w-full bg-gray-50 rounded-xl p-3 mt-1" placeholder="0"></div>
+                        </div>
+                        <div class="bg-blue-50 p-6 rounded-2xl flex justify-between items-center">
+                            <div><span class="text-xs font-bold text-blue-400 uppercase">Result</span><div class="text-3xl font-black text-blue-900" id="resTotal">0.00 <span class="text-lg">kg</span></div></div>
+                        </div>
                     </div>
-                    <div class="mt-auto space-y-3">
-                        <button type="button" id="modalAddToBasket" class="action-button w-full text-center bg-green-600 text-white px-6 py-3 rounded-xl shadow-lg hover:bg-green-700 transition-all duration-300 font-bold inline-block">Add Product to Quote Basket</button>
-                        <a href="#quote" id="modalQuoteButton" class="action-button w-full text-center bg-blue-600 text-white px-6 py-3 rounded-xl shadow-lg hover:bg-blue-700 transition-all duration-300 font-bold inline-block">Request a Quote for this Product (Go to Form)</a>
+
+                    <div id="tool-reel" class="tool-content hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                            <div><label class="text-xs font-bold text-gray-400 uppercase">Reel Weight (kg)</label><input type="number" id="reelWeight" class="w-full bg-gray-50 rounded-xl p-3 mt-1"></div>
+                            <div><label class="text-xs font-bold text-gray-400 uppercase">Reel Width (cm)</label><input type="number" id="reelWidth" class="w-full bg-gray-50 rounded-xl p-3 mt-1"></div>
+                            <div><label class="text-xs font-bold text-gray-400 uppercase">GSM</label><input type="number" id="reelGsm" class="w-full bg-gray-50 rounded-xl p-3 mt-1"></div>
+                        </div>
+                        <div class="bg-yellow-50 p-6 rounded-2xl flex justify-between items-center">
+                            <span class="text-xs font-bold text-yellow-600 uppercase">Total Length</span>
+                            <div class="text-3xl font-black text-yellow-900" id="resReelLength">0 m</div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        
-    <section id="calculator" class="py-24 px-4 sm:px-6 relative overflow-hidden bg-white">
-    <div class="ios-segmented-control-container mb-8">
-    <div class="ios-segmented-control">
-        <button onclick="switchTab('weight')" class="segment active">Weight</button>
-        <button onclick="switchTab('reel')" class="segment">Reel To Sheet</button>
-        <button onclick="switchTab('strength')" class="segment">BF Strength</button>
-        <button onclick="switchTab('cbm')" class="segment">Volume</button>
-    </div>
-</div>
 
-        <div id="tool-weight" class="tool-content transition-all duration-300">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 bg-blue-50/50 p-4 rounded-2xl border border-blue-100">
-                <div class="flex bg-white rounded-xl p-1 shadow-sm border border-gray-200 w-full md:w-auto">
-                    <button onclick="setUnit('cm')" id="btn-cm" class="flex-1 md:flex-none px-6 py-2 rounded-lg text-sm font-bold transition-all bg-blue-600 text-white shadow-md transform scale-105">CM</button>
-                    <button onclick="setUnit('mm')" id="btn-mm" class="flex-1 md:flex-none px-6 py-2 rounded-lg text-sm font-bold text-gray-500 hover:text-blue-600 transition-all">MM</button>
-                    <button onclick="setUnit('inch')" id="btn-inch" class="flex-1 md:flex-none px-6 py-2 rounded-lg text-sm font-bold text-gray-500 hover:text-blue-600 transition-all">INCH</button>
-                </div>
-                <div class="relative w-full md:w-auto">
-                    <select id="sizePreset" onchange="applyPreset()" class="w-full md:w-64 p-3 pl-4 pr-10 text-sm bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 cursor-pointer font-semibold text-slate-700">
-                        <option value="">Select Standard Size...</option>
-                        <option value="A2">A2 (ISO Standard)</option>
-                        <option value="A3">A3 (ISO Standard)</option>
-                        <option value="A4">A4 (ISO Standard)</option>
-                        <option value="A5">A5 (ISO Standard)</option>
-                        <option value="18x23">18" x 23" (Imperial)</option>
-                        <option value="23x36">23" x 36" (Imperial)</option>
-                        <option value="25x36">25" x 36" (Imperial)</option>
-                        <option value="30x40">30" x 40" (Imperial)</option>
-                    </select>
-                </div>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 items-start">
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Length <span class="unit-label text-blue-600">(cm)</span></label><input type="number" id="calcLength" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-blue-500 p-3 shadow-inner font-mono text-lg" placeholder="0"></div>
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Width <span class="unit-label text-blue-600">(cm)</span></label><input type="number" id="calcWidth" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-blue-500 p-3 shadow-inner font-mono text-lg" placeholder="0"></div>
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">GSM</label><input type="number" id="calcGsm" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-blue-500 p-3 shadow-inner font-mono text-lg" placeholder="300"></div>
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Qty (Sheets)</label><input type="number" id="calcQty" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-blue-500 p-3 shadow-inner font-mono text-lg" placeholder="500"></div>
-            </div>
-            <div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6 bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-100">
-                <div class="w-full md:w-auto text-center md:text-left">
-                    <button onclick="calculateWeight()" class="btn-glow bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg w-full md:w-auto">Calculate</button>
-                    <div id="moqStatus" class="text-xs font-bold mt-3 min-h-[1.5rem]"></div>
-                </div>
-                <div class="text-right">
-                    <span class="block text-xs font-bold text-slate-400 uppercase">Total Weight</span>
-                    <div class="text-4xl font-black text-slate-800" id="resTotal">0.00 <span class="text-xl text-blue-600">kg</span></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="tool-reel" class="tool-content hidden transition-all duration-300">
-            <div class="bg-yellow-50/50 p-4 rounded-2xl border border-yellow-100 mb-8 text-center"><p class="text-sm text-yellow-800 font-medium">✨ Estimate how many sheets you can cut from a heavy industrial reel.</p></div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Reel Weight (kg)</label><input type="number" id="reelWeight" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-yellow-500 p-3 shadow-inner font-mono text-lg" placeholder="500"></div>
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Reel Width (cm)</label><input type="number" id="reelWidth" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-yellow-500 p-3 shadow-inner font-mono text-lg" placeholder="100"></div>
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">GSM</label><input type="number" id="reelGsm" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-yellow-500 p-3 shadow-inner font-mono text-lg" placeholder="150"></div>
-            </div>
-            <div class="mt-6 p-6 bg-white rounded-xl border border-gray-100 shadow-sm">
-                <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Desired Cut Length (cm)</label>
-                <div class="flex gap-4">
-                    <input type="number" id="cutLength" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-yellow-500 p-3 shadow-inner font-mono text-lg" placeholder="e.g. 70">
-                    <button onclick="calculateReel()" class="btn-glow bg-yellow-500 text-white px-8 py-3 rounded-xl font-bold hover:bg-yellow-600 transition shadow-lg whitespace-nowrap">Calculate Yield</button>
-                </div>
-            </div>
-            <div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6 bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-2xl border border-yellow-100">
-                <div class="text-left"><span class="block text-xs font-bold text-slate-400 uppercase">Total Reel Length</span><div class="text-2xl font-bold text-slate-700" id="resReelLength">0 <span class="text-sm">meters</span></div></div>
-                <div class="text-right"><span class="block text-xs font-bold text-slate-400 uppercase">Total Sheets</span><div class="text-4xl font-black text-slate-800" id="resSheets">0 <span class="text-xl text-yellow-600">pcs</span></div></div>
-            </div>
-        </div>
-
-        <div id="tool-strength" class="tool-content hidden transition-all duration-300">
-            <div class="bg-red-50/50 p-4 rounded-2xl border border-red-100 mb-8 text-center"><p class="text-sm text-red-800 font-medium">💪 Calculate Bursting Strength (BS) based on GSM and Burst Factor (BF).</p></div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-                <div class="space-y-6">
-                    <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Paper GSM</label><input type="number" id="strGsm" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-red-500 p-3 shadow-inner font-mono text-lg" placeholder="e.g. 180"></div>
-                    <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Burst Factor (BF)</label><input type="number" id="strBf" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-red-500 p-3 shadow-inner font-mono text-lg" placeholder="e.g. 22"></div>
-                    <button onclick="calculateStrength()" class="w-full btn-glow bg-red-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-red-700 transition shadow-lg">Calculate Strength</button>
-                </div>
-                <div class="flex flex-col justify-center items-center bg-red-50 rounded-2xl p-8 border border-red-100 h-full">
-                    <div class="text-center">
-                        <span class="block text-sm font-bold text-red-400 uppercase tracking-widest mb-2">Bursting Strength (BS)</span>
-                        <div class="text-5xl font-black text-slate-800" id="resBs">0.0</div>
-                        <span class="text-lg text-red-600 font-bold">kg/cm²</span>
+                    <div id="tool-strength" class="tool-content hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div><label class="text-xs font-bold text-gray-400 uppercase">GSM</label><input type="number" id="strGsm" class="w-full bg-gray-50 rounded-xl p-3 mt-1"></div>
+                            <div><label class="text-xs font-bold text-gray-400 uppercase">Burst Factor (BF)</label><input type="number" id="strBf" class="w-full bg-gray-50 rounded-xl p-3 mt-1"></div>
+                        </div>
+                        <div class="bg-red-50 p-6 rounded-2xl flex justify-between items-center">
+                            <span class="text-xs font-bold text-red-600 uppercase">Bursting Strength</span>
+                            <div class="text-3xl font-black text-red-900" id="resBs">0.00</div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <div id="tool-cbm" class="tool-content hidden transition-all duration-300">
-            <div class="bg-green-50/50 p-4 rounded-2xl border border-green-100 mb-8 text-center"><p class="text-sm text-green-800 font-medium">📦 Estimate shipping volume for logistics.</p></div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 items-end">
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Length (cm)</label><input type="number" id="cbmL" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-green-500 p-3 font-mono text-lg" placeholder="0"></div>
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Width (cm)</label><input type="number" id="cbmW" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-green-500 p-3 font-mono text-lg" placeholder="0"></div>
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Height (cm)</label><input type="number" id="cbmH" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-green-500 p-3 font-mono text-lg" placeholder="0"></div>
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Quantity</label><input type="number" id="cbmQty" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-green-500 p-3 font-mono text-lg" placeholder="1"></div>
-            </div>
-            <div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6 bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-100">
-                <button onclick="calculateCBM()" class="btn-glow bg-green-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-green-700 transition shadow-lg w-full md:w-auto">Calculate CBM</button>
-                <div class="text-right"><span class="block text-xs font-bold text-slate-400 uppercase">Total Volume</span><div class="text-4xl font-black text-slate-800" id="resCbm">0.000 <span class="text-xl text-green-600">m³</span></div></div>
-            </div>
-        </div>
-
-    </div>
-</section>
-        
-        <section id="reviews" class="py-20 px-6 bg-bg-light overflow-hidden">
-            <div data-aos="fade-up">
-                <h2 class="text-4xl font-extrabold text-center mb-12 text-gray-800">What Our Clients Say</h2>
-                <div class="splide max-w-6xl mx-auto" role="group" aria-label="Customer Testimonials Carousel">
-                    <div class="splide__track">
-                        <ul class="splide__list">
-                            <li class="splide__slide p-2"><div class="glass p-8 review-card shadow-md flex flex-col h-full"><p class="text-gray-700 italic text-lg leading-relaxed mb-4 flex-grow">"Abrar Traders consistently delivers excellent quality papers and ensures on-time delivery. Their reliability makes them our preferred supplier. Highly recommend!"</p><div class="mt-auto font-bold text-blue-700 text-lg">— Moosa Maniar</div></div></li>
-                            <li class="splide__slide p-2"><div class="glass p-8 review-card shadow-md flex flex-col h-full"><p class="text-gray-700 italic text-lg leading-relaxed mb-4 flex-grow">"We are impressed with Abrar Traders' great customer service and their commitment to providing eco-friendly packaging options. A truly responsible business partner."</p><div class="mt-auto font-bold text-blue-700 text-lg">— Faisal Kagzi</div></div></li>
-                            <li class="splide__slide p-2"><div class="glass p-8 review-card shadow-md flex flex-col h-full"><p class="text-gray-700 italic text-lg leading-relaxed mb-4 flex-grow">"For bulk stationery and paper supplies, Abrar Traders is our go-to. Their products are top-notch, and the pricing is always competitive. A pleasure to work with."</p><div class="mt-auto font-bold text-blue-700 text-lg">— Sunrise Packaging</div></div></li>
-                            <li class="splide__slide p-2"><div class="glass p-8 review-card shadow-md flex flex-col h-full"><p class="text-gray-700 italic text-lg leading-relaxed mb-4 flex-grow">"The quality of the Duplex Board we sourced was exceptional. It has significantly improved our packaging quality. Thank you, Abrar Traders, for your excellent products."</p><div class="mt-auto font-bold text-blue-700 text-lg">— Creative Prints</div></div></li>
-                        </ul>
+                    <div id="tool-cbm" class="tool-content hidden">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                            <div><label class="text-xs font-bold text-gray-400 uppercase">L (cm)</label><input type="number" id="cbmL" class="w-full bg-gray-50 rounded-xl p-3 mt-1"></div>
+                            <div><label class="text-xs font-bold text-gray-400 uppercase">W (cm)</label><input type="number" id="cbmW" class="w-full bg-gray-50 rounded-xl p-3 mt-1"></div>
+                            <div><label class="text-xs font-bold text-gray-400 uppercase">H (cm)</label><input type="number" id="cbmH" class="w-full bg-gray-50 rounded-xl p-3 mt-1"></div>
+                            <div><label class="text-xs font-bold text-gray-400 uppercase">Qty</label><input type="number" id="cbmQty" class="w-full bg-gray-50 rounded-xl p-3 mt-1"></div>
+                        </div>
+                        <div class="bg-green-50 p-6 rounded-2xl flex justify-between items-center">
+                            <span class="text-xs font-bold text-green-600 uppercase">Total Volume</span>
+                            <div class="text-3xl font-black text-green-900" id="resCbm">0.00 m³</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="blog" class="py-20 px-6 bg-white overflow-hidden">
-            <div class="max-w-6xl mx-auto" data-aos="fade-up">
-                <h2 class="text-4xl font-extrabold text-center mb-12 text-gray-800">From Our Blog</h2>
-                <div class="grid md:grid-cols-3 gap-10">
-                    <a href="blog.html" class="block glass p-6 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300" data-aos="fade-up" data-aos-delay="100">
-                        <img src="https://placehold.co/600x400/8E9BFA/FFFFFF?text=Sustainable+Packaging" alt="Illustration about sustainable paper production." class="rounded-xl mb-6 w-full h-48 object-cover">
-                        <h3 class="font-bold text-xl mb-3 text-gray-800">The Rise of Sustainable Packaging</h3>
-                        <p class="text-gray-600 mb-4">Discover why eco-friendly paper and board are not just a trend, but a necessity for modern businesses...</p>
-                        <span class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">Read More →</span>
-                    </a>
-                    <a href="blog.html" class="block glass p-6 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300" data-aos="fade-up" data-aos-delay="200">
-                        <img src="https://placehold.co/600x400/A78BFA/FFFFFF?text=Choosing+Paper" alt="A person comparing different paper types." class="rounded-xl mb-6 w-full h-48 object-cover">
-                        <h3 class="font-bold text-xl mb-3 text-gray-800">How to Choose the Right Paper GSM</h3>
-                        <p class="text-gray-600 mb-4">A guide to understanding paper weight (GSM) and selecting the perfect type for your project needs...</p>
-                        <span class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">Read More →</span>
-                    </a>
-                    <a href="blog.html" class="block glass p-6 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300" data-aos="fade-up" data-aos-delay="300">
-                        <img src="https://placehold.co/600x400/607AFB/FFFFFF?text=Industry+News" alt="Infographic showing paper industry trends." class="rounded-xl mb-6 w-full h-48 object-cover">
-                        <h3 class="font-bold text-xl mb-3 text-gray-800">Top 5 Trends in the Paper Industry for 2025</h3>
-                        <p class="text-gray-600 mb-4">From digital integration to new recycling technologies, we explore what's next for the paper and packaging world...</p>
-                        <span class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">Read More →</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section id="gallery" class="py-20 px-6 bg-bg-light overflow-hidden">
-            <div class="max-w-6xl mx-auto" data-aos="fade-up">
-                <h2 class="text-4xl font-extrabold text-center mb-12 text-gray-800">Our Gallery</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="gallery-item shadow-lg" data-aos="zoom-in" data-aos-delay="100"><img src="https://i.postimg.cc/ZKBYVJ4q/Kraft-Paper-1.jpg" alt="Kraft Paper Rolls stacked in the warehouse" class="w-full h-full object-cover"></div>
-                    <div class="gallery-item shadow-lg" data-aos="zoom-in" data-aos-delay="200"><img src="https://i.postimg.cc/ZqcJCRFw/duplex-paper-sheet-500x500.jpg" alt="A close-up of Duplex Paper sheets" class="w-full h-full object-cover"></div>
-                    <div class="gallery-item shadow-lg" data-aos="zoom-in" data-aos-delay="300"><img src="https://i.postimg.cc/HxMDbkQG/1.jpg" alt="Laminated Boards ready for shipping" class="w-full h-full object-cover"></div>
-                    <div class="gallery-item shadow-lg" data-aos="zoom-in" data-aos-delay="400"><img src="https://i.postimg.cc/wBhQJK7f/grey-paper-board-500x500.jpg" alt="Stack of Sundry Grey Boards" class="w-full h-full object-cover"></div>
-                    <div class="gallery-item shadow-lg" data-aos="zoom-in" data-aos-delay="500"><img src="https://placehold.co/400x400/8E9BFA/FFFFFF?text=Warehouse" alt="Abrar Traders warehouse interior with paper products." class="w-full h-full object-cover"></div>
-                    <div class="gallery-item shadow-lg" data-aos="zoom-in" data-aos-delay="600"><img src="https://placehold.co/400x400/A78BFA/FFFFFF?text=Logistics" alt="A delivery truck being loaded with Abrar Traders products." class="w-full h-full object-cover"></div>
-                    <div class="gallery-item shadow-lg" data-aos="zoom-in" data-aos-delay="700"><img src="https://placehold.co/400x400/607AFB/FFFFFF?text=Team" alt="The dedicated team at Abrar Traders." class="w-full h-full object-cover"></div>
-                    <div class="gallery-item shadow-lg" data-aos="zoom-in" data-aos-delay="800"><img src="https://placehold.co/400x400/E6E9F4/0D0F1C?text=Office" alt="The front office of Abrar Traders in Surat." class="w-full h-full object-cover"></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="about" class="py-20 px-6 bg-white overflow-hidden">
-            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center" data-aos="fade-up">
-                <div data-aos="fade-right" data-aos-delay="100">
-                    <h2 class="text-4xl font-extrabold mb-6 text-gray-800">About Us</h2>
-                    <p class="text-gray-600 leading-relaxed mb-4">Founded with a vision to revolutionize the paper supply industry, Abrar Traders has grown to become a trusted name for quality paper products and packaging solutions in Surat, Gujarat. Our commitment is rooted in three core principles: uncompromising quality, sustainable practices, and customer-centric service.</p>
-                    <p class="text-gray-600 leading-relaxed mb-6">We partner with leading manufacturers to source the finest materials, ensuring our clients receive products that meet the highest standards of performance and durability. From industrial packaging to fine printing paper, we offer a comprehensive range to cater to diverse business needs across India.</p>
-                </div>
-                <div data-aos="fade-left" data-aos-delay="200">
-                    <img src="https://placehold.co/600x500/E6E9F4/0D0F1C?text=Our+Story" alt="A representative image for Abrar Traders' journey and growth." class="rounded-2xl shadow-2xl w-full">
-                </div>
-            </div>
-        </section>
-
-        <section id="quote" class="py-20 px-6 bg-bg-light overflow-hidden">
-            <div class="max-w-4xl mx-auto" data-aos="fade-up">
-                <h2 class="text-4xl font-extrabold text-center mb-4 text-gray-800">Request a Quote</h2>
-                <p class="text-center text-gray-600 mb-10 max-w-2xl mx-auto">Have a specific requirement? Fill out the form below, and our team will get back to you with a competitive quote tailored to your needs.</p>
-                <div class="glass p-8 md:p-12 rounded-2xl shadow-xl">
+        <section id="quote" class="py-24 px-6 bg-white">
+            <div class="max-w-4xl mx-auto text-center" data-aos="fade-up">
+                <h2 class="text-4xl font-extrabold text-gray-800 mb-4">Request a Quote</h2>
+                <p class="text-gray-500 mb-10 max-w-2xl mx-auto">Have a specific requirement? Fill out the form below, and our team will get back to you with a competitive quote.</p>
+                
+                <div class="glass-card p-8 md:p-12 shadow-xl text-left">
                     <form id="quoteForm" action="https://formspree.io/f/REPLACE_WITH_YOUR_FORM_ID" method="POST">
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <input type="text" id="quoteName" name="name" placeholder="Your Name" required class="w-full p-3 rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500 transition">
-                            <input type="email" id="quoteEmail" name="email" placeholder="Your Email" required class="w-full p-3 rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500 transition">
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Name</label>
+                                <input type="text" name="name" placeholder="John Doe" required class="w-full p-4 rounded-xl bg-gray-50 border-none focus:ring-2 focus:ring-blue-500 transition">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Email</label>
+                                <input type="email" name="email" placeholder="john@example.com" required class="w-full p-4 rounded-xl bg-gray-50 border-none focus:ring-2 focus:ring-blue-500 transition">
+                            </div>
                         </div>
-                        <div class="mt-6">
-                            <input type="text" id="quoteProduct" name="product" placeholder="Product of Interest (e.g., Kraft Paper)" required class="w-full p-3 rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500 transition">
+                        <div class="mb-6">
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Product of Interest</label>
+                            <input type="text" id="quoteProduct" name="product" placeholder="e.g. Kraft Paper" required class="w-full p-4 rounded-xl bg-gray-50 border-none focus:ring-2 focus:ring-blue-500 transition">
                         </div>
-                        <div class="mt-6">
-                            <textarea id="quoteMessage" name="message" rows="5" placeholder="Please describe your requirements (e.g., GSM, quantity, dimensions, etc.)" required class="w-full p-3 rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
+                        <div class="mb-8">
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Message</label>
+                            <textarea name="message" rows="4" placeholder="Please describe your requirements (GSM, quantity, sizes)..." required class="w-full p-4 rounded-xl bg-gray-50 border-none focus:ring-2 focus:ring-blue-500 transition"></textarea>
                         </div>
-                        <div class="mt-8 text-center">
-                            <button type="submit" class="action-button w-full md:w-auto bg-blue-600 text-white px-10 py-3 rounded-xl shadow-lg hover:bg-blue-700 transition-all duration-300 font-bold text-lg">Submit Request</button>
-                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition shadow-lg text-lg">Submit Request</button>
                     </form>
-                    <div id="formStatus" class="mt-6 text-center font-semibold"></div>
                 </div>
             </div>
         </section>
 
-        <section id="contact" class="py-20 px-6 bg-white overflow-hidden">
+        <section id="contact" class="py-24 px-6 bg-[#F5F5F7]">
             <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-start" data-aos="fade-up">
-                <div data-aos="fade-right" data-aos-delay="100">
-                    <h2 class="text-4xl font-extrabold mb-6 text-gray-800">Contact Us</h2>
-                    <p class="text-gray-600 leading-relaxed mb-8">We're here to help. Whether you have a question about our products, need a quote, or want to discuss your requirements, feel free to reach out to us.</p>
-                    <div class="space-y-6">
-                        <div class="flex items-start gap-4">
-                            <svg class="w-8 h-8 text-blue-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <div>
+                    <h2 class="text-4xl font-extrabold text-gray-800 mb-6">Contact Us</h2>
+                    <p class="text-gray-500 mb-10 leading-relaxed">We're here to help. Whether you have a question about our products or need a quote, feel free to reach out.</p>
+                    
+                    <div class="space-y-8">
+                        <div class="flex gap-5">
+                            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center shrink-0 text-2xl">📍</div>
                             <div>
-                                <h3 class="font-bold text-lg text-gray-800">Address</h3>
-                                <p class="text-gray-600">12/1419 A-2, Shahpore Char Rasta, B/H Subhan Park, OPP. To Rose Nursery School, Surat, Gujarat 395003, India</p>
+                                <h3 class="font-bold text-lg text-gray-900">Address</h3>
+                                <p class="text-gray-600 mt-1">12/1419 A-2, Shahpore Char Rasta, B/H Subhan Park, OPP. To Rose Nursery School, Surat, Gujarat 395003, India</p>
                             </div>
                         </div>
-                        <div class="flex items-start gap-4">
-                            <svg class="w-8 h-8 text-blue-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        <div class="flex gap-5">
+                            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center shrink-0 text-2xl">📞</div>
                             <div>
-                                <h3 class="font-bold text-lg text-gray-800">Email</h3>
-                                <a href="mailto:sales@abrartraders.co.in" class="text-blue-600 hover:underline">sales@abrartraders.co.in</a>
+                                <h3 class="font-bold text-lg text-gray-900">Phone</h3>
+                                <a href="tel:+917405108950" class="text-blue-600 font-medium hover:underline mt-1 block">+91 74051 08950</a>
                             </div>
                         </div>
-                        <div class="flex items-start gap-4">
-                            <svg class="w-8 h-8 text-blue-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                        <div class="flex gap-5">
+                            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center shrink-0 text-2xl">✉️</div>
                             <div>
-                                <h3 class="font-bold text-lg text-gray-800">Phone</h3>
-                                <a href="tel:+917405108950" class="text-blue-600 hover:underline">+91 74051 08950</a>
+                                <h3 class="font-bold text-lg text-gray-900">Email</h3>
+                                <a href="mailto:sales@abrartraders.co.in" class="text-blue-600 font-medium hover:underline mt-1 block">sales@abrartraders.co.in</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="h-96 md:h-full w-full rounded-2xl shadow-2xl overflow-hidden" data-aos="fade-left" data-aos-delay="200">
-                    <iframe
-                          width="100%"
-                          height="100%"
-                          style="border:0;"
-                          loading="lazy"
-                          allowfullscreen
-                          referrerpolicy="no-referrer-when-downgrade"
-                          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBpIllKiaG00I2XKmvqyqhbptNFmWY0Ub0&q=Abrar+Traders">
+                
+                <div class="h-[400px] w-full rounded-[2.5rem] overflow-hidden shadow-2xl glass-card p-2 bg-white">
+                    <iframe 
+                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBpIllKiaG00I2XKmvqyqhbptNFmWY0Ub0&q=Abrar+Traders" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        class="rounded-[2rem]">
                     </iframe>
                 </div>
             </div>
         </section>
+
     </main>
 
-    <footer class="bg-gray-800 text-white">
-        <div class="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-4 gap-8">
+    <footer class="bg-gray-900 text-white pt-24 pb-10 rounded-t-[3rem] mt-12">
+        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-4 gap-10 mb-16">
             <div>
-                <h3 class="font-bold text-lg mb-4">ABRAR TRADERS</h3>
-                <p class="text-gray-400 text-sm">Your trusted partner for premium paper products and sustainable packaging solutions.</p>
+                <span class="text-2xl font-black tracking-tight mb-6 block text-white">ABRAR TRADERS</span>
+                <p class="text-gray-400 text-sm leading-relaxed">Your trusted partner for premium paper products, sustainable packaging solutions, and bulk stationery supplies across India.</p>
             </div>
             <div>
-                <h3 class="font-bold text-lg mb-4">Quick Links</h3>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="#home" class="text-gray-400 hover:text-white transition">Home</a></li>
-                    <li><a href="#products" class="text-gray-400 hover:text-white transition">Products</a></li>
-                    <li><a href="blog.html" class="text-gray-400 hover:text-white transition">Blog</a></li>
-                    <li><a href="#about" class="text-gray-400 hover:text-white transition">About Us</a></li>
-                    <li><a href="#contact" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                <h3 class="font-bold text-lg mb-6 text-gray-200">Quick Links</h3>
+                <ul class="space-y-3 text-gray-400 text-sm">
+                    <li><a href="#home" class="hover:text-white transition-colors">Home</a></li>
+                    <li><a href="#products" class="hover:text-white transition-colors">Products</a></li>
+                    <li><a href="#about" class="hover:text-white transition-colors">About Us</a></li>
+                    <li><a href="blog.html" class="hover:text-white transition-colors">Blog</a></li>
                 </ul>
             </div>
             <div>
-                <h3 class="font-bold text-lg mb-4">Our Products</h3>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="#products" class="text-gray-400 hover:text-white transition">Kraft Paper</a></li>
-                    <li><a href="#products" class="text-gray-400 hover:text-white transition">Duplex Board</a></li>
-                    <li><a href="#products" class="text-gray-400 hover:text-white transition">Laminated Board</a></li>
-                    <li><a href="#products" class="text-gray-400 hover:text-white transition">Grey Board</a></li>
+                <h3 class="font-bold text-lg mb-6 text-gray-200">Our Products</h3>
+                <ul class="space-y-3 text-gray-400 text-sm">
+                    <li><a href="#products" class="hover:text-white transition-colors">Kraft Paper</a></li>
+                    <li><a href="#products" class="hover:text-white transition-colors">Duplex Board</a></li>
+                    <li><a href="#products" class="hover:text-white transition-colors">Laminated Board</a></li>
+                    <li><a href="#products" class="hover:text-white transition-colors">Grey Board</a></li>
                 </ul>
             </div>
             <div>
-                <h3 class="font-bold text-lg mb-4">Connect With Us</h3>
-                <div class="flex space-x-4">
-                    <a href="https://www.facebook.com/Abrar.Trades" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="text-gray-400 hover:text-white transition"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.323-1.325z"/></svg></a>
-                    <a href="https://www.instagram.com/abrartraders" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="text-gray-400 hover:text-white transition"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.058-1.689-.072-4.948-.072z"/></svg></a>
-                    <a href="https://wa.me/917405108950" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="text-gray-400 hover:text-white transition"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99 0-3.903-.52-5.586-1.457l-6.354 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.52.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg></a>
+                <h3 class="font-bold text-lg mb-6 text-gray-200">Connect</h3>
+                <div class="flex gap-4">
+                    <a href="https://www.facebook.com/Abrar.Trades/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.323-1.325z"/></svg></a>
+                    <a href="https://www.instagram.com/abrartraders/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-600 transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.058-1.689-.072-4.948-.072z"/></svg></a>
+                    <a href="https://wa.me/917405108950" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99 0-3.903-.52-5.586-1.457l-6.354 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.52.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg></a>
                 </div>
             </div>
         </div>
-        <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400 text-sm">
-            <p>© <span id="currentYear"></span> ABRAR TRADERS. All Rights Reserved.</p>
+        <div class="border-t border-gray-800 mt-10 pt-8 text-center text-gray-500 text-xs">
+            <p>&copy; <span id="currentYear"></span> ABRAR TRADERS. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <script src="main.js" defer></script>
-    
-    <script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/6156d1f2d326bf3d2c1a8a8b/1fhg3b4h0';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-</body>
-    <button id="scrollTopBtn" class="fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg translate-y-20 opacity-0 transition-all duration-300 hover:bg-blue-700 z-40" aria-label="Scroll to top">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
-    <svg class="absolute top-0 left-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 100 100">
-        <circle id="scrollProgress" cx="50" cy="50" r="48" fill="none" stroke="white" stroke-width="2" stroke-opacity="0.5" stroke-dasharray="301.59" stroke-dashoffset="301.59" />
-    </svg>
+    <div id="productModalBackdrop" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[9000] opacity-0 pointer-events-none transition-opacity duration-300"></div>
+    <div id="productModal" class="fixed bottom-0 left-0 w-full h-[85vh] bg-white rounded-t-[32px] shadow-2xl z-[9001] translate-y-full transition-transform duration-500 cubic-bezier(0.32,0.72,0,1) flex flex-col">
+        <div class="w-full flex justify-center pt-4 pb-2 cursor-pointer" id="closeProductGrabber">
+            <div class="w-12 h-1.5 bg-gray-300 rounded-full"></div>
+        </div>
+        <div class="flex-1 overflow-y-auto px-6 pb-12 pt-4">
+            <img id="modalProductImage" src="" class="w-full h-72 object-cover rounded-3xl mb-6 shadow-sm">
+            <h2 id="modalProductName" class="text-3xl font-black mb-3 text-gray-900 tracking-tight"></h2>
+            <p id="modalProductDescription" class="text-lg text-gray-600 mb-6 leading-relaxed"></p>
+            <div class="bg-gray-50 rounded-2xl p-6 mb-6">
+                <h3 class="font-bold text-gray-900 mb-4">Specifications</h3>
+                <ul id="modalProductSpecifications" class="space-y-3 text-sm text-gray-600"></ul>
+            </div>
+            <p id="modalProductAdditionalInfo" class="text-sm text-gray-500 flex items-center gap-2">
+                <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span></span>
+            </p>
+        </div>
+        <div class="p-6 border-t border-gray-100 bg-white pb-10 flex gap-4 safe-area-bottom">
+            <button id="closeProductModal" class="flex-1 py-4 bg-gray-100 font-bold rounded-2xl text-gray-700 hover:bg-gray-200 transition-colors">Close</button>
+            <button id="modalAddToBasket" class="flex-[2] py-4 bg-blue-600 text-white font-bold rounded-2xl shadow-lg hover:bg-blue-700 transition-all">Request Quote</button>
+        </div>
+    </div>
+
+    <button id="scrollTopBtn" class="fixed bottom-6 right-6 bg-black text-white p-4 rounded-full shadow-2xl opacity-0 translate-y-10 transition-all duration-300 z-[8000] hover:scale-110 active:scale-95">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
     </button>
 
-    <style>
-    #scrollTopBtn.visible { transform: translateY(0); opacity: 1; }
-    </style>
+    <script src="main.js"></script>
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true; s1.src='https://embed.tawk.to/6156d1f2d326bf3d2c1a8a8b/1fhg3b4h0';
+        s1.charset='UTF-8'; s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+</body>
 </html>
-
-
-
-
-
-
-
