@@ -2,6 +2,22 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log("ABRAR TRADERS: System Loaded v4.1 (Fixed Mobile Menu & Modal)");
 
     // ==========================================
+    // 7. SMART SIDEBAR INTRO ANIMATION
+    // ==========================================
+    const sidebar = document.getElementById('socialSidebar');
+    if (sidebar) {
+        // 1. Slide out initially to show user it exists
+        setTimeout(() => {
+            sidebar.classList.add('peek-out');
+        }, 1000); // Wait 1s after load
+
+        // 2. Retract back to minimized state automatically
+        setTimeout(() => {
+            sidebar.classList.remove('peek-out');
+        }, 3500); // Stay open for 2.5s
+    }
+
+    // ==========================================
     // 6. PREMIUM BACKGROUND ANIMATION (tsParticles)
     // ==========================================
     if (window.tsParticles) {
@@ -456,4 +472,5 @@ document.addEventListener('DOMContentLoaded', function() {
     const yearEl = document.getElementById('currentYear');
     if(yearEl) yearEl.textContent = new Date().getFullYear();
 });
+
 
