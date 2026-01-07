@@ -78,65 +78,71 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
 .nav-link:hover { color: var(--primary-color); }
 .nav-link.active { color: var(--primary-color); font-weight: 700; }
 
-/* Smart Sidebar Container */
-.social-sidebar {
-    position: fixed;
-    top: 40%;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    z-index: 9999;
-    
-    /* Minimized State (Default) */
-    transform: translateX(-75%); /* Hides 75% of the bar */
-    opacity: 0.8; 
-    
-    /* Premium Spring Animation */
-    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
-    
-    /* Ensure hover trigger area is accessible */
-    padding-right: 10px; /* Extends invisible trigger zone slightly */
-}
-
-/* Maximized State (When needed) */
-.social-sidebar:hover, 
-.social-sidebar.peek-out { /* JS class for intro animation */
-    transform: translateX(0);
-    opacity: 1;
-}
-
-/* Icon Styles (Refined for smoothness) */
+/* Base Button Style - Clean & Minimalist */
 .social-sidebar .social-icon {
-    background-color: white;
-    border: 2px solid var(--primary-color);
-    width: 40px;
-    height: 40px;
-    margin: 6px 0; /* Increased spacing slightly */
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
+    width: 48px;  /* Larger, more clickable */
+    height: 48px;
+    margin: 8px 0 !important; /* Force spacing */
+    border-radius: 50%; /* Perfect circle looks more premium */
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
     
-    /* Icon Internal Animation */
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s;
+    /* Soft, expensive-looking shadow */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.4); /* Subtle glass border */
+    
+    /* Bouncy animation */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
 }
 
-.social-sidebar .social-icon:hover {
-    transform: translateX(5px) scale(1.1); /* Subtle pop on hover */
-    background-color: var(--primary-color); /* Fill with color on hover */
-    box-shadow: 4px 4px 15px rgba(96, 122, 251, 0.4);
-    border-color: var(--primary-color);
+/* The Icons (Default State: Dark & Sharp) */
+.social-sidebar .social-icon img {
+    width: 24px;
+    height: 24px;
+    transition: all 0.3s ease;
+    /* Sets icon to a dark slate color (more elegant than pure black) */
+    filter: invert(12%) sepia(10%) saturate(1400%) hue-rotate(190deg) brightness(20%) contrast(90%);
 }
 
-/* Change icon color to white on hover for contrast */
+/* --- THE BRAND REVEAL EFFECTS --- */
+
+/* 1. Facebook */
+.social-sidebar .social-icon:nth-child(1):hover {
+    background: #1877F2; /* Official FB Blue */
+    transform: translateX(8px) scale(1.1);
+    box-shadow: 0 8px 20px rgba(24, 119, 242, 0.4);
+}
+
+/* 2. Instagram */
+.social-sidebar .social-icon:nth-child(2):hover {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    transform: translateX(8px) scale(1.1);
+    box-shadow: 0 8px 20px rgba(214, 36, 159, 0.4);
+}
+
+/* 3. WhatsApp */
+.social-sidebar .social-icon:nth-child(3):hover {
+    background: #25D366; /* Official WhatsApp Green */
+    transform: translateX(8px) scale(1.1);
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+}
+
+/* 4. LinkedIn */
+.social-sidebar .social-icon:nth-child(4):hover {
+    background: #0A66C2; /* Official LinkedIn Blue */
+    transform: translateX(8px) scale(1.1);
+    box-shadow: 0 8px 20px rgba(10, 102, 194, 0.4);
+}
+
+/* Common Hover State: Turn icon pure white */
 .social-sidebar .social-icon:hover img {
     filter: brightness(0) invert(1);
-}
-svg .line1, svg .line2, svg .line3 {
-    transition: all 0.3s ease;
-    transform-origin: center;
+    transform: scale(1.1);
 }
 .menu-open svg .line1 { transform: rotate(45deg) translate(5px, 5px); }
 .menu-open svg .line2 { opacity: 0; }
@@ -434,4 +440,5 @@ button#menuButton {
 }
 
 }
+
 
