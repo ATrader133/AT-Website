@@ -1,302 +1,364 @@
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("ABRAR TRADERS: System Loaded");
-    
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("ABRAR TRADERS: System Loaded v4.1 (Fixed Mobile Menu & Modal)");
+
+    // ==========================================
+    // 1. GLOBAL VARIABLES & SETUP
+    // ==========================================
+    let basket = [];
     let currentUnit = 'cm';
 
-    // ==========================================
-    // 1. DYNAMIC ISLAND & SCROLL LOGIC
-    // ==========================================
-    const island = document.getElementById('dynamicIsland');
-    const scrollBtn = document.getElementById('scrollTopBtn');
-    const sidebar = document.getElementById('socialSidebar');
-
-    if(island && scrollBtn) {
-        window.addEventListener('scroll', () => {
-            const y = window.scrollY;
-            
-            // Shrink Island
-            if (y > 50) island.classList.add('scrolled'); 
-            else island.classList.remove('scrolled');
-            
-            // Show Sidebar & Scroll Top
-            if (y > 400) {
-                if(sidebar) { 
-                    sidebar.style.opacity = '1'; 
-                    sidebar.style.transform = 'translateY(0)'; 
-                }
-                scrollBtn.classList.add('visible');
-            } else {
-                if(sidebar) { 
-                    sidebar.style.opacity = '0'; 
-                    sidebar.style.transform = 'translateY(80px)'; 
-                }
-                scrollBtn.classList.remove('visible');
-            }
-        }, { passive: true });
-
-        scrollBtn.onclick = () => window.scrollTo({top:0, behavior:'smooth'});
-    }
+    try {
+        const stored = localStorage.getItem('at_basket');
+        if (stored) basket = JSON.parse(stored);
+    } catch (e) { console.error("Local Storage Error:", e); }
 
     // ==========================================
-    // 2. MOBILE MENU LOGIC
+    // 2. WINDOW FUNCTIONS (Accessible by HTML)
     // ==========================================
-    const mobileMenu = document.getElementById('mobileMenu');
-    const menuBtn = document.getElementById('menuBtn');
-    const closeMenuBtn = document.getElementById('closeMenuBtn');
-    const menuLinks = document.querySelectorAll('.menu-item');
 
-    function toggleMenu(show) {
-        if(!mobileMenu) return;
-        if(show) { 
-            mobileMenu.classList.add('open'); 
-            document.body.style.overflow = 'hidden'; 
-        } else { 
-            mobileMenu.classList.remove('open'); 
-            document.body.style.overflow = ''; 
+    // --- TABS LOGIC ---
+    window.switchTab = function(tabName) {
+        ['weight', 'reel', 'strength', 'cbm'].forEach(t => {
+            const content = document.getElementById('tool-' + t);
+            const btn = document.getElementById('tab-' + t);
+            if(content) content.classList.add('hidden');
+            if(btn) btn.className = "px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm font-bold text-gray-500 hover:text-blue-600 transition-all";
+        });
+
+        const activeContent = document.getElementById('tool-' + tabName);
+        if(activeContent) activeContent.classList.remove('hidden');
+
+        const activeBtn = document.getElementById('tab-' + tabName);
+        if(activeBtn) {
+            let colorClass = "text-blue-600";
+            if(tabName === 'reel') colorClass = "text-yellow-600";
+            if(tabName === 'strength') colorClass = "text-red-600";
+            if(tabName === 'cbm') colorClass = "text-green-600";
+            activeBtn.className = `px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm font-bold transition-all shadow-md bg-white ${colorClass}`;
         }
-    }
-
-    if(menuBtn) menuBtn.onclick = () => toggleMenu(true);
-    if(closeMenuBtn) closeMenuBtn.onclick = () => toggleMenu(false);
-    menuLinks.forEach(l => l.onclick = () => toggleMenu(false));
-
-    // ==========================================
-    // 3. PRODUCT MODAL & QUOTE LOGIC
-    // ==========================================
-    const modal = document.getElementById('productModal');
-    const backdrop = document.getElementById('productModalBackdrop');
-    const closeProductBtn = document.getElementById('closeProductModal');
-    const grabber = document.getElementById('closeProductGrabber');
-    const quoteBtn = document.getElementById('modalAddToBasket');
-
-    window.openModal = function(data) {
-        if(!modal) return;
-        document.getElementById('modalProductName').textContent = data.name;
-        document.getElementById('modalProductImage').src = data.image;
-        document.getElementById('modalProductDescription').textContent = data.description;
-        document.getElementById('modalProductAdditionalInfo').textContent = data.additionalInfo;
-        
-        const specs = document.getElementById('modalProductSpecifications');
-        if(specs) {
-            specs.innerHTML = '';
-            try {
-                JSON.parse(data.specifications).forEach(s => {
-                    specs.innerHTML += `<li class="flex justify-between border-b border-gray-100 py-2"><span>${s.label}</span><span class="font-bold text-gray-900">${s.value}</span></li>`;
-                });
-            } catch(e) {}
-        }
-        
-        // Smart Quote Button: Scrolls to form and fills it
-        if(quoteBtn) {
-            // Remove old listener to prevent duplicates
-            const newBtn = quoteBtn.cloneNode(true);
-            quoteBtn.parentNode.replaceChild(newBtn, quoteBtn);
-            
-            newBtn.onclick = () => {
-                triggerConfetti(); // Trigger confetti when adding!
-                closeModal();
-                const quoteSection = document.getElementById('quote');
-                if(quoteSection) quoteSection.scrollIntoView({behavior: 'smooth'});
-                const quoteInput = document.getElementById('quoteProduct');
-                if(quoteInput) quoteInput.value = data.name;
-            };
-        }
-
-        modal.classList.add('open'); 
-        backdrop.classList.add('open'); 
-        document.body.style.overflow = 'hidden';
     };
 
-    function closeModal() {
-        if(modal) modal.classList.remove('open');
-        if(backdrop) backdrop.classList.remove('open');
-        document.body.style.overflow = '';
-    }
-
-    if(closeProductBtn) closeProductBtn.onclick = closeModal;
-    if(grabber) grabber.onclick = closeModal;
-    if(backdrop) backdrop.onclick = closeModal;
-
-    document.querySelectorAll('.product-item').forEach(card => {
-        card.addEventListener('click', function() {
-            window.openModal({
-                name: this.dataset.name, 
-                image: this.dataset.image,
-                description: this.dataset.description, 
-                specifications: this.dataset.specifications,
-                additionalInfo: this.dataset.additionalInfo
-            });
-        });
-    });
-
-    // ==========================================
-    // 4. CALCULATOR LOGIC
-    // ==========================================
+    // --- UNIT TOGGLE ---
     window.setUnit = function(unit) {
         currentUnit = unit;
         ['cm', 'mm', 'inch'].forEach(u => {
             const btn = document.getElementById(`btn-${u}`);
             if(btn) btn.className = (u === unit) 
-                ? "px-4 py-2 rounded-md text-xs font-bold bg-white shadow-sm text-blue-600 transition" 
-                : "px-4 py-2 rounded-md text-xs font-bold text-gray-500 hover:bg-white transition";
+                ? "flex-1 md:flex-none px-6 py-2 rounded-lg text-sm font-bold transition-all bg-blue-600 text-white shadow-md transform scale-105"
+                : "flex-1 md:flex-none px-6 py-2 rounded-lg text-sm font-bold text-gray-500 hover:text-blue-600 transition-all";
         });
-        calculateWeight();
+
+        document.querySelectorAll('.unit-label').forEach(l => l.textContent = `(${unit})`);
+        ['calcLength', 'calcWidth', 'sizePreset'].forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.value = '';
+        });
+        window.calculateWeight(); 
     };
 
+    // --- PRESETS (FIXED) ---
     window.applyPreset = function() {
         const preset = document.getElementById('sizePreset').value;
-        const l = document.getElementById('calcLength');
-        const w = document.getElementById('calcWidth');
-        if(!preset) return;
-        
-        if(preset === 'A4') { window.setUnit('mm'); l.value=297; w.value=210; }
-        else if(preset === 'A3') { window.setUnit('mm'); l.value=420; w.value=297; }
-        else if(preset.includes('x')) { window.setUnit('inch'); const [wi, hi] = preset.split('x'); w.value=wi; l.value=hi; }
-        calculateWeight();
-    };
+        const lInput = document.getElementById('calcLength');
+        const wInput = document.getElementById('calcWidth');
+        if (!preset) return;
 
-    function calculateWeight() {
-        const l = parseFloat(document.getElementById('calcLength').value) || 0;
-        const w = parseFloat(document.getElementById('calcWidth').value) || 0;
-        const g = parseFloat(document.getElementById('calcGsm').value) || 0;
-        const q = parseFloat(document.getElementById('calcQty').value) || 0;
-        
-        let m_l = l, m_w = w;
-        if (currentUnit === 'mm') { m_l /= 1000; m_w /= 1000; }
-        else if (currentUnit === 'cm') { m_l /= 100; m_w /= 100; }
-        else if (currentUnit === 'inch') { m_l *= 0.0254; m_w *= 0.0254; }
-
-        const res = (m_l * m_w * g * q) / 1000;
-        const resEl = document.getElementById('resTotal');
-        if(resEl) resEl.innerHTML = `${res.toFixed(2)} <span class="text-lg">kg</span>`;
-    }
-
-    // Tab Switching
-    window.switchTab = function(tabName) {
-        document.querySelectorAll('.tool-content').forEach(el => el.classList.add('hidden'));
-        document.getElementById('tool-' + tabName)?.classList.remove('hidden');
-        document.querySelectorAll('.segment').forEach(btn => btn.classList.remove('active'));
-        if(event && event.currentTarget) event.currentTarget.classList.add('active');
-    };
-
-    // Auto-Calc Listeners
-    ['calcLength', 'calcWidth', 'calcGsm', 'calcQty'].forEach(id => {
-        document.getElementById(id)?.addEventListener('input', calculateWeight);
-    });
-
-    // ==========================================
-    // 5. FILTER & LIBRARIES INIT
-    // ==========================================
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.filter-btn').forEach(b => {
-                b.classList.remove('bg-black','text-white'); 
-                b.classList.add('text-gray-500');
-            });
-            btn.classList.remove('text-gray-500'); 
-            btn.classList.add('bg-black','text-white');
-            
-            const filter = btn.dataset.filter;
-            document.querySelectorAll('.product-item').forEach(item => {
-                if(filter === 'all' || item.dataset.category.includes(filter)) item.style.display = 'flex';
-                else item.style.display = 'none';
-            });
-        });
-    });
-
-    if(typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true });
-    
-    if(document.getElementById('typed')) {
-        new Typed('#typed', { 
-            strings: ['Sustainable Packaging.', 'Industrial Grade Paper.', 'Custom Board Solutions.'], 
-            typeSpeed: 40, backSpeed: 20, loop: true 
-        });
-    }
-    
-    if(typeof Splide !== 'undefined' && document.querySelector('.splide')) {
-        new Splide('.splide', { type: 'loop', perPage: 1, gap: '1rem', arrows: false }).mount();
-    }
-    
-    const yearEl = document.getElementById('currentYear');
-    if(yearEl) yearEl.textContent = new Date().getFullYear();
-
-    // ==========================================
-    // 6. ENGAGEMENT FEATURES
-    // ==========================================
-
-    // --- A. 3D Holographic Tilt ---
-    const cards = document.querySelectorAll('.glass-card, .product-item');
-    cards.forEach(card => {
-        // Add shine element if not present
-        if(!card.querySelector('.shine')) {
-            const shine = document.createElement('div');
-            shine.className = 'shine';
-            // Simple inline style for shine
-            shine.style.cssText = "position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: 0; pointer-events: none; transition: opacity 0.3s; mix-blend-mode: overlay; z-index: 10; border-radius: inherit; background: linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);";
-            card.appendChild(shine);
+        // Corrected ISO and Imperial sizes
+        if (preset === 'A2') { window.setUnit('mm'); wInput.value = 420; lInput.value = 594; }
+        else if (preset === 'A3') { window.setUnit('mm'); wInput.value = 297; lInput.value = 420; }
+        else if (preset === 'A4') { window.setUnit('mm'); wInput.value = 210; lInput.value = 297; }
+        else if (preset === 'A5') { window.setUnit('mm'); wInput.value = 148; lInput.value = 210; }
+        else if (['18x23', '23x36', '25x36', '30x40'].includes(preset)) {
+            window.setUnit('inch'); const [w, h] = preset.split('x'); wInput.value = w; lInput.value = h;
         }
+        window.calculateWeight();
+    };
 
-        card.addEventListener('mousemove', function(e) {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            // Calculate rotation (Max 5 degrees for subtlety)
-            const xRotation = -((y - rect.height/2) / rect.height * 5);
-            const yRotation = ((x - rect.width/2) / rect.width * 5);
-            
-            card.style.transform = `perspective(1000px) scale(1.02) rotateX(${xRotation}deg) rotateY(${yRotation}deg)`;
-            
-            const shine = card.querySelector('.shine');
-            if(shine) {
-                shine.style.opacity = '1';
-                shine.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.4), transparent 80%)`;
+    // --- CALC 1: WEIGHT ---
+    window.calculateWeight = function() {
+        const l = parseFloat(document.getElementById('calcLength')?.value) || 0;
+        const w = parseFloat(document.getElementById('calcWidth')?.value) || 0;
+        const gsm = parseFloat(document.getElementById('calcGsm')?.value) || 0;
+        const qty = parseFloat(document.getElementById('calcQty')?.value) || 0;
+        
+        let m_l = 0, m_w = 0;
+        if (currentUnit === 'cm') { m_l = l/100; m_w = w/100; }
+        else if (currentUnit === 'mm') { m_l = l/1000; m_w = w/1000; }
+        else if (currentUnit === 'inch') { m_l = l*0.0254; m_w = w*0.0254; }
+
+        const totalKg = ((m_l * m_w) * gsm * qty) / 1000;
+        const resTotal = document.getElementById('resTotal');
+        if(resTotal) resTotal.innerHTML = `${totalKg.toFixed(2)} <span class="text-xl text-blue-600 font-bold">kg</span>`;
+        
+        const moqStatus = document.getElementById('moqStatus');
+        if(moqStatus) {
+            if (totalKg === 0) moqStatus.textContent = "";
+            else if (totalKg < 1000) moqStatus.innerHTML = `<span class="text-red-500 bg-red-50 px-2 py-1 rounded">⚠️ Below MOQ (${(1000-totalKg).toFixed(1)}kg short)</span>`;
+            else moqStatus.innerHTML = `<span class="text-green-600 bg-green-50 px-2 py-1 rounded">✅ MOQ Met</span>`;
+        }
+    };
+
+    // --- CALC 2: REEL ---
+    window.calculateReel = function() {
+        const rWeight = parseFloat(document.getElementById('reelWeight')?.value) || 0;
+        const rWidth = parseFloat(document.getElementById('reelWidth')?.value) || 0;
+        const rGsm = parseFloat(document.getElementById('reelGsm')?.value) || 0;
+        const cutLen = parseFloat(document.getElementById('cutLength')?.value) || 0;
+
+        if (rWeight === 0 || rWidth === 0 || rGsm === 0) return;
+        const totalLength = (rWeight * 1000 * 100) / (rGsm * rWidth);
+        const sheets = (cutLen > 0) ? (totalLength * 100) / cutLen : 0;
+
+        const resLen = document.getElementById('resReelLength');
+        const resSheets = document.getElementById('resSheets');
+        if(resLen) resLen.innerHTML = `${Math.floor(totalLength)} <span class="text-sm">meters</span>`;
+        if(resSheets) resSheets.innerHTML = `${Math.floor(sheets)} <span class="text-xl text-yellow-600">pcs</span>`;
+    };
+
+    // --- CALC 3: STRENGTH ---
+    window.calculateStrength = function() {
+        const gsm = parseFloat(document.getElementById('strGsm')?.value) || 0;
+        const bf = parseFloat(document.getElementById('strBf')?.value) || 0;
+        const bs = (gsm * bf) / 1000;
+        const resBs = document.getElementById('resBs');
+        if(resBs) resBs.textContent = bs.toFixed(2);
+    };
+
+    // --- CALC 4: CBM ---
+    window.calculateCBM = function() {
+        const l = parseFloat(document.getElementById('cbmL')?.value) || 0;
+        const w = parseFloat(document.getElementById('cbmW')?.value) || 0;
+        const h = parseFloat(document.getElementById('cbmH')?.value) || 0;
+        const qty = parseFloat(document.getElementById('cbmQty')?.value) || 0;
+        const cbm = ((l * w * h) / 1000000) * qty;
+        const resCbm = document.getElementById('resCbm');
+        if(resCbm) resCbm.innerHTML = `${cbm.toFixed(3)} <span class="text-xl text-green-600">m³</span>`;
+    };
+
+    // --- BASKET & MODAL ---
+    window.addToBasket = function(productName) {
+        if(!basket.includes(productName)) {
+            basket.push(productName);
+            updateBasketUI();
+            // Removed redundant scale-125 animation as it's not strictly necessary.
+        }
+    };
+
+    function updateBasketUI() {
+        localStorage.setItem('at_basket', JSON.stringify(basket));
+        const countEl = document.getElementById('basketCount');
+        const basketBtn = document.getElementById('quoteBasket');
+        const formInput = document.getElementById('quoteProduct');
+        if(countEl) countEl.textContent = basket.length;
+        if(basketBtn) basketBtn.classList.toggle('hidden', basket.length === 0);
+        if(formInput && basket.length > 0) formInput.value = basket.join(', ');
+    }
+    updateBasketUI();
+
+    const basketBtn = document.getElementById('quoteBasket');
+    if(basketBtn) basketBtn.addEventListener('click', () => document.getElementById('quote').scrollIntoView({behavior: 'smooth'}));
+
+    // --- DOWNLOAD MOCK ---
+    window.downloadCatalog = function() {
+        const email = prompt("Enter your email to download:");
+        if (email) alert("Catalogue sent to " + email);
+    };
+
+    // --- MODAL HELPERS (REFACTORED) ---
+    window.closeModal = function() {
+        const modal = document.getElementById('productModal');
+        const backdrop = document.getElementById('productModalBackdrop');
+        if(modal) {
+            modal.classList.remove('open'); // Use .open class for CSS transition
+            setTimeout(() => modal.classList.add('hidden'), 300); // Hide after transition
+        }
+        if(backdrop) {
+            backdrop.classList.remove('open');
+        }
+        document.body.style.overflow = '';
+    };
+
+    // ==========================================
+    // 3. EVENT LISTENERS & INITIALIZATION
+    // ==========================================
+
+    // Auto-Calculate Inputs
+    ['calcLength', 'calcWidth', 'calcGsm', 'calcQty'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateWeight));
+    ['reelWeight', 'reelWidth', 'reelGsm', 'cutLength'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateReel));
+    ['strGsm', 'strBf'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateStrength));
+    ['cbmL', 'cbmW', 'cbmH', 'cbmQty'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateCBM));
+    
+    // --- MOBILE MENU TOGGLE (FIX 1: Logic Copied from blog.js) ---
+    const menuButton = document.getElementById('menuButton');
+    const closeMenuButton = document.getElementById('closeMenuButton');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuBackdrop = document.getElementById('menuBackdrop');
+    const mobileNavLinks = mobileMenu.querySelectorAll('.nav-link');
+
+    const toggleMenu = (forceClose = false) => {
+        const isOpen = mobileMenu.classList.contains('open');
+        if (isOpen || forceClose) {
+            menuButton.classList.remove('menu-open');
+            menuButton.setAttribute('aria-expanded', 'false');
+            mobileMenu.classList.remove('open');
+            menuBackdrop.classList.remove('open');
+            document.body.classList.remove('menu-opened');
+        } else {
+            menuButton.classList.add('menu-open');
+            menuButton.setAttribute('aria-expanded', 'true');
+            mobileMenu.classList.add('open');
+            menuBackdrop.classList.add('open');
+            document.body.classList.add('menu-opened');
+        }
+    };
+    if (menuButton) menuButton.addEventListener('click', () => toggleMenu());
+    if (closeMenuButton) closeMenuButton.addEventListener('click', () => toggleMenu(true));
+    if (menuBackdrop) menuBackdrop.addEventListener('click', () => toggleMenu(true));
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (link.getAttribute('href').startsWith('#')) {
+                toggleMenu(true);
             }
         });
+    });
+    // --- END FIX 1 ---
 
-        card.addEventListener('mouseleave', function() {
-            card.style.transform = 'perspective(1000px) scale(1) rotateX(0) rotateY(0)';
-            card.style.transition = 'transform 0.5s ease';
-            const shine = card.querySelector('.shine');
-            if(shine) shine.style.opacity = '0';
-            setTimeout(() => { card.style.transition = 'none'; }, 500);
+
+    // Modal Triggers (REFACTORED FOR FIX 2)
+    const productModal = document.getElementById('productModal');
+    const productModalBackdrop = document.getElementById('productModalBackdrop');
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const d = card.dataset;
+            document.getElementById('modalProductName').textContent = d.name;
+            const img = document.getElementById('modalProductImage');
+            img.src = d.image;
+            // img.onload = () => img.classList.remove('skeleton-loader'); // Removed unused class manipulation
+            document.getElementById('modalProductDescription').textContent = d.description;
+            
+            const specs = document.getElementById('modalProductSpecifications');
+            if(specs) {
+                specs.innerHTML = '';
+                try {
+                    JSON.parse(d.specifications).forEach(s => {
+                        specs.innerHTML += `<li class="flex justify-between border-b border-gray-100 dark:border-gray-700 py-2"><span class="text-gray-500 dark:text-gray-400">${s.label}</span><span class="font-bold text-gray-800 dark:text-white">${s.value}</span></li>`;
+                    });
+                } catch(e){}
+            }
+            
+            document.getElementById('modalProductAdditionalInfo').textContent = d['additional-info'];
+            
+            const addBtn = document.getElementById('modalAddToBasket');
+            if(addBtn) addBtn.onclick = () => { window.addToBasket(d.name); window.closeModal(); };
+
+            if(productModal && productModalBackdrop) {
+                // REFACTORED OPENING LOGIC (FIX 2)
+                productModal.classList.remove('hidden');
+                productModalBackdrop.classList.add('open');
+                productModal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
         });
     });
 
-    // --- B. Confetti Celebration ---
-    window.triggerConfetti = function() {
-        if (typeof confetti === 'function') {
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#607afb', '#8e9bfa', '#ffffff']
-            });
-        } else {
-            console.log("Confetti library not loaded");
-        }
-    };
+    const closeBtn = document.getElementById('closeProductModal');
+    if(closeBtn) closeBtn.addEventListener('click', window.closeModal);
+    if(productModalBackdrop) productModalBackdrop.addEventListener('click', window.closeModal);
 
-    const quoteSubmitBtn = document.querySelector('#quoteForm button');
-    if(quoteSubmitBtn) {
-        quoteSubmitBtn.addEventListener('click', () => {
-            // Optional: check form validity first if desired
-            triggerConfetti();
+
+    // --- Search & Filter ---
+    const searchInput = document.getElementById('productSearch');
+    const products = document.querySelectorAll('.product-item');
+    if(searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            products.forEach(item => {
+                const name = item.dataset.name.toLowerCase();
+                const desc = item.dataset.description.toLowerCase();
+                if(name.includes(term) || desc.includes(term)) {
+                    item.style.display = 'block';
+                    item.classList.remove('aos-animate');
+                    setTimeout(() => item.classList.add('aos-animate'), 50);
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    }
+    
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.dataset.filter;
+            products.forEach(item => {
+                if(filter === 'all' || item.dataset.category.includes(filter)) {
+                    item.style.display = 'block';
+                    item.classList.add('aos-animate');
+                } else { item.style.display = 'none'; }
+            });
+        });
+    });
+
+    // --- SCROLL TO TOP ---
+    const scrollBtn = document.getElementById('scrollTopBtn');
+    const progressCircle = document.getElementById('scrollProgress');
+    if(scrollBtn && progressCircle) {
+        const radius = progressCircle.r.baseVal.value;
+        const circumference = radius * 2 * Math.PI;
+        progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+        progressCircle.style.strokeDashoffset = circumference;
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) scrollBtn.classList.add('visible');
+            else scrollBtn.classList.remove('visible');
+            
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const offset = circumference - ((scrollTop / docHeight) * circumference);
+            progressCircle.style.strokeDashoffset = offset;
+        });
+        scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    }
+
+    // --- INITIALIZATIONS ---
+    
+    // 1. SPLIDE SLIDER (Fixes your Reviews visibility)
+    if (typeof Splide !== 'undefined' && document.querySelector('.splide')) {
+        new Splide('.splide', {
+            type: 'loop',
+            perPage: 3,
+            perMove: 1,
+            gap: '1.5rem',
+            pagination: true,
+            arrows: false,
+            autoplay: true,
+            interval: 5000,
+            pauseOnHover: true,
+            breakpoints: { 1024: { perPage: 2 }, 768: { perPage: 1 } },
+        }).mount();
+    }
+
+    // 2. AOS ANIMATION (Fixes "invisible" elements)
+    if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true });
+
+    // 3. TILT & TYPED
+    if (typeof VanillaTilt !== 'undefined') VanillaTilt.init(document.querySelectorAll(".product-card"), { max: 5, speed: 400, glare: true, "max-glare": 0.2 });
+    if (document.getElementById('typed')) {
+        new Typed('#typed', {
+            strings: ['Kraft & Duplex Paper.', 'Sustainable Packaging.', 'Industrial Solutions.'],
+            typeSpeed: 50, backSpeed: 25, backDelay: 2000, loop: true
         });
     }
 
-    // --- C. Magnetic Buttons ---
-    const magnets = document.querySelectorAll('.action-button, .btn-glow, .filter-btn, .social-btn');
-    magnets.forEach(btn => {
-        btn.addEventListener('mousemove', (e) => {
-            const rect = btn.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            btn.style.transform = `translate(${x/4}px, ${y/4}px)`;
+    // 4. PRELOADER
+    const spinner = document.getElementById('spinner');
+    if (spinner) {
+        window.addEventListener('load', () => {
+            spinner.style.opacity = '0';
+            setTimeout(() => spinner.style.display = 'none', 500);
         });
-        btn.addEventListener('mouseleave', () => {
-            btn.style.transform = 'translate(0, 0)';
-        });
-    });
-
+    }
+    
+    // 5. CURRENT YEAR
+    const yearEl = document.getElementById('currentYear');
+    if(yearEl) yearEl.textContent = new Date().getFullYear();
 });
