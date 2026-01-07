@@ -2,6 +2,100 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log("ABRAR TRADERS: System Loaded v4.1 (Fixed Mobile Menu & Modal)");
 
     // ==========================================
+    // 6. PREMIUM BACKGROUND ANIMATION (tsParticles)
+    // ==========================================
+    if (window.tsParticles) {
+        tsParticles.load("tsparticles", {
+            fpsLimit: 60,
+            fullScreen: { enable: false }, // Kept false so it stays in your #tsparticles div
+            particles: {
+                number: {
+                    value: 50, // Clean, not overcrowded
+                    density: {
+                        enable: true,
+                        area: 800
+                    }
+                },
+                color: {
+                    value: ["#607afb", "#8e9bfa", "#a78bfa"] // Your Brand Colors (Blue, Indigo, Purple)
+                },
+                shape: {
+                    type: "circle" // Classic, clean shape
+                },
+                opacity: {
+                    value: 0.4,
+                    random: true, // Adds depth
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: false,
+                        speed: 40,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#607afb", // Primary blue links
+                    opacity: 0.25, // Subtle lines
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1.5, // Slow, elegant movement
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "out",
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "grab" // Creates connections to the mouse cursor
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: "push" // Adds particles on click
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 0.6
+                        }
+                    },
+                    push: {
+                        particles_nb: 3
+                    }
+                }
+            },
+            retina_detect: true,
+            background: {
+                color: "transparent" // Keeps your CSS gradient visible
+            }
+        });
+    }
+
+    // ==========================================
     // 1. GLOBAL VARIABLES & SETUP
     // ==========================================
     let basket = [];
@@ -362,3 +456,4 @@ document.addEventListener('DOMContentLoaded', function() {
     const yearEl = document.getElementById('currentYear');
     if(yearEl) yearEl.textContent = new Date().getFullYear();
 });
+
