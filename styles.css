@@ -78,6 +78,7 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
 .nav-link:hover { color: var(--primary-color); }
 .nav-link.active { color: var(--primary-color); font-weight: 700; }
 
+/* Smart Sidebar Container */
 .social-sidebar {
     position: fixed;
     top: 40%;
@@ -85,36 +86,54 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
     display: flex;
     flex-direction: column;
     z-index: 9999;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    
+    /* Minimized State (Default) */
+    transform: translateX(-75%); /* Hides 75% of the bar */
+    opacity: 0.8; 
+    
+    /* Premium Spring Animation */
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+    
+    /* Ensure hover trigger area is accessible */
+    padding-right: 10px; /* Extends invisible trigger zone slightly */
 }
-.social-sidebar.minimized {
-    transform: translateX(-90%);
-    opacity: 0.4;
+
+/* Maximized State (When needed) */
+.social-sidebar:hover, 
+.social-sidebar.peek-out { /* JS class for intro animation */
+    transform: translateX(0);
+    opacity: 1;
 }
+
+/* Icon Styles (Refined for smoothness) */
 .social-sidebar .social-icon {
     background-color: white;
     border: 2px solid var(--primary-color);
     width: 40px;
     height: 40px;
-    margin: 5px 0;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    margin: 6px 0; /* Increased spacing slightly */
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-}
-.social-sidebar .social-icon:hover {
-    transform: translateX(10px) scale(1.05);
-    box-shadow: 4px 4px 12px rgba(0,0,0,0.2);
-}
-.social-sidebar .social-icon img {
-    width: 22px;
-    height: 22px;
-    filter: invert(34%) sepia(86%) saturate(509%) hue-rotate(205deg) brightness(95%) contrast(91%);
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+    
+    /* Icon Internal Animation */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s;
 }
 
+.social-sidebar .social-icon:hover {
+    transform: translateX(5px) scale(1.1); /* Subtle pop on hover */
+    background-color: var(--primary-color); /* Fill with color on hover */
+    box-shadow: 4px 4px 15px rgba(96, 122, 251, 0.4);
+    border-color: var(--primary-color);
+}
+
+/* Change icon color to white on hover for contrast */
+.social-sidebar .social-icon:hover img {
+    filter: brightness(0) invert(1);
+}
 svg .line1, svg .line2, svg .line3 {
     transition: all 0.3s ease;
     transform-origin: center;
@@ -415,3 +434,4 @@ button#menuButton {
 }
 
 }
+
