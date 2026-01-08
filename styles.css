@@ -1,4 +1,4 @@
-/* style.css */
+/* styles.css */
 
 :root {
     --primary-color: #607afb; /* Blue */
@@ -35,10 +35,12 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
     box-shadow: 0 8px 32px var(--glass-shadow);
 }
 
+/* --- HEADER / NAV --- */
+/* FIX: Z-Index set to 10000 to sit ABOVE the sidebar (9000) */
 .sticky-nav {
     position: sticky;
     top: 0;
-    z-index: 10000; /* Raised from 40 to 10000 */
+    z-index: 10000; 
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid #e2e8f0;
@@ -78,7 +80,36 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
 .nav-link:hover { color: var(--primary-color); }
 .nav-link.active { color: var(--primary-color); font-weight: 700; }
 
-/* Base Button Style - Clean & Minimalist */
+
+/* --- SOCIAL SIDEBAR (PREMIUM) --- */
+
+/* 1. Container - Positioning & Logic */
+/* FIX: Z-Index set to 9000 to sit BEHIND the header */
+.social-sidebar {
+    position: fixed;
+    top: 40%;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 9000; 
+    
+    /* Minimized State (Default) */
+    transform: translateX(-75%); /* Hides 75% of the bar */
+    opacity: 0.8; 
+    
+    /* Smooth Animation */
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+    padding-right: 10px; /* Trigger zone */
+}
+
+/* Maximized State (Hover or Peek) */
+.social-sidebar:hover, 
+.social-sidebar.peek-out { 
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* 2. Base Button Style - Clean & Minimalist */
 .social-sidebar .social-icon {
     width: 48px;
     height: 48px;
@@ -99,7 +130,7 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
     overflow: hidden;
 }
 
-/* THEME UPDATE: Icons are Theme Blue (#607afb) by default */
+/* 3. Icons (Default State: Theme Blue) */
 .social-sidebar .social-icon img {
     width: 24px;
     height: 24px;
@@ -108,9 +139,9 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
     filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(200deg) brightness(100%) contrast(101%);
 }
 
-/* --- HOVER EFFECTS: Respective Brand Colors --- */
+/* 4. Brand Reveal Effects */
 
-/* 1. Facebook (Blue) */
+/* Facebook (Blue) */
 .social-sidebar .social-icon:nth-child(1):hover {
     background: #1877F2;
     border-color: #1877F2;
@@ -118,7 +149,7 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
     box-shadow: 0 8px 20px rgba(24, 119, 242, 0.4);
 }
 
-/* 2. Instagram (Gradient) */
+/* Instagram (Gradient) */
 .social-sidebar .social-icon:nth-child(2):hover {
     background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
     border-color: #d6249f;
@@ -126,7 +157,7 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
     box-shadow: 0 8px 20px rgba(214, 36, 159, 0.4);
 }
 
-/* 3. WhatsApp (Green) */
+/* WhatsApp (Green) */
 .social-sidebar .social-icon:nth-child(3):hover {
     background: #25D366;
     border-color: #25D366;
@@ -134,7 +165,7 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
     box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
 }
 
-/* 4. LinkedIn (Dark Blue) */
+/* LinkedIn (Dark Blue) */
 .social-sidebar .social-icon:nth-child(4):hover {
     background: #0A66C2;
     border-color: #0A66C2;
@@ -142,15 +173,19 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
     box-shadow: 0 8px 20px rgba(10, 102, 194, 0.4);
 }
 
-/* Common Hover: Icon turns White for contrast */
+/* Common Hover: Icon turns White */
 .social-sidebar .social-icon:hover img {
     filter: brightness(0) invert(1);
-    transform: scale(1.1) rotate(5deg); /* Added slight rotation for effect */
+    transform: scale(1.1) rotate(5deg);
 }
+
+
+/* --- MOBILE MENU --- */
 .menu-open svg .line1 { transform: rotate(45deg) translate(5px, 5px); }
 .menu-open svg .line2 { opacity: 0; }
 .menu-open svg .line3 { transform: rotate(-45deg) translate(5px, -5px); }
 
+/* FIX: Z-Index set to 20000 (Top-most Layer) */
 #mobileMenu {
     position: fixed;
     top: 0;
@@ -169,7 +204,7 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
     pointer-events: none;
     opacity: 0;
     transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease;
-    z-index: 20000; /* Raised from 60 to ensure it's the top-most layer */
+    z-index: 20000; 
 }
 #mobileMenu.open {
     transform: translateX(0);
@@ -187,6 +222,7 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
     transform: scale(1.1);
 }
 
+/* FIX: Backdrops set to 19999 (Just below Menu) */
 #menuBackdrop, #productModalBackdrop {
     position: fixed;
     inset: 0;
@@ -195,7 +231,7 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.4s ease, backdrop-filter 0.4s ease;
-    z-index: 19999; /* Raised from 50 to sit right under the menu */
+    z-index: 19999; 
 }
 #menuBackdrop.open, #productModalBackdrop.open {
     opacity: 1;
@@ -213,7 +249,7 @@ button#menuButton {
     transition: background-color 0.2s ease;
 }
 
-/* Product Card hover effect */
+/* --- PRODUCT CARDS --- */
 .product-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
@@ -372,7 +408,6 @@ button#menuButton {
     max-height: 700px;
     overflow-y: auto;
 }
-/* FIX 2: ADDED .open CLASS FOR MODAL TRANSITION */
 #productModal.open {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
@@ -439,10 +474,4 @@ button#menuButton {
 .widget:hover {
     transform: translateY(-5px);
     box-shadow: 0 12px 24px rgba(31, 38, 135, 0.2);
-
 }
-
-}
-
-
-
