@@ -38,7 +38,7 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
 .sticky-nav {
     position: sticky;
     top: 0;
-    z-index: 40;
+    z-index: 10000; /* Raised from 40 to 10000 */
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid #e2e8f0;
@@ -80,69 +80,72 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
 
 /* Base Button Style - Clean & Minimalist */
 .social-sidebar .social-icon {
-    width: 48px;  /* Larger, more clickable */
+    width: 48px;
     height: 48px;
-    margin: 8px 0 !important; /* Force spacing */
-    border-radius: 50%; /* Perfect circle looks more premium */
+    margin: 8px 0 !important;
+    border-radius: 50%;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
     
-    /* Soft, expensive-looking shadow */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.4); /* Subtle glass border */
+    /* THEME UPDATE: Subtle Blue Shadow & Border by default */
+    box-shadow: 0 4px 15px rgba(96, 122, 251, 0.15); /* Blue-ish shadow */
+    border: 1px solid rgba(96, 122, 251, 0.2); /* Subtle Theme Blue border */
     
-    /* Bouncy animation */
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     overflow: hidden;
 }
 
-/* The Icons (Default State: Dark & Sharp) */
+/* THEME UPDATE: Icons are Theme Blue (#607afb) by default */
 .social-sidebar .social-icon img {
     width: 24px;
     height: 24px;
     transition: all 0.3s ease;
-    /* Sets icon to a dark slate color (more elegant than pure black) */
-    filter: invert(12%) sepia(10%) saturate(1400%) hue-rotate(190deg) brightness(20%) contrast(90%);
+    /* CSS Filter to turn black icon into Theme Blue (#607afb) */
+    filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(200deg) brightness(100%) contrast(101%);
 }
 
-/* --- THE BRAND REVEAL EFFECTS --- */
+/* --- HOVER EFFECTS: Respective Brand Colors --- */
 
-/* 1. Facebook */
+/* 1. Facebook (Blue) */
 .social-sidebar .social-icon:nth-child(1):hover {
-    background: #1877F2; /* Official FB Blue */
+    background: #1877F2;
+    border-color: #1877F2;
     transform: translateX(8px) scale(1.1);
     box-shadow: 0 8px 20px rgba(24, 119, 242, 0.4);
 }
 
-/* 2. Instagram */
+/* 2. Instagram (Gradient) */
 .social-sidebar .social-icon:nth-child(2):hover {
     background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    border-color: #d6249f;
     transform: translateX(8px) scale(1.1);
     box-shadow: 0 8px 20px rgba(214, 36, 159, 0.4);
 }
 
-/* 3. WhatsApp */
+/* 3. WhatsApp (Green) */
 .social-sidebar .social-icon:nth-child(3):hover {
-    background: #25D366; /* Official WhatsApp Green */
+    background: #25D366;
+    border-color: #25D366;
     transform: translateX(8px) scale(1.1);
     box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
 }
 
-/* 4. LinkedIn */
+/* 4. LinkedIn (Dark Blue) */
 .social-sidebar .social-icon:nth-child(4):hover {
-    background: #0A66C2; /* Official LinkedIn Blue */
+    background: #0A66C2;
+    border-color: #0A66C2;
     transform: translateX(8px) scale(1.1);
     box-shadow: 0 8px 20px rgba(10, 102, 194, 0.4);
 }
 
-/* Common Hover State: Turn icon pure white */
+/* Common Hover: Icon turns White for contrast */
 .social-sidebar .social-icon:hover img {
     filter: brightness(0) invert(1);
-    transform: scale(1.1);
+    transform: scale(1.1) rotate(5deg); /* Added slight rotation for effect */
 }
 .menu-open svg .line1 { transform: rotate(45deg) translate(5px, 5px); }
 .menu-open svg .line2 { opacity: 0; }
@@ -166,7 +169,7 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
     pointer-events: none;
     opacity: 0;
     transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease;
-    z-index: 60;
+    z-index: 20000; /* Raised from 60 to ensure it's the top-most layer */
 }
 #mobileMenu.open {
     transform: translateX(0);
@@ -192,7 +195,7 @@ body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-r
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.4s ease, backdrop-filter 0.4s ease;
-    z-index: 50;
+    z-index: 19999; /* Raised from 50 to sit right under the menu */
 }
 #menuBackdrop.open, #productModalBackdrop.open {
     opacity: 1;
@@ -440,5 +443,6 @@ button#menuButton {
 }
 
 }
+
 
 
