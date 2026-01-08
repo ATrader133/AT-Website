@@ -74,6 +74,12 @@
 </head>
 
 <body class="bg-bg-light">
+        <div id="quoteBasket" class="fixed bottom-6 left-6 z-50 hidden cursor-pointer bg-blue-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-blue-700 hover:scale-105 transition-all animate-bounce">
+            <div class="flex items-center gap-2 font-bold">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                <span>Quote Basket (<span id="basketCount">0</span>)</span>
+            </div>
+        </div>
 
     <div class="progress-bar" id="progressBar"></div>
 
@@ -614,6 +620,13 @@
         <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400 text-sm">
             <p>© <span id="currentYear"></span> ABRAR TRADERS. All Rights Reserved.</p>
         </div>
+        <li>
+            <button onclick="window.downloadCatalog()" class="text-gray-400 hover:text-white transition flex items-center gap-2">
+            <span>Download Catalog</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            </button>
+        </li>
     </footer>
 
     <script src="main.js" defer></script>
@@ -631,6 +644,7 @@ s0.parentNode.insertBefore(s1,s0);
 </script>
 </body>
 </html>
+
 
 
 
