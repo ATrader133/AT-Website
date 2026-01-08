@@ -280,6 +280,16 @@ button#menuButton {
     z-index: 2;
 }
 
+/* FORCE DARK TEXT ON PRODUCT CARDS */
+.product-card h3, 
+.product-card p {
+    color: var(--text-color) !important; /* Forces text to be Dark (#0d0f1c) */
+}
+
+/* Optional: Ensure specific gray shades are respected if Tailwind fails */
+.product-card h3 { color: #1f2937 !important; } /* Gray-800 */
+.product-card p { color: #4b5563 !important; }  /* Gray-600 */
+
 /* Glowing Button Effect */
 .btn-glow {
     position: relative;
@@ -477,4 +487,5 @@ button#menuButton {
     transform: translateY(-5px);
     box-shadow: 0 12px 24px rgba(31, 38, 135, 0.2);
 }
+
 
