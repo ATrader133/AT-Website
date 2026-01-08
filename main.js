@@ -1,115 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("ABRAR TRADERS: System Loaded v4.1 (Fixed Mobile Menu & Modal)");
-
-    // ==========================================
-    // 7. SMART SIDEBAR INTRO ANIMATION
-    // ==========================================
-    const sidebar = document.getElementById('socialSidebar');
-    if (sidebar) {
-        // 1. Slide out initially to show user it exists
-        setTimeout(() => {
-            sidebar.classList.add('peek-out');
-        }, 1000); // Wait 1s after load
-
-        // 2. Retract back to minimized state automatically
-        setTimeout(() => {
-            sidebar.classList.remove('peek-out');
-        }, 3500); // Stay open for 2.5s
-    }
-
-    // ==========================================
-    // 6. PREMIUM BACKGROUND ANIMATION (tsParticles)
-    // ==========================================
-    if (window.tsParticles) {
-        tsParticles.load("tsparticles", {
-            fpsLimit: 60,
-            fullScreen: { enable: false }, // Kept false so it stays in your #tsparticles div
-            particles: {
-                number: {
-                    value: 50, // Clean, not overcrowded
-                    density: {
-                        enable: true,
-                        area: 800
-                    }
-                },
-                color: {
-                    value: ["#607afb", "#8e9bfa", "#a78bfa"] // Your Brand Colors (Blue, Indigo, Purple)
-                },
-                shape: {
-                    type: "circle" // Classic, clean shape
-                },
-                opacity: {
-                    value: 0.4,
-                    random: true, // Adds depth
-                    anim: {
-                        enable: true,
-                        speed: 1,
-                        opacity_min: 0.1,
-                        sync: false
-                    }
-                },
-                size: {
-                    value: 3,
-                    random: true,
-                    anim: {
-                        enable: false,
-                        speed: 40,
-                        size_min: 0.1,
-                        sync: false
-                    }
-                },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: "#607afb", // Primary blue links
-                    opacity: 0.25, // Subtle lines
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 1.5, // Slow, elegant movement
-                    direction: "none",
-                    random: false,
-                    straight: false,
-                    out_mode: "out",
-                    attract: {
-                        enable: false,
-                        rotateX: 600,
-                        rotateY: 1200
-                    }
-                }
-            },
-            interactivity: {
-                detect_on: "canvas",
-                events: {
-                    onhover: {
-                        enable: true,
-                        mode: "grab" // Creates connections to the mouse cursor
-                    },
-                    onclick: {
-                        enable: true,
-                        mode: "push" // Adds particles on click
-                    },
-                    resize: true
-                },
-                modes: {
-                    grab: {
-                        distance: 140,
-                        line_linked: {
-                            opacity: 0.6
-                        }
-                    },
-                    push: {
-                        particles_nb: 3
-                    }
-                }
-            },
-            retina_detect: true,
-            background: {
-                color: "transparent" // Keeps your CSS gradient visible
-            }
-        });
-    }
+    console.log("ABRAR TRADERS: System Loaded v5.0 (Final Polish)");
 
     // ==========================================
     // 1. GLOBAL VARIABLES & SETUP
@@ -126,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 2. WINDOW FUNCTIONS (Accessible by HTML)
     // ==========================================
 
-    // --- TABS LOGIC ---
+    // --- TABS LOGIC (Calculators) ---
     window.switchTab = function(tabName) {
         ['weight', 'reel', 'strength', 'cbm'].forEach(t => {
             const content = document.getElementById('tool-' + t);
@@ -166,14 +56,13 @@ document.addEventListener('DOMContentLoaded', function() {
         window.calculateWeight(); 
     };
 
-    // --- PRESETS (FIXED) ---
+    // --- PRESETS ---
     window.applyPreset = function() {
         const preset = document.getElementById('sizePreset').value;
         const lInput = document.getElementById('calcLength');
         const wInput = document.getElementById('calcWidth');
         if (!preset) return;
 
-        // Corrected ISO and Imperial sizes
         if (preset === 'A2') { window.setUnit('mm'); wInput.value = 420; lInput.value = 594; }
         else if (preset === 'A3') { window.setUnit('mm'); wInput.value = 297; lInput.value = 420; }
         else if (preset === 'A4') { window.setUnit('mm'); wInput.value = 210; lInput.value = 297; }
@@ -250,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if(!basket.includes(productName)) {
             basket.push(productName);
             updateBasketUI();
-            // Removed redundant scale-125 animation as it's not strictly necessary.
+            alert(productName + " added to Quote Basket!");
         }
     };
 
@@ -268,19 +157,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const basketBtn = document.getElementById('quoteBasket');
     if(basketBtn) basketBtn.addEventListener('click', () => document.getElementById('quote').scrollIntoView({behavior: 'smooth'}));
 
-    // --- DOWNLOAD MOCK ---
+    // --- DOWNLOAD FEATURE (Hidden Feature) ---
     window.downloadCatalog = function() {
-        const email = prompt("Enter your email to download:");
-        if (email) alert("Catalogue sent to " + email);
+        const email = prompt("Please enter your email to receive our latest product catalog:");
+        if (email) {
+            // In a real scenario, you would send this email to your backend.
+            alert("Thank you! The catalog has been sent to " + email);
+        }
     };
 
-    // --- MODAL HELPERS (REFACTORED) ---
+    // --- MODAL HELPERS ---
     window.closeModal = function() {
         const modal = document.getElementById('productModal');
         const backdrop = document.getElementById('productModalBackdrop');
         if(modal) {
-            modal.classList.remove('open'); // Use .open class for CSS transition
-            setTimeout(() => modal.classList.add('hidden'), 300); // Hide after transition
+            modal.classList.remove('open'); 
+            setTimeout(() => modal.classList.add('hidden'), 300);
         }
         if(backdrop) {
             backdrop.classList.remove('open');
@@ -298,12 +190,12 @@ document.addEventListener('DOMContentLoaded', function() {
     ['strGsm', 'strBf'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateStrength));
     ['cbmL', 'cbmW', 'cbmH', 'cbmQty'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateCBM));
     
-    // --- MOBILE MENU TOGGLE (FIX 1: Logic Copied from blog.js) ---
+    // --- MOBILE MENU TOGGLE ---
     const menuButton = document.getElementById('menuButton');
     const closeMenuButton = document.getElementById('closeMenuButton');
     const mobileMenu = document.getElementById('mobileMenu');
     const menuBackdrop = document.getElementById('menuBackdrop');
-    const mobileNavLinks = mobileMenu.querySelectorAll('.nav-link');
+    const mobileNavLinks = mobileMenu ? mobileMenu.querySelectorAll('.nav-link') : [];
 
     const toggleMenu = (forceClose = false) => {
         const isOpen = mobileMenu.classList.contains('open');
@@ -331,10 +223,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    // --- END FIX 1 ---
 
-
-    // Modal Triggers (REFACTORED FOR FIX 2)
+    // --- MODAL TRIGGERS ---
     const productModal = document.getElementById('productModal');
     const productModalBackdrop = document.getElementById('productModalBackdrop');
     document.querySelectorAll('.product-card').forEach(card => {
@@ -343,15 +233,15 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('modalProductName').textContent = d.name;
             const img = document.getElementById('modalProductImage');
             img.src = d.image;
-            // img.onload = () => img.classList.remove('skeleton-loader'); // Removed unused class manipulation
             document.getElementById('modalProductDescription').textContent = d.description;
             
             const specs = document.getElementById('modalProductSpecifications');
             if(specs) {
                 specs.innerHTML = '';
                 try {
+                    // FIX: Removed 'dark:' classes so text stays gray/black
                     JSON.parse(d.specifications).forEach(s => {
-                        specs.innerHTML += `<li class="flex justify-between border-b border-gray-100 dark:border-gray-700 py-2"><span class="text-gray-500 dark:text-gray-400">${s.label}</span><span class="font-bold text-gray-800 dark:text-white">${s.value}</span></li>`;
+                        specs.innerHTML += `<li class="flex justify-between border-b border-gray-100 py-2"><span class="text-gray-500">${s.label}</span><span class="font-bold text-gray-800">${s.value}</span></li>`;
                     });
                 } catch(e){}
             }
@@ -362,7 +252,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if(addBtn) addBtn.onclick = () => { window.addToBasket(d.name); window.closeModal(); };
 
             if(productModal && productModalBackdrop) {
-                // REFACTORED OPENING LOGIC (FIX 2)
                 productModal.classList.remove('hidden');
                 productModalBackdrop.classList.add('open');
                 productModal.classList.add('open');
@@ -376,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if(productModalBackdrop) productModalBackdrop.addEventListener('click', window.closeModal);
 
 
-    // --- Search & Filter ---
+    // --- SEARCH & FILTER ---
     const searchInput = document.getElementById('productSearch');
     const products = document.querySelectorAll('.product-item');
     if(searchInput) {
@@ -408,6 +297,36 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // --- SIDEBAR & PARTICLES ---
+    const sidebar = document.getElementById('socialSidebar');
+    if (sidebar) {
+        setTimeout(() => { sidebar.classList.add('peek-out'); }, 1000);
+        setTimeout(() => { sidebar.classList.remove('peek-out'); }, 3500);
+    }
+
+    if (window.tsParticles) {
+        tsParticles.load("tsparticles", {
+            fpsLimit: 60,
+            fullScreen: { enable: false },
+            particles: {
+                number: { value: 50, density: { enable: true, area: 800 } },
+                color: { value: ["#607afb", "#8e9bfa", "#a78bfa"] },
+                shape: { type: "circle" },
+                opacity: { value: 0.4, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false } },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: "#607afb", opacity: 0.25, width: 1 },
+                move: { enable: true, speed: 1.5, direction: "none", random: false, straight: false, out_mode: "out" }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" }, resize: true },
+                modes: { grab: { distance: 140, line_linked: { opacity: 0.6 } }, push: { particles_nb: 3 } }
+            },
+            retina_detect: true,
+            background: { color: "transparent" }
+        });
+    }
+
     // --- SCROLL TO TOP ---
     const scrollBtn = document.getElementById('scrollTopBtn');
     const progressCircle = document.getElementById('scrollProgress');
@@ -430,27 +349,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // --- INITIALIZATIONS ---
-    
-    // 1. SPLIDE SLIDER (Fixes your Reviews visibility)
     if (typeof Splide !== 'undefined' && document.querySelector('.splide')) {
         new Splide('.splide', {
-            type: 'loop',
-            perPage: 3,
-            perMove: 1,
-            gap: '1.5rem',
-            pagination: true,
-            arrows: false,
-            autoplay: true,
-            interval: 5000,
-            pauseOnHover: true,
+            type: 'loop', perPage: 3, perMove: 1, gap: '1.5rem', pagination: true, arrows: false, autoplay: true, interval: 5000, pauseOnHover: true,
             breakpoints: { 1024: { perPage: 2 }, 768: { perPage: 1 } },
         }).mount();
     }
 
-    // 2. AOS ANIMATION (Fixes "invisible" elements)
     if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true });
-
-    // 3. TILT & TYPED
     if (typeof VanillaTilt !== 'undefined') VanillaTilt.init(document.querySelectorAll(".product-card"), { max: 5, speed: 400, glare: true, "max-glare": 0.2 });
     if (document.getElementById('typed')) {
         new Typed('#typed', {
@@ -459,7 +365,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 4. PRELOADER
     const spinner = document.getElementById('spinner');
     if (spinner) {
         window.addEventListener('load', () => {
@@ -468,9 +373,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // 5. CURRENT YEAR
     const yearEl = document.getElementById('currentYear');
     if(yearEl) yearEl.textContent = new Date().getFullYear();
 });
-
-
