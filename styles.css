@@ -528,3 +528,33 @@ button#menuButton {
     to { opacity: 0; transform: translateY(-20px); }
 }
 
+/* --- PREMIUM TYPOGRAPHY --- */
+/* Apply elegant Serif font to main titles and section headers */
+h1, h2, #modalProductName, .font-serif {
+    font-family: 'Playfair Display', serif !important;
+    letter-spacing: -0.02em; /* Tighter letter spacing looks more expensive */
+}
+
+/* Make sure the rest stays in your clean sans-serif */
+body, p, span, a, button, input {
+    font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+/* --- LENIS SMOOTH SCROLL REQUIRED CSS --- */
+html.lenis, html.lenis body {
+  height: auto;
+  width: 100%;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important; /* Overrides default smooth scroll */
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none; /* Prevents maps from breaking the smooth scroll */
+}
+
