@@ -392,10 +392,68 @@ document.addEventListener('DOMContentLoaded', function() {
             strings: ['Kraft & Duplex Paper.', 'Sustainable Packaging.', 'Industrial Solutions.'],
             typeSpeed: 50, backSpeed: 25, backDelay: 2000, loop: true
         });
+        // ==========================================
+    // 8. PREMIUM MICRO-INTERACTIONS
+    // ==========================================
+
+    // A. Initialize Lenis Smooth Scrolling
+    if (typeof Lenis !== 'undefined') {
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Smooth friction curve
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            smoothTouch: false, // Keep native scroll on touch devices
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Make standard anchor links work with Lenis
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                lenis.scrollTo(this.getAttribute('href'));
+            });
+        });
+    }
+
+    // B. Magnetic Buttons
+    const magneticButtons = document.querySelectorAll('.action-button');
+    magneticButtons.forEach(btn => {
+        // Move button towards cursor
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = (e.clientX - rect.left) - (rect.width / 2);
+            const y = (e.clientY - rect.top) - (rect.height / 2);
+            
+            // Adjust the '0.3' to make the magnetic pull stronger or weaker
+            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        });
+
+        // Snap back into place smoothly
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = `translate(0px, 0px)`;
+            // Ensure smooth snap-back
+            btn.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; 
+            
+            // Remove transition after it finishes so mousemove is instantaneous again
+            setTimeout(() => {
+                btn.style.transition = '';
+            }, 400);
+        });
+    });
+        
     }
 
     const yearEl = document.getElementById('currentYear');
     if(yearEl) yearEl.textContent = new Date().getFullYear();
 });
+
 
 
