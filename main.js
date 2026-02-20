@@ -16,6 +16,31 @@ document.addEventListener('DOMContentLoaded', function() {
     // 2. WINDOW FUNCTIONS (Accessible by HTML)
     // ==========================================
 
+    // --- TOAST NOTIFICATION SYSTEM ---
+    window.showToast = function(message, type = 'success') {
+        let container = document.getElementById('toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'toast-container';
+            document.body.appendChild(container);
+        }
+
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        
+        const icon = type === 'success' 
+            ? '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>' 
+            : '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
+
+        toast.innerHTML = `${icon} <span>${message}</span>`;
+        container.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.animation = 'toastFadeOut 0.4s forwards';
+            setTimeout(() => toast.remove(), 400);
+        }, 3000);
+    };
+
     // --- TABS LOGIC (Calculators) ---
     window.switchTab = function(tabName) {
         ['weight', 'reel', 'strength', 'cbm'].forEach(t => {
@@ -139,7 +164,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if(!basket.includes(productName)) {
             basket.push(productName);
             updateBasketUI();
-            alert(productName + " added to Quote Basket!");
+            window.showToast(productName + " added to Quote Basket!", "success");
+        } else {
+            window.showToast(productName + " is already in basket.", "info");
         }
     };
 
@@ -157,13 +184,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const basketBtn = document.getElementById('quoteBasket');
     if(basketBtn) basketBtn.addEventListener('click', () => document.getElementById('quote').scrollIntoView({behavior: 'smooth'}));
 
-    // --- DOWNLOAD FEATURE (Hidden Feature) ---
+   // --- DOWNLOAD FEATURE ---
     window.downloadCatalog = function() {
-        const email = prompt("Please enter your email to receive our latest product catalog:");
-        if (email) {
-            // In a real scenario, you would send this email to your backend.
-            alert("Thank you! The catalog has been sent to " + email);
-        }
+        // Automatically trigger toast instead of an ugly prompt
+        window.showToast("Preparing your PDF catalog for download...", "info");
+        setTimeout(() => {
+            window.showToast("Download started!", "success");
+            // Here you would put the actual link to your PDF file
+            // window.open('assets/abrar-traders-catalog.pdf', '_blank');
+        }, 1500);
     };
 
     // --- MODAL HELPERS ---
@@ -368,4 +397,5 @@ document.addEventListener('DOMContentLoaded', function() {
     const yearEl = document.getElementById('currentYear');
     if(yearEl) yearEl.textContent = new Date().getFullYear();
 });
+
 
