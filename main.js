@@ -365,14 +365,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    const spinner = document.getElementById('spinner');
-    if (spinner) {
-        window.addEventListener('load', () => {
-            spinner.style.opacity = '0';
-            setTimeout(() => spinner.style.display = 'none', 500);
-        });
-    }
-    
     const yearEl = document.getElementById('currentYear');
     if(yearEl) yearEl.textContent = new Date().getFullYear();
 });
+
