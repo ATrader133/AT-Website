@@ -448,12 +448,106 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 400);
         });
     });
+    // ==========================================
+    // 9. PAPER FINDER QUIZ LOGIC
+    // ==========================================
+    let quizState = { use: '', weight: '' };
+
+    window.quizSelect = function(step, value) {
+        quizState[step] = value;
+        
+        if (step === 'use') {
+            // Animate transition to Step 2
+            const step1 = document.getElementById('quiz-step-1');
+            const step2 = document.getElementById('quiz-step-2');
+            step1.style.opacity = '0';
+            setTimeout(() => {
+                step1.classList.add('hidden');
+                step2.classList.remove('hidden');
+                // Force reflow
+                void step2.offsetWidth; 
+                step2.style.opacity = '1';
+            }, 300); // 300ms matches Tailwind duration
+
+        } else if (step === 'weight') {
+            // Animate transition to Step 3 (Result)
+            const step2 = document.getElementById('quiz-step-2');
+            step2.style.opacity = '0';
+            setTimeout(() => {
+                step2.classList.add('hidden');
+                showQuizResult();
+            }, 300);
+        }
+    };
+
+    window.quizBack = function() {
+        const step1 = document.getElementById('quiz-step-1');
+        const step2 = document.getElementById('quiz-step-2');
+        step2.style.opacity = '0';
+        setTimeout(() => {
+            step2.classList.add('hidden');
+            step1.classList.remove('hidden');
+            void step1.offsetWidth;
+            step1.style.opacity = '1';
+            quizState.use = '';
+        }, 300);
+    };
+
+    window.quizReset = function() {
+        const step1 = document.getElementById('quiz-step-1');
+        const step3 = document.getElementById('quiz-step-3');
+        step3.style.opacity = '0';
+        setTimeout(() => {
+            step3.classList.add('hidden');
+            step1.classList.remove('hidden');
+            void step1.offsetWidth;
+            step1.style.opacity = '1';
+            quizState = { use: '', weight: '' };
+        }, 300);
+    };
+
+    function showQuizResult() {
+        let result = { title: '', desc: '' };
+
+        // --- The "Brain" / Logic Matrix ---
+        if (quizState.use === 'packaging') {
+            if (quizState.weight === 'heavy') result = { title: 'Laminated Paper Board, Kappa Board', desc: 'Maximum protection and rigidity. Ideal for heavy boxes and luxury packaging.' };
+            else if (quizState.weight === 'medium') result = { title: 'Duplex Paper, Duplex Board', desc: 'The industry standard. Excellent balance of printability and strength for consumer boxes.' };
+            else result = { title: 'Kraft Paper', desc: 'Lightweight packaging, wrapping, and making eco-friendly bags.' };
+            
+        } else if (quizState.use === 'printing') {
+            if (quizState.weight === 'heavy') result = { title: 'SBS', desc: 'Solid Bleached Sulphate. High bulk, premium coated board for top-tier packaging and covers.' };
+            else if (quizState.weight === 'medium') result = { title: 'FBB', desc: 'Folding Box Board. Perfect for vibrant colors and sturdy brochures or catalogs.' };
+            else result = { title: 'Writing Paper, Printing Paper, Maplitho Paper', desc: 'Standard high-quality bond paper for documents, letterheads, and office use.' };
+            
+        } else if (quizState.use === 'industrial') {
+            if (quizState.weight === 'heavy') result = { title: 'Sundry Grey Board, Puttha, Gatta', desc: 'Thick, economical recycled board for heavy industrial use and bookbinding.' };
+            else result = { title: 'Kraft Paper', desc: 'Durable industrial wrapping, void fill, and protective layers.' };
+        }
+
+        // Update UI
+        document.getElementById('quiz-result-title').textContent = result.title;
+        document.getElementById('quiz-result-desc').textContent = result.desc;
+        
+        // Connect the "Add to Basket" button
+        const btn = document.getElementById('quiz-add-btn');
+        btn.onclick = () => {
+            window.addToBasket(result.title);
+        };
+
+        // Show step 3
+        const step3 = document.getElementById('quiz-step-3');
+        step3.classList.remove('hidden');
+        void step3.offsetWidth;
+        step3.style.opacity = '1';
+    }
         
     }
 
     const yearEl = document.getElementById('currentYear');
     if(yearEl) yearEl.textContent = new Date().getFullYear();
 });
+
 
 
 
