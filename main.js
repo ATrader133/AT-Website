@@ -509,5 +509,56 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => spinner.style.display = 'none', 500);
         });
     }
+    // ==========================================
+    // 11. AJAX FORM SUBMISSION (No Redirects)
+    // ==========================================
+    const quoteForm = document.getElementById('quoteForm');
+    if (quoteForm) {
+        quoteForm.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Stops the page from leaving your website
+            
+            const submitBtn = quoteForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = 'Sending...';
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            const formData = new FormData(quoteForm);
+            
+            try {
+                const response = await fetch(quoteForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // Success! Show toast and clear the form
+                    window.showToast("Quote requested successfully! We'll contact you soon.", "success");
+                    quoteForm.reset();
+                    
+                    // Optional: Clear the quote basket after successful submission
+                    if (typeof basket !== 'undefined') {
+                        basket = [];
+                        localStorage.setItem('at_basket', JSON.stringify(basket));
+                        document.getElementById('basketCount').textContent = '0';
+                        document.getElementById('quoteBasket').classList.add('hidden');
+                    }
+                } else {
+                    window.showToast("Oops! There was a problem submitting your form.", "info");
+                }
+            } catch (error) {
+                window.showToast("Network error. Please try again.", "info");
+            } finally {
+                // Reset button state
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+            }
+        });
+    }
 });
+
 
