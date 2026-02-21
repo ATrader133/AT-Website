@@ -1,22 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("ABRAR TRADERS: System Loaded v5.0 (Final Polish)");
+    console.log("ABRAR TRADERS: Enterprise System Loaded v6.0");
 
     // ==========================================
-    // 1. GLOBAL VARIABLES & SETUP
+    // 1. GLOBAL STATE & BASKET
     // ==========================================
     let basket = [];
     let currentUnit = 'cm';
-
     try {
         const stored = localStorage.getItem('at_basket');
         if (stored) basket = JSON.parse(stored);
-    } catch (e) { console.error("Local Storage Error:", e); }
+    } catch (e) { console.error("Storage Error:", e); }
 
     // ==========================================
-    // 2. WINDOW FUNCTIONS (Accessible by HTML)
+    // 2. TOAST NOTIFICATION SYSTEM
     // ==========================================
-
-    // --- TOAST NOTIFICATION SYSTEM ---
     window.showToast = function(message, type = 'success') {
         let container = document.getElementById('toast-container');
         if (!container) {
@@ -24,149 +21,78 @@ document.addEventListener('DOMContentLoaded', function() {
             container.id = 'toast-container';
             document.body.appendChild(container);
         }
-
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
-        
-        const icon = type === 'success' 
-            ? '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>' 
-            : '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
-
-        toast.innerHTML = `${icon} <span>${message}</span>`;
+        const icon = type === 'success' ? '✅' : 'ℹ️'; // Simplified icon for speed
+        toast.innerHTML = `<span class="mr-2">${icon}</span> <span>${message}</span>`;
         container.appendChild(toast);
-
         setTimeout(() => {
             toast.style.animation = 'toastFadeOut 0.4s forwards';
             setTimeout(() => toast.remove(), 400);
         }, 3000);
     };
 
-    // --- TABS LOGIC (Calculators) ---
-    window.switchTab = function(tabName) {
-        ['weight', 'reel', 'strength', 'cbm'].forEach(t => {
-            const content = document.getElementById('tool-' + t);
-            const btn = document.getElementById('tab-' + t);
-            if(content) content.classList.add('hidden');
-            if(btn) btn.className = "px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm font-bold text-gray-500 hover:text-blue-600 transition-all";
-        });
-
-        const activeContent = document.getElementById('tool-' + tabName);
-        if(activeContent) activeContent.classList.remove('hidden');
-
-        const activeBtn = document.getElementById('tab-' + tabName);
-        if(activeBtn) {
-            let colorClass = "text-blue-600";
-            if(tabName === 'reel') colorClass = "text-yellow-600";
-            if(tabName === 'strength') colorClass = "text-red-600";
-            if(tabName === 'cbm') colorClass = "text-green-600";
-            activeBtn.className = `px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm font-bold transition-all shadow-md bg-white ${colorClass}`;
-        }
-    };
-
-    // --- UNIT TOGGLE ---
-    window.setUnit = function(unit) {
-        currentUnit = unit;
-        ['cm', 'mm', 'inch'].forEach(u => {
-            const btn = document.getElementById(`btn-${u}`);
-            if(btn) btn.className = (u === unit) 
-                ? "flex-1 md:flex-none px-6 py-2 rounded-lg text-sm font-bold transition-all bg-blue-600 text-white shadow-md transform scale-105"
-                : "flex-1 md:flex-none px-6 py-2 rounded-lg text-sm font-bold text-gray-500 hover:text-blue-600 transition-all";
-        });
-
-        document.querySelectorAll('.unit-label').forEach(l => l.textContent = `(${unit})`);
-        ['calcLength', 'calcWidth', 'sizePreset'].forEach(id => {
-            const el = document.getElementById(id);
-            if(el) el.value = '';
-        });
-        window.calculateWeight(); 
-    };
-
-    // --- PRESETS ---
-    window.applyPreset = function() {
-        const preset = document.getElementById('sizePreset').value;
-        const lInput = document.getElementById('calcLength');
-        const wInput = document.getElementById('calcWidth');
-        if (!preset) return;
-
-        if (preset === 'A2') { window.setUnit('mm'); wInput.value = 420; lInput.value = 594; }
-        else if (preset === 'A3') { window.setUnit('mm'); wInput.value = 297; lInput.value = 420; }
-        else if (preset === 'A4') { window.setUnit('mm'); wInput.value = 210; lInput.value = 297; }
-        else if (preset === 'A5') { window.setUnit('mm'); wInput.value = 148; lInput.value = 210; }
-        else if (['18x23', '23x36', '25x36', '30x40'].includes(preset)) {
-            window.setUnit('inch'); const [w, h] = preset.split('x'); wInput.value = w; lInput.value = h;
-        }
-        window.calculateWeight();
-    };
-
-    // --- CALC 1: WEIGHT ---
-    window.calculateWeight = function() {
-        const l = parseFloat(document.getElementById('calcLength')?.value) || 0;
-        const w = parseFloat(document.getElementById('calcWidth')?.value) || 0;
-        const gsm = parseFloat(document.getElementById('calcGsm')?.value) || 0;
-        const qty = parseFloat(document.getElementById('calcQty')?.value) || 0;
+    // ==========================================
+    // 3. PRODUCT MODAL & WHATSAPP LOGIC
+    // ==========================================
+    const productModal = document.getElementById('productModal');
+    const productModalBackdrop = document.getElementById('productModalBackdrop');
+    
+    window.openProductModal = function(card) {
+        const d = card.dataset;
+        document.getElementById('modalProductName').textContent = d.name;
+        document.getElementById('modalProductImage').src = d.image;
+        document.getElementById('modalProductDescription').textContent = d.description;
         
-        let m_l = 0, m_w = 0;
-        if (currentUnit === 'cm') { m_l = l/100; m_w = w/100; }
-        else if (currentUnit === 'mm') { m_l = l/1000; m_w = w/1000; }
-        else if (currentUnit === 'inch') { m_l = l*0.0254; m_w = w*0.0254; }
-
-        const totalKg = ((m_l * m_w) * gsm * qty) / 1000;
-        const resTotal = document.getElementById('resTotal');
-        if(resTotal) resTotal.innerHTML = `${totalKg.toFixed(2)} <span class="text-xl text-blue-600 font-bold">kg</span>`;
+        const specs = document.getElementById('modalProductSpecifications');
+        if(specs) {
+            specs.innerHTML = '';
+            try {
+                JSON.parse(d.specifications).forEach(s => {
+                    specs.innerHTML += `<li class="flex justify-between border-b border-gray-100 py-2"><span class="text-gray-500">${s.label}</span><span class="font-bold text-gray-800">${s.value}</span></li>`;
+                });
+            } catch(e){}
+        }
+        document.getElementById('modalProductAdditionalInfo').textContent = d['additional-info'];
         
-        const moqStatus = document.getElementById('moqStatus');
-        if(moqStatus) {
-            if (totalKg === 0) moqStatus.textContent = "";
-            else if (totalKg < 1000) moqStatus.innerHTML = `<span class="text-red-500 bg-red-50 px-2 py-1 rounded">⚠️ Below MOQ (${(1000-totalKg).toFixed(1)}kg short)</span>`;
-            else moqStatus.innerHTML = `<span class="text-green-600 bg-green-50 px-2 py-1 rounded">✅ MOQ Met</span>`;
+        // Connect Buttons
+        const addBtn = document.getElementById('modalAddToBasket');
+        if(addBtn) addBtn.onclick = () => { window.addToBasket(d.name); window.closeModal(); };
+
+        if(productModal && productModalBackdrop) {
+            productModal.classList.remove('hidden');
+            productModalBackdrop.classList.add('open');
+            productModal.classList.add('open');
+            document.body.style.overflow = 'hidden';
         }
     };
 
-    // --- CALC 2: REEL ---
-    window.calculateReel = function() {
-        const rWeight = parseFloat(document.getElementById('reelWeight')?.value) || 0;
-        const rWidth = parseFloat(document.getElementById('reelWidth')?.value) || 0;
-        const rGsm = parseFloat(document.getElementById('reelGsm')?.value) || 0;
-        const cutLen = parseFloat(document.getElementById('cutLength')?.value) || 0;
-
-        if (rWeight === 0 || rWidth === 0 || rGsm === 0) return;
-        const totalLength = (rWeight * 1000 * 100) / (rGsm * rWidth);
-        const sheets = (cutLen > 0) ? (totalLength * 100) / cutLen : 0;
-
-        const resLen = document.getElementById('resReelLength');
-        const resSheets = document.getElementById('resSheets');
-        if(resLen) resLen.innerHTML = `${Math.floor(totalLength)} <span class="text-sm">meters</span>`;
-        if(resSheets) resSheets.innerHTML = `${Math.floor(sheets)} <span class="text-xl text-yellow-600">pcs</span>`;
+    window.closeModal = function() {
+        if(productModal) {
+            productModal.classList.remove('open'); 
+            setTimeout(() => productModal.classList.add('hidden'), 300);
+        }
+        if(productModalBackdrop) productModalBackdrop.classList.remove('open');
+        document.body.style.overflow = '';
     };
 
-    // --- CALC 3: STRENGTH ---
-    window.calculateStrength = function() {
-        const gsm = parseFloat(document.getElementById('strGsm')?.value) || 0;
-        const bf = parseFloat(document.getElementById('strBf')?.value) || 0;
-        const bs = (gsm * bf) / 1000;
-        const resBs = document.getElementById('resBs');
-        if(resBs) resBs.textContent = bs.toFixed(2);
-    };
+    // Attach click listeners to cards
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('click', () => window.openProductModal(card));
+    });
+    document.getElementById('closeProductModal')?.addEventListener('click', window.closeModal);
+    productModalBackdrop?.addEventListener('click', window.closeModal);
 
-    // --- CALC 4: CBM ---
-    window.calculateCBM = function() {
-        const l = parseFloat(document.getElementById('cbmL')?.value) || 0;
-        const w = parseFloat(document.getElementById('cbmW')?.value) || 0;
-        const h = parseFloat(document.getElementById('cbmH')?.value) || 0;
-        const qty = parseFloat(document.getElementById('cbmQty')?.value) || 0;
-        const cbm = ((l * w * h) / 1000000) * qty;
-        const resCbm = document.getElementById('resCbm');
-        if(resCbm) resCbm.innerHTML = `${cbm.toFixed(3)} <span class="text-xl text-green-600">m³</span>`;
-    };
-
-    // --- BASKET & MODAL ---
+    // ==========================================
+    // 4. QUOTE BASKET LOGIC
+    // ==========================================
     window.addToBasket = function(productName) {
         if(!basket.includes(productName)) {
             basket.push(productName);
             updateBasketUI();
-            window.showToast(productName + " added to Quote Basket!", "success");
+            window.showToast(`${productName} added to Quote Basket!`, "success");
         } else {
-            window.showToast(productName + " is already in basket.", "info");
+            window.showToast(`${productName} is already in your basket.`, "info");
         }
     };
 
@@ -180,297 +106,25 @@ document.addEventListener('DOMContentLoaded', function() {
         if(formInput && basket.length > 0) formInput.value = basket.join(', ');
     }
     updateBasketUI();
-
-    const basketBtn = document.getElementById('quoteBasket');
-    if(basketBtn) basketBtn.addEventListener('click', () => document.getElementById('quote').scrollIntoView({behavior: 'smooth'}));
-
-   // --- DOWNLOAD FEATURE ---
-    window.downloadCatalog = function() {
-        // Automatically trigger toast instead of an ugly prompt
-        window.showToast("Preparing your PDF catalog for download...", "info");
-        setTimeout(() => {
-            window.showToast("Download started!", "success");
-            // Here you would put the actual link to your PDF file
-            // window.open('assets/abrar-traders-catalog.pdf', '_blank');
-        }, 1500);
-    };
-
-    // --- MODAL HELPERS ---
-    window.closeModal = function() {
-        const modal = document.getElementById('productModal');
-        const backdrop = document.getElementById('productModalBackdrop');
-        if(modal) {
-            modal.classList.remove('open'); 
-            setTimeout(() => modal.classList.add('hidden'), 300);
-        }
-        if(backdrop) {
-            backdrop.classList.remove('open');
-        }
-        document.body.style.overflow = '';
-    };
+    document.getElementById('quoteBasket')?.addEventListener('click', () => document.getElementById('quote').scrollIntoView({behavior: 'smooth'}));
 
     // ==========================================
-    // 3. EVENT LISTENERS & INITIALIZATION
-    // ==========================================
-
-    // Auto-Calculate Inputs
-    ['calcLength', 'calcWidth', 'calcGsm', 'calcQty'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateWeight));
-    ['reelWeight', 'reelWidth', 'reelGsm', 'cutLength'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateReel));
-    ['strGsm', 'strBf'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateStrength));
-    ['cbmL', 'cbmW', 'cbmH', 'cbmQty'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateCBM));
-    
-    // --- MOBILE MENU TOGGLE ---
-    const menuButton = document.getElementById('menuButton');
-    const closeMenuButton = document.getElementById('closeMenuButton');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const menuBackdrop = document.getElementById('menuBackdrop');
-    const mobileNavLinks = mobileMenu ? mobileMenu.querySelectorAll('.nav-link') : [];
-
-    const toggleMenu = (forceClose = false) => {
-        const isOpen = mobileMenu.classList.contains('open');
-        if (isOpen || forceClose) {
-            menuButton.classList.remove('menu-open');
-            menuButton.setAttribute('aria-expanded', 'false');
-            mobileMenu.classList.remove('open');
-            menuBackdrop.classList.remove('open');
-            document.body.classList.remove('menu-opened');
-        } else {
-            menuButton.classList.add('menu-open');
-            menuButton.setAttribute('aria-expanded', 'true');
-            mobileMenu.classList.add('open');
-            menuBackdrop.classList.add('open');
-            document.body.classList.add('menu-opened');
-        }
-    };
-    if (menuButton) menuButton.addEventListener('click', () => toggleMenu());
-    if (closeMenuButton) closeMenuButton.addEventListener('click', () => toggleMenu(true));
-    if (menuBackdrop) menuBackdrop.addEventListener('click', () => toggleMenu(true));
-    mobileNavLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            if (link.getAttribute('href').startsWith('#')) {
-                toggleMenu(true);
-            }
-        });
-    });
-
-    // --- MODAL TRIGGERS ---
-    const productModal = document.getElementById('productModal');
-    const productModalBackdrop = document.getElementById('productModalBackdrop');
-    document.querySelectorAll('.product-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const d = card.dataset;
-            document.getElementById('modalProductName').textContent = d.name;
-            const img = document.getElementById('modalProductImage');
-            img.src = d.image;
-            document.getElementById('modalProductDescription').textContent = d.description;
-            
-            const specs = document.getElementById('modalProductSpecifications');
-            if(specs) {
-                specs.innerHTML = '';
-                try {
-                    // FIX: Removed 'dark:' classes so text stays gray/black
-                    JSON.parse(d.specifications).forEach(s => {
-                        specs.innerHTML += `<li class="flex justify-between border-b border-gray-100 py-2"><span class="text-gray-500">${s.label}</span><span class="font-bold text-gray-800">${s.value}</span></li>`;
-                    });
-                } catch(e){}
-            }
-            
-            document.getElementById('modalProductAdditionalInfo').textContent = d['additional-info'];
-            
-            const addBtn = document.getElementById('modalAddToBasket');
-            if(addBtn) addBtn.onclick = () => { window.addToBasket(d.name); window.closeModal(); };
-
-            if(productModal && productModalBackdrop) {
-                productModal.classList.remove('hidden');
-                productModalBackdrop.classList.add('open');
-                productModal.classList.add('open');
-                document.body.style.overflow = 'hidden';
-            }
-        });
-    });
-
-    const closeBtn = document.getElementById('closeProductModal');
-    if(closeBtn) closeBtn.addEventListener('click', window.closeModal);
-    if(productModalBackdrop) productModalBackdrop.addEventListener('click', window.closeModal);
-
-
-    // --- SEARCH & FILTER ---
-    const searchInput = document.getElementById('productSearch');
-    const products = document.querySelectorAll('.product-item');
-    if(searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            products.forEach(item => {
-                const name = item.dataset.name.toLowerCase();
-                const desc = item.dataset.description.toLowerCase();
-                if(name.includes(term) || desc.includes(term)) {
-                    item.style.display = 'block';
-                    item.classList.remove('aos-animate');
-                    setTimeout(() => item.classList.add('aos-animate'), 50);
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
-    }
-    
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const filter = btn.dataset.filter;
-            products.forEach(item => {
-                if(filter === 'all' || item.dataset.category.includes(filter)) {
-                    item.style.display = 'block';
-                    item.classList.add('aos-animate');
-                } else { item.style.display = 'none'; }
-            });
-        });
-    });
-
-    // --- SIDEBAR & PARTICLES ---
-    const sidebar = document.getElementById('socialSidebar');
-    if (sidebar) {
-        setTimeout(() => { sidebar.classList.add('peek-out'); }, 1000);
-        setTimeout(() => { sidebar.classList.remove('peek-out'); }, 3500);
-    }
-
-    if (window.tsParticles) {
-        tsParticles.load("tsparticles", {
-            fpsLimit: 60,
-            fullScreen: { enable: false },
-            particles: {
-                number: { value: 50, density: { enable: true, area: 800 } },
-                color: { value: ["#607afb", "#8e9bfa", "#a78bfa"] },
-                shape: { type: "circle" },
-                opacity: { value: 0.4, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false } },
-                size: { value: 3, random: true },
-                line_linked: { enable: true, distance: 150, color: "#607afb", opacity: 0.25, width: 1 },
-                move: { enable: true, speed: 1.5, direction: "none", random: false, straight: false, out_mode: "out" }
-            },
-            interactivity: {
-                detect_on: "canvas",
-                events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" }, resize: true },
-                modes: { grab: { distance: 140, line_linked: { opacity: 0.6 } }, push: { particles_nb: 3 } }
-            },
-            retina_detect: true,
-            background: { color: "transparent" }
-        });
-    }
-
-    // --- SCROLL TO TOP ---
-    const scrollBtn = document.getElementById('scrollTopBtn');
-    const progressCircle = document.getElementById('scrollProgress');
-    if(scrollBtn && progressCircle) {
-        const radius = progressCircle.r.baseVal.value;
-        const circumference = radius * 2 * Math.PI;
-        progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
-        progressCircle.style.strokeDashoffset = circumference;
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) scrollBtn.classList.add('visible');
-            else scrollBtn.classList.remove('visible');
-            
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const offset = circumference - ((scrollTop / docHeight) * circumference);
-            progressCircle.style.strokeDashoffset = offset;
-        });
-        scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-    }
-
-    // --- INITIALIZATIONS ---
-    if (typeof Splide !== 'undefined' && document.querySelector('.splide')) {
-        new Splide('.splide', {
-            type: 'loop', perPage: 3, perMove: 1, gap: '1.5rem', pagination: true, arrows: false, autoplay: true, interval: 5000, pauseOnHover: true,
-            breakpoints: { 1024: { perPage: 2 }, 768: { perPage: 1 } },
-        }).mount();
-    }
-
-    if (typeof AOS !== 'undefined') AOS.init({ duration: 800, once: true });
-    if (typeof VanillaTilt !== 'undefined') VanillaTilt.init(document.querySelectorAll(".product-card"), { max: 5, speed: 400, glare: true, "max-glare": 0.2 });
-    if (document.getElementById('typed')) {
-        new Typed('#typed', {
-            strings: ['Kraft & Duplex Paper.', 'Sustainable Packaging.', 'Industrial Solutions.'],
-            typeSpeed: 50, backSpeed: 25, backDelay: 2000, loop: true
-        });
-        // ==========================================
-    // 8. PREMIUM MICRO-INTERACTIONS
-    // ==========================================
-
-    // A. Initialize Lenis Smooth Scrolling
-    if (typeof Lenis !== 'undefined') {
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Smooth friction curve
-            direction: 'vertical',
-            gestureDirection: 'vertical',
-            smooth: true,
-            smoothTouch: false, // Keep native scroll on touch devices
-            touchMultiplier: 2,
-        });
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
-        // Make standard anchor links work with Lenis
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                lenis.scrollTo(this.getAttribute('href'));
-            });
-        });
-    }
-
-    // B. Magnetic Buttons
-    const magneticButtons = document.querySelectorAll('.action-button');
-    magneticButtons.forEach(btn => {
-        // Move button towards cursor
-        btn.addEventListener('mousemove', (e) => {
-            const rect = btn.getBoundingClientRect();
-            const x = (e.clientX - rect.left) - (rect.width / 2);
-            const y = (e.clientY - rect.top) - (rect.height / 2);
-            
-            // Adjust the '0.3' to make the magnetic pull stronger or weaker
-            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-        });
-
-        // Snap back into place smoothly
-        btn.addEventListener('mouseleave', () => {
-            btn.style.transform = `translate(0px, 0px)`;
-            // Ensure smooth snap-back
-            btn.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; 
-            
-            // Remove transition after it finishes so mousemove is instantaneous again
-            setTimeout(() => {
-                btn.style.transition = '';
-            }, 400);
-        });
-    });
-    // ==========================================
-    // 9. PAPER FINDER QUIZ LOGIC
+    // 5. PAPER FINDER QUIZ LOGIC
     // ==========================================
     let quizState = { use: '', weight: '' };
-
     window.quizSelect = function(step, value) {
         quizState[step] = value;
-        
         if (step === 'use') {
-            // Animate transition to Step 2
             const step1 = document.getElementById('quiz-step-1');
             const step2 = document.getElementById('quiz-step-2');
             step1.style.opacity = '0';
             setTimeout(() => {
                 step1.classList.add('hidden');
                 step2.classList.remove('hidden');
-                // Force reflow
                 void step2.offsetWidth; 
                 step2.style.opacity = '1';
-            }, 300); // 300ms matches Tailwind duration
-
+            }, 300);
         } else if (step === 'weight') {
-            // Animate transition to Step 3 (Result)
             const step2 = document.getElementById('quiz-step-2');
             step2.style.opacity = '0';
             setTimeout(() => {
@@ -484,70 +138,94 @@ document.addEventListener('DOMContentLoaded', function() {
         const step1 = document.getElementById('quiz-step-1');
         const step2 = document.getElementById('quiz-step-2');
         step2.style.opacity = '0';
-        setTimeout(() => {
-            step2.classList.add('hidden');
-            step1.classList.remove('hidden');
-            void step1.offsetWidth;
-            step1.style.opacity = '1';
-            quizState.use = '';
-        }, 300);
+        setTimeout(() => { step2.classList.add('hidden'); step1.classList.remove('hidden'); void step1.offsetWidth; step1.style.opacity = '1'; quizState.use = ''; }, 300);
     };
 
     window.quizReset = function() {
         const step1 = document.getElementById('quiz-step-1');
         const step3 = document.getElementById('quiz-step-3');
         step3.style.opacity = '0';
-        setTimeout(() => {
-            step3.classList.add('hidden');
-            step1.classList.remove('hidden');
-            void step1.offsetWidth;
-            step1.style.opacity = '1';
-            quizState = { use: '', weight: '' };
-        }, 300);
+        setTimeout(() => { step3.classList.add('hidden'); step1.classList.remove('hidden'); void step1.offsetWidth; step1.style.opacity = '1'; quizState = { use: '', weight: '' }; }, 300);
     };
 
     function showQuizResult() {
-        let result = { title: '', desc: '' };
-
-        // --- The "Brain" / Logic Matrix ---
+        let result = { title: 'Kraft Paper', desc: 'Versatile and strong. Standard recommendation.' };
         if (quizState.use === 'packaging') {
             if (quizState.weight === 'heavy') result = { title: 'Laminated Paper Board, Kappa Board', desc: 'Maximum protection and rigidity. Ideal for heavy boxes and luxury packaging.' };
             else if (quizState.weight === 'medium') result = { title: 'Duplex Paper, Duplex Board', desc: 'The industry standard. Excellent balance of printability and strength for consumer boxes.' };
-            else result = { title: 'Kraft Paper', desc: 'Lightweight packaging, wrapping, and making eco-friendly bags.' };
-            
         } else if (quizState.use === 'printing') {
             if (quizState.weight === 'heavy') result = { title: 'SBS', desc: 'Solid Bleached Sulphate. High bulk, premium coated board for top-tier packaging and covers.' };
             else if (quizState.weight === 'medium') result = { title: 'FBB', desc: 'Folding Box Board. Perfect for vibrant colors and sturdy brochures or catalogs.' };
             else result = { title: 'Writing Paper, Printing Paper, Maplitho Paper', desc: 'Standard high-quality bond paper for documents, letterheads, and office use.' };
-            
         } else if (quizState.use === 'industrial') {
             if (quizState.weight === 'heavy') result = { title: 'Sundry Grey Board, Puttha, Gatta', desc: 'Thick, economical recycled board for heavy industrial use and bookbinding.' };
-            else result = { title: 'Kraft Paper', desc: 'Durable industrial wrapping, void fill, and protective layers.' };
         }
 
-        // Update UI
         document.getElementById('quiz-result-title').textContent = result.title;
         document.getElementById('quiz-result-desc').textContent = result.desc;
+        document.getElementById('quiz-add-btn').onclick = () => window.addToBasket(result.title);
         
-        // Connect the "Add to Basket" button
-        const btn = document.getElementById('quiz-add-btn');
-        btn.onclick = () => {
-            window.addToBasket(result.title);
-        };
-
-        // Show step 3
         const step3 = document.getElementById('quiz-step-3');
         step3.classList.remove('hidden');
         void step3.offsetWidth;
         step3.style.opacity = '1';
     }
-        
+
+    // ==========================================
+    // 6. UI MICRO-INTERACTIONS (Fixed Scope Bug)
+    // ==========================================
+    if (typeof Lenis !== 'undefined') {
+        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
     }
 
+    const typedEl = document.getElementById('typed');
+    if (typedEl && typeof Typed !== 'undefined') {
+        new Typed('#typed', { strings: ['Kraft & Duplex Paper.', 'Sustainable Packaging.', 'Industrial Solutions.'], typeSpeed: 50, backSpeed: 25, loop: true });
+    }
+
+    document.querySelectorAll('.action-button').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = (e.clientX - rect.left) - (rect.width / 2);
+            const y = (e.clientY - rect.top) - (rect.height / 2);
+            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        });
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = `translate(0px, 0px)`;
+            btn.style.transition = 'transform 0.4s ease'; 
+            setTimeout(() => { btn.style.transition = ''; }, 400);
+        });
+    });
+
+    // Sidebar Slide Intro
+    const sidebar = document.getElementById('socialSidebar');
+    if (sidebar) {
+        setTimeout(() => sidebar.classList.add('peek-out'), 1000);
+        setTimeout(() => sidebar.classList.remove('peek-out'), 3500);
+    }
+
+    // Date
     const yearEl = document.getElementById('currentYear');
     if(yearEl) yearEl.textContent = new Date().getFullYear();
+    
+    // Mobile Menu Toggle
+    const menuButton = document.getElementById('menuButton');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuBackdrop = document.getElementById('menuBackdrop');
+    const toggleMenu = () => {
+        const isOpen = mobileMenu.classList.contains('open');
+        menuButton.classList.toggle('menu-open', !isOpen);
+        mobileMenu.classList.toggle('open', !isOpen);
+        menuBackdrop.classList.toggle('open', !isOpen);
+        document.body.classList.toggle('menu-opened', !isOpen);
+    };
+    menuButton?.addEventListener('click', toggleMenu);
+    menuBackdrop?.addEventListener('click', toggleMenu);
+    document.getElementById('closeMenuButton')?.addEventListener('click', toggleMenu);
+    document.querySelectorAll('#mobileMenu a').forEach(l => l.addEventListener('click', toggleMenu));
+
+    // Calculators initialization
+    window.switchTab('weight'); 
 });
-
-
-
-
