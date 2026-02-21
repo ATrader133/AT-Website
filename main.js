@@ -45,8 +45,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if(specs && d.specifications) {
             specs.innerHTML = '';
             try {
-                JSON.parse(d.specifications).forEach(s => {
-                    specs.innerHTML += `<li class="flex justify-between border-b border-gray-100 py-2"><span class="text-gray-500">${s.label}</span><span class="font-bold text-gray-800">${s.value}</span></li>`;
+                const parsedSpecs = JSON.parse(d.specifications);
+                parsedSpecs.forEach((s, i) => {
+                    // Remove bottom border from the very last item for a cleaner look
+                    const border = i === parsedSpecs.length - 1 ? '' : 'border-b border-gray-200/60';
+                    specs.innerHTML += `<li class="flex justify-between items-center py-2 ${border}"><span class="text-gray-500 text-sm font-medium">${s.label}</span><span class="font-bold text-gray-800 text-sm text-right ml-4">${s.value}</span></li>`;
                 });
             } catch(e){}
         }
@@ -548,7 +551,42 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    // ==========================================
+    // 11. DARK MODE TOGGLE
+    // ==========================================
+    const themeToggle = document.getElementById('themeToggle');
+    const iconDark = document.getElementById('themeIconDark');
+    const iconLight = document.getElementById('themeIconLight');
+    
+    // Check local storage for saved theme preference
+    if (localStorage.getItem('at_theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        if(iconDark) iconDark.classList.add('hidden');
+        if(iconLight) iconLight.classList.remove('hidden');
+    }
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            
+            // Save preference to browser
+            localStorage.setItem('at_theme', isDark ? 'dark' : 'light');
+            
+            // Animate Icon Swap
+            if (isDark) {
+                iconDark.classList.add('hidden');
+                iconLight.classList.remove('hidden');
+                window.showToast("Midnight Carbon theme activated 🌙", "info");
+            } else {
+                iconLight.classList.add('hidden');
+                iconDark.classList.remove('hidden');
+                window.showToast("Light Glass theme activated ☀️", "info");
+            }
+        });
+    }
 });
+
 
 
 
