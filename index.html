@@ -94,12 +94,56 @@
     <nav class="sticky-nav flex justify-between items-center px-6 py-4" role="navigation" aria-label="Main Navigation">
         <a href="#home" class="flex items-center space-x-4">
             <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders Logo" class="h-12 rounded-full shadow-md" />
-            <span class="font-black text-2xl bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent">ABRAR TRADERS</span>
+            <span class="font-black text-2xl bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent"></span>
         </a>
         
         <div class="hidden md:flex items-center space-x-7 font-semibold text-gray-600">
             <a href="#home" class="nav-link" data-section="home">Home</a>
-            <a href="#products" class="nav-link" data-section="products">Products</a>
+            <div class="relative group py-2">
+                <a href="#products" class="nav-link flex items-center gap-1 cursor-pointer" data-section="products">
+                    Products
+                    <svg class="w-4 h-4 transition-transform duration-300 group-hover:-rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </a>
+                
+                <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[550px] bg-white rounded-2xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 pointer-events-none group-hover:pointer-events-auto p-6 flex flex-col gap-4 before:absolute before:-top-4 before:left-0 before:w-full before:h-4">
+                    
+                    <div class="flex justify-between items-center mb-2 border-b border-gray-100 pb-2">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Top Categories</span>
+                        <a href="#products" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors">View All Catalog →</a>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <a href="#products" class="flex items-start gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors group/item">
+                            <img src="https://i.postimg.cc/ZKBYVJ4q/Kraft-Paper-1.jpg" alt="Kraft" class="w-12 h-12 rounded-lg object-cover shadow-sm group-hover/item:scale-105 transition-transform">
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm mb-1">Kraft Paper</h4>
+                                <p class="text-xs text-gray-500 line-clamp-1">High-strength industrial wrapping.</p>
+                            </div>
+                        </a>
+                        <a href="#products" class="flex items-start gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors group/item">
+                            <img src="https://i.postimg.cc/ZqcJCRFw/duplex-paper-sheet-500x500.jpg" alt="Duplex" class="w-12 h-12 rounded-lg object-cover shadow-sm group-hover/item:scale-105 transition-transform">
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm mb-1">Duplex Board</h4>
+                                <p class="text-xs text-gray-500 line-clamp-1">Perfect for vibrant packaging boxes.</p>
+                            </div>
+                        </a>
+                        <a href="#products" class="flex items-start gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors group/item">
+                            <img src="https://i.postimg.cc/HxMDbkQG/1.jpg" alt="Laminated" class="w-12 h-12 rounded-lg object-cover shadow-sm group-hover/item:scale-105 transition-transform">
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm mb-1">Laminated / Kappa</h4>
+                                <p class="text-xs text-gray-500 line-clamp-1">Luxury, rigid multi-layered boards.</p>
+                            </div>
+                        </a>
+                        <a href="#products" class="flex items-start gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors group/item">
+                            <img src="https://placehold.co/400x250/C0D9FF/3F51B5?text=Bond+Paper" alt="Printing" class="w-12 h-12 rounded-lg object-cover shadow-sm group-hover/item:scale-105 transition-transform">
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm mb-1">Maplitho / FBB</h4>
+                                <p class="text-xs text-gray-500 line-clamp-1">Premium paper for official printing.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
             <a href="#reviews" class="nav-link" data-section="reviews">Reviews</a>
             <a href="blog.html" class="nav-link" data-section="blog">Blog</a>
             <a href="#gallery" class="nav-link" data-section="gallery">Gallery</a>
@@ -740,6 +784,7 @@
     </script>
 </body>
 </html>
+
 
 
 
