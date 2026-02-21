@@ -228,3 +228,22 @@ body.dark-mode input, body.dark-mode select, body.dark-mode textarea {
 }
 body.dark-mode input::placeholder, body.dark-mode textarea::placeholder { color: #64748b !important; }
 body.dark-mode option { background-color: #0b1120; color: #f8fafc; }
+
+/* --- 12. 3D PRODUCT VIEWER --- */
+.perspective-1000 { perspective: 1000px; }
+.preserve-3d { transform-style: preserve-3d; }
+.face { 
+    backface-visibility: hidden; 
+    background-size: cover; 
+    background-position: center; 
+    border-radius: 4px; 
+}
+
+/* Folding the faces into a 13rem (208px) cube. Translate is exactly half (6.5rem) */
+.cube-front  { transform: rotateY(0deg) translateZ(6.5rem); }
+.cube-back   { transform: rotateY(180deg) translateZ(6.5rem); }
+.cube-right  { transform: rotateY(90deg) translateZ(6.5rem); }
+.cube-left   { transform: rotateY(-90deg) translateZ(6.5rem); }
+.cube-top    { transform: rotateX(90deg) translateZ(6.5rem); }
+.cube-bottom { transform: rotateX(-90deg) translateZ(6.5rem); }
+
