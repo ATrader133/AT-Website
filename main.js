@@ -38,7 +38,25 @@ document.addEventListener('DOMContentLoaded', function() {
     window.openProductModal = function(card) {
         const d = card.dataset;
         if(document.getElementById('modalProductName')) document.getElementById('modalProductName').textContent = d.name;
-        if(document.getElementById('modalProductImage')) document.getElementById('modalProductImage').src = d.image;
+       // 1. Setup 3D Cube Textures
+        const faces = ['front', 'back', 'right', 'left', 'top', 'bottom'];
+        faces.forEach(face => {
+            const el = document.getElementById(`face-${face}`);
+            if(el) {
+                el.style.backgroundImage = `url('${d.image}')`;
+                // Add fake shadows to give the box realistic lighting depth
+                if(face === 'top') el.style.boxShadow = 'inset 0 0 40px rgba(255,255,255,0.4)';
+                if(face === 'right' || face === 'left') el.style.boxShadow = 'inset 0 0 50px rgba(0,0,0,0.2)';
+                if(face === 'bottom') el.style.boxShadow = 'inset 0 0 60px rgba(0,0,0,0.6)';
+            }
+        });
+        
+        // 2. Reset rotation so the box faces forward when newly opened
+        const cube = document.getElementById('productCube');
+        if(cube) {
+            cube.style.transform = `rotateX(-15deg) rotateY(-25deg)`;
+            window.cubeRotation = { x: -15, y: -25 };
+        }
         if(document.getElementById('modalProductDescription')) document.getElementById('modalProductDescription').textContent = d.description;
         
         const specs = document.getElementById('modalProductSpecifications');
@@ -585,7 +603,56 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    // ==========================================
+    // 12. 3D CUBE DRAG LOGIC (Physics)
+    // ==========================================
+    const scene = document.getElementById('cubeScene');
+    const cube = document.getElementById('productCube');
+    let isDragging = false;
+    let previousMousePosition = { x: 0, y: 0 };
+    window.cubeRotation = { x: -15, y: -25 };
+
+    if (scene && cube) {
+        // Desktop Mouse Events
+        scene.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            previousMousePosition = { x: e.offsetX, y: e.offsetY };
+        });
+        document.addEventListener('mouseup', () => isDragging = false);
+        scene.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const deltaMove = { x: e.offsetX - previousMousePosition.x, y: e.offsetY - previousMousePosition.y };
+            window.cubeRotation.x -= deltaMove.y * 0.5; // Up/Down
+            window.cubeRotation.y += deltaMove.x * 0.5; // Left/Right
+            cube.style.transform = `rotateX(${window.cubeRotation.x}deg) rotateY(${window.cubeRotation.y}deg)`;
+            previousMousePosition = { x: e.offsetX, y: e.offsetY };
+        });
+
+        // Mobile Touch Events
+        scene.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            const touch = e.touches[0];
+            const rect = scene.getBoundingClientRect();
+            previousMousePosition = { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
+        }, {passive: true});
+        document.addEventListener('touchend', () => isDragging = false);
+        scene.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault(); // Prevents page from scrolling while spinning the box
+            const touch = e.touches[0];
+            const rect = scene.getBoundingClientRect();
+            const currentX = touch.clientX - rect.left;
+            const currentY = touch.clientY - rect.top;
+            const deltaMove = { x: currentX - previousMousePosition.x, y: currentY - previousMousePosition.y };
+            
+            window.cubeRotation.x -= deltaMove.y * 0.6;
+            window.cubeRotation.y += deltaMove.x * 0.6;
+            cube.style.transform = `rotateX(${window.cubeRotation.x}deg) rotateY(${window.cubeRotation.y}deg)`;
+            previousMousePosition = { x: currentX, y: currentY };
+        }, {passive: false});
+    }
 });
+
 
 
 
