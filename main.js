@@ -498,4 +498,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     }
+    // ==========================================
+    // 10. PRELOADER SPINNER (Failsafe)
+    // ==========================================
+    const spinner = document.getElementById('spinner');
+    if (spinner) {
+        window.addEventListener('load', () => {
+            spinner.style.opacity = '0';
+            spinner.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => spinner.style.display = 'none', 500);
+        });
+    }
 });
+
