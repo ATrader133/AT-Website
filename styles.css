@@ -194,3 +194,37 @@ body.menu-opened { overflow: hidden; touch-action: none; }
 .animate-blob { animation: blob 10s infinite cubic-bezier(0.64, 0.01, 0.45, 0.94); will-change: transform; }
 .animation-delay-2000 { animation-delay: 2s; }
 .animation-delay-4000 { animation-delay: 4s; }
+
+/* --- 11. MIDNIGHT CARBON DARK MODE --- */
+body.dark-mode {
+    --text-color: #f8fafc;
+    --bg-light: #0b1120;
+    --bg-medium: #151e32;
+    --glass-bg: rgba(15, 23, 42, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: rgba(0, 0, 0, 0.6);
+}
+
+/* Invert Backgrounds & Panels */
+body.dark-mode .bg-white { background-color: rgba(30, 41, 59, 0.4) !important; border: 1px solid var(--glass-border); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+body.dark-mode .bg-gray-50, body.dark-mode .bg-gray-100, body.dark-mode .bg-gray-200 { background-color: rgba(255,255,255,0.05) !important; color: #f8fafc !important; border-color: rgba(255,255,255,0.1) !important;}
+
+/* Invert Typography */
+body.dark-mode .text-gray-800, body.dark-mode .text-gray-700, body.dark-mode .text-slate-800 { color: #f8fafc !important; }
+body.dark-mode .text-gray-600, body.dark-mode .text-gray-500, body.dark-mode .text-slate-500, body.dark-mode .text-slate-400 { color: #94a3b8 !important; }
+body.dark-mode .border-gray-100, body.dark-mode .border-gray-200, body.dark-mode .border-gray-300 { border-color: rgba(255,255,255,0.1) !important; }
+
+/* Navigation & Menus */
+body.dark-mode .sticky-nav { background: rgba(11, 17, 32, 0.85) !important; }
+body.dark-mode #mobileMenu { background: rgba(11, 17, 32, 0.98) !important; }
+body.dark-mode .nav-link { color: #cbd5e1; }
+body.dark-mode .nav-link:hover, body.dark-mode .nav-link.active { color: var(--primary-color) !important; }
+
+/* Forms & Calculators */
+body.dark-mode input, body.dark-mode select, body.dark-mode textarea {
+    background-color: rgba(15, 23, 42, 0.6) !important;
+    color: #f8fafc !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+}
+body.dark-mode input::placeholder, body.dark-mode textarea::placeholder { color: #64748b !important; }
+body.dark-mode option { background-color: #0b1120; color: #f8fafc; }
