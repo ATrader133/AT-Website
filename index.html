@@ -400,8 +400,21 @@
             </button>
             <div class="md:grid md:grid-cols-5 md:gap-8 items-start">
                 
-                <div class="md:col-span-2 mb-6 md:mb-0">
-                    <img id="modalProductImage" src="" alt="Product Image" class="rounded-xl w-full h-auto md:max-h-80 object-cover shadow-md border border-white/50">
+                <div class="md:col-span-2 mb-6 md:mb-0 flex flex-col items-center justify-center">
+                    <div id="cubeScene" class="perspective-1000 w-full h-64 flex items-center justify-center cursor-grab active:cursor-grabbing">
+                        <div id="productCube" class="relative w-52 h-52 preserve-3d transition-transform duration-75 ease-linear">
+                            <div id="face-front" class="face cube-front absolute w-full h-full border border-white/30 shadow-lg"></div>
+                            <div id="face-back" class="face cube-back absolute w-full h-full border border-white/30 shadow-lg"></div>
+                            <div id="face-right" class="face cube-right absolute w-full h-full border border-white/30 shadow-lg"></div>
+                            <div id="face-left" class="face cube-left absolute w-full h-full border border-white/30 shadow-lg"></div>
+                            <div id="face-top" class="face cube-top absolute w-full h-full border border-white/30 shadow-lg bg-gray-100"></div>
+                            <div id="face-bottom" class="face cube-bottom absolute w-full h-full border border-white/30 shadow-lg bg-gray-200"></div>
+                        </div>
+                    </div>
+                    <div class="mt-2 flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/30 rounded-full shadow-inner border border-blue-100 dark:border-blue-800">
+                        <svg class="w-4 h-4 text-blue-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+                        <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">Drag to Spin Box</span>
+                    </div>
                 </div>
                 
                 <div class="md:col-span-3 flex flex-col h-full">
@@ -784,6 +797,7 @@
     </script>
 </body>
 </html>
+
 
 
 
