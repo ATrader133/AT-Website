@@ -651,7 +651,54 @@ document.addEventListener('DOMContentLoaded', function() {
             previousMousePosition = { x: currentX, y: currentY };
         }, {passive: false});
     }
+    // ==========================================
+    // 13. CUSTOM FLUID CURSOR
+    // ==========================================
+    // Only run on desktop devices
+    if (window.matchMedia("(min-width: 768px)").matches) {
+        const cursor = document.getElementById('customCursor');
+        const follower = document.getElementById('cursorFollower');
+        
+        let mouseX = 0, mouseY = 0;
+        let followerX = 0, followerY = 0;
+
+        // Track Mouse Movement
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Instantly move the solid dot
+            if(cursor) cursor.style.transform = `translate3d(${mouseX - 8}px, ${mouseY - 8}px, 0)`;
+        });
+
+        // Smooth follow animation for the outer ring
+        function animateFollower() {
+            // Easing formula for smooth trailing effect
+            followerX += (mouseX - followerX) * 0.15;
+            followerY += (mouseY - followerY) * 0.15;
+            
+            if(follower) follower.style.transform = `translate3d(${followerX - 20}px, ${followerY - 20}px, 0)`;
+            requestAnimationFrame(animateFollower);
+        }
+        animateFollower();
+
+        // Hover Effect Logic: Expand when over clickable items
+        const clickables = document.querySelectorAll('a, button, input, textarea, select, .product-card');
+        
+        clickables.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                if(cursor) cursor.classList.add('scale-[2.5]', 'opacity-50');
+                if(follower) follower.classList.add('scale-150', 'border-transparent', 'bg-blue-200/20');
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                if(cursor) cursor.classList.remove('scale-[2.5]', 'opacity-50');
+                if(follower) follower.classList.remove('scale-150', 'border-transparent', 'bg-blue-200/20');
+            });
+        });
+    }
 });
+
 
 
 
