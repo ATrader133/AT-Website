@@ -76,9 +76,13 @@
 </head>
 
 <body class="bg-bg-light">
-        
-    <div class="progress-bar" id="progressBar"></div>
+    <body class="bg-bg-light">
+    
+    <div id="customCursor" class="fixed top-0 left-0 w-4 h-4 bg-blue-600 rounded-full pointer-events-none z-[99999] mix-blend-difference transition-transform duration-150 ease-out hidden md:block" style="transform: translate(-50%, -50%);"></div>
+    <div id="cursorFollower" class="fixed top-0 left-0 w-10 h-10 border border-blue-400 rounded-full pointer-events-none z-[99998] transition-all duration-300 ease-out hidden md:block" style="transform: translate(-50%, -50%);"></div>
 
+    <div class="progress-bar" id="progressBar"></div>
+        
     <div id="menuBackdrop" role="presentation"></div>
     <div id="productModalBackdrop" role="presentation"></div>
 
@@ -838,6 +842,7 @@
     </script>
 </body>
 </html>
+
 
 
 
