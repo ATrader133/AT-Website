@@ -29,7 +29,9 @@ body {
     background: linear-gradient(to tr, var(--bg-light), var(--bg-medium));
     scrollbar-width: thin;
     scrollbar-color: var(--primary-color) var(--bg-light);
+    cursor: none;
 }
+a, button, input, textarea, select, .cursor-pointer { cursor: none !important; }
 body::-webkit-scrollbar { width: 8px; }
 body::-webkit-scrollbar-track { background: var(--bg-light); }
 body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-radius: 4px; border: 2px solid var(--bg-light); }
@@ -246,4 +248,5 @@ body.dark-mode option { background-color: #0b1120; color: #f8fafc; }
 .cube-left   { transform: rotateY(-90deg) translateZ(6.5rem); }
 .cube-top    { transform: rotateX(90deg) translateZ(6.5rem); }
 .cube-bottom { transform: rotateX(-90deg) translateZ(6.5rem); }
+
 
