@@ -95,79 +95,66 @@
 
     <div id="tsparticles" class="absolute top-0 left-0 w-full h-full -z-10"></div>
 
-    <nav class="sticky-nav flex justify-between items-center px-6 py-4" role="navigation" aria-label="Main Navigation">
-        <a href="#home" class="flex items-center space-x-4">
-            <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders Logo" class="h-12 rounded-full shadow-md" />
-            <span class="font-black text-2xl bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent">ABRAR TRADERS</span>
+    <nav id="mainNav" class="sticky-nav flex justify-between items-center px-6 py-3 mx-4 md:mx-6 rounded-full mt-4 mb-4" role="navigation" aria-label="Main Navigation">
+        
+        <a href="#home" class="flex items-center flex-shrink-0 cursor-none">
+            <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders Logo" class="h-10 md:h-12 w-auto rounded-full shadow-sm hover:scale-105 transition-transform duration-300" />
+            <span class="sr-only">ABRAR TRADERS</span>
         </a>
         
-        <div class="hidden md:flex items-center space-x-7 font-semibold text-gray-600">
-            <a href="#home" class="nav-link" data-section="home">Home</a>
-            <div class="relative group py-2">
-                <a href="#products" class="nav-link flex items-center gap-1 cursor-pointer" data-section="products">
-                    Products
-                    <svg class="w-4 h-4 transition-transform duration-300 group-hover:-rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </a>
+        <div class="flex items-center gap-6 md:gap-8">
+            
+            <div class="hidden lg:flex items-center space-x-8 font-semibold text-gray-600 text-sm tracking-wide">
+                <a href="#home" class="nav-link cursor-none" data-section="home">Home</a>
                 
-                <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[550px] bg-white rounded-2xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 pointer-events-none group-hover:pointer-events-auto p-6 flex flex-col gap-4 before:content-[''] before:absolute before:-top-4 before:left-0 before:w-full before:h-4 z-50">
+                <div class="relative group py-2">
+                    <a href="#products" class="nav-link flex items-center gap-1 cursor-none" data-section="products">
+                        Products
+                        <svg class="w-4 h-4 transition-transform duration-300 group-hover:-rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </a>
                     
-                    <div class="flex justify-between items-center mb-2 border-b border-gray-100 pb-2">
-                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Top Categories</span>
-                        <a href="#products" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors">View All Catalog →</a>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4">
-                        <a href="#products" class="flex items-start gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors group/item">
-                            <img src="https://i.postimg.cc/ZKBYVJ4q/Kraft-Paper-1.jpg" alt="Kraft" class="w-12 h-12 rounded-lg object-cover shadow-sm group-hover/item:scale-105 transition-transform">
-                            <div>
-                                <h4 class="font-bold text-gray-800 text-sm mb-1">Kraft Paper</h4>
-                                <p class="text-xs text-gray-500 line-clamp-1">High-strength industrial wrapping.</p>
-                            </div>
-                        </a>
-                        <a href="#products" class="flex items-start gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors group/item">
-                            <img src="https://i.postimg.cc/ZqcJCRFw/duplex-paper-sheet-500x500.jpg" alt="Duplex" class="w-12 h-12 rounded-lg object-cover shadow-sm group-hover/item:scale-105 transition-transform">
-                            <div>
-                                <h4 class="font-bold text-gray-800 text-sm mb-1">Duplex Board</h4>
-                                <p class="text-xs text-gray-500 line-clamp-1">Perfect for vibrant packaging boxes.</p>
-                            </div>
-                        </a>
-                        <a href="#products" class="flex items-start gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors group/item">
-                            <img src="https://i.postimg.cc/HxMDbkQG/1.jpg" alt="Laminated" class="w-12 h-12 rounded-lg object-cover shadow-sm group-hover/item:scale-105 transition-transform">
-                            <div>
-                                <h4 class="font-bold text-gray-800 text-sm mb-1">Laminated / Kappa</h4>
-                                <p class="text-xs text-gray-500 line-clamp-1">Luxury, rigid multi-layered boards.</p>
-                            </div>
-                        </a>
-                        <a href="#products" class="flex items-start gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors group/item">
-                            <img src="https://placehold.co/400x250/C0D9FF/3F51B5?text=Bond+Paper" alt="Printing" class="w-12 h-12 rounded-lg object-cover shadow-sm group-hover/item:scale-105 transition-transform">
-                            <div>
-                                <h4 class="font-bold text-gray-800 text-sm mb-1">Maplitho / FBB</h4>
-                                <p class="text-xs text-gray-500 line-clamp-1">Premium paper for official printing.</p>
-                            </div>
-                        </a>
+                    <div class="absolute top-full right-0 mt-4 w-[500px] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 pointer-events-none group-hover:pointer-events-auto p-6 flex flex-col gap-4 before:content-[''] before:absolute before:-top-4 before:right-10 before:w-20 before:h-4 z-50">
+                        <div class="flex justify-between items-center mb-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Top Categories</span>
+                            <a href="#products" class="text-xs font-bold text-blue-600 dark:text-blue-400 hover:text-blue-800 cursor-none transition-colors">View All Catalog →</a>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <a href="#products" class="flex items-start gap-4 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group/item cursor-none">
+                                <img src="https://i.postimg.cc/ZKBYVJ4q/Kraft-Paper-1.jpg" alt="Kraft" class="w-10 h-10 rounded-lg object-cover shadow-sm group-hover/item:scale-105 transition-transform">
+                                <div>
+                                    <h4 class="font-bold text-gray-800 dark:text-white text-sm mb-0.5">Kraft Paper</h4>
+                                    <p class="text-xs text-gray-500 line-clamp-1">Industrial wrapping.</p>
+                                </div>
+                            </a>
+                            <a href="#products" class="flex items-start gap-4 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group/item cursor-none">
+                                <img src="https://i.postimg.cc/ZqcJCRFw/duplex-paper-sheet-500x500.jpg" alt="Duplex" class="w-10 h-10 rounded-lg object-cover shadow-sm group-hover/item:scale-105 transition-transform">
+                                <div>
+                                    <h4 class="font-bold text-gray-800 dark:text-white text-sm mb-0.5">Duplex Board</h4>
+                                    <p class="text-xs text-gray-500 line-clamp-1">Packaging boxes.</p>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
+                
+                <a href="#faq" class="nav-link cursor-none" data-section="faq">FAQ</a>
+                <a href="blog.html" class="nav-link cursor-none" data-section="blog">Blog</a>
+                <a href="#contact" class="nav-link cursor-none" data-section="contact">Contact</a>
             </div>
-            <a href="#reviews" class="nav-link" data-section="reviews">Reviews</a>
-            <a href="blog.html" class="nav-link" data-section="blog">Blog</a>
-            <a href="#gallery" class="nav-link" data-section="gallery">Gallery</a>
-            <a href="#about" class="nav-link" data-section="about">About</a>
-            <a href="#contact" class="nav-link" data-section="contact">Contact</a>
-        </div>
 
-        <div class="flex items-center gap-2 md:gap-4 z-50">
-            <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-200 transition-colors text-blue-600" aria-label="Toggle Dark Mode">
-                <svg id="themeIconDark" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-                <svg id="themeIconLight" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-300 cursor-none border border-transparent hover:border-gray-200 dark:hover:border-gray-700" aria-label="Toggle Dark Mode">
+                <svg id="themeIconDark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                <svg id="themeIconLight" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
             </button>
             
-            <button id="menuButton" class="md:hidden focus:outline-none p-2 rounded-lg hover:bg-blue-100 transition-colors" aria-label="Open Mobile Menu" aria-expanded="false" aria-controls="mobileMenu">
-                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path class="line1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16"/>
-                    <path class="line2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16"/>
-                    <path class="line3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 18h16"/>
+            <button id="menuButton" class="lg:hidden focus:outline-none p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-none border border-transparent hover:border-gray-200 dark:hover:border-gray-700" aria-label="Open Mobile Menu" aria-expanded="false" aria-controls="mobileMenu">
+                <svg class="w-6 h-6 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path class="line1 transition-transform duration-300" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16"/>
+                    <path class="line2 transition-opacity duration-300" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16"/>
+                    <path class="line3 transition-transform duration-300" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 18h16"/>
                 </svg>
             </button>
+
         </div>
     </nav>
 
@@ -842,6 +829,7 @@
     </script>
 </body>
 </html>
+
 
 
 
