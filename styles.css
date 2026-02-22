@@ -59,20 +59,26 @@ h1, h2, #modalProductName, .font-serif {
 
 /* --- 5. NAVIGATION --- */
 .sticky-nav {
-    position: sticky; top: 0; z-index: 10000; 
-    background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid #e2e8f0; transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+    position: sticky; top: 1rem; z-index: 10000; 
+    background: rgba(255, 255, 255, 0.70); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.5); 
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
-.sticky-nav.scrolled { background: rgba(255, 255, 255, 0.95); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.sticky-nav.scrolled { 
+    background: rgba(255, 255, 255, 0.95); 
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); 
+    border-color: rgba(255, 255, 255, 0.9);
+    padding-top: 0.5rem !important; 
+    padding-bottom: 0.5rem !important;
+}
 .nav-link { position: relative; padding-bottom: 4px; transition: color 0.3s; border-radius: 4px; }
 .nav-link:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 4px; }
 .nav-link::after {
-    content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 50%;
-    background-color: var(--primary-color); transition: all 0.3s;
+    content: ''; position: absolute; width: 0; height: 2px; bottom: 0; right: 0; /* Animates from right */
+    background-color: var(--primary-color); transition: all 0.3s ease;
 }
 .nav-link:hover::after, .nav-link.active::after { width: 100%; left: 0; }
-.nav-link:hover, .nav-link.active { color: var(--primary-color); }
-.nav-link.active { font-weight: 700; }
+.nav-link:hover, .nav-link.active { color: var(--text-color); }
 
 /* --- 6. BUTTONS & CARDS --- */
 .btn-glow { position: relative; overflow: hidden; }
@@ -135,18 +141,22 @@ h1, h2, #modalProductName, .font-serif {
 #productModal .close-button:hover { transform: scale(1.1); }
 
 #mobileMenu {
-    position: fixed; top: 0; right: 0; width: 80%; max-width: 320px; height: 100vh;
-    background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2.5rem;
-    transform: translateX(100%); pointer-events: none; opacity: 0; transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease; z-index: 20000; 
+    position: fixed; top: 0; right: 0; width: 100%; max-width: 400px; height: 100vh;
+    background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(30px) saturate(150%); -webkit-backdrop-filter: blur(30px) saturate(150%);
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding-left: 3rem; gap: 2rem;
+    transform: translateX(100%); pointer-events: none; opacity: 0; transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease; z-index: 20000;
+    border-left: 1px solid rgba(255,255,255,0.4); box-shadow: -20px 0 50px rgba(0,0,0,0.1);
 }
 #mobileMenu.open { transform: translateX(0); opacity: 1; pointer-events: auto; }
-#mobileMenu a { font-size: 1.6rem; font-weight: 700; color: var(--text-color); transition: transform 0.2s ease, color 0.2s ease; }
-#mobileMenu a:hover { color: var(--primary-color); transform: scale(1.1); }
-body.menu-opened { overflow: hidden; touch-action: none; }
-.menu-open svg .line1 { transform: rotate(45deg) translate(5px, 5px); }
-.menu-open svg .line2 { opacity: 0; }
-.menu-open svg .line3 { transform: rotate(-45deg) translate(5px, -5px); }
+#mobileMenu a { font-size: 2rem; font-weight: 800; font-family: 'Playfair Display', serif; color: var(--text-color); transition: transform 0.3s ease, color 0.3s ease; opacity: 0; transform: translateY(20px); }
+#mobileMenu.open a { opacity: 1; transform: translateY(0); }
+/* Staggered animation for mobile links */
+#mobileMenu.open a:nth-child(2) { transition-delay: 0.1s; }
+#mobileMenu.open a:nth-child(3) { transition-delay: 0.15s; }
+#mobileMenu.open a:nth-child(4) { transition-delay: 0.2s; }
+#mobileMenu.open a:nth-child(5) { transition-delay: 0.25s; }
+#mobileMenu.open a:nth-child(6) { transition-delay: 0.3s; }
+#mobileMenu a:hover { color: var(--primary-color); transform: translateX(15px) !important; }
 
 /* --- 8. SOCIAL SIDEBAR --- */
 .social-sidebar {
@@ -218,7 +228,7 @@ body.dark-mode .border-gray-100, body.dark-mode .border-gray-200, body.dark-mode
 
 /* Navigation & Menus */
 body.dark-mode .sticky-nav { background: rgba(11, 17, 32, 0.85) !important; }
-body.dark-mode #mobileMenu { background: rgba(11, 17, 32, 0.98) !important; }
+body.dark-mode #mobileMenu { background: rgba(15, 23, 42, 0.85) !important; border-left-color: rgba(255,255,255,0.1) !important; }
 body.dark-mode .nav-link { color: #cbd5e1; }
 body.dark-mode .nav-link:hover, body.dark-mode .nav-link.active { color: var(--primary-color) !important; }
 
@@ -248,5 +258,6 @@ body.dark-mode option { background-color: #0b1120; color: #f8fafc; }
 .cube-left   { transform: rotateY(-90deg) translateZ(6.5rem); }
 .cube-top    { transform: rotateX(90deg) translateZ(6.5rem); }
 .cube-bottom { transform: rotateX(-90deg) translateZ(6.5rem); }
+
 
 
