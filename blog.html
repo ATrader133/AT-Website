@@ -275,18 +275,20 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Category Chip Filtering
+            
+            // -----------------------------------------------------
+            // 1. CATEGORY CHIP FILTERING
+            // -----------------------------------------------------
             const filters = document.querySelectorAll('.blog-filter');
             const cards = document.querySelectorAll('.blog-card');
             
             filters.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    // Update Active Styling
                     filters.forEach(f => {
                         f.classList.remove('bg-blue-600', 'text-white');
-                        f.classList.add('bg-white', 'text-gray-600');
+                        f.classList.add('bg-white', 'text-gray-600', 'dark:bg-slate-800', 'dark:text-gray-300');
                     });
-                    btn.classList.remove('bg-white', 'text-gray-600');
+                    btn.classList.remove('bg-white', 'text-gray-600', 'dark:bg-slate-800', 'dark:text-gray-300');
                     btn.classList.add('bg-blue-600', 'text-white');
 
                     const target = btn.dataset.filter;
@@ -294,7 +296,7 @@
                     cards.forEach(card => {
                         if (target === 'all' || card.dataset.category === 'all' || card.dataset.category === target) {
                             card.style.display = 'block';
-                            setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, 50);
+                            setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0) perspective(1000px) rotateX(0) rotateY(0)'; }, 50);
                         } else {
                             card.style.opacity = '0';
                             card.style.transform = 'translateY(20px)';
@@ -304,26 +306,23 @@
                 });
             });
 
-            // Live Search Logic
-            // Premium Live Search Logic
+            // -----------------------------------------------------
+            // 2. PREMIUM LIVE SEARCH
+            // -----------------------------------------------------
             const searchBox = document.getElementById('blogSearch');
             const clearBtn = document.getElementById('clearSearchBtn');
 
             searchBox.addEventListener('input', (e) => {
                 const term = e.target.value.toLowerCase();
                 
-                // Show/Hide Clear Button
                 if (term.length > 0) {
                     clearBtn.classList.remove('opacity-0', 'pointer-events-none');
                 } else {
                     clearBtn.classList.add('opacity-0', 'pointer-events-none');
                 }
 
-                // Filter Cards
                 cards.forEach(card => {
-                    // Ignore the newsletter card from search filtering
                     if (card.dataset.category === 'all' && !card.querySelector('h3')) return; 
-
                     const title = card.querySelector('h3')?.innerText.toLowerCase() || '';
                     if (title.includes(term)) {
                         card.style.display = 'block';
@@ -333,15 +332,71 @@
                 });
             });
 
-            // Clear Button Click Action
             clearBtn.addEventListener('click', () => {
                 searchBox.value = '';
-                searchBox.dispatchEvent(new Event('input')); // Trigger the input event to reset the cards
-                searchBox.focus(); // Keep the cursor in the box
+                searchBox.dispatchEvent(new Event('input')); 
+                searchBox.focus(); 
             });
 
-        // AI Quick Peek Logic
-        let typingInterval;
+            // -----------------------------------------------------
+            // 3. 3D MAGNETIC TILT PHYSICS (NEW FEATURE)
+            // -----------------------------------------------------
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    // Calculate tilt (max 4 degrees for subtlety)
+                    const tiltX = ((y - centerY) / centerY) * -4; 
+                    const tiltY = ((x - centerX) / centerX) * 4;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+                    card.style.transition = "transform 0.1s ease-out"; // Snappy follow
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                    card.style.transition = "transform 0.5s ease-out"; // Smooth reset
+                });
+            });
+
+            // -----------------------------------------------------
+            // 4. CIRCULAR SCROLL PROGRESS (NEW FEATURE)
+            // -----------------------------------------------------
+            const scrollBtn = document.getElementById('scrollTopBtn');
+            const progressCircle = document.getElementById('scrollProgress');
+            const circumference = 2 * Math.PI * 48; // r=48 from SVG
+
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                const maxHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollFraction = scrollY / maxHeight;
+                
+                // Show/Hide button
+                if (scrollY > 300) {
+                    scrollBtn.classList.remove('opacity-0', 'invisible');
+                } else {
+                    scrollBtn.classList.add('opacity-0', 'invisible');
+                }
+
+                // Draw circle
+                const drawAmount = circumference * scrollFraction;
+                progressCircle.style.strokeDashoffset = circumference - drawAmount;
+            });
+
+            scrollBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+        }); // <-- CRITICAL: This is the missing bracket that broke your page!
+
+        // -----------------------------------------------------
+        // 5. AI QUICK PEEK LOGIC (FIXED TIMEOUT BUGS)
+        // -----------------------------------------------------
+        let typingTimeout; // Changed from interval to timeout
 
         window.openQuickPeek = function(title, bullets, link) {
             const modal = document.getElementById('quickPeekModal');
@@ -351,8 +406,7 @@
             const bulletsEl = document.getElementById('qpBullets');
             const readMoreBtn = document.getElementById('qpReadMore');
 
-            // Reset & Open Modal
-            clearInterval(typingInterval);
+            clearTimeout(typingTimeout); // Stop any previous typing
             bulletsEl.innerHTML = '';
             titleEl.textContent = title;
             readMoreBtn.href = link;
@@ -360,14 +414,12 @@
             modal.classList.remove('hidden');
             modal.classList.add('flex');
             
-            // Animate In
             setTimeout(() => {
                 backdrop.classList.replace('opacity-0', 'opacity-100');
                 card.classList.replace('opacity-0', 'opacity-100');
                 card.classList.replace('scale-95', 'scale-100');
             }, 10);
 
-            // Typing Effect Logic
             let bulletIndex = 0;
             let charIndex = 0;
             
@@ -379,7 +431,6 @@
                         li.innerHTML = `<span class="text-indigo-500 mt-0.5 shrink-0">✦</span><span class="typing-text"></span>`;
                         bulletsEl.appendChild(li);
                         
-                        // Fade in the bullet point smoothly
                         setTimeout(() => {
                             li.classList.remove('opacity-0', 'translate-y-2');
                         }, 50);
@@ -392,15 +443,14 @@
                     if (charIndex >= bullets[bulletIndex].length) {
                         bulletIndex++;
                         charIndex = 0;
-                        setTimeout(typeNextChar, 400); // Pause between bullets
+                        typingTimeout = setTimeout(typeNextChar, 400); 
                     } else {
-                        setTimeout(typeNextChar, 15); // Typing speed
+                        typingTimeout = setTimeout(typeNextChar, 15); 
                     }
                 }
             }
             
-            // Start typing after modal opens
-            setTimeout(typeNextChar, 400);
+            typingTimeout = setTimeout(typeNextChar, 400);
         };
 
         window.closeQuickPeek = function() {
@@ -408,7 +458,7 @@
             const backdrop = document.getElementById('quickPeekBackdrop');
             const card = document.getElementById('quickPeekCard');
             
-            clearInterval(typingInterval);
+            clearTimeout(typingTimeout); // Prevents ghost typing
             
             backdrop.classList.replace('opacity-100', 'opacity-0');
             card.classList.replace('opacity-100', 'opacity-0');
@@ -422,6 +472,7 @@
     </script>
 </body>
 </html>
+
 
 
 
