@@ -546,18 +546,57 @@
         </div>
 
         <div id="tool-cbm" class="tool-content hidden transition-all duration-300">
-            <div class="bg-green-50/50 p-4 rounded-2xl border border-green-100 mb-8 text-center"><p class="text-sm text-green-800 font-medium">📦 Estimate shipping volume for logistics.</p></div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 items-end">
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Length (cm)</label><input type="number" id="cbmL" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-green-500 p-3 font-mono text-lg" placeholder="0"></div>
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Width (cm)</label><input type="number" id="cbmW" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-green-500 p-3 font-mono text-lg" placeholder="0"></div>
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Height (cm)</label><input type="number" id="cbmH" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-green-500 p-3 font-mono text-lg" placeholder="0"></div>
-                <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Quantity</label><input type="number" id="cbmQty" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-green-500 p-3 font-mono text-lg" placeholder="1"></div>
+                <div class="bg-green-50/50 p-4 rounded-2xl border border-green-100 mb-8 text-center"><p class="text-sm text-green-800 font-medium">📦 Estimate volume and visualize your 20ft container load.</p></div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 items-end">
+                    <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Length (cm)</label><input type="number" id="cbmL" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-green-500 p-3 font-mono text-lg" placeholder="e.g. 50"></div>
+                    <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Width (cm)</label><input type="number" id="cbmW" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-green-500 p-3 font-mono text-lg" placeholder="e.g. 50"></div>
+                    <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Height (cm)</label><input type="number" id="cbmH" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-green-500 p-3 font-mono text-lg" placeholder="e.g. 40"></div>
+                    <div class="group"><label class="block text-xs font-bold text-slate-500 uppercase mb-2">Quantity</label><input type="number" id="cbmQty" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:ring-2 focus:ring-green-500 p-3 font-mono text-lg" placeholder="100"></div>
+                </div>
+
+                <div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6 bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-100">
+                    <button onclick="calculateCBM()" class="btn-glow bg-green-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-green-700 transition shadow-lg w-full md:w-auto">Simulate Container Load</button>
+                    <div class="text-right"><span class="block text-xs font-bold text-slate-400 uppercase">Total Volume</span><div class="text-4xl font-black text-slate-800" id="resCbm">0.000 <span class="text-xl text-green-600">m³</span></div></div>
+                </div>
+
+                <div class="mt-8 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-6 md:p-8 rounded-2xl shadow-sm hidden transition-all" id="containerSimulatorResult">
+                    <div class="flex justify-between items-end mb-4">
+                        <h4 class="text-sm font-bold text-slate-700 dark:text-gray-300 uppercase tracking-widest">20ft Container Status</h4>
+                        <span id="containerPercentageText" class="text-3xl font-black text-blue-600 dark:text-blue-400 font-mono">0%</span>
+                    </div>
+                    
+                    <div class="relative w-full h-24 bg-slate-100 dark:bg-gray-900 rounded-lg overflow-hidden border-2 border-slate-300 dark:border-gray-600 shadow-inner group">
+                        <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: repeating-linear-gradient(90deg, transparent, transparent 15px, rgba(0,0,0,0.8) 15px, rgba(0,0,0,0.8) 30px);"></div>
+                        
+                        <div id="containerFillBar" class="absolute top-0 left-0 h-full bg-blue-500 transition-all duration-1000 ease-out w-0 flex items-center justify-end overflow-hidden shadow-[inset_-5px_0_15px_rgba(0,0,0,0.3)]">
+                            <div class="absolute inset-0 opacity-20" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.6) 10px, rgba(255,255,255,0.6) 20px);"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mt-3 text-xs font-bold text-gray-400">
+                        <span>Empty (0 CBM)</span>
+                        <span>Max Capacity (~33 CBM)</span>
+                    </div>
+                    
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-blue-50/50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100 dark:border-blue-800 flex items-center gap-4">
+                            <div class="text-3xl">🚛</div>
+                            <div>
+                                <span class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Logistics Recommendation</span>
+                                <span id="containerStatusText" class="text-sm font-bold text-slate-800 dark:text-white">Ready to load.</span>
+                            </div>
+                        </div>
+                        <div class="bg-blue-50/50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100 dark:border-blue-800 flex items-center gap-4">
+                            <div class="text-3xl">📦</div>
+                            <div>
+                                <span class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Estimated Standard Pallets</span>
+                                <span id="palletEstimateText" class="text-sm font-bold text-slate-800 dark:text-white">0 Pallets</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6 bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-100">
-                <button onclick="calculateCBM()" class="btn-glow bg-green-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-green-700 transition shadow-lg w-full md:w-auto">Calculate CBM</button>
-                <div class="text-right"><span class="block text-xs font-bold text-slate-400 uppercase">Total Volume</span><div class="text-4xl font-black text-slate-800" id="resCbm">0.000 <span class="text-xl text-green-600">m³</span></div></div>
-            </div>
-        </div>
 
         <div id="tool-thickness" class="tool-content hidden transition-all duration-300">
             <div class="bg-indigo-50/50 dark:bg-indigo-900/20 p-4 rounded-2xl border border-indigo-100 dark:border-indigo-800 mb-8 text-center"><p class="text-sm text-indigo-800 dark:text-indigo-300 font-medium">✨ Drag the slider to visualize the physical thickness of the paper.</p></div>
@@ -904,6 +943,7 @@
     </script>
 </body>
 </html>
+
 
 
 
