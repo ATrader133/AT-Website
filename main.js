@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 4. CALCULATORS
     // ==========================================
     window.switchTab = function(tabName) {
-        ['weight', 'reel', 'strength', 'cbm'].forEach(t => {
+        ['weight', 'reel', 'strength', 'cbm', 'thickness'].forEach(t => {
             const content = document.getElementById('tool-' + t);
             const btn = document.getElementById('tab-' + t);
             if(content) content.classList.add('hidden');
@@ -148,10 +148,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if(tabName === 'reel') colorClass = "text-yellow-600";
             if(tabName === 'strength') colorClass = "text-red-600";
             if(tabName === 'cbm') colorClass = "text-green-600";
+            if(tabName === 'thickness') colorClass = "text-indigo-600";
             activeBtn.className = `px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm font-bold transition-all shadow-md bg-white ${colorClass}`;
         }
     };
-
+    
     window.setUnit = function(unit) {
         currentUnit = unit;
         ['cm', 'mm', 'inch'].forEach(u => {
@@ -697,7 +698,58 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // ==========================================
+    // 14. GSM VISUALIZER LOGIC
+    // ==========================================
+    const visualSlider = document.getElementById('gsmVisualSlider');
+    const valDisplay = document.getElementById('gsmValueDisplay');
+    const descText = document.getElementById('gsmDescText');
+    const isoPaper = document.getElementById('isometricPaper');
+
+    if (visualSlider && isoPaper) {
+        visualSlider.addEventListener('input', (e) => {
+            const val = parseInt(e.target.value);
+            valDisplay.textContent = val;
+            
+            // 1. Determine Real World Description
+            let desc = '';
+            if (val <= 80) desc = "Tracing / Receipt Paper — Extremely thin, translucent, and highly flexible.";
+            else if (val <= 120) desc = "Standard Printer Paper — Your everyday office A4 sheet. Easily foldable.";
+            else if (val <= 160) desc = "Light Flyers / Posters — Slightly stiff. Good for folding without cracking.";
+            else if (val <= 220) desc = "Brochure Covers — Sturdy. Feels like a high-quality magazine cover.";
+            else if (val <= 280) desc = "Standard Business Cards — Rigid. Holds its shape well and resists bending.";
+            else if (val <= 350) desc = "Heavy Cardstock — Very stiff. Used for premium product boxes and invitations.";
+            else desc = "Rigid Packaging / Cartons — Unbending. Used for luxury rigid boxes and heavy displays.";
+            
+            descText.textContent = desc;
+
+            // 2. Generate 3D Thickness via Box Shadows
+            // We map 50-450 GSM to a physical pixel thickness of 1px to 45px
+            const thicknessPixels = Math.max(1, Math.floor((val / 450) * 45)); 
+            
+            let shadows = [];
+            // Adding a soft drop shadow on the "table" underneath the paper
+            shadows.push(`-30px 30px 40px rgba(0,0,0,0.15)`); 
+            
+            // Stacking the solid edges
+            for(let i = 1; i <= thicknessPixels; i++) {
+                shadows.push(`-${i}px ${i}px 0px var(--edge-light)`);
+            }
+            // The absolute bottom edge gets a darker color to create a real 3D bevel
+            shadows.push(`-${thicknessPixels + 1}px ${thicknessPixels + 1}px 0px var(--edge-dark)`);
+            
+            isoPaper.style.boxShadow = shadows.join(', ');
+            
+            // Slightly push the paper "up" into the air as it gets thicker
+            isoPaper.style.transform = `rotateX(60deg) rotateY(0deg) rotateZ(-45deg) translateZ(${thicknessPixels}px) translate(-${thicknessPixels/2}px, -${thicknessPixels/2}px)`;
+        });
+
+        // Fire once on load to set initial state
+        visualSlider.dispatchEvent(new Event('input'));
+    }
 });
+
 
 
 
