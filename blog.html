@@ -110,6 +110,13 @@
         </section>
 
         <section class="max-w-7xl mx-auto px-4 md:px-6 pb-24">
+            <div class="mb-8 md:mb-10 text-center" data-aos="fade-up">
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-extrabold uppercase tracking-[0.18em] border border-blue-200/70 dark:border-blue-700/50">
+                    ✦ Insights Hub
+                </span>
+                <h2 class="mt-4 text-2xl md:text-4xl font-black text-gray-900 dark:text-white font-serif">Practical insights for smarter paper procurement</h2>
+                <p class="mt-2 text-sm md:text-base text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">Filter by topic, search instantly, and open AI quick peeks to review key takeaways before reading full articles.</p>
+            </div>
             
             <div class="sticky top-24 z-40 bg-bg-light/80 dark:bg-slate-900/80 backdrop-blur-md py-4 mb-8 border-y border-gray-200 dark:border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
                 
@@ -306,6 +313,31 @@
             // -----------------------------------------------------
             const filters = document.querySelectorAll('.blog-filter');
             const cards = document.querySelectorAll('.blog-card');
+            let activeFilter = 'all';
+
+            const applyVisibility = () => {
+                const term = searchBox.value.trim().toLowerCase();
+
+                cards.forEach(card => {
+                    const cardCategory = card.dataset.category;
+                    const title = card.querySelector('h3')?.innerText.toLowerCase() || '';
+                    const matchesFilter = activeFilter === 'all' || cardCategory === 'all' || cardCategory === activeFilter;
+                    const matchesSearch = !term || title.includes(term);
+                    const shouldShow = matchesFilter && matchesSearch;
+
+                    if (shouldShow) {
+                        card.style.display = 'block';
+                        requestAnimationFrame(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0) perspective(1000px) rotateX(0) rotateY(0)';
+                        });
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => { card.style.display = 'none'; }, 220);
+                    }
+                });
+            };
             
             filters.forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -316,18 +348,8 @@
                     btn.classList.remove('bg-white', 'text-gray-600', 'dark:bg-slate-800', 'dark:text-gray-300');
                     btn.classList.add('bg-blue-600', 'text-white');
 
-                    const target = btn.dataset.filter;
-                    
-                    cards.forEach(card => {
-                        if (target === 'all' || card.dataset.category === 'all' || card.dataset.category === target) {
-                            card.style.display = 'block';
-                            setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0) perspective(1000px) rotateX(0) rotateY(0)'; }, 50);
-                        } else {
-                            card.style.opacity = '0';
-                            card.style.transform = 'translateY(20px)';
-                            setTimeout(() => { card.style.display = 'none'; }, 300);
-                        }
-                    });
+                    activeFilter = btn.dataset.filter;
+                    applyVisibility();
                 });
             });
 
@@ -346,15 +368,7 @@
                     clearBtn.classList.add('opacity-0', 'pointer-events-none');
                 }
 
-                cards.forEach(card => {
-                    if (card.dataset.category === 'all' && !card.querySelector('h3')) return; 
-                    const title = card.querySelector('h3')?.innerText.toLowerCase() || '';
-                    if (title.includes(term)) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
+                applyVisibility();
             });
 
             clearBtn.addEventListener('click', () => {
@@ -366,7 +380,10 @@
             // -----------------------------------------------------
             // 3. 3D MAGNETIC TILT PHYSICS
             // -----------------------------------------------------
-            cards.forEach(card => {
+            const enableTilt = window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+                !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            if (enableTilt) cards.forEach(card => {
                 card.addEventListener('mousemove', (e) => {
                     const rect = card.getBoundingClientRect();
                     const x = e.clientX - rect.left;
@@ -397,7 +414,7 @@
             window.addEventListener('scroll', () => {
                 const scrollY = window.scrollY;
                 const maxHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const scrollFraction = scrollY / maxHeight;
+                const scrollFraction = maxHeight > 0 ? (scrollY / maxHeight) : 0;
                 
                 if (scrollY > 300) {
                     scrollBtn.classList.remove('opacity-0', 'invisible');
