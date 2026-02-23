@@ -870,7 +870,41 @@ document.addEventListener('DOMContentLoaded', function() {
             palletText.innerText = `~ ${pallets} Standard Pallet${pallets !== 1 ? 's' : ''}`;
         }
     };
+
+    // ==========================================
+    // 17. APP-LIKE PAGE TRANSITIONS (Fallback)
+    // ==========================================
+    // 1. Add smooth fade-in on initial page load
+    document.body.style.opacity = '0';
+    requestAnimationFrame(() => {
+        document.body.style.transition = 'opacity 0.6s ease-out';
+        document.body.style.opacity = '1';
+    });
+
+    // 2. Intercept clicks to other pages (like blog.html)
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', e => {
+            const target = link.getAttribute('href');
+            
+            // If it's a link to another HTML page (not a #hash or external link)
+            if (target && target.includes('.html') && !target.startsWith('http')) {
+                
+                // If browser does NOT support native View Transitions, use our fallback
+                if (!document.startViewTransition) {
+                    e.preventDefault();
+                    document.body.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
+                    document.body.style.opacity = '0';
+                    document.body.style.transform = 'scale(0.98)'; // Slight zoom-out effect
+                    
+                    setTimeout(() => {
+                        window.location.href = target;
+                    }, 400);
+                }
+            }
+        });
+    });
 });
+
 
 
 
