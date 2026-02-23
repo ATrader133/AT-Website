@@ -3,217 +3,220 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog - ABRAR TRADERS</title>
-    <meta name="description" content="Latest news, tips, and insights from ABRAR TRADERS, your trusted source for paper products and packaging supplies.">
-    <meta name="author" content="ABRAR TRADERS" />
-
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>Industry Insights & Blog | ABRAR TRADERS</title>
+    <meta name="description" content="Latest news, market trends, and packaging insights from ABRAR TRADERS, India's trusted paper supplier.">
     
     <link rel="icon" href="https://i.postimg.cc/2j7LbY5v/favicon-96x96.png" type="image/png" />
-
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700;900&display=swap" as="style">
-    <link rel="preload" href="styles.css" as="style">
-    <link rel="preload" href="blog.js" as="script">
-
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700;900&family=Playfair+Display:wght@600;700;900&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
     
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="bg-bg-light">
+<body class="bg-bg-light transition-colors duration-300">
 
-    <div class="progress-bar" id="progressBar"></div>
-    <div id="menuBackdrop" role="presentation"></div>
+    <div id="customCursor" class="fixed top-0 left-0 w-4 h-4 bg-blue-600 rounded-full pointer-events-none z-[99999] mix-blend-difference hidden md:block"></div>
+    <div id="cursorFollower" class="fixed top-0 left-0 w-10 h-10 border border-blue-400 rounded-full pointer-events-none z-[99998] transition-all duration-300 hidden md:block"></div>
 
-    <div class="social-sidebar" id="socialSidebar">
-        <a href="https://www.facebook.com/Abrar.Trades/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Connect on Facebook"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook"></a>
-        <a href="https://www.instagram.com/abrartraders/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Connect on Instagram"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram"></a>
-        <a href="https://wa.me/917405108950" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Message us on WhatsApp"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp"></a>
-        <a href="https://www.linkedin.com/company/abrar-traders/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Connect on LinkedIn"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn"></a>
+    <div class="absolute top-0 left-0 w-full h-full -z-10 overflow-hidden pointer-events-none">
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-300/30 rounded-full filter blur-[100px] animate-blob"></div>
+        <div class="absolute top-1/2 right-1/4 w-96 h-96 bg-purple-300/30 rounded-full filter blur-[100px] animate-blob animation-delay-2000"></div>
     </div>
 
-    <div id="spinner" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white">
-        <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" class="h-20 animate-bounce mb-6" alt="Abrar Traders Logo Spinner" />
-        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600"></div>
-    </div>
-
-    <div id="tsparticles" class="absolute top-0 left-0 w-full h-full -z-10"></div>
-
-    <nav class="sticky-nav flex justify-between items-center px-6 py-4" role="navigation" aria-label="Main Navigation">
-        <a href="index.html#home" class="flex items-center space-x-4">
-            <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders Logo" class="h-12 rounded-full shadow-md" />
-            <span class="font-black text-2xl bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent">ABRAR TRADERS</span>
+    <nav id="mainNav" class="sticky-nav flex justify-between items-center px-6 py-3 mx-4 md:mx-6 rounded-[2.5rem] mt-4 mb-4 z-50">
+        <a href="index.html#home" class="flex items-center flex-shrink-0">
+            <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders Logo" class="h-10 w-10 md:h-12 md:w-12 bg-white rounded-full p-1.5 shadow-md hover:scale-110 transition-transform duration-300 object-contain border border-gray-100" />
+            <span class="sr-only">ABRAR TRADERS</span>
         </a>
-        <div class="hidden md:flex items-center space-x-7 font-semibold text-gray-600">
-            <a href="index.html#home" class="nav-link" data-section="home">Home</a>
-            <a href="index.html#products" class="nav-link" data-section="products">Products</a>
-            <a href="index.html#reviews" class="nav-link" data-section="reviews">Reviews</a>
-            <a href="blog.html" class="nav-link active" data-section="blog">Blog</a>
-            <a href="index.html#gallery" class="nav-link" data-section="gallery">Gallery</a>
-            <a href="index.html#about" class="nav-link" data-section="about">About</a>
-            <a href="index.html#contact" class="nav-link" data-section="contact">Contact</a>
+        
+        <div class="flex items-center gap-6 md:gap-8">
+            <div class="hidden lg:flex items-center space-x-8 font-semibold text-gray-600 dark:text-gray-300 text-sm tracking-wide">
+                <a href="index.html#home" class="nav-link">Home</a>
+                <a href="index.html#products" class="nav-link">Products</a>
+                <a href="index.html#calculator" class="nav-link">Pro Tools</a>
+                <a href="blog.html" class="nav-link active text-blue-600 dark:text-blue-400">Blog</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+            </div>
+
+            <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-300">
+                <svg id="themeIconDark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                <svg id="themeIconLight" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            </button>
         </div>
-        <a href="index.html" class="hidden md:inline-block bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">Back to Main Site</a>
-        <button id="menuButton" class="md:hidden focus:outline-none p-2 rounded-lg hover:bg-blue-100 transition-colors z-50" aria-label="Open Mobile Menu" aria-expanded="false" aria-controls="mobileMenu">
-            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path class="line1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16"/>
-                <path class="line2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16"/>
-                <path class="line3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 18h16"/>
-            </svg>
-        </button>
     </nav>
 
-    <div id="mobileMenu" role="dialog" aria-modal="true" aria-labelledby="mobileMenuTitle">
-        <h2 id="mobileMenuTitle" class="sr-only">Mobile Navigation Menu</h2>
-        <button id="closeMenuButton" class="absolute top-6 right-6 p-2 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors" aria-label="Close Mobile Menu">
-            <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-        </button>
-        <a href="index.html#home" class="nav-link" data-section="home">Home</a>
-        <a href="index.html#products" class="nav-link" data-section="products">Products</a>
-        <a href="index.html#reviews" class="nav-link" data-section="reviews">Reviews</a>
-        <a href="blog.html" class="nav-link active" data-section="blog">Blog</a>
-        <a href="index.html#gallery" class="nav-link" data-section="gallery">Gallery</a>
-        <a href="index.html#about" class="nav-link" data-section="about">About</a>
-        <a href="index.html#contact" class="nav-link" data-section="contact">Contact</a>
-        <a href="index.html" class="mt-8 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">Back to Main Site</a>
-    </div>
-
-    <header class="blog-hero py-20 px-6 text-center text-white">
-        <h1 class="text-5xl font-extrabold mb-4" data-aos="fade-down">Abrar Traders Blog</h1>
-        <p class="text-xl font-medium" data-aos="fade-up" data-aos-delay="200">Your source for industry insights, sustainable practices, and the latest in paper & packaging.</p>
-    </header>
-
-    <main class="py-20 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid lg:grid-cols-3 gap-12">
-                <div class="lg:col-span-2">
-                    <div class="grid md:grid-cols-2 gap-8">
-                       <article class="blog-post-card glass rounded-2xl shadow-lg overflow-hidden" data-aos="fade-up">
-                            <img src="https://placehold.co/600x400/8E9BFA/FFFFFF?text=Sustainable+Packaging" alt="Sustainable Packaging" class="w-full h-48 object-cover">
-                            <div class="p-6">
-                                <h3 class="font-bold text-xl mb-3 text-gray-800">The Rise of Sustainable Packaging</h3>
-                                <p class="text-gray-600 mb-4">Discover why eco-friendly paper and board are not just a trend, but a necessity...</p>
-                                <a href="sustainable-packaging.html" class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">Read More →</a>
-                            </div>
-                        </article>
-
-                        <article class="blog-post-card glass rounded-2xl shadow-lg overflow-hidden" data-aos="fade-up" data-aos-delay="100">
-                            <img src="https://placehold.co/600x400/A78BFA/FFFFFF?text=Choosing+Paper+GSM" alt="Choosing Paper GSM" class="w-full h-48 object-cover">
-                            <div class="p-6">
-                                <h3 class="font-bold text-xl mb-3 text-gray-800">How to Choose the Right Paper GSM</h3>
-                                <p class="text-gray-600 mb-4">A comprehensive guide to understanding paper weight (GSM) and selecting the perfect type...</p>
-                                <a href="choosing-paper-gsm.html" class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">Read More →</a>
-                            </div>
-                        </article>
-
-                        <article class="blog-post-card glass rounded-2xl shadow-lg overflow-hidden" data-aos="fade-up" data-aos-delay="200">
-                            <img src="https://placehold.co/600x400/607AFB/FFFFFF?text=Paper+Industry+Trends" alt="Paper Industry Trends" class="w-full h-48 object-cover">
-                            <div class="p-6">
-                                <h3 class="font-bold text-xl mb-3 text-gray-800">Top 5 Trends in the Paper Industry for 2025</h3>
-                                <p class="text-gray-600 mb-4">From digital integration to new recycling technologies, we explore what's next...</p>
-                                <a href="paper-industry-trends.html" class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">Read More →</a>
-                            </div>
-                        </article>
-
-                        <article class="blog-post-card glass rounded-2xl shadow-lg overflow-hidden" data-aos="fade-up" data-aos-delay="300">
-                            <img src="https://placehold.co/600x400/E6E9F4/0D0F1C?text=Kraft+Paper+Versatility" alt="Kraft Paper Versatility" class="w-full h-48 object-cover">
-                            <div class="p-6">
-                                <h3 class="font-bold text-xl mb-3 text-gray-800">The Versatility of Kraft Paper</h3>
-                                <p class="text-gray-600 mb-4">From heavy-duty packaging to creative crafts, explore the many uses of durable Kraft paper.</p>
-                                <a href="kraft-paper-versatility.html" class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">Read More →</a>
-                            </div>
-                        </article>
-                    </div>
+    <section class="max-w-7xl mx-auto px-4 md:px-6 pt-6 pb-12">
+        <a href="sustainable-packaging.html" class="block relative w-full h-[500px] md:h-[600px] rounded-[2.5rem] overflow-hidden group shadow-2xl" data-aos="fade-up">
+            <img src="https://images.unsplash.com/photo-1605600659908-0ef719419d41?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Sustainable Paper Mill" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000 ease-out" />
+            
+            <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent"></div>
+            
+            <div class="absolute bottom-0 left-0 w-full p-8 md:p-12 glass rounded-b-[2.5rem] border-t border-white/20 bg-white/10 dark:bg-black/20 backdrop-blur-md">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Featured Report</span>
+                    <span class="text-gray-300 text-xs font-semibold flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> 6 Min Read</span>
                 </div>
-
-                <aside class="lg:col-span-1 space-y-8">
-                    <div class="widget glass p-6 rounded-2xl shadow-lg" data-aos="fade-left" data-aos-delay="500">
-                        <h3 class="font-bold text-xl mb-4 text-gray-800">Search</h3>
-                        <input type="text" placeholder="Search..." class="w-full p-3 rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500 transition">
-                    </div>
-
-                    <div class="widget glass p-6 rounded-2xl shadow-lg" data-aos="fade-left" data-aos-delay="600">
-                        <h3 class="font-bold text-xl mb-4 text-gray-800">Categories</h3>
-                        <ul class="space-y-2">
-                            <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Sustainable Packaging</a></li>
-                            <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Paper Products</a></li>
-                            <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Industry News</a></li>
-                            <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Tips & Guides</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="widget glass p-6 rounded-2xl shadow-lg" data-aos="fade-left" data-aos-delay="700">
-                        <h3 class="font-bold text-xl mb-4 text-gray-800">Recent Posts</h3>
-                        <ul class="space-y-4">
-                            <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">The Rise of Sustainable Packaging</a></li>
-                            <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">How to Choose the Right Paper GSM</a></li>
-                            <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Top 5 Trends in the Paper Industry for 2025</a></li>
-                        </ul>
-                    </div>
-                </aside>
+                <h1 class="text-3xl md:text-5xl font-black text-white font-serif mb-4 leading-tight group-hover:text-blue-300 transition-colors">The Future of Sustainable Packaging in India (2025-2030)</h1>
+                <p class="text-gray-300 text-lg md:text-xl max-w-3xl line-clamp-2">How top FMCG brands are transitioning to 100% recycled Duplex and Kraft boards, and what it means for your procurement strategy.</p>
             </div>
+        </a>
+    </section>
+
+    <main class="max-w-7xl mx-auto px-4 md:px-6 pb-24">
+        
+        <div class="sticky top-24 z-40 bg-bg-light/80 dark:bg-slate-900/80 backdrop-blur-md py-4 mb-8 border-y border-gray-200 dark:border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
+            
+            <div class="flex gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-hide">
+                <button class="blog-filter active px-5 py-2 rounded-full text-sm font-bold bg-blue-600 text-white transition-all shadow-md" data-filter="all">All News</button>
+                <button class="blog-filter px-5 py-2 rounded-full text-sm font-bold bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-all border border-gray-200 dark:border-gray-700 whitespace-nowrap" data-filter="sustainability">Sustainability</button>
+                <button class="blog-filter px-5 py-2 rounded-full text-sm font-bold bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-all border border-gray-200 dark:border-gray-700 whitespace-nowrap" data-filter="guides">Buying Guides</button>
+                <button class="blog-filter px-5 py-2 rounded-full text-sm font-bold bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-all border border-gray-200 dark:border-gray-700 whitespace-nowrap" data-filter="market">Market Trends</button>
+            </div>
+
+            <div class="relative w-full md:w-72">
+                <input type="text" id="blogSearch" placeholder="Search articles..." class="w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 rounded-full px-5 py-2.5 pl-10 text-sm focus:ring-2 focus:ring-blue-500 outline-none text-gray-800 dark:text-white transition-all shadow-inner">
+                <svg class="w-4 h-4 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="blogGrid">
+            
+            <article class="blog-card glass p-4 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-300 group border border-white/50 dark:border-slate-700" data-category="guides" data-aos="fade-up">
+                <a href="choosing-paper-gsm.html" class="block overflow-hidden rounded-[1.5rem] mb-5 relative h-56">
+                    <span class="absolute top-4 left-4 bg-white/90 text-gray-800 text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm z-10 shadow-sm">Buying Guides</span>
+                    <img src="https://images.unsplash.com/photo-1586075010923-2dd4570fb338?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Paper GSM Guide" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </a>
+                <div class="px-2">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 font-semibold mb-2">March 15, 2026 • 4 Min Read</p>
+                    <h3 class="font-bold text-xl mb-3 text-gray-900 dark:text-white font-serif leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">How to Choose the Right Paper GSM for Corrugated Boxes</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-2 mb-4 leading-relaxed">A comprehensive guide to understanding paper weight and selecting the exact BF and GSM for structural integrity.</p>
+                    <a href="choosing-paper-gsm.html" class="inline-flex items-center gap-2 text-sm font-bold text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform">Read Article <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></a>
+                </div>
+            </article>
+
+            <article class="blog-card glass p-4 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-300 group border border-white/50 dark:border-slate-700" data-category="market" data-aos="fade-up" data-aos-delay="100">
+                <a href="paper-industry-trends.html" class="block overflow-hidden rounded-[1.5rem] mb-5 relative h-56">
+                    <span class="absolute top-4 left-4 bg-white/90 text-gray-800 text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm z-10 shadow-sm">Market Trends</span>
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Data Analytics" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </a>
+                <div class="px-2">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 font-semibold mb-2">February 28, 2026 • 5 Min Read</p>
+                    <h3 class="font-bold text-xl mb-3 text-gray-900 dark:text-white font-serif leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Pricing Outlook: Duplex and Kraft Boards in Q3</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-2 mb-4 leading-relaxed">Analyzing raw material shortages and how Indian manufacturers are stabilizing supply chains.</p>
+                    <a href="paper-industry-trends.html" class="inline-flex items-center gap-2 text-sm font-bold text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform">Read Article <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></a>
+                </div>
+            </article>
+
+            <div class="blog-card bg-gradient-to-br from-blue-600 to-indigo-800 p-8 rounded-[2rem] shadow-xl border border-blue-400 flex flex-col justify-center items-center text-center relative overflow-hidden" data-category="all" data-aos="fade-up" data-aos-delay="200">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+                <div class="text-5xl mb-4 animate-bounce">📬</div>
+                <h3 class="font-black text-2xl mb-2 text-white font-serif">Stay Ahead of the Market</h3>
+                <p class="text-blue-100 text-sm mb-6">Join 5,000+ procurement managers getting weekly paper pricing updates and insights.</p>
+                <div class="w-full flex bg-white/20 p-1 rounded-xl border border-white/30 backdrop-blur-sm">
+                    <input type="email" placeholder="Your work email" class="w-full bg-transparent border-none text-white placeholder-blue-200 focus:ring-0 px-4 py-2 text-sm outline-none">
+                    <button class="bg-white text-blue-700 font-bold px-4 py-2 rounded-lg text-sm hover:bg-blue-50 transition-colors">Join</button>
+                </div>
+            </div>
+
+            <article class="blog-card glass p-4 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-300 group border border-white/50 dark:border-slate-700" data-category="sustainability" data-aos="fade-up">
+                <a href="kraft-paper-versatility.html" class="block overflow-hidden rounded-[1.5rem] mb-5 relative h-56">
+                    <span class="absolute top-4 left-4 bg-white/90 text-gray-800 text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm z-10 shadow-sm">Sustainability</span>
+                    <img src="https://images.unsplash.com/photo-1620025983796-0e1ce5e4d255?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Kraft Paper" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </a>
+                <div class="px-2">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 font-semibold mb-2">January 10, 2026 • 3 Min Read</p>
+                    <h3 class="font-bold text-xl mb-3 text-gray-900 dark:text-white font-serif leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">The Ultimate Versatility of Virgin Kraft Paper</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-2 mb-4 leading-relaxed">From heavy-duty industrial wrapping to high-end cosmetic boxes, why Kraft is dominating packaging.</p>
+                    <a href="kraft-paper-versatility.html" class="inline-flex items-center gap-2 text-sm font-bold text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform">Read Article <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></a>
+                </div>
+            </article>
+
         </div>
     </main>
 
-    <footer class="bg-gray-800 text-white">
-        <div class="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-4 gap-8">
-            <div>
-                <h3 class="font-bold text-lg mb-4">ABRAR TRADERS</h3>
-                <p class="text-gray-400 text-sm">Your trusted partner for premium paper products and sustainable packaging solutions.</p>
-            </div>
-            <div>
-                <h3 class="font-bold text-lg mb-4">Quick Links</h3>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="index.html#home" class="text-gray-400 hover:text-white transition">Home</a></li>
-                    <li><a href="index.html#products" class="text-gray-400 hover:text-white transition">Products</a></li>
-                    <li><a href="index.html#about" class="text-gray-400 hover:text-white transition">About Us</a></li>
-                    <li><a href="index.html#contact" class="text-gray-400 hover:text-white transition">Contact</a></li>
-                </ul>
-            </div>
-            <div>
-                <h3 class="font-bold text-lg mb-4">Our Products</h3>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="index.html#products" class="text-gray-400 hover:text-white transition">Kraft Paper</a></li>
-                    <li><a href="index.html#products" class="text-gray-400 hover:text-white transition">Duplex Board</a></li>
-                    <li><a href="index.html#products" class="text-gray-400 hover:text-white transition">Laminated Board</a></li>
-                    <li><a href="index.html#products" class="text-gray-400 hover:text-white transition">Grey Board</a></li>
-                </ul>
-            </div>
-            <div>
-                <h3 class="font-bold text-lg mb-4">Connect With Us</h3>
-                <div class="flex space-x-4">
-                    <a href="https://www.facebook.com/Abrar.Trades" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="text-gray-400 hover:text-white transition"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.323-1.325z"/></svg></a>
-                    <a href="https://www.instagram.com/abrartraders" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="text-gray-400 hover:text-white transition"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.058-1.689-.072-4.948-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"/></svg></a>
-                    <a href="https://wa.me/917405108950" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="text-gray-400 hover:text-white transition"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99 0-3.903-.52-5.586-1.457l-6.354 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.52.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg></a>
+    <footer class="relative mx-4 md:mx-6 mb-4 rounded-[2.5rem] border border-gray-200 dark:border-slate-700 bg-white/70 dark:bg-slate-900/75 backdrop-blur-[16px] px-6 py-12 lg:p-16 shadow-lg dark:shadow-2xl overflow-hidden transition-all duration-300">
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 mb-16">
+                <div class="space-y-6">
+                    <a href="index.html#home" class="flex items-center gap-3">
+                        <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders Logo" class="h-12 w-12 bg-white rounded-full p-1.5 object-contain border border-gray-100 shadow-sm" />
+                        <span class="font-black text-2xl text-gray-900 dark:text-white tracking-wide">ABRAR TRADERS</span>
+                    </a>
+                    <p class="text-sm leading-relaxed text-gray-600 dark:text-slate-400 pr-4">Your trusted partner for premium paper products and sustainable packaging solutions.</p>
+                </div>
+                <div class="space-y-4">
+                    <h4 class="text-gray-900 dark:text-white font-bold tracking-wide uppercase text-sm mb-6">Company</h4>
+                    <ul class="space-y-3">
+                        <li><a href="index.html#home" class="text-sm text-gray-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-white hover:translate-x-1 inline-block transition-all duration-200">Home</a></li>
+                        <li><a href="index.html#products" class="text-sm text-gray-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-white hover:translate-x-1 inline-block transition-all duration-200">Our Products</a></li>
+                        <li><a href="index.html#faq" class="text-sm text-gray-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-white hover:translate-x-1 inline-block transition-all duration-200">FAQ & Support</a></li>
+                    </ul>
+                </div>
+                <div class="space-y-4">
+                    <h4 class="text-gray-900 dark:text-white font-bold tracking-wide uppercase text-sm mb-6">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="index.html#calculator" class="text-sm text-gray-600 dark:text-slate-400 hover:text-blue-600 hover:translate-x-1 inline-block transition-all duration-200">Pro Tools & Calculators</a></li>
+                        <li><a href="index.html#contact" class="text-sm text-gray-600 dark:text-slate-400 hover:text-blue-600 hover:translate-x-1 inline-block transition-all duration-200">Contact Sales</a></li>
+                    </ul>
                 </div>
             </div>
-        </div>
-        <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400 text-sm">
-            <p>© <span id="currentYear"></span> ABRAR TRADERS. All Rights Reserved.</p>
+            <div class="border-t border-gray-200 dark:border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-semibold text-gray-500 dark:text-slate-500">
+                <p>© <span id="currentYear">2026</span> ABRAR TRADERS. All Rights Reserved.</p>
+            </div>
         </div>
     </footer>
-    
+
     <script src="main.js" defer></script>
-    <script src="blog.js" defer></script>
     
-    <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/6156d1f2d326bf3d2c1a8a8b/1fhg3b4h0';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Category Chip Filtering
+            const filters = document.querySelectorAll('.blog-filter');
+            const cards = document.querySelectorAll('.blog-card');
+            
+            filters.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update Active Styling
+                    filters.forEach(f => {
+                        f.classList.remove('bg-blue-600', 'text-white');
+                        f.classList.add('bg-white', 'text-gray-600');
+                    });
+                    btn.classList.remove('bg-white', 'text-gray-600');
+                    btn.classList.add('bg-blue-600', 'text-white');
+
+                    const target = btn.dataset.filter;
+                    
+                    cards.forEach(card => {
+                        if (target === 'all' || card.dataset.category === 'all' || card.dataset.category === target) {
+                            card.style.display = 'block';
+                            setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, 50);
+                        } else {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(20px)';
+                            setTimeout(() => { card.style.display = 'none'; }, 300);
+                        }
+                    });
+                });
+            });
+
+            // Live Search Logic
+            const searchBox = document.getElementById('blogSearch');
+            searchBox.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                cards.forEach(card => {
+                    const title = card.querySelector('h3')?.innerText.toLowerCase() || '';
+                    if (title.includes(term)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
-
