@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 4. CALCULATORS
     // ==========================================
     window.switchTab = function(tabName) {
-        ['weight', 'reel', 'strength', 'cbm', 'thickness'].forEach(t => {
+        ['weight', 'reel', 'strength', 'cbm', 'thickness', 'esg'].forEach(t => {
             const content = document.getElementById('tool-' + t);
             const btn = document.getElementById('tab-' + t);
             if(content) content.classList.add('hidden');
@@ -149,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if(tabName === 'strength') colorClass = "text-red-600";
             if(tabName === 'cbm') colorClass = "text-green-600";
             if(tabName === 'thickness') colorClass = "text-indigo-600";
+            if(tabName === 'esg') colorClass = "text-emerald-600";
             activeBtn.className = `px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm font-bold transition-all shadow-md bg-white ${colorClass}`;
         }
     };
@@ -748,7 +749,42 @@ document.addEventListener('DOMContentLoaded', function() {
         // Fire once on load to set initial state
         visualSlider.dispatchEvent(new Event('input'));
     }
+
+    // ==========================================
+    // 15. ESG CALCULATOR & NUMBER ANIMATION
+    // ==========================================
+    // Industry Standard: 1 Ton of recycled paper saves approx 17 Trees, 26,000L Water, 4,000 kWh Energy, 3 cubic yards Landfill
+    window.calculateESG = function() {
+        const tons = parseFloat(document.getElementById('esgTons')?.value) || 0;
+        
+        animateValue('esgTrees', parseInt(document.getElementById('esgTrees').innerText.replace(/,/g, '')), Math.floor(tons * 17), 800);
+        animateValue('esgWater', parseInt(document.getElementById('esgWater').innerText.replace(/,/g, '')), Math.floor(tons * 26497), 800);
+        animateValue('esgEnergy', parseInt(document.getElementById('esgEnergy').innerText.replace(/,/g, '')), Math.floor(tons * 4000), 800);
+        animateValue('esgLandfill', parseInt(document.getElementById('esgLandfill').innerText.replace(/,/g, '')), Math.floor(tons * 3.3), 800);
+    };
+
+    // Smooth number rolling animation
+    function animateValue(id, start, end, duration) {
+        const obj = document.getElementById(id);
+        if(!obj || start === end) return;
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            // Easing formula for smooth slowdown at the end
+            const easeOutProgress = 1 - Math.pow(1 - progress, 3); 
+            const currentVal = Math.floor(easeOutProgress * (end - start) + start);
+            obj.innerHTML = currentVal.toLocaleString(); // Adds commas (e.g., 26,000)
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            }
+        };
+        window.requestAnimationFrame(step);
+    }
+
+    document.getElementById('esgTons')?.addEventListener('input', window.calculateESG);
 });
+
 
 
 
