@@ -783,7 +783,95 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.getElementById('esgTons')?.addEventListener('input', window.calculateESG);
+    
+// ==========================================
+    // 16. CONTAINER LOAD SIMULATOR LOGIC
+    // ==========================================
+    window.calculateCBM = function() {
+        const l = parseFloat(document.getElementById('cbmL')?.value) || 0;
+        const w = parseFloat(document.getElementById('cbmW')?.value) || 0;
+        const h = parseFloat(document.getElementById('cbmH')?.value) || 0;
+        const qty = parseFloat(document.getElementById('cbmQty')?.value) || 1;
+        
+        // Calculate raw CBM
+        const totalCbm = (l * w * h * qty) / 1000000;
+        
+        // Update basic text
+        const resCbm = document.getElementById('resCbm');
+        if (resCbm) resCbm.innerHTML = totalCbm.toFixed(3) + ' <span class="text-xl text-green-600">m³</span>';
+
+        // 1. Unhide Simulator UI
+        const simulator = document.getElementById('containerSimulatorResult');
+        if (simulator && totalCbm > 0) simulator.classList.remove('hidden');
+
+        // 2. Container Math (Standard 20ft Container holds ~33 CBM maximum)
+        const maxCbm = 33.0;
+        let fillPercentage = (totalCbm / maxCbm) * 100;
+        let isOverflow = false;
+        
+        if (fillPercentage > 100) {
+            fillPercentage = 100; // Cap visual bar at 100%
+            isOverflow = true;
+        }
+
+        // 3. Animate Fill Bar & Change Colors dynamically
+        const fillBar = document.getElementById('containerFillBar');
+        const percentText = document.getElementById('containerPercentageText');
+        
+        if (fillBar) {
+            setTimeout(() => {
+                fillBar.style.width = fillPercentage + '%';
+                // Dynamic colors based on efficiency
+                const baseClasses = "absolute top-0 left-0 h-full transition-all duration-1000 ease-out flex items-center justify-end overflow-hidden shadow-[inset_-5px_0_15px_rgba(0,0,0,0.3)] ";
+                if (isOverflow) {
+                    fillBar.className = baseClasses + "bg-red-500";
+                    percentText.style.color = "#ef4444";
+                } else if (fillPercentage > 85) {
+                    fillBar.className = baseClasses + "bg-green-500"; // Highly efficient load
+                    percentText.style.color = "#10b981";
+                } else {
+                    fillBar.className = baseClasses + "bg-blue-500";
+                    percentText.style.color = "#3b82f6";
+                }
+            }, 50); // slight delay forces the CSS animation to trigger
+        }
+
+        // 4. Animate the Percentage Number rolling up
+        if (percentText) {
+            let start = 0;
+            const end = (totalCbm / maxCbm) * 100;
+            const duration = 1000;
+            let startTimestamp = null;
+            
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const currentVal = (progress * end).toFixed(1);
+                percentText.innerText = currentVal + '%';
+                if (progress < 1) window.requestAnimationFrame(step);
+                else percentText.innerText = end.toFixed(1) + '%';
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // 5. Update Logistics Text & Pallet Estimate
+        const statusText = document.getElementById('containerStatusText');
+        const palletText = document.getElementById('palletEstimateText');
+        
+        if (statusText) {
+            if (isOverflow) statusText.innerText = "Warning: Exceeds 20ft limits! Requires 40ft Container.";
+            else if (fillPercentage > 85) statusText.innerText = "Optimal Load! Highly cost-effective shipping.";
+            else statusText.innerText = "LCL (Less than Container Load) recommended.";
+        }
+        
+        if (palletText) {
+            // Standard EUR pallet is roughly 1.5 CBM of practical space
+            const pallets = Math.ceil(totalCbm / 1.5);
+            palletText.innerText = `~ ${pallets} Standard Pallet${pallets !== 1 ? 's' : ''}`;
+        }
+    };
 });
+
 
 
 
