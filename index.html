@@ -461,6 +461,8 @@
                 <button onclick="switchTab('cbm')" id="tab-cbm" class="px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm font-bold text-gray-500 hover:text-blue-600 transition-all">
                     Volume (CBM)
                 </button>
+                <button onclick="switchTab('thickness')" id="tab-thickness" class="px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm font-bold text-gray-500 hover:text-indigo-600 transition-all">
+                    GSM Visualizer</button>
             </div>
         </div>
 
@@ -552,6 +554,39 @@
             <div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6 bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-100">
                 <button onclick="calculateCBM()" class="btn-glow bg-green-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-green-700 transition shadow-lg w-full md:w-auto">Calculate CBM</button>
                 <div class="text-right"><span class="block text-xs font-bold text-slate-400 uppercase">Total Volume</span><div class="text-4xl font-black text-slate-800" id="resCbm">0.000 <span class="text-xl text-green-600">m³</span></div></div>
+            </div>
+        </div>
+
+        <div id="tool-thickness" class="tool-content hidden transition-all duration-300">
+            <div class="bg-indigo-50/50 dark:bg-indigo-900/20 p-4 rounded-2xl border border-indigo-100 dark:border-indigo-800 mb-8 text-center"><p class="text-sm text-indigo-800 dark:text-indigo-300 font-medium">✨ Drag the slider to visualize the physical thickness of the paper.</p></div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center gap-10 p-4 md:p-8">
+                <div class="w-full md:w-1/2 space-y-8">
+                    <div class="flex justify-between items-end">
+                        <span class="text-sm font-bold text-slate-500 uppercase tracking-widest">Paper GSM</span>
+                        <span id="gsmValueDisplay" class="text-5xl font-black text-indigo-600 dark:text-indigo-400 font-mono">150</span>
+                    </div>
+                    
+                    <div class="relative w-full py-4">
+                        <input type="range" id="gsmVisualSlider" min="50" max="450" step="10" value="150" class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                    </div>
+
+                    <div class="bg-white dark:bg-gray-800/80 p-6 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 transform transition hover:-translate-y-1">
+                        <span class="flex items-center gap-2 text-xs font-bold text-indigo-500 uppercase mb-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+                            Real World Feel
+                        </span>
+                        <p id="gsmDescText" class="text-gray-700 dark:text-gray-300 font-semibold text-lg leading-relaxed"></p>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-1/2 flex justify-center items-center py-12 perspective-1000 overflow-hidden">
+                    <div id="isometricPaper" class="w-40 h-56 relative paper-isometric">
+                        <div class="absolute inset-0 bg-gradient-to-br from-white to-gray-100 flex items-center justify-center border border-white shadow-inner">
+                            <span class="text-gray-200 font-serif font-black text-4xl -rotate-45 select-none">ABRAR</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -829,6 +864,7 @@
     </script>
 </body>
 </html>
+
 
 
 
