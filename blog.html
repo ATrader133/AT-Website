@@ -17,8 +17,23 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="bg-bg-light transition-colors duration-300">
+    <body class="bg-bg-light transition-colors duration-300">
 
+    <div class="relative w-full bg-blue-600 text-white py-2.5 overflow-hidden flex items-center shadow-inner z-20 border-y border-blue-500/50">
+        <div class="absolute left-0 w-16 h-full bg-gradient-to-r from-blue-600 to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute right-0 w-16 h-full bg-gradient-to-l from-blue-600 to-transparent z-10 pointer-events-none"></div>
+        <div class="flex whitespace-nowrap animate-marquee items-center gap-10 font-bold text-xs uppercase tracking-widest">
+            <span class="flex items-center gap-2">🔥 <span class="text-blue-200">Trending:</span> 100% Recycled Kraft Boards</span> <span>•</span>
+            <span class="flex items-center gap-2">📈 <span class="text-blue-200">Market:</span> Duplex Prices Stabilize in Q3</span> <span>•</span>
+            <span class="flex items-center gap-2">🌍 <span class="text-blue-200">Impact:</span> 500 Tons of Plastic Avoided</span> <span>•</span>
+            <span class="flex items-center gap-2">📦 <span class="text-blue-200">Logistics:</span> Next-Day Dispatch Active</span> <span>•</span>
+            <span class="flex items-center gap-2">🔥 <span class="text-blue-200">Trending:</span> 100% Recycled Kraft Boards</span> <span>•</span>
+            <span class="flex items-center gap-2">📈 <span class="text-blue-200">Market:</span> Duplex Prices Stabilize in Q3</span> <span>•</span>
+            <span class="flex items-center gap-2">🌍 <span class="text-blue-200">Impact:</span> 500 Tons of Plastic Avoided</span> <span>•</span>
+            <span class="flex items-center gap-2">📦 <span class="text-blue-200">Logistics:</span> Next-Day Dispatch Active</span> <span>•</span>
+        </div>
+    </div>
+    
     <div id="customCursor" class="fixed top-0 left-0 w-4 h-4 bg-blue-600 rounded-full pointer-events-none z-[99999] mix-blend-difference hidden md:block"></div>
     <div id="cursorFollower" class="fixed top-0 left-0 w-10 h-10 border border-blue-400 rounded-full pointer-events-none z-[99998] transition-all duration-300 hidden md:block"></div>
 
@@ -52,7 +67,11 @@
     <section class="max-w-7xl mx-auto px-4 md:px-6 pt-6 pb-12">
         <a href="sustainable-packaging.html" class="block relative w-full h-[500px] md:h-[600px] rounded-[2.5rem] overflow-hidden group shadow-2xl" data-aos="fade-up">
             <img src="https://images.unsplash.com/photo-1605600659908-0ef719419d41?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Sustainable Paper Mill" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000 ease-out" />
-            
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-20">
+                        <button onclick="event.preventDefault(); openQuickPeek('How to Choose the Right Paper GSM', ['GSM stands for Grams per Square Meter, indicating paper density.', 'Higher GSM means thicker, sturdier paper ideal for packaging.', 'Match GSM to your product weight to optimize shipping costs.'], 'choosing-paper-gsm.html')" class="bg-white/20 backdrop-blur-md border border-white/50 text-white font-bold py-2.5 px-6 rounded-full flex items-center gap-2 hover:bg-white hover:text-indigo-600 transition-colors shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            ✨ Quick Peek
+                        </button>
+                    </div>
             <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent"></div>
             
             <div class="absolute bottom-0 left-0 w-full p-8 md:p-12 glass rounded-b-[2.5rem] border-t border-white/20 bg-white/10 dark:bg-black/20 backdrop-blur-md">
@@ -89,6 +108,11 @@
                 <a href="choosing-paper-gsm.html" class="block overflow-hidden rounded-[1.5rem] mb-5 relative h-56">
                     <span class="absolute top-4 left-4 bg-white/90 text-gray-800 text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm z-10 shadow-sm">Buying Guides</span>
                     <img src="https://images.unsplash.com/photo-1586075010923-2dd4570fb338?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Paper GSM Guide" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-20">
+                        <button onclick="event.preventDefault(); openQuickPeek('How to Choose the Right Paper GSM', ['GSM stands for Grams per Square Meter, indicating paper density.', 'Higher GSM means thicker, sturdier paper ideal for packaging.', 'Match GSM to your product weight to optimize shipping costs.'], 'choosing-paper-gsm.html')" class="bg-white/20 backdrop-blur-md border border-white/50 text-white font-bold py-2.5 px-6 rounded-full flex items-center gap-2 hover:bg-white hover:text-indigo-600 transition-colors shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            ✨ Quick Peek
+                        </button>
+                    </div>
                 </a>
                 <div class="px-2">
                     <p class="text-xs text-gray-500 dark:text-gray-400 font-semibold mb-2">March 15, 2026 • 4 Min Read</p>
@@ -102,6 +126,11 @@
                 <a href="paper-industry-trends.html" class="block overflow-hidden rounded-[1.5rem] mb-5 relative h-56">
                     <span class="absolute top-4 left-4 bg-white/90 text-gray-800 text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm z-10 shadow-sm">Market Trends</span>
                     <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Data Analytics" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-20">
+                        <button onclick="event.preventDefault(); openQuickPeek('How to Choose the Right Paper GSM', ['GSM stands for Grams per Square Meter, indicating paper density.', 'Higher GSM means thicker, sturdier paper ideal for packaging.', 'Match GSM to your product weight to optimize shipping costs.'], 'choosing-paper-gsm.html')" class="bg-white/20 backdrop-blur-md border border-white/50 text-white font-bold py-2.5 px-6 rounded-full flex items-center gap-2 hover:bg-white hover:text-indigo-600 transition-colors shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            ✨ Quick Peek
+                        </button>
+                    </div>
                 </a>
                 <div class="px-2">
                     <p class="text-xs text-gray-500 dark:text-gray-400 font-semibold mb-2">February 28, 2026 • 5 Min Read</p>
@@ -126,6 +155,11 @@
                 <a href="kraft-paper-versatility.html" class="block overflow-hidden rounded-[1.5rem] mb-5 relative h-56">
                     <span class="absolute top-4 left-4 bg-white/90 text-gray-800 text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm z-10 shadow-sm">Sustainability</span>
                     <img src="https://images.unsplash.com/photo-1620025983796-0e1ce5e4d255?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Kraft Paper" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-20">
+                        <button onclick="event.preventDefault(); openQuickPeek('How to Choose the Right Paper GSM', ['GSM stands for Grams per Square Meter, indicating paper density.', 'Higher GSM means thicker, sturdier paper ideal for packaging.', 'Match GSM to your product weight to optimize shipping costs.'], 'choosing-paper-gsm.html')" class="bg-white/20 backdrop-blur-md border border-white/50 text-white font-bold py-2.5 px-6 rounded-full flex items-center gap-2 hover:bg-white hover:text-indigo-600 transition-colors shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            ✨ Quick Peek
+                        </button>
+                    </div>
                 </a>
                 <div class="px-2">
                     <p class="text-xs text-gray-500 dark:text-gray-400 font-semibold mb-2">January 10, 2026 • 3 Min Read</p>
@@ -137,6 +171,38 @@
 
         </div>
     </main>
+        <div id="quickPeekModal" class="fixed inset-0 z-[30000] hidden items-center justify-center">
+        <div id="quickPeekBackdrop" onclick="closeQuickPeek()" class="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity opacity-0 cursor-pointer"></div>
+        
+        <div id="quickPeekCard" class="glass w-[90%] max-w-lg p-8 rounded-3xl shadow-2xl transform scale-95 opacity-0 transition-all duration-300 relative z-10 border border-white/20 dark:bg-slate-900/95">
+            <button onclick="closeQuickPeek()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-800 dark:hover:text-white bg-gray-100 dark:bg-slate-800 p-2 rounded-full transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-[0_0_15px_rgba(99,102,241,0.5)]">
+                    <span class="text-white text-2xl animate-pulse">✨</span>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-900 dark:text-white leading-none text-lg">AI Summary</h4>
+                    <span class="text-xs text-indigo-500 font-black tracking-widest uppercase">Quick Read</span>
+                </div>
+            </div>
+            
+            <h3 id="qpTitle" class="text-2xl font-black font-serif text-gray-800 dark:text-gray-100 mb-5 leading-snug"></h3>
+            
+            <div class="bg-indigo-50/50 dark:bg-slate-800/50 rounded-2xl p-6 border border-indigo-100 dark:border-slate-700 min-h-[140px] shadow-inner">
+                <ul id="qpBullets" class="space-y-4 text-sm text-gray-700 dark:text-gray-300 font-medium">
+                    </ul>
+            </div>
+            
+            <div class="mt-8 flex justify-end">
+                <a href="#" id="qpReadMore" class="btn-glow bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-8 py-3 rounded-xl font-bold text-sm hover:scale-105 transition-transform flex items-center gap-2">
+                    Read Full Article <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+            </div>
+        </div>
+    </div>
 
     <footer class="relative mx-4 md:mx-6 mb-4 rounded-[2.5rem] border border-gray-200 dark:border-slate-700 bg-white/70 dark:bg-slate-900/75 backdrop-blur-[16px] px-6 py-12 lg:p-16 shadow-lg dark:shadow-2xl overflow-hidden transition-all duration-300">
         <div class="max-w-7xl mx-auto relative z-10">
@@ -217,6 +283,87 @@
                 });
             });
         });
+
+        // AI Quick Peek Logic
+        let typingInterval;
+
+        window.openQuickPeek = function(title, bullets, link) {
+            const modal = document.getElementById('quickPeekModal');
+            const backdrop = document.getElementById('quickPeekBackdrop');
+            const card = document.getElementById('quickPeekCard');
+            const titleEl = document.getElementById('qpTitle');
+            const bulletsEl = document.getElementById('qpBullets');
+            const readMoreBtn = document.getElementById('qpReadMore');
+
+            // Reset & Open Modal
+            clearInterval(typingInterval);
+            bulletsEl.innerHTML = '';
+            titleEl.textContent = title;
+            readMoreBtn.href = link;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Animate In
+            setTimeout(() => {
+                backdrop.classList.replace('opacity-0', 'opacity-100');
+                card.classList.replace('opacity-0', 'opacity-100');
+                card.classList.replace('scale-95', 'scale-100');
+            }, 10);
+
+            // Typing Effect Logic
+            let bulletIndex = 0;
+            let charIndex = 0;
+            
+            function typeNextChar() {
+                if (bulletIndex < bullets.length) {
+                    if (charIndex === 0) {
+                        const li = document.createElement('li');
+                        li.className = "flex items-start gap-3 opacity-0 transform translate-y-2 transition-all duration-300 ease-out";
+                        li.innerHTML = `<span class="text-indigo-500 mt-0.5 shrink-0">✦</span><span class="typing-text"></span>`;
+                        bulletsEl.appendChild(li);
+                        
+                        // Fade in the bullet point smoothly
+                        setTimeout(() => {
+                            li.classList.remove('opacity-0', 'translate-y-2');
+                        }, 50);
+                    }
+                    
+                    const currentLiText = bulletsEl.lastChild.querySelector('.typing-text');
+                    currentLiText.textContent += bullets[bulletIndex].charAt(charIndex);
+                    charIndex++;
+                    
+                    if (charIndex >= bullets[bulletIndex].length) {
+                        bulletIndex++;
+                        charIndex = 0;
+                        setTimeout(typeNextChar, 400); // Pause between bullets
+                    } else {
+                        setTimeout(typeNextChar, 15); // Typing speed
+                    }
+                }
+            }
+            
+            // Start typing after modal opens
+            setTimeout(typeNextChar, 400);
+        };
+
+        window.closeQuickPeek = function() {
+            const modal = document.getElementById('quickPeekModal');
+            const backdrop = document.getElementById('quickPeekBackdrop');
+            const card = document.getElementById('quickPeekCard');
+            
+            clearInterval(typingInterval);
+            
+            backdrop.classList.replace('opacity-100', 'opacity-0');
+            card.classList.replace('opacity-100', 'opacity-0');
+            card.classList.replace('scale-100', 'scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        };
     </script>
 </body>
 </html>
+
