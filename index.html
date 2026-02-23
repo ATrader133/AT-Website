@@ -784,24 +784,44 @@
             </div>
         </section>
 
-        <section id="quote" class="py-20 px-6 bg-bg-light overflow-hidden">
-            <div class="max-w-4xl mx-auto" data-aos="fade-up">
-                <h2 class="text-4xl font-extrabold text-center mb-4 text-gray-800">Request a Quote</h2>
-                <p class="text-center text-gray-600 mb-10 max-w-2xl mx-auto">Have a specific requirement? Fill out the form below, and our team will get back to you with a competitive quote tailored to your needs.</p>
-                <div class="glass p-8 md:p-12 rounded-2xl shadow-xl">
-                    <form id="quoteForm" action="https://formspree.io/f/xovwozqa" method="POST">
+        <section id="quote" class="py-24 px-6 relative overflow-hidden bg-bg-light">
+            <div class="absolute left-0 top-1/4 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-[80px] opacity-30 animate-blob"></div>
+            <div class="absolute right-0 bottom-1/4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-[80px] opacity-30 animate-blob animation-delay-2000"></div>
+
+            <div class="max-w-4xl mx-auto relative z-10" data-aos="zoom-in">
+                <div class="text-center mb-10">
+                    <span class="bg-blue-100 text-blue-700 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-sm">Fast Response</span>
+                    <h2 class="text-4xl md:text-5xl font-extrabold mt-5 mb-4 text-gray-800 font-serif">Request a Custom Quote</h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Fill out your specific requirements below, and our sales team will build a highly competitive, tailored quote for your business.</p>
+                </div>
+                
+                <div class="glass p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-white/60 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500"></div>
+                    
+                    <form id="quoteForm" action="https://formspree.io/f/xovwozqa" method="POST" class="relative z-10">
                         <div class="grid md:grid-cols-2 gap-6">
-                            <input type="text" id="quoteName" name="name" placeholder="Your Name" required class="w-full p-3 rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500 transition">
-                            <input type="email" id="quoteEmail" name="email" placeholder="Your Email" required class="w-full p-3 rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500 transition">
+                            <div class="group">
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2 ml-1">Your Name</label>
+                                <input type="text" id="quoteName" name="name" placeholder="E.g. John Doe" required class="w-full p-4 rounded-xl border border-white/60 bg-white/40 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all shadow-inner text-gray-800 font-medium placeholder-gray-400 hover:bg-white/60">
+                            </div>
+                            <div class="group">
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2 ml-1">Work Email</label>
+                                <input type="email" id="quoteEmail" name="email" placeholder="john@company.com" required class="w-full p-4 rounded-xl border border-white/60 bg-white/40 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all shadow-inner text-gray-800 font-medium placeholder-gray-400 hover:bg-white/60">
+                            </div>
                         </div>
-                        <div class="mt-6">
-                            <input type="text" id="quoteProduct" name="product" placeholder="Product of Interest (e.g., Kraft Paper)" required class="w-full p-3 rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500 transition">
+                        <div class="mt-6 group">
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2 ml-1">Product of Interest</label>
+                            <input type="text" id="quoteProduct" name="product" placeholder="e.g., Kraft Paper, 300 GSM Duplex Board" required class="w-full p-4 rounded-xl border border-white/60 bg-white/40 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all shadow-inner text-gray-800 font-medium placeholder-gray-400 hover:bg-white/60">
                         </div>
-                        <div class="mt-6">
-                            <textarea id="quoteMessage" name="message" rows="5" placeholder="Please describe your requirements (e.g., GSM, quantity, dimensions, etc.)" required class="w-full p-3 rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
+                        <div class="mt-6 group">
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2 ml-1">Detailed Requirements</label>
+                            <textarea id="quoteMessage" name="message" rows="5" placeholder="Please mention GSM, quantity (in tons/sheets), target destination, and any custom sizing needs..." required class="w-full p-4 rounded-xl border border-white/60 bg-white/40 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all shadow-inner text-gray-800 font-medium placeholder-gray-400 hover:bg-white/60 resize-none"></textarea>
                         </div>
-                        <div class="mt-8 text-center">
-                            <button type="submit" class="action-button w-full md:w-auto bg-blue-600 text-white px-10 py-3 rounded-xl shadow-lg hover:bg-blue-700 transition-all duration-300 font-bold text-lg">Submit Request</button>
+                        <div class="mt-10 text-center">
+                            <button type="submit" class="btn-glow w-full md:w-auto bg-blue-600 text-white px-12 py-4 rounded-xl shadow-[0_10px_20px_rgba(37,99,235,0.3)] hover:shadow-[0_15px_30px_rgba(37,99,235,0.4)] transition-all duration-300 font-bold text-lg flex items-center justify-center gap-3 mx-auto hover:-translate-y-1">
+                                <span>Submit Request</span>
+                                <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </button>
                         </div>
                     </form>
                     <div id="formStatus" class="mt-6 text-center font-semibold"></div>
@@ -960,6 +980,7 @@
     </script>
 </body>
 </html>
+
 
 
 
