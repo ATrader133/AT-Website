@@ -151,12 +151,20 @@ h1, h2, #modalProductName, .font-serif {
 #mobileMenu a { font-size: 2rem; font-weight: 800; font-family: 'Playfair Display', serif; color: var(--text-color); transition: transform 0.3s ease, color 0.3s ease; opacity: 0; transform: translateY(20px); }
 #mobileMenu.open a { opacity: 1; transform: translateY(0); }
 /* Staggered animation for mobile links */
-#mobileMenu.open a:nth-child(2) { transition-delay: 0.1s; }
-#mobileMenu.open a:nth-child(3) { transition-delay: 0.15s; }
-#mobileMenu.open a:nth-child(4) { transition-delay: 0.2s; }
-#mobileMenu.open a:nth-child(5) { transition-delay: 0.25s; }
-#mobileMenu.open a:nth-child(6) { transition-delay: 0.3s; }
+#mobileMenu.open a:nth-of-type(1) { transition-delay: 0.1s; }
+#mobileMenu.open a:nth-of-type(2) { transition-delay: 0.15s; }
+#mobileMenu.open a:nth-of-type(3) { transition-delay: 0.2s; }
+#mobileMenu.open a:nth-of-type(4) { transition-delay: 0.25s; }
+#mobileMenu.open a:nth-of-type(5) { transition-delay: 0.3s; }
+#mobileMenu.open a:nth-of-type(6) { transition-delay: 0.35s; }
 #mobileMenu a:hover { color: var(--primary-color); transform: translateX(15px) !important; }
+
+#menuButton:focus-visible,
+#themeToggle:focus-visible,
+#closeMenuButton:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
 
 /* --- 8. SOCIAL SIDEBAR --- */
 .social-sidebar {

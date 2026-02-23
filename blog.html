@@ -14,6 +14,7 @@
     <link rel="manifest" href="site.webmanifest" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700;900&family=Playfair+Display:wght@600;700;900&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
@@ -50,7 +51,7 @@
 
     <nav id="mainNav" class="sticky-nav flex justify-between items-center px-6 py-3 mx-4 md:mx-6 rounded-[2.5rem] mt-4 mb-4 z-50">
         <a href="index.html#home" class="flex items-center flex-shrink-0">
-            <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders Logo" class="h-10 w-10 md:h-12 md:w-12 bg-white rounded-full p-1.5 shadow-md hover:scale-110 transition-transform duration-300 object-contain border border-gray-100" />
+            <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders Logo" width="48" height="48" decoding="async" class="h-10 w-10 md:h-12 md:w-12 bg-white rounded-full p-1.5 shadow-md hover:scale-110 transition-transform duration-300 object-contain border border-gray-100" />
             <span class="sr-only">ABRAR TRADERS</span>
         </a>
         
@@ -63,11 +64,19 @@
                 <a href="index.html#contact" class="nav-link">Contact</a>
             </div>
 
-            <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-300">
+            <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-300" aria-label="Toggle theme">
                 <svg id="themeIconDark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                 <svg id="themeIconLight" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
             </button>
+
+            <button id="menuButton" class="lg:hidden p-2.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-300" aria-label="Open Mobile Menu" aria-controls="mobileMenu" aria-expanded="false">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
         </div>
+
+        <div id="menuBackdrop" class="fixed inset-0 bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 z-40" aria-hidden="true"></div>
 
         <div id="mobileMenu" role="dialog" aria-modal="true" aria-labelledby="mobileMenuTitle">
             <h2 id="mobileMenuTitle" class="sr-only">Mobile Navigation Menu</h2>
@@ -87,7 +96,7 @@
 
         <section class="max-w-7xl mx-auto px-4 md:px-6 mb-12">
             <a href="sustainable-packaging.html" class="block relative w-full h-[500px] md:h-[600px] rounded-[2.5rem] overflow-hidden group shadow-2xl" data-aos="fade-up">
-                <img src="https://images.unsplash.com/photo-1605600659908-0ef719419d41?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Sustainable Paper Mill" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000 ease-out" />
+                <img src="https://images.unsplash.com/photo-1605600659908-0ef719419d41?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Sustainable Paper Mill" fetchpriority="high" decoding="async" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000 ease-out" />
                 <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent"></div>
                 <div class="absolute bottom-0 left-0 w-full p-8 md:p-12 glass rounded-b-[2.5rem] border-t border-white/20 bg-white/10 dark:bg-black/20 backdrop-blur-md">
                     <div class="flex items-center gap-3 mb-4">
@@ -101,6 +110,13 @@
         </section>
 
         <section class="max-w-7xl mx-auto px-4 md:px-6 pb-24">
+            <div class="mb-8 md:mb-10 text-center" data-aos="fade-up">
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-extrabold uppercase tracking-[0.18em] border border-blue-200/70 dark:border-blue-700/50">
+                    ✦ Insights Hub
+                </span>
+                <h2 class="mt-4 text-2xl md:text-4xl font-black text-gray-900 dark:text-white font-serif">Practical insights for smarter paper procurement</h2>
+                <p class="mt-2 text-sm md:text-base text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">Filter by topic, search instantly, and open AI quick peeks to review key takeaways before reading full articles.</p>
+            </div>
             
             <div class="sticky top-24 z-40 bg-bg-light/80 dark:bg-slate-900/80 backdrop-blur-md py-4 mb-8 border-y border-gray-200 dark:border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
                 
@@ -128,7 +144,7 @@
                 <article class="blog-card glass p-4 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-300 group border border-white/50 dark:border-slate-700" data-category="guides" data-aos="fade-up">
                     <a href="choosing-paper-gsm.html" class="block overflow-hidden rounded-[1.5rem] mb-5 relative h-56">
                         <span class="absolute top-4 left-4 bg-white/90 text-gray-800 text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm z-10 shadow-sm">Buying Guides</span>
-                        <img src="https://images.unsplash.com/photo-1586075010923-2dd4570fb338?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Paper GSM Guide" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <img src="https://images.unsplash.com/photo-1586075010923-2dd4570fb338?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Paper GSM Guide" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-20">
                             <button onclick="event.preventDefault(); openQuickPeek('How to Choose the Right Paper GSM', ['GSM stands for Grams per Square Meter, indicating paper density.', 'Higher GSM means thicker, sturdier paper ideal for packaging.', 'Match GSM to your product weight to optimize shipping costs.'], 'choosing-paper-gsm.html')" class="bg-white/20 backdrop-blur-md border border-white/50 text-white font-bold py-2.5 px-6 rounded-full flex items-center gap-2 hover:bg-white hover:text-indigo-600 transition-colors shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                                 ✨ Quick Peek
@@ -146,7 +162,7 @@
                 <article class="blog-card glass p-4 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-300 group border border-white/50 dark:border-slate-700" data-category="market" data-aos="fade-up" data-aos-delay="100">
                     <a href="paper-industry-trends.html" class="block overflow-hidden rounded-[1.5rem] mb-5 relative h-56">
                         <span class="absolute top-4 left-4 bg-white/90 text-gray-800 text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm z-10 shadow-sm">Market Trends</span>
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Data Analytics" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Data Analytics" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-20">
                             <button onclick="event.preventDefault(); openQuickPeek('Pricing Outlook: Q3', ['Analyzing raw material shortages impacting board costs.', 'Indian manufacturers are stabilizing supply chains.', 'Forecast suggests a 5% drop in Duplex board pricing.'], 'paper-industry-trends.html')" class="bg-white/20 backdrop-blur-md border border-white/50 text-white font-bold py-2.5 px-6 rounded-full flex items-center gap-2 hover:bg-white hover:text-indigo-600 transition-colors shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                                 ✨ Quick Peek
@@ -175,7 +191,7 @@
                 <article class="blog-card glass p-4 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-300 group border border-white/50 dark:border-slate-700" data-category="sustainability" data-aos="fade-up">
                     <a href="kraft-paper-versatility.html" class="block overflow-hidden rounded-[1.5rem] mb-5 relative h-56">
                         <span class="absolute top-4 left-4 bg-white/90 text-gray-800 text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm z-10 shadow-sm">Sustainability</span>
-                        <img src="https://images.unsplash.com/photo-1620025983796-0e1ce5e4d255?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Kraft Paper" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <img src="https://images.unsplash.com/photo-1620025983796-0e1ce5e4d255?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Kraft Paper" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-20">
                             <button onclick="event.preventDefault(); openQuickPeek('Versatility of Virgin Kraft', ['Kraft paper is exceptionally strong due to reduced lignin content.', 'It is highly sought after for premium, eco-friendly branding.', '100% biodegradable and recyclable.'], 'kraft-paper-versatility.html')" class="bg-white/20 backdrop-blur-md border border-white/50 text-white font-bold py-2.5 px-6 rounded-full flex items-center gap-2 hover:bg-white hover:text-indigo-600 transition-colors shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                                 ✨ Quick Peek
@@ -248,7 +264,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 mb-16">
                 <div class="space-y-6">
                     <a href="index.html#home" class="flex items-center gap-3">
-                        <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders Logo" class="h-12 w-12 bg-white rounded-full p-1.5 object-contain border border-gray-100 shadow-sm" />
+                        <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders Logo" width="48" height="48" loading="lazy" decoding="async" class="h-12 w-12 bg-white rounded-full p-1.5 object-contain border border-gray-100 shadow-sm" />
                         <span class="font-black text-2xl text-gray-900 dark:text-white tracking-wide">ABRAR TRADERS</span>
                     </a>
                     <p class="text-sm leading-relaxed text-gray-600 dark:text-slate-400 pr-4">Your trusted partner for premium paper products and sustainable packaging solutions.</p>
@@ -297,6 +313,31 @@
             // -----------------------------------------------------
             const filters = document.querySelectorAll('.blog-filter');
             const cards = document.querySelectorAll('.blog-card');
+            let activeFilter = 'all';
+
+            const applyVisibility = () => {
+                const term = searchBox.value.trim().toLowerCase();
+
+                cards.forEach(card => {
+                    const cardCategory = card.dataset.category;
+                    const title = card.querySelector('h3')?.innerText.toLowerCase() || '';
+                    const matchesFilter = activeFilter === 'all' || cardCategory === 'all' || cardCategory === activeFilter;
+                    const matchesSearch = !term || title.includes(term);
+                    const shouldShow = matchesFilter && matchesSearch;
+
+                    if (shouldShow) {
+                        card.style.display = 'block';
+                        requestAnimationFrame(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0) perspective(1000px) rotateX(0) rotateY(0)';
+                        });
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => { card.style.display = 'none'; }, 220);
+                    }
+                });
+            };
             
             filters.forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -307,18 +348,8 @@
                     btn.classList.remove('bg-white', 'text-gray-600', 'dark:bg-slate-800', 'dark:text-gray-300');
                     btn.classList.add('bg-blue-600', 'text-white');
 
-                    const target = btn.dataset.filter;
-                    
-                    cards.forEach(card => {
-                        if (target === 'all' || card.dataset.category === 'all' || card.dataset.category === target) {
-                            card.style.display = 'block';
-                            setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0) perspective(1000px) rotateX(0) rotateY(0)'; }, 50);
-                        } else {
-                            card.style.opacity = '0';
-                            card.style.transform = 'translateY(20px)';
-                            setTimeout(() => { card.style.display = 'none'; }, 300);
-                        }
-                    });
+                    activeFilter = btn.dataset.filter;
+                    applyVisibility();
                 });
             });
 
@@ -337,15 +368,7 @@
                     clearBtn.classList.add('opacity-0', 'pointer-events-none');
                 }
 
-                cards.forEach(card => {
-                    if (card.dataset.category === 'all' && !card.querySelector('h3')) return; 
-                    const title = card.querySelector('h3')?.innerText.toLowerCase() || '';
-                    if (title.includes(term)) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
+                applyVisibility();
             });
 
             clearBtn.addEventListener('click', () => {
@@ -357,7 +380,10 @@
             // -----------------------------------------------------
             // 3. 3D MAGNETIC TILT PHYSICS
             // -----------------------------------------------------
-            cards.forEach(card => {
+            const enableTilt = window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+                !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            if (enableTilt) cards.forEach(card => {
                 card.addEventListener('mousemove', (e) => {
                     const rect = card.getBoundingClientRect();
                     const x = e.clientX - rect.left;
@@ -388,7 +414,7 @@
             window.addEventListener('scroll', () => {
                 const scrollY = window.scrollY;
                 const maxHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const scrollFraction = scrollY / maxHeight;
+                const scrollFraction = maxHeight > 0 ? (scrollY / maxHeight) : 0;
                 
                 if (scrollY > 300) {
                     scrollBtn.classList.remove('opacity-0', 'invisible');
