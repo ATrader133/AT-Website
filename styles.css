@@ -316,6 +316,10 @@ input[type=range]::-moz-range-thumb {
 @keyframes slide-to-left { to { transform: translateX(-30px) scale(0.98); } }
 @keyframes slide-from-right { from { transform: translateX(30px) scale(0.98); } }
 
+/* --- 15. LIVE TICKER ANIMATION --- */
+@keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+.animate-marquee { animation: marquee 25s linear infinite; }
+
 
 
 
