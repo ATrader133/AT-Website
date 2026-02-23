@@ -295,6 +295,28 @@ input[type=range]::-moz-range-thumb {
     border: 3px solid white;
 }
 
+/* --- 14. APP-LIKE PAGE TRANSITIONS --- */
+/* Enable native cross-document view transitions */
+@view-transition {
+    navigation: auto;
+}
+
+::view-transition-old(root) {
+    animation: 0.4s cubic-bezier(0.4, 0, 0.2, 1) both fade-out-page,
+               0.4s cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
+}
+
+::view-transition-new(root) {
+    animation: 0.4s cubic-bezier(0.4, 0, 0.2, 1) both fade-in-page,
+               0.4s cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
+}
+
+@keyframes fade-out-page { to { opacity: 0; } }
+@keyframes fade-in-page { from { opacity: 0; } }
+@keyframes slide-to-left { to { transform: translateX(-30px) scale(0.98); } }
+@keyframes slide-from-right { from { transform: translateX(30px) scale(0.98); } }
+
+
 
 
 
