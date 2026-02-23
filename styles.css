@@ -260,6 +260,42 @@ body.dark-mode option { background-color: #0b1120; color: #f8fafc; }
 .cube-top    { transform: rotateX(90deg) translateZ(6.5rem); }
 .cube-bottom { transform: rotateX(-90deg) translateZ(6.5rem); }
 
+/* --- 13. GSM THICKNESS VISUALIZER --- */
+:root {
+    --edge-light: #cbd5e1;
+    --edge-dark: #94a3b8;
+}
+body.dark-mode {
+    --edge-light: #334155;
+    --edge-dark: #1e293b;
+}
+
+.paper-isometric {
+    transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg);
+    transform-style: preserve-3d;
+    background-color: #f8fafc;
+    border: 1px solid rgba(0,0,0,0.1);
+    /* Transition only transforms and bg, we want box-shadow to be instant for the slider */
+    transition: transform 0.4s ease, background-color 0.4s ease;
+}
+
+/* Custom Slider Styling */
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 28px; width: 28px; border-radius: 50%;
+    background: #4f46e5; cursor: none;
+    margin-top: -10px;
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.4);
+    border: 3px solid white;
+}
+input[type=range]::-moz-range-thumb {
+    height: 28px; width: 28px; border-radius: 50%;
+    background: #4f46e5; cursor: none;
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.4);
+    border: 3px solid white;
+}
+
+
 
 
 
