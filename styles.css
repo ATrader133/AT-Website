@@ -237,7 +237,7 @@ body.dark-mode {
 }
 
 /* Invert Backgrounds & Panels */
-body.dark-mode .bg-white { background-color: rgba(30, 41, 59, 0.4) !important; border: 1px solid var(--glass-border); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+body.dark-mode .bg-white:not(.keep-white) { background-color: rgba(30, 41, 59, 0.4) !important; border: 1px solid var(--glass-border); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 body.dark-mode .bg-gray-50, body.dark-mode .bg-gray-100, body.dark-mode .bg-gray-200 { background-color: rgba(255,255,255,0.05) !important; color: #f8fafc !important; border-color: rgba(255,255,255,0.1) !important;}
 
 /* Invert Typography */
@@ -338,6 +338,7 @@ input[type=range]::-moz-range-thumb {
 /* --- 15. LIVE TICKER ANIMATION --- */
 @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
 .animate-marquee { animation: marquee 25s linear infinite; }
+
 
 
 
