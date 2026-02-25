@@ -922,7 +922,7 @@ document.getElementById('esgTons')?.addEventListener('input', (e) => {
 });
 
 window.downloadESGReport = function() {
-    const tons = document.getElementById('esgTons').value;
+    const tons = parseFloat(document.getElementById('esgTons').value) || 0;
     const trees = document.getElementById('esgTrees').innerText;
     const water = document.getElementById('esgWater').innerText;
     const energy = document.getElementById('esgEnergy').innerText;
@@ -1009,7 +1009,10 @@ window.toggleChat = () => {
     const chat = document.getElementById('aiChatWindow');
     if(chat.classList.contains('opacity-0')) {
         chat.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
-        document.getElementById('chatInput').focus();
+        // Only auto-focus on desktop to prevent mobile keyboard from jumping the layout
+        if (window.innerWidth > 768) {
+            document.getElementById('chatInput').focus();
+        }
     } else {
         chat.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
     }
@@ -1055,6 +1058,7 @@ window.sendChatMessage = () => {
     }, 1200);
 };
 });
+
 
 
 
