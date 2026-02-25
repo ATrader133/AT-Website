@@ -964,6 +964,7 @@ window.downloadESGReport = function() {
     });
     
     window.showToast("Generating PDF Certificate...", "success");
+};
 
 // --- FEATURE 2: Sample Kit Modal ---
 // Note: You must add a button anywhere in your HTML with `onclick="openSampleKit()"`
@@ -1057,6 +1058,7 @@ window.sendChatMessage = () => {
     }, 1200);
 };
 });
+
 
 
 
