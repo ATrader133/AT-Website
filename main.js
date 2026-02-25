@@ -974,7 +974,7 @@ window.submitSampleKit = (e) => {
     closeSampleKit();
     window.showToast("Sample Kit requested! Our team will contact you for dispatch details.", "success");
 };
-
+    
 // --- FEATURE 4: Basic Multilingual Support (i18n) ---
 const translations = {
     en: { home: "Home", products: "Products", tools: "Pro Tools", blog: "Blog", contact: "Contact", heroTitle: "ABRAR TRADERS" },
@@ -1057,6 +1057,7 @@ window.sendChatMessage = () => {
     }, 1200);
 };
 });
+
 
 
 
