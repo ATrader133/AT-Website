@@ -1057,7 +1057,35 @@ window.sendChatMessage = () => {
         log.scrollTop = log.scrollHeight;
     }, 1200);
 };
+
+    // ==========================================
+    // 19. SMART NAV SCROLL LOGIC
+    // ==========================================
+    const nav = document.getElementById('mainNav');
+    let lastScrollY = window.scrollY;
+
+    if (nav) {
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            
+            // Add shrink/shadow effect when not at the top
+            if (currentScrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+
+            // Hide nav when scrolling down, show when scrolling up
+            if (currentScrollY > lastScrollY && currentScrollY > 300) {
+                nav.style.transform = 'translateY(-150%)';
+            } else {
+                nav.style.transform = 'translateY(0)';
+            }
+            lastScrollY = currentScrollY;
+        }, { passive: true });
+    }
 });
+
 
 
 
