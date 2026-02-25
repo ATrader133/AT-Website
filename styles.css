@@ -16,7 +16,10 @@
 }
 
 /* --- 2. BASE & RESET --- */
-html { scroll-behavior: smooth; }
+html { 
+    scroll-behavior: smooth; 
+    scroll-padding-top: 120px; /* Accounts for sticky nav + some breathing room */
+}
 html.lenis, html.lenis body { height: auto; width: 100%; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
@@ -29,9 +32,17 @@ body {
     background: linear-gradient(to tr, var(--bg-light), var(--bg-medium));
     scrollbar-width: thin;
     scrollbar-color: var(--primary-color) var(--bg-light);
-    cursor: none;
 }
-a, button, input, textarea, select, .cursor-pointer { cursor: none !important; }
+/* We only hide the cursor when the JS specifically adds this class to the body */
+body.has-custom-cursor, 
+body.has-custom-cursor a, 
+body.has-custom-cursor button, 
+body.has-custom-cursor input, 
+body.has-custom-cursor textarea, 
+body.has-custom-cursor select, 
+body.has-custom-cursor .cursor-pointer { 
+    cursor: none !important; 
+}
 body::-webkit-scrollbar { width: 8px; }
 body::-webkit-scrollbar-track { background: var(--bg-light); }
 body::-webkit-scrollbar-thumb { background-color: var(--primary-color); border-radius: 4px; border: 2px solid var(--bg-light); }
@@ -327,6 +338,7 @@ input[type=range]::-moz-range-thumb {
 /* --- 15. LIVE TICKER ANIMATION --- */
 @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
 .animate-marquee { animation: marquee 25s linear infinite; }
+
 
 
 
