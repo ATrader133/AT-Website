@@ -597,14 +597,17 @@
                 </div>
 
                 <div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6 bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-100">
-                    <button onclick="calculateCBM()" class="btn-glow bg-green-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-green-700 transition shadow-lg w-full md:w-auto">Simulate Container Load</button>
-                    <button onclick="openARViewer()" class="btn-glow bg-slate-800 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-900 transition shadow-lg flex-1 md:flex-none flex items-center justify-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                        AR View
-                    </button>
-                </div> <div class="text-right">
-                    <span class="block text-xs font-bold text-slate-400 uppercase">Total Volume</span>
-                    <div class="text-4xl font-black text-slate-800" id="resCbm">0.000 <span class="text-xl text-green-600">m³</span></div>
+                    <div class="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+                        <button onclick="calculateCBM()" class="btn-glow bg-green-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-green-700 transition shadow-lg w-full md:w-auto">Simulate Container Load</button>
+                        <button onclick="openARViewer()" class="btn-glow bg-slate-800 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-900 transition shadow-lg flex-1 md:flex-none flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                            AR View
+                        </button>
+                    </div>
+                    <div class="text-right w-full md:w-auto mt-4 md:mt-0">
+                        <span class="block text-xs font-bold text-slate-400 uppercase">Total Volume</span>
+                        <div class="text-4xl font-black text-slate-800 dark:text-gray-800" id="resCbm">0.000 <span class="text-xl text-green-600">m³</span></div>
+                    </div>
                 </div>
 
                 <div class="mt-8 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-6 md:p-8 rounded-2xl shadow-sm hidden transition-all" id="containerSimulatorResult">
@@ -946,7 +949,7 @@
         </div>
     </div>
     
-   <footer class="relative mx-4 md:mx-6 mb-4 mt-24 rounded-[2.5rem] border border-gray-200 dark:border-slate-700 bg-white/70 dark:bg-slate-900/75 backdrop-blur-[16px] px-6 py-12 lg:p-16 shadow-lg dark:shadow-2xl overflow-hidden transition-all duration-300">
+   <footer class="relative mx-4 md:mx-6 mb-4 mt-24 rounded-[2.5rem] border border-gray-200 dark:border-slate-700 bg-white/70 dark:bg-slate-900/75 backdrop-blur-[16px] px-6 pt-12 pb-28 lg:px-16 lg:pt-16 lg:pb-32 shadow-lg dark:shadow-2xl overflow-hidden transition-all duration-300">
         
         <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-400/10 dark:bg-blue-600/10 rounded-full filter blur-[100px] pointer-events-none"></div>
         <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-400/10 dark:bg-indigo-600/10 rounded-full filter blur-[100px] pointer-events-none"></div>
@@ -958,10 +961,10 @@
                     <h3 class="text-2xl md:text-3xl font-extrabold text-gray-800 dark:text-white mb-2 font-serif">Ready to upgrade your supply chain?</h3>
                     <p class="text-gray-600 dark:text-slate-400">Join top industries across India sourcing premium packaging materials.</p>
                 </div>
-                <div class="w-full md:w-auto flex flex-col sm:flex-row gap-3">
-                    <input type="email" placeholder="Enter your email address" class="w-full md:w-72 bg-white dark:bg-black/30 border border-gray-200 dark:border-slate-700 rounded-xl px-4 py-3 text-gray-800 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition placeholder-gray-400 dark:placeholder-slate-500 shadow-inner" />
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition shadow-[0_4px_14px_0_rgba(37,99,235,0.39)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.23)] hover:-translate-y-0.5 whitespace-nowrap">Subscribe</button>
-                </div>
+                <form onsubmit="event.preventDefault(); window.showToast('Thank you for subscribing!', 'success'); this.reset();" class="w-full md:w-auto flex flex-col sm:flex-row gap-3">
+                    <input type="email" required placeholder="Enter your email address" class="w-full md:w-72 bg-white dark:bg-black/30 border border-gray-200 dark:border-slate-700 rounded-xl px-4 py-3 text-gray-800 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition placeholder-gray-400 dark:placeholder-slate-500 shadow-inner" />
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition shadow-[0_4px_14px_0_rgba(37,99,235,0.39)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.23)] hover:-translate-y-0.5 whitespace-nowrap">Subscribe</button>
+                </form>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 mb-16">
@@ -1102,6 +1105,7 @@
     </script>
 </body>
 </html>
+
 
 
 
