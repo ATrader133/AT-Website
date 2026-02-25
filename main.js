@@ -227,14 +227,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if(document.getElementById('resBs')) document.getElementById('resBs').textContent = ((gsm * bf) / 1000).toFixed(2);
     };
 
-    window.calculateCBM = function() {
-        const l = parseFloat(document.getElementById('cbmL')?.value) || 0;
-        const w = parseFloat(document.getElementById('cbmW')?.value) || 0;
-        const h = parseFloat(document.getElementById('cbmH')?.value) || 0;
-        const qty = parseFloat(document.getElementById('cbmQty')?.value) || 0;
-        if(document.getElementById('resCbm')) document.getElementById('resCbm').innerHTML = `${(((l * w * h) / 1000000) * qty).toFixed(3)} <span class="text-xl text-green-600">m³</span>`;
-    };
-
     ['calcLength', 'calcWidth', 'calcGsm', 'calcQty'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateWeight));
     ['reelWeight', 'reelWidth', 'reelGsm', 'cutLength'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateReel));
     ['strGsm', 'strBf'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateStrength));
@@ -575,7 +567,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     // ==========================================
-    // 11. DARK MODE TOGGLE
+    // 11. DARK MODE TOGGLE (Tailwind Native)
     // ==========================================
     const themeToggle = document.getElementById('themeToggle');
     const iconDark = document.getElementById('themeIconDark');
@@ -583,20 +575,20 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Check local storage for saved theme preference
     if (localStorage.getItem('at_theme') === 'dark') {
-        document.body.classList.add('dark-mode');
+        document.documentElement.classList.add('dark');
+        document.body.classList.add('dark-mode'); 
         if(iconDark) iconDark.classList.add('hidden');
         if(iconLight) iconLight.classList.remove('hidden');
     }
 
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
+            document.documentElement.classList.toggle('dark');
+            document.body.classList.toggle('dark-mode'); 
             
-            // Save preference to browser
+            const isDark = document.documentElement.classList.contains('dark');
             localStorage.setItem('at_theme', isDark ? 'dark' : 'light');
             
-            // Animate Icon Swap
             if (isDark) {
                 iconDark.classList.add('hidden');
                 iconLight.classList.remove('hidden');
@@ -954,17 +946,24 @@ window.downloadESGReport = function() {
         </div>
     `;
     
+    // Temporarily append to body so html2pdf can measure it
+    element.style.position = 'absolute';
+    element.style.left = '-9999px';
+    document.body.appendChild(element);
+    
     // Use html2pdf
     html2pdf().set({
         margin: 10,
         filename: 'Abrar_Traders_CSR_Impact.pdf',
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
+        html2canvas: { scale: 2, useCORS: true },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(element).save();
+    }).from(element).save().then(() => {
+        // Clean up DOM after PDF is generated
+        document.body.removeChild(element);
+    });
     
     window.showToast("Generating PDF Certificate...", "success");
-};
 
 // --- FEATURE 2: Sample Kit Modal ---
 // Note: You must add a button anywhere in your HTML with `onclick="openSampleKit()"`
@@ -1058,6 +1057,7 @@ window.sendChatMessage = () => {
     }, 1200);
 };
 });
+
 
 
 
