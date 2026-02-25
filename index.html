@@ -39,6 +39,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.0/dist/css/splide.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.0/dist/js/splide.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QW4TG03G24" defer></script>
     <script>
@@ -172,6 +174,12 @@
                 <a href="blog.html" class="nav-link cursor-none" data-section="blog">Blog</a>
                 <a href="#contact" class="nav-link cursor-none" data-section="contact">Contact</a>
             </div>
+
+            <select id="langToggle" class="ml-4 bg-transparent border border-gray-300 dark:border-gray-700 rounded-lg text-xs px-2 py-1 cursor-pointer font-bold text-gray-700 dark:text-gray-300 outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="en">English</option>
+                <option value="hi">हिंदी (Hindi)</option>
+                <option value="gu">ગુજરાતી (Gujarati)</option>
+            </select>
 
             <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-300 cursor-none border border-transparent hover:border-gray-200 dark:hover:border-gray-700" aria-label="Toggle Dark Mode">
                 <svg id="themeIconDark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
@@ -588,6 +596,7 @@
 
                 <div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6 bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-100">
                     <button onclick="calculateCBM()" class="btn-glow bg-green-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-green-700 transition shadow-lg w-full md:w-auto">Simulate Container Load</button>
+                    <button onclick="openARViewer()" class="btn-glow bg-slate-800 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-900 transition shadow-lg flex-1 md:flex-none flex items-center justify-center gap-2">
                     <div class="text-right"><span class="block text-xs font-bold text-slate-400 uppercase">Total Volume</span><div class="text-4xl font-black text-slate-800" id="resCbm">0.000 <span class="text-xl text-green-600">m³</span></div></div>
                 </div>
 
@@ -700,6 +709,12 @@
                     </div>
                 </div>
             </div>
+        <div class="mt-8 text-center w-full flex justify-center">
+                    <button onclick="downloadESGReport()" id="esgDownloadBtn" class="hidden btn-glow bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-emerald-700 transition duration-300 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Download CSR Impact Certificate (PDF)
+                    </button>
+                </div>
         </div>
 </section>
         
@@ -999,18 +1014,55 @@
 
     <script src="main.js" defer></script>
     
-    <script type="text/javascript">
-    // Delay Tawk.to by 4 seconds for massive PageSpeed boost
-    setTimeout(function(){
-        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-        s1.async=true;
-        s1.src='https://tawk.to/chat/686f712d784e0c1911e0213b/1ivpl46r6';
-        s1.charset='UTF-8';
-        s1.setAttribute('crossorigin','*');
-        s0.parentNode.insertBefore(s1,s0);
-    }, 4000); // 4000 milliseconds = 4 seconds
-    </script>
+    <div id="sampleKitModal" class="fixed inset-0 z-[60000] hidden items-center justify-center">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md cursor-pointer" onclick="closeSampleKit()"></div>
+        <div class="glass w-[90%] max-w-md p-8 rounded-3xl shadow-2xl relative z-10 border border-white/20 dark:bg-slate-900/95">
+            <h3 class="text-2xl font-black font-serif text-gray-800 dark:text-white mb-2">Request Sample Kit</h3>
+            <p class="text-gray-500 text-sm mb-6">Get a physical swatch book of our Kraft, Duplex, and SBS boards delivered to your office.</p>
+            <form id="sampleForm" onsubmit="submitSampleKit(event)">
+                <input type="text" placeholder="Company Name" required class="w-full mb-4 p-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800 outline-none">
+                <input type="text" placeholder="Delivery Address" required class="w-full mb-4 p-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800 outline-none">
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition">Request Kit (Free for verified B2B)</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="arViewerModal" class="fixed inset-0 z-[60000] hidden items-center justify-center">
+        <div class="absolute inset-0 bg-black/90 cursor-pointer" onclick="closeARViewer()"></div>
+        <div class="w-full h-full max-w-4xl max-h-[80vh] relative z-10 p-4">
+            <button onclick="closeARViewer()" class="absolute top-6 right-6 text-white bg-white/20 p-2 rounded-full z-20 hover:bg-red-500 transition">✖</button>
+            <model-viewer src="https://modelviewer.dev/shared-assets/models/glTF-Sample-Models/2.0/BoxTextured/glTF-Binary/BoxTextured.glb" 
+                          ar ar-modes="webxr scene-viewer quick-look" 
+                          camera-controls touch-action="pan-y" auto-rotate
+                          alt="A 3D model of a paper pallet" class="w-full h-full rounded-2xl bg-gradient-to-tr from-slate-800 to-slate-700 shadow-2xl">
+                <button slot="ar-button" class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white text-black px-6 py-3 rounded-full font-bold shadow-lg">
+                    👋 Activate AR (View in your space)
+                </button>
+            </model-viewer>
+        </div>
+    </div>
+
+    <div id="aiChatWindow" class="fixed bottom-24 right-6 w-80 md:w-96 glass bg-white/90 dark:bg-slate-900/95 border border-blue-200 dark:border-blue-900/50 rounded-2xl shadow-2xl z-[50000] transform transition-all duration-300 translate-y-10 opacity-0 pointer-events-none flex flex-col overflow-hidden" style="height: 500px;">
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 text-white flex justify-between items-center shadow-md">
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span class="font-bold font-serif">Abrar AI Matchmaker</span>
+            </div>
+            <button onclick="toggleChat()" class="hover:text-blue-200">✖</button>
+        </div>
+        <div id="chatLog" class="flex-1 p-4 overflow-y-auto flex flex-col gap-3 text-sm">
+            <div class="bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-3 rounded-xl rounded-tl-none self-start max-w-[85%]">
+                Hi! Tell me what you are trying to pack (e.g., "glass bottles", "heavy machinery", "food boxes") and I'll calculate the exact paper grade you need.
+            </div>
+        </div>
+        <div class="p-3 bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 flex gap-2">
+            <input type="text" id="chatInput" onkeypress="handleChatEnter(event)" placeholder="Type your product..." class="flex-1 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-blue-500 dark:text-white">
+            <button onclick="sendChatMessage()" class="bg-blue-600 text-white p-2 rounded-xl hover:bg-blue-700"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg></button>
+        </div>
+    </div>
+    <button onclick="toggleChat()" class="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 text-white rounded-full shadow-[0_10px_25px_rgba(37,99,235,0.5)] flex items-center justify-center hover:scale-110 transition-transform z-[49000] border-2 border-white/20">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+    </button>
     
     <div id="cookie-banner" class="fixed bottom-6 left-6 md:left-auto md:right-6 md:w-[400px] glass p-6 rounded-2xl z-[50000] flex flex-col gap-4 shadow-2xl transition-transform duration-500 translate-y-[150%]">
         <div>
@@ -1043,6 +1095,7 @@
     </script>
 </body>
 </html>
+
 
 
 
