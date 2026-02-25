@@ -910,7 +910,152 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    // ==========================================
+// 18. INNOVATIVE FEATURES ENGINE (AI, AR, ESG PDF, i18n, Sample Kit)
+// ==========================================
+
+// --- FEATURE 1: ESG PDF Generator (html2pdf) ---
+document.getElementById('esgTons')?.addEventListener('input', (e) => {
+    const tons = parseFloat(e.target.value) || 0;
+    const btn = document.getElementById('esgDownloadBtn');
+    if(btn) tons > 0 ? btn.classList.remove('hidden') : btn.classList.add('hidden');
 });
+
+window.downloadESGReport = function() {
+    const tons = document.getElementById('esgTons').value;
+    const trees = document.getElementById('esgTrees').innerText;
+    const water = document.getElementById('esgWater').innerText;
+    const energy = document.getElementById('esgEnergy').innerText;
+
+    // Create a temporary hidden div tailored for the PDF printout
+    const element = document.createElement('div');
+    element.innerHTML = `
+        <div style="padding: 40px; font-family: 'Helvetica', sans-serif; color: #1f2937;">
+            <div style="text-align: center; border-bottom: 3px solid #10b981; padding-bottom: 20px; margin-bottom: 30px;">
+                <h1 style="color: #047857; margin: 0; font-size: 32px;">Certificate of Environmental Impact</h1>
+                <p style="color: #6b7280; font-size: 14px; margin-top: 5px;">Certified by ABRAR TRADERS | Sustainable Packaging Solutions</p>
+            </div>
+            <p style="font-size: 18px; line-height: 1.6;">This certifies that the procurement of <strong>${tons} Metric Tons</strong> of Recycled Paper Board actively contributes to the following environmental savings globally:</p>
+            <div style="display: flex; justify-content: space-between; margin-top: 40px;">
+                <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 20px; border-radius: 12px; width: 30%; text-align: center;">
+                    <h2 style="color: #059669; font-size: 28px; margin: 0;">🌳 ${trees}</h2>
+                    <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: bold;">Trees Saved</p>
+                </div>
+                <div style="background: #eff6ff; border: 1px solid #bfdbfe; padding: 20px; border-radius: 12px; width: 30%; text-align: center;">
+                    <h2 style="color: #2563eb; font-size: 28px; margin: 0;">💧 ${water} L</h2>
+                    <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: bold;">Water Preserved</p>
+                </div>
+                <div style="background: #fefce8; border: 1px solid #fef08a; padding: 20px; border-radius: 12px; width: 30%; text-align: center;">
+                    <h2 style="color: #ca8a04; font-size: 28px; margin: 0;">⚡ ${energy} kWh</h2>
+                    <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: bold;">Energy Conserved</p>
+                </div>
+            </div>
+            <p style="margin-top: 50px; font-size: 12px; color: #9ca3af; text-align: center;">Generated on ${new Date().toLocaleDateString()}. Calculations based on standard recycling metrics. Thank you for choosing a greener supply chain.</p>
+        </div>
+    `;
+    
+    // Use html2pdf
+    html2pdf().set({
+        margin: 10,
+        filename: 'Abrar_Traders_CSR_Impact.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(element).save();
+    
+    window.showToast("Generating PDF Certificate...", "success");
+};
+
+// --- FEATURE 2: Sample Kit Modal ---
+// Note: You must add a button anywhere in your HTML with `onclick="openSampleKit()"`
+window.openSampleKit = () => { document.getElementById('sampleKitModal').classList.remove('hidden'); document.getElementById('sampleKitModal').classList.add('flex'); };
+window.closeSampleKit = () => { document.getElementById('sampleKitModal').classList.add('hidden'); document.getElementById('sampleKitModal').classList.remove('flex'); };
+window.submitSampleKit = (e) => {
+    e.preventDefault();
+    closeSampleKit();
+    window.showToast("Sample Kit requested! Our team will contact you for dispatch details.", "success");
+};
+
+// --- FEATURE 4: Basic Multilingual Support (i18n) ---
+const translations = {
+    en: { home: "Home", products: "Products", tools: "Pro Tools", blog: "Blog", contact: "Contact", heroTitle: "ABRAR TRADERS" },
+    hi: { home: "होम", products: "उत्पाद", tools: "उपकरण", blog: "ब्लॉग", contact: "संपर्क", heroTitle: "अबरार ट्रेडर्स" },
+    gu: { home: "ઘર", products: "ઉત્પાદનો", tools: "સાધનો", blog: "બ્લોગ", contact: "સંપર્ક", heroTitle: "અબરાર ટ્રેડર્સ" }
+};
+// Attach data-i18n tags to elements dynamically for the demo
+document.querySelectorAll('.nav-link').forEach((el, i) => {
+    const keys = ["home", "products", "tools", "blog", "contact"];
+    if(keys[i]) el.setAttribute('data-i18n', keys[i]);
+});
+document.querySelector('h1 span.bg-gradient-to-r')?.setAttribute('data-i18n', 'heroTitle');
+
+document.getElementById('langToggle')?.addEventListener('change', (e) => {
+    const lang = e.target.value;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+            el.innerText = translations[lang][key];
+        }
+    });
+    window.showToast(`Language changed to ${lang.toUpperCase()}`, "info");
+});
+
+// --- FEATURE 5: AR Pallet Viewer ---
+window.openARViewer = () => { document.getElementById('arViewerModal').classList.remove('hidden'); document.getElementById('arViewerModal').classList.add('flex'); document.body.style.overflow = 'hidden'; };
+window.closeARViewer = () => { document.getElementById('arViewerModal').classList.add('hidden'); document.getElementById('arViewerModal').classList.remove('flex'); document.body.style.overflow = ''; };
+
+// --- FEATURE 6: AI Chatbot Matchmaker Simulator ---
+window.toggleChat = () => {
+    const chat = document.getElementById('aiChatWindow');
+    if(chat.classList.contains('opacity-0')) {
+        chat.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+        document.getElementById('chatInput').focus();
+    } else {
+        chat.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+    }
+};
+
+window.handleChatEnter = (e) => { if (e.key === 'Enter') sendChatMessage(); };
+
+window.sendChatMessage = () => {
+    const input = document.getElementById('chatInput');
+    const msg = input.value.trim();
+    if(!msg) return;
+    
+    const log = document.getElementById('chatLog');
+    
+    // Append User Message
+    log.innerHTML += `<div class="bg-blue-600 text-white p-3 rounded-xl rounded-tr-none self-end max-w-[85%]">${msg}</div>`;
+    input.value = '';
+    log.scrollTop = log.scrollHeight;
+
+    // Simulate AI Thinking
+    const typingId = 'typing-' + Date.now();
+    log.innerHTML += `<div id="${typingId}" class="text-gray-400 text-xs italic p-2 self-start">Abrar AI is calculating Burst Factor...</div>`;
+    log.scrollTop = log.scrollHeight;
+
+    setTimeout(() => {
+        document.getElementById(typingId).remove();
+        const lower = msg.toLowerCase();
+        let reply = "I can help with that! Please specify the weight or industry (e.g., 'heavy machinery', 'food', 'glass').";
+        
+        // Matchmaking Logic
+        if(lower.includes('glass') || lower.includes('heavy') || lower.includes('machine')) {
+            reply = "📦 **Calculated Recommendation:** For heavy/fragile items, you need maximum structural integrity. We recommend our **High-Density Kraft Paper Board (150-250 GSM)** paired with a strong corrugated inner layer to achieve a high Bursting Strength (BS).";
+        } else if(lower.includes('food') || lower.includes('medicine') || lower.includes('pharma')) {
+            reply = "💊 **Calculated Recommendation:** For pharmaceuticals/food, cleanliness and printability are key. We recommend our **Premium Duplex Board (White Back, 250-350 GSM)** or **SBS Board** for a sterile, high-end finish.";
+        } else if(lower.includes('book') || lower.includes('print') || lower.includes('magazine')) {
+            reply = "🖨️ **Calculated Recommendation:** For publishing, you need smooth ink absorption. Our **Maplitho Paper (70-100 GSM)** or **FBB (Folding Box Board)** will give you vibrant, bleed-free colors.";
+        } else if(lower.includes('cheap') || lower.includes('budget') || lower.includes('pad')) {
+            reply = "💰 **Calculated Recommendation:** If you are looking for an economical, rigid backing (like for notepads or puzzles), our **Sundry Grey Board (1mm - 3mm)** is 100% recycled and highly cost-effective.";
+        }
+
+        log.innerHTML += `<div class="bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-3 rounded-xl rounded-tl-none self-start max-w-[85%]">${reply}<br><br><a href="#quote" onclick="toggleChat()" class="text-blue-600 font-bold text-xs underline">Request Quote Now</a></div>`;
+        log.scrollTop = log.scrollHeight;
+    }, 1200);
+};
+});
+
 
 
 
