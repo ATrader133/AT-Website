@@ -497,6 +497,9 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileMenu.classList.toggle('open', !isOpen);
         menuBackdrop?.classList.toggle('open', !isOpen);
         document.body.classList.toggle('menu-opened', !isOpen);
+        
+        // Fix: Lock background scrolling when menu is open
+        document.body.style.overflow = isOpen ? '' : 'hidden';
     };
     menuButton?.addEventListener('click', toggleMenu);
     menuBackdrop?.addEventListener('click', toggleMenu);
@@ -666,6 +669,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Track Mouse Movement
         document.addEventListener('mousemove', (e) => {
+            // Only hide default cursor if mouse actually moves (fixes touch-laptop bug)
+            if (!document.body.classList.contains('has-custom-cursor')) {
+                document.body.classList.add('has-custom-cursor');
+            }
             mouseX = e.clientX;
             mouseY = e.clientY;
             
@@ -904,6 +911,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
 
 
 
