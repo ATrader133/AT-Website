@@ -505,6 +505,10 @@
                     GSM Visualizer</button>
                 <button onclick="switchTab('esg')" id="tab-esg" class="px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm font-bold text-gray-500 hover:text-emerald-600 transition-all">
                     ESG Impact</button>
+                <button onclick="openDieCut()" class="btn-glow w-full mt-4 px-6 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold rounded-xl shadow-lg flex justify-center items-center gap-2 transition-transform">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
+                    Open Die-Cut Generator
+                </button>
             </div>
         </div>
 
@@ -679,6 +683,7 @@
                 </div>
             </div>
         </div>
+        
         <div id="tool-esg" class="tool-content hidden transition-all duration-300">
                 <div class="bg-emerald-50/50 dark:bg-emerald-900/20 p-4 rounded-2xl border border-emerald-100 dark:border-emerald-800 mb-8 text-center">
                     <p class="text-sm text-emerald-800 dark:text-emerald-300 font-medium">🌍 Calculate the environmental savings of choosing our recycled paper boards (e.g., Sundry Grey Board).</p>
@@ -724,7 +729,49 @@
                         Download CSR Impact Certificate (PDF)
                     </button>
                 </div>
-            </div> </div> </section>
+            </div> 
+        </div>
+
+        <div id="dieCutModal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-200 dark:border-gray-700 relative">
+            <button onclick="closeDieCut()" class="absolute top-4 right-4 text-gray-500 hover:text-red-500 transition-colors">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <div class="p-8">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">📦 2D Die-Line Generator</h2>
+                <p class="text-gray-500 mb-8">Generate standard RSC (Regular Slotted Container) flat templates. Red lines are folds; solid lines are cuts.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Length (mm)</label>
+                        <input type="number" id="dieL" value="200" oninput="drawDieCut()" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg p-3 text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Width (mm)</label>
+                        <input type="number" id="dieW" value="150" oninput="drawDieCut()" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg p-3 text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Height/Depth (mm)</label>
+                        <input type="number" id="dieH" value="100" oninput="drawDieCut()" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg p-3 text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-900 border border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-4 flex justify-center items-center overflow-auto mb-6">
+                    <div id="svgContainer" class="w-full flex justify-center min-h-[300px]"></div>
+                </div>
+
+                <div class="flex justify-end gap-4">
+                    <button onclick="downloadSVG()" class="btn-glow px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-lg flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Download .SVG File
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    </section>
         
         <section id="reviews" class="py-20 px-6 bg-bg-light overflow-hidden">
             <div data-aos="fade-up">
@@ -1104,6 +1151,7 @@
     </script>
 </body>
 </html>
+
 
 
 
