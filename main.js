@@ -187,10 +187,10 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     window.calculateWeight = function() {
-        const l = parseFloat(document.getElementById('calcLength')?.value) || 0;
-        const w = parseFloat(document.getElementById('calcWidth')?.value) || 0;
-        const gsm = parseFloat(document.getElementById('calcGsm')?.value) || 0;
-        const qty = parseFloat(document.getElementById('calcQty')?.value) || 0;
+        const l = Math.max(0, parseFloat(document.getElementById('calcLength')?.value) || 0);
+        const w = Math.max(0, parseFloat(document.getElementById('calcWidth')?.value) || 0);
+        const gsm = Math.max(0, parseFloat(document.getElementById('calcGsm')?.value) || 0);
+        const qty = Math.max(0, parseFloat(document.getElementById('calcQty')?.value) || 0);
         
         let m_l = 0, m_w = 0;
         if (currentUnit === 'cm') { m_l = l/100; m_w = w/100; }
@@ -437,7 +437,8 @@ document.addEventListener('DOMContentLoaded', function() {
         VanillaTilt.init(document.querySelectorAll(".product-card"), { max: 5, speed: 400, glare: true, "max-glare": 0.2 });
     }
 
-    if (window.tsParticles && document.getElementById('tsparticles')) {
+    if (window.tsParticles && document.getElementById('tsparticles') && !window.particlesLoaded) {
+        window.particlesLoaded = true; // Prevent duplicate initializations
         tsParticles.load("tsparticles", {
             fpsLimit: 60, fullScreen: { enable: false },
             particles: {
@@ -1085,6 +1086,7 @@ window.sendChatMessage = () => {
         }, { passive: true });
     }
 });
+
 
 
 
