@@ -222,7 +222,21 @@ h1, h2, #modalProductName, .font-serif {
 .animate-fade-in { animation: fadeIn 1s ease-out forwards; }
 .animate-fade-in-delay { animation: fadeIn 1s ease-out 0.5s forwards; }
 .animate-slide-up { animation: slideUp 0.8s ease-out forwards; }
-.animate-blob { animation: blob 10s infinite cubic-bezier(0.64, 0.01, 0.45, 0.94); will-change: transform; }
+.animate-blob { 
+    animation: blob 10s infinite cubic-bezier(0.64, 0.01, 0.45, 0.94); 
+    will-change: transform; 
+    /* FIX: Force hardware acceleration to prevent stuttering */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* FIX: Reduce intensive filter calculations on mobile */
+@media (max-width: 768px) {
+    .animate-blob {
+        filter: blur(40px) !important;
+        animation-duration: 20s; /* Slow down animation on mobile to save battery */
+    }
+}
 .animation-delay-2000 { animation-delay: 2s; }
 .animation-delay-4000 { animation-delay: 4s; }
 
@@ -338,6 +352,7 @@ input[type=range]::-moz-range-thumb {
 /* --- 15. LIVE TICKER ANIMATION --- */
 @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
 .animate-marquee { animation: marquee 25s linear infinite; }
+
 
 
 
