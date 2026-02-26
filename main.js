@@ -1077,12 +1077,15 @@ window.closeARViewer = () => {
     document.body.style.overflow = ''; 
 };
 
-// --- FEATURE 6: AI Chatbot Matchmaker Simulator ---
+// --- FEATURE 6: TRUE AI SUPPLY CHAIN ASSISTANT ARCHITECTURE ---
+let chatHistory = [
+    { role: "system", content: "You are the Abrar Traders AI Assistant. You are an expert in paper packaging, GSM, Burst Factor, Kraft paper, Duplex Board, and logistics. Be helpful, professional, and concise." }
+];
+
 window.toggleChat = () => {
     const chat = document.getElementById('aiChatWindow');
     if(chat.classList.contains('opacity-0')) {
         chat.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
-        // Only auto-focus on desktop to prevent mobile keyboard from jumping the layout
         if (window.innerWidth > 768) {
             document.getElementById('chatInput').focus();
         }
@@ -1091,45 +1094,132 @@ window.toggleChat = () => {
     }
 };
 
-window.handleChatEnter = (e) => { if (e.key === 'Enter') sendChatMessage(); };
+window.handleChatEnter = (e) => { 
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault(); // Prevents new line
+        sendChatMessage(); 
+    }
+};
 
-window.sendChatMessage = () => {
+window.sendChatMessage = async () => {
     const input = document.getElementById('chatInput');
     const msg = input.value.trim();
     if(!msg) return;
     
     const log = document.getElementById('chatLog');
     
-    // Append User Message
-    log.innerHTML += `<div class="bg-blue-600 text-white p-3 rounded-xl rounded-tr-none self-end max-w-[85%]">${msg}</div>`;
+    // 1. Add User Message to UI
+    log.innerHTML += `<div class="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-4 rounded-2xl rounded-tr-none self-end max-w-[85%] shadow-md transform transition-all animate-slide-up">${msg}</div>`;
     input.value = '';
+    // Auto-resize textarea back to normal
+    input.style.height = 'auto'; 
     log.scrollTop = log.scrollHeight;
 
-    // Simulate AI Thinking
+    // 2. Add User Message to LLM History Array
+    chatHistory.push({ role: "user", content: msg });
+
+    // 3. Show "AI is thinking..." indicator
     const typingId = 'typing-' + Date.now();
-    log.innerHTML += `<div id="${typingId}" class="text-gray-400 text-xs italic p-2 self-start">Abrar AI is calculating Burst Factor...</div>`;
+    log.innerHTML += `
+        <div id="${typingId}" class="bg-gray-100 dark:bg-slate-800 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] flex items-center gap-2 animate-pulse">
+            <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+            <span class="w-2 h-2 bg-blue-500 rounded-full" style="animation-delay: 0.2s"></span>
+            <span class="w-2 h-2 bg-blue-600 rounded-full" style="animation-delay: 0.4s"></span>
+        </div>`;
     log.scrollTop = log.scrollHeight;
 
-    setTimeout(() => {
-        document.getElementById(typingId).remove();
-        const lower = msg.toLowerCase();
-        let reply = "I can help with that! Please specify the weight or industry (e.g., 'heavy machinery', 'food', 'glass').";
+    // ----------------------------------------------------------------------
+    // NOTE TO DEVELOPER: 
+    // To connect a REAL AI, replace the setTimeout block below with an 
+    // actual fetch() request to your backend or the Google Gemini/OpenAI API.
+    // Pass the `chatHistory` array in the API payload.
+    // ----------------------------------------------------------------------
+
+    // REAL GEMINI API INTEGRATION (For Local Testing)
+    const API_KEY = "YOUR_GEMINI_API_KEY_HERE"; // <-- Put your key here
+    
+    // We format the chatHistory array specifically for Gemini's requirements
+    const formattedHistory = chatHistory.filter(msg => msg.role !== "system").map(msg => ({
+        role: msg.role === "assistant" ? "model" : "user",
+        parts: [{ text: msg.content }]
+    }));
+
+    const systemInstruction = chatHistory.find(msg => msg.role === "system").content;
+
+    try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                systemInstruction: { parts: [{ text: systemInstruction }] },
+                contents: formattedHistory
+            })
+        });
+
+        const data = await response.json();
         
-        // Matchmaking Logic
-        if(lower.includes('glass') || lower.includes('heavy') || lower.includes('machine')) {
-            reply = "📦 **Calculated Recommendation:** For heavy/fragile items, you need maximum structural integrity. We recommend our **High-Density Kraft Paper Board (150-250 GSM)** paired with a strong corrugated inner layer to achieve a high Bursting Strength (BS).";
-        } else if(lower.includes('food') || lower.includes('medicine') || lower.includes('pharma')) {
-            reply = "💊 **Calculated Recommendation:** For pharmaceuticals/food, cleanliness and printability are key. We recommend our **Premium Duplex Board (White Back, 250-350 GSM)** or **SBS Board** for a sterile, high-end finish.";
-        } else if(lower.includes('book') || lower.includes('print') || lower.includes('magazine')) {
-            reply = "🖨️ **Calculated Recommendation:** For publishing, you need smooth ink absorption. Our **Maplitho Paper (70-100 GSM)** or **FBB (Folding Box Board)** will give you vibrant, bleed-free colors.";
-        } else if(lower.includes('cheap') || lower.includes('budget') || lower.includes('pad')) {
-            reply = "💰 **Calculated Recommendation:** If you are looking for an economical, rigid backing (like for notepads or puzzles), our **Sundry Grey Board (1mm - 3mm)** is 100% recycled and highly cost-effective.";
+        // Remove the "thinking" indicator
+        document.getElementById(typingId).remove();
+
+        if (data.error) {
+            throw new Error(data.error.message);
         }
 
-        log.innerHTML += `<div class="bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-3 rounded-xl rounded-tl-none self-start max-w-[85%]">${reply}<br><br><a href="#quote" onclick="toggleChat()" class="text-blue-600 font-bold text-xs underline">Request Quote Now</a></div>`;
+        // Extract the text from Gemini's response
+        const aiResponse = data.candidates[0].content.parts[0].text;
+        
+        // Convert Markdown bold/newlines to HTML so it looks nice in your UI
+        const formattedHTMLResponse = aiResponse
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\n/g, '<br>');
+
+        // 4. Render AI Response to UI
+        log.innerHTML += `
+            <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm animate-fade-in">
+                ${formattedHTMLResponse}
+            </div>`;
+        
+        // 5. Add AI Response to LLM History Array
+        chatHistory.push({ role: "assistant", content: aiResponse });
+        
         log.scrollTop = log.scrollHeight;
-    }, 1200);
+
+    } catch (error) {
+        document.getElementById(typingId).remove();
+        console.error("Gemini API Error:", error);
+        log.innerHTML += `
+            <div class="bg-red-50 text-red-600 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] text-xs">
+                Connection error. Please try again later.
+            </div>`;
+        log.scrollTop = log.scrollHeight;
+    }
+    
+        // Add action buttons to the AI response
+        const actionHtml = `<div class="mt-3 flex gap-2 border-t border-gray-200 dark:border-slate-700 pt-3">
+            <a href="#quote" onclick="toggleChat()" class="text-xs bg-white dark:bg-slate-700 text-blue-600 dark:text-white px-3 py-1.5 rounded-md font-bold hover:bg-blue-50 transition border border-gray-200 dark:border-slate-600">Get a Quote</a>
+            <a href="#calculator" onclick="toggleChat(); switchTab('weight');" class="text-xs bg-white dark:bg-slate-700 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-md font-bold hover:bg-gray-50 transition border border-gray-200 dark:border-slate-600">Calculate Weight</a>
+        </div>`;
+
+        // 4. Render AI Response to UI
+        log.innerHTML += `
+            <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm animate-fade-in">
+                ${aiResponse}
+                ${actionHtml}
+            </div>`;
+        
+        // 5. Add AI Response to LLM History Array
+        chatHistory.push({ role: "assistant", content: aiResponse.replace(/<[^>]*>?/gm, '') }); // Strip HTML for the history array
+        
+        log.scrollTop = log.scrollHeight;
+    }, 1500);
 };
+
+// Auto-resize the textarea as the user types
+document.getElementById('chatInput')?.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = (this.scrollHeight) + 'px';
+});
+    
     // --- FEATURE 7: 2D DIE-CUT GENERATOR ---
 window.openDieCut = () => { 
     document.getElementById('dieCutModal').classList.remove('hidden'); 
@@ -1247,6 +1337,7 @@ window.downloadSVG = () => {
         }, { passive: true });
     }
 });
+
 
 
 
