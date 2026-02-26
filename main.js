@@ -1111,7 +1111,6 @@ window.sendChatMessage = async () => {
     // 1. Add User Message to UI
     log.innerHTML += `<div class="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-4 rounded-2xl rounded-tr-none self-end max-w-[85%] shadow-md transform transition-all animate-slide-up">${msg}</div>`;
     input.value = '';
-    // Auto-resize textarea back to normal
     input.style.height = 'auto'; 
     log.scrollTop = log.scrollHeight;
 
@@ -1128,17 +1127,9 @@ window.sendChatMessage = async () => {
         </div>`;
     log.scrollTop = log.scrollHeight;
 
-    // ----------------------------------------------------------------------
-    // NOTE TO DEVELOPER: 
-    // To connect a REAL AI, replace the setTimeout block below with an 
-    // actual fetch() request to your backend or the Google Gemini/OpenAI API.
-    // Pass the `chatHistory` array in the API payload.
-    // ----------------------------------------------------------------------
-
-    // REAL GEMINI API INTEGRATION (For Local Testing)
-    const API_KEY = "YOUR_GEMINI_API_KEY_HERE"; // <-- Put your key here
+    // REAL GEMINI API INTEGRATION
+    const API_KEY = "AIzaSyAUOLlYaefxxfh0Io6_MBLCyRIiYT1Ll0w"; 
     
-    // We format the chatHistory array specifically for Gemini's requirements
     const formattedHistory = chatHistory.filter(msg => msg.role !== "system").map(msg => ({
         role: msg.role === "assistant" ? "model" : "user",
         parts: [{ text: msg.content }]
@@ -1157,68 +1148,46 @@ window.sendChatMessage = async () => {
         });
 
         const data = await response.json();
-        
-        // Remove the "thinking" indicator
-        document.getElementById(typingId).remove();
+        const typingIndicator = document.getElementById(typingId);
+        if(typingIndicator) typingIndicator.remove();
 
-        if (data.error) {
-            throw new Error(data.error.message);
-        }
+        if (data.error) throw new Error(data.error.message);
 
-        // Extract the text from Gemini's response
         const aiResponse = data.candidates[0].content.parts[0].text;
         
-        // Convert Markdown bold/newlines to HTML so it looks nice in your UI
+        // Convert Markdown bold/newlines to HTML
         const formattedHTMLResponse = aiResponse
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/\n/g, '<br>');
 
-        // 4. Render AI Response to UI
-        log.innerHTML += `
-            <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm animate-fade-in">
-                ${formattedHTMLResponse}
-            </div>`;
-        
-        // 5. Add AI Response to LLM History Array
-        chatHistory.push({ role: "assistant", content: aiResponse });
-        
-        log.scrollTop = log.scrollHeight;
-
-    } catch (error) {
-        document.getElementById(typingId).remove();
-        console.error("Gemini API Error:", error);
-        log.innerHTML += `
-            <div class="bg-red-50 text-red-600 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] text-xs">
-                Connection error. Please try again later.
-            </div>`;
-        log.scrollTop = log.scrollHeight;
-    }
-    
         // Add action buttons to the AI response
-        const actionHtml = `<div class="mt-3 flex gap-2 border-t border-gray-200 dark:border-slate-700 pt-3">
-            <a href="#quote" onclick="toggleChat()" class="text-xs bg-white dark:bg-slate-700 text-blue-600 dark:text-white px-3 py-1.5 rounded-md font-bold hover:bg-blue-50 transition border border-gray-200 dark:border-slate-600">Get a Quote</a>
-            <a href="#calculator" onclick="toggleChat(); switchTab('weight');" class="text-xs bg-white dark:bg-slate-700 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-md font-bold hover:bg-gray-50 transition border border-gray-200 dark:border-slate-600">Calculate Weight</a>
+        const actionHtml = `<div class="mt-4 flex gap-2 border-t border-blue-200/50 dark:border-slate-700 pt-3">
+            <a href="#quote" onclick="toggleChat()" class="text-xs bg-white dark:bg-slate-700 text-blue-600 dark:text-white px-3 py-1.5 rounded-md font-bold hover:bg-blue-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Get a Quote</a>
+            <a href="#calculator" onclick="toggleChat(); switchTab('weight');" class="text-xs bg-white dark:bg-slate-700 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-md font-bold hover:bg-gray-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Calculate Weight</a>
         </div>`;
 
         // 4. Render AI Response to UI
         log.innerHTML += `
             <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm animate-fade-in">
-                ${aiResponse}
+                ${formattedHTMLResponse}
                 ${actionHtml}
             </div>`;
         
         // 5. Add AI Response to LLM History Array
-        chatHistory.push({ role: "assistant", content: aiResponse.replace(/<[^>]*>?/gm, '') }); // Strip HTML for the history array
-        
+        chatHistory.push({ role: "assistant", content: aiResponse });
         log.scrollTop = log.scrollHeight;
-    }, 1500);
-};
 
-// Auto-resize the textarea as the user types
-document.getElementById('chatInput')?.addEventListener('input', function() {
-    this.style.height = 'auto';
-    this.style.height = (this.scrollHeight) + 'px';
-});
+    } catch (error) {
+        const typingIndicator = document.getElementById(typingId);
+        if(typingIndicator) typingIndicator.remove();
+        console.error("Gemini API Error:", error);
+        log.innerHTML += `
+            <div class="bg-red-50 text-red-600 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] text-xs">
+                Connection error or Invalid API Key. Please try again later.
+            </div>`;
+        log.scrollTop = log.scrollHeight;
+    }
+};
     
     // --- FEATURE 7: 2D DIE-CUT GENERATOR ---
 window.openDieCut = () => { 
@@ -1337,6 +1306,7 @@ window.downloadSVG = () => {
         }, { passive: true });
     }
 });
+
 
 
 
