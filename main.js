@@ -454,17 +454,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    document.querySelectorAll('.action-button').forEach(btn => {
+    // Advanced Magnetic Parallax Buttons
+    document.querySelectorAll('.action-button, .btn-glow').forEach(btn => {
         btn.addEventListener('mousemove', (e) => {
             const rect = btn.getBoundingClientRect();
             const x = (e.clientX - rect.left) - (rect.width / 2);
             const y = (e.clientY - rect.top) - (rect.height / 2);
-            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            
+            // Move and slightly scale the main button
+            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px) scale(1.02)`;
+            
+            // Parallax the inner text/icons for depth
+            const children = Array.from(btn.children);
+            children.forEach(child => {
+                if (child.tagName.toLowerCase() !== 'svg') {
+                    child.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+                }
+            });
         });
         btn.addEventListener('mouseleave', () => {
-            btn.style.transform = `translate(0px, 0px)`;
-            btn.style.transition = 'transform 0.4s ease'; 
-            setTimeout(() => { btn.style.transition = ''; }, 400);
+            btn.style.transform = `translate(0px, 0px) scale(1)`;
+            btn.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)'; 
+            
+            const children = Array.from(btn.children);
+            children.forEach(child => {
+                child.style.transform = `translate(0px, 0px)`;
+                child.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)'; 
+            });
+            
+            setTimeout(() => { 
+                btn.style.transition = ''; 
+                children.forEach(c => c.style.transition = ''); 
+            }, 500);
         });
     });
 
@@ -617,6 +638,20 @@ document.addEventListener('DOMContentLoaded', function() {
             previousMousePosition = { x: e.offsetX, y: e.offsetY };
         });
         document.addEventListener('mouseup', () => isDragging = false);
+        const applyDynamicLighting = () => {
+            const front = document.getElementById('face-front');
+            const right = document.getElementById('face-right');
+            const left = document.getElementById('face-left');
+            
+            // Calculate light intensity based on rotation angle (0 to 180 map)
+            const rotY = window.cubeRotation.y % 360;
+            const normalizedY = rotY < 0 ? rotY + 360 : rotY;
+            
+            if(front) front.style.filter = `brightness(${100 - Math.min(60, Math.abs(normalizedY > 180 ? normalizedY - 360 : normalizedY))}%)`;
+            if(right) right.style.filter = `brightness(${40 + Math.min(60, Math.abs((normalizedY - 90) % 180))}%)`;
+            if(left) left.style.filter = `brightness(${40 + Math.min(60, Math.abs((normalizedY + 90) % 180))}%)`;
+        };
+
         scene.addEventListener('mousemove', (e) => {
             if (!isDragging) return;
             const deltaMove = { x: e.offsetX - previousMousePosition.x, y: e.offsetY - previousMousePosition.y };
@@ -624,6 +659,7 @@ document.addEventListener('DOMContentLoaded', function() {
             window.cubeRotation.y += deltaMove.x * 0.5; // Left/Right
             cube.style.transform = `rotateX(${window.cubeRotation.x}deg) rotateY(${window.cubeRotation.y}deg)`;
             previousMousePosition = { x: e.offsetX, y: e.offsetY };
+            applyDynamicLighting();
         });
 
         // Mobile Touch Events
@@ -1122,6 +1158,7 @@ window.sendChatMessage = () => {
         }, { passive: true });
     }
 });
+
 
 
 
