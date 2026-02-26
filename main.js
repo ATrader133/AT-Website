@@ -915,56 +915,71 @@ document.getElementById('esgTons')?.addEventListener('input', (e) => {
 });
 
 window.downloadESGReport = function() {
-    const tons = parseFloat(document.getElementById('esgTons').value) || 0;
-    const trees = document.getElementById('esgTrees').innerText;
-    const water = document.getElementById('esgWater').innerText;
-    const energy = document.getElementById('esgEnergy').innerText;
+    window.showToast("Initializing PDF Engine... Please wait.", "info");
 
-    // Create a temporary hidden div tailored for the PDF printout
-    const element = document.createElement('div');
-    element.innerHTML = `
-        <div style="padding: 40px; font-family: 'Helvetica', sans-serif; color: #1f2937;">
-            <div style="text-align: center; border-bottom: 3px solid #10b981; padding-bottom: 20px; margin-bottom: 30px;">
-                <h1 style="color: #047857; margin: 0; font-size: 32px;">Certificate of Environmental Impact</h1>
-                <p style="color: #6b7280; font-size: 14px; margin-top: 5px;">Certified by ABRAR TRADERS | Sustainable Packaging Solutions</p>
+    // 1. Function to actually generate the PDF once library is loaded
+    const generatePDF = () => {
+        const tons = Math.max(0, parseFloat(document.getElementById('esgTons').value) || 0);
+        const trees = document.getElementById('esgTrees').innerText;
+        const water = document.getElementById('esgWater').innerText;
+        const energy = document.getElementById('esgEnergy').innerText;
+
+        const element = document.createElement('div');
+        element.innerHTML = `
+            <div style="padding: 40px; font-family: 'Helvetica', sans-serif; color: #1f2937;">
+                <div style="text-align: center; border-bottom: 3px solid #10b981; padding-bottom: 20px; margin-bottom: 30px;">
+                    <h1 style="color: #047857; margin: 0; font-size: 32px;">Certificate of Environmental Impact</h1>
+                    <p style="color: #6b7280; font-size: 14px; margin-top: 5px;">Certified by ABRAR TRADERS | Sustainable Packaging Solutions</p>
+                </div>
+                <p style="font-size: 18px; line-height: 1.6;">This certifies that the procurement of <strong>${tons} Metric Tons</strong> of Recycled Paper Board actively contributes to the following environmental savings globally:</p>
+                <div style="display: flex; justify-content: space-between; margin-top: 40px;">
+                    <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 20px; border-radius: 12px; width: 30%; text-align: center;">
+                        <h2 style="color: #059669; font-size: 28px; margin: 0;">🌳 ${trees}</h2>
+                        <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: bold;">Trees Saved</p>
+                    </div>
+                    <div style="background: #eff6ff; border: 1px solid #bfdbfe; padding: 20px; border-radius: 12px; width: 30%; text-align: center;">
+                        <h2 style="color: #2563eb; font-size: 28px; margin: 0;">💧 ${water} L</h2>
+                        <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: bold;">Water Preserved</p>
+                    </div>
+                    <div style="background: #fefce8; border: 1px solid #fef08a; padding: 20px; border-radius: 12px; width: 30%; text-align: center;">
+                        <h2 style="color: #ca8a04; font-size: 28px; margin: 0;">⚡ ${energy} kWh</h2>
+                        <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: bold;">Energy Conserved</p>
+                    </div>
+                </div>
+                <p style="margin-top: 50px; font-size: 12px; color: #9ca3af; text-align: center;">Generated on ${new Date().toLocaleDateString()}. Calculations based on standard recycling metrics. Thank you for choosing a greener supply chain.</p>
             </div>
-            <p style="font-size: 18px; line-height: 1.6;">This certifies that the procurement of <strong>${tons} Metric Tons</strong> of Recycled Paper Board actively contributes to the following environmental savings globally:</p>
-            <div style="display: flex; justify-content: space-between; margin-top: 40px;">
-                <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 20px; border-radius: 12px; width: 30%; text-align: center;">
-                    <h2 style="color: #059669; font-size: 28px; margin: 0;">🌳 ${trees}</h2>
-                    <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: bold;">Trees Saved</p>
-                </div>
-                <div style="background: #eff6ff; border: 1px solid #bfdbfe; padding: 20px; border-radius: 12px; width: 30%; text-align: center;">
-                    <h2 style="color: #2563eb; font-size: 28px; margin: 0;">💧 ${water} L</h2>
-                    <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: bold;">Water Preserved</p>
-                </div>
-                <div style="background: #fefce8; border: 1px solid #fef08a; padding: 20px; border-radius: 12px; width: 30%; text-align: center;">
-                    <h2 style="color: #ca8a04; font-size: 28px; margin: 0;">⚡ ${energy} kWh</h2>
-                    <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: bold;">Energy Conserved</p>
-                </div>
-            </div>
-            <p style="margin-top: 50px; font-size: 12px; color: #9ca3af; text-align: center;">Generated on ${new Date().toLocaleDateString()}. Calculations based on standard recycling metrics. Thank you for choosing a greener supply chain.</p>
-        </div>
-    `;
-    
-    // Temporarily append to body so html2pdf can measure it
-    element.style.position = 'absolute';
-    element.style.left = '-9999px';
-    document.body.appendChild(element);
-    
-    // Use html2pdf
-    html2pdf().set({
-        margin: 10,
-        filename: 'Abrar_Traders_CSR_Impact.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(element).save().then(() => {
-        // Clean up DOM after PDF is generated
-        document.body.removeChild(element);
-    });
-    
-    window.showToast("Generating PDF Certificate...", "success");
+        `;
+        
+        element.style.position = 'absolute';
+        element.style.left = '-9999px';
+        document.body.appendChild(element);
+        
+        html2pdf().set({
+            margin: 10,
+            filename: 'Abrar_Traders_CSR_Impact.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        }).from(element).save().then(() => {
+            document.body.removeChild(element);
+            window.showToast("Certificate Downloaded Successfully!", "success");
+        });
+    };
+
+    // 2. Check if library is already loaded
+    if (typeof html2pdf !== 'undefined') {
+        generatePDF();
+    } else {
+        // 3. Lazy Load the Script
+        const script = document.createElement('script');
+        script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
+        script.onload = () => {
+            window.showToast("Generating PDF Certificate...", "success");
+            generatePDF();
+        };
+        script.onerror = () => window.showToast("Failed to load PDF engine. Check connection.", "info");
+        document.body.appendChild(script);
+    }
 };
 
 // --- FEATURE 2: Sample Kit Modal ---
@@ -1001,9 +1016,30 @@ document.getElementById('langToggle')?.addEventListener('change', (e) => {
     window.showToast(`Language changed to ${lang.toUpperCase()}`, "info");
 });
 
-// --- FEATURE 5: AR Pallet Viewer ---
-window.openARViewer = () => { document.getElementById('arViewerModal').classList.remove('hidden'); document.getElementById('arViewerModal').classList.add('flex'); document.body.style.overflow = 'hidden'; };
-window.closeARViewer = () => { document.getElementById('arViewerModal').classList.add('hidden'); document.getElementById('arViewerModal').classList.remove('flex'); document.body.style.overflow = ''; };
+// --- FEATURE 5: AR Pallet Viewer (Lazy Loaded) ---
+window.openARViewer = () => { 
+    const modal = document.getElementById('arViewerModal');
+    modal.classList.remove('hidden'); 
+    modal.classList.add('flex'); 
+    document.body.style.overflow = 'hidden'; 
+    
+    // Inject model-viewer ONLY if it hasn't been loaded yet
+    if (!document.getElementById('model-viewer-script')) {
+        window.showToast("Loading 3D AR Engine...", "info");
+        const script = document.createElement('script');
+        script.id = 'model-viewer-script';
+        script.type = 'module';
+        script.src = 'https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js';
+        script.onload = () => window.showToast("3D Engine Ready!", "success");
+        document.body.appendChild(script);
+    }
+};
+
+window.closeARViewer = () => { 
+    document.getElementById('arViewerModal').classList.add('hidden'); 
+    document.getElementById('arViewerModal').classList.remove('flex'); 
+    document.body.style.overflow = ''; 
+};
 
 // --- FEATURE 6: AI Chatbot Matchmaker Simulator ---
 window.toggleChat = () => {
@@ -1086,6 +1122,7 @@ window.sendChatMessage = () => {
         }, { passive: true });
     }
 });
+
 
 
 
