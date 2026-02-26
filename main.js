@@ -1130,6 +1130,95 @@ window.sendChatMessage = () => {
         log.scrollTop = log.scrollHeight;
     }, 1200);
 };
+    // --- FEATURE 7: 2D DIE-CUT GENERATOR ---
+window.openDieCut = () => { 
+    document.getElementById('dieCutModal').classList.remove('hidden'); 
+    document.getElementById('dieCutModal').classList.add('flex'); 
+    document.body.style.overflow = 'hidden';
+    drawDieCut(); // Draw initial shape
+};
+window.closeDieCut = () => { 
+    document.getElementById('dieCutModal').classList.add('hidden'); 
+    document.getElementById('dieCutModal').classList.remove('flex'); 
+    document.body.style.overflow = ''; 
+};
+
+window.drawDieCut = () => {
+    // Get positive values only
+    const l = Math.max(10, parseFloat(document.getElementById('dieL').value) || 200);
+    const w = Math.max(10, parseFloat(document.getElementById('dieW').value) || 150);
+    const h = Math.max(10, parseFloat(document.getElementById('dieH').value) || 100);
+    
+    // Standard RSC calculations
+    const flap = w / 2; // Top and bottom flaps meet in the middle
+    const glueTab = 30; // Standard 30mm glue tab
+    const totalW = glueTab + (l * 2) + (w * 2);
+    const totalH = h + (flap * 2);
+
+    // Padding for the canvas so it doesn't touch the edges
+    const pad = 20; 
+
+    // Create SVG Elements
+    const svgContent = `
+        <svg id="generatedSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${totalW + (pad*2)} ${totalH + (pad*2)}" class="w-full max-w-full h-auto" style="max-height: 50vh;">
+            <style>
+                .cut { stroke: #111827; stroke-width: 2; fill: none; stroke-linejoin: round; }
+                .fold { stroke: #ef4444; stroke-width: 2; stroke-dasharray: 8,6; fill: none; }
+                .dark-mode .cut { stroke: #f9fafb; }
+            </style>
+            
+            <g transform="translate(${pad}, ${pad})">
+                <line class="fold" x1="${glueTab}" y1="${flap}" x2="${totalW}" y2="${flap}" />
+                <line class="fold" x1="${glueTab}" y1="${flap + h}" x2="${totalW}" y2="${flap + h}" />
+                
+                <line class="fold" x1="${glueTab}" y1="${flap}" x2="${glueTab}" y2="${flap + h}" />
+                <line class="fold" x1="${glueTab + l}" y1="${flap}" x2="${glueTab + l}" y2="${flap + h}" />
+                <line class="fold" x1="${glueTab + l + w}" y1="${flap}" x2="${glueTab + l + w}" y2="${flap + h}" />
+                <line class="fold" x1="${glueTab + (l*2) + w}" y1="${flap}" x2="${glueTab + (l*2) + w}" y2="${flap + h}" />
+
+                <path class="cut" d="M ${glueTab} ${flap} L 0 ${flap + 10} L 0 ${flap + h - 10} L ${glueTab} ${flap + h}" />
+                
+                <path class="cut" d="M ${glueTab} ${flap} L ${glueTab} 0 L ${glueTab + l} 0 L ${glueTab + l} ${flap}" />
+                <path class="cut" d="M ${glueTab + l} ${flap} L ${glueTab + l} 0 L ${glueTab + l + w} 0 L ${glueTab + l + w} ${flap}" />
+                <path class="cut" d="M ${glueTab + l + w} ${flap} L ${glueTab + l + w} 0 L ${glueTab + (l*2) + w} 0 L ${glueTab + (l*2) + w} ${flap}" />
+                <path class="cut" d="M ${glueTab + (l*2) + w} ${flap} L ${glueTab + (l*2) + w} 0 L ${totalW} 0 L ${totalW} ${flap}" />
+                
+                <path class="cut" d="M ${glueTab} ${flap + h} L ${glueTab} ${totalH} L ${glueTab + l} ${totalH} L ${glueTab + l} ${flap + h}" />
+                <path class="cut" d="M ${glueTab + l} ${flap + h} L ${glueTab + l} ${totalH} L ${glueTab + l + w} ${totalH} L ${glueTab + l + w} ${flap + h}" />
+                <path class="cut" d="M ${glueTab + l + w} ${flap + h} L ${glueTab + l + w} ${totalH} L ${glueTab + (l*2) + w} ${totalH} L ${glueTab + (l*2) + w} ${flap + h}" />
+                <path class="cut" d="M ${glueTab + (l*2) + w} ${flap + h} L ${glueTab + (l*2) + w} ${totalH} L ${totalW} ${totalH} L ${totalW} ${flap + h}" />
+                
+                <line class="cut" x1="${totalW}" y1="${flap}" x2="${totalW}" y2="${flap + h}" />
+            </g>
+        </svg>
+    `;
+    
+    document.getElementById('svgContainer').innerHTML = svgContent;
+};
+
+// Download logic
+window.downloadSVG = () => {
+    const svgElement = document.getElementById('generatedSvg');
+    if (!svgElement) return;
+    
+    // Convert SVG to string
+    const serializer = new XMLSerializer();
+    let source = serializer.serializeToString(svgElement);
+    
+    // Add xml declaration
+    source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+    
+    // Create a download link
+    const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `AbrarTraders_BoxTemplate_${document.getElementById('dieL').value}x${document.getElementById('dieW').value}x${document.getElementById('dieH').value}mm.svg`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    window.showToast("SVG Die-Line Downloaded!", "success");
+};
 
     // ==========================================
     // 19. SMART NAV SCROLL LOGIC
@@ -1158,6 +1247,7 @@ window.sendChatMessage = () => {
         }, { passive: true });
     }
 });
+
 
 
 
