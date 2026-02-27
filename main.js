@@ -908,6 +908,85 @@ document.addEventListener('DOMContentLoaded', function() {
             const pallets = Math.ceil(totalCbm / 1.5);
             palletText.innerText = `~ ${pallets} Standard Pallet${pallets !== 1 ? 's' : ''}`;
         }
+
+        // 6. 2D Pallet Visualiser
+        const palletBox = document.getElementById('palletVisualizerBox');
+        const canvas = document.getElementById('palletCanvas');
+        
+        if (palletBox && canvas && l > 0 && w > 0) {
+            palletBox.classList.remove('hidden');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw Pallet Wood Slats (Visual texture)
+            ctx.fillStyle = "#c2a88f";
+            for(let i=10; i<360; i+=40) { ctx.fillRect(i, 0, 20, 240); }
+            
+            // Standard EUR Pallet = 120cm x 80cm
+            // Scale: 1cm = 3 pixels (360x240 canvas)
+            const pL = 120, pW = 80;
+            
+            // Layout Option A (Length along 120)
+            const colsA = Math.floor(pL / l);
+            const rowsA = Math.floor(pW / w);
+            const totalA = colsA * rowsA;
+            
+            // Layout Option B (Width along 120 - Rotated)
+            const colsB = Math.floor(pL / w);
+            const rowsB = Math.floor(pW / l);
+            const totalB = colsB * rowsB;
+            
+            // Choose the layout that fits the most boxes
+            const isRotated = totalB > totalA;
+            const finalCols = isRotated ? colsB : colsA;
+            const finalRows = isRotated ? rowsB : rowsA;
+            const boxL = isRotated ? w : l;
+            const boxW = isRotated ? l : w;
+            const totalBoxes = finalCols * finalRows;
+            
+            // Calculate Efficiency
+            const usedArea = totalBoxes * (l * w);
+            const totalArea = pL * pW;
+            const efficiency = Math.round((usedArea / totalArea) * 100);
+            
+            // Draw the boxes
+            const pxL = boxL * 3; // Convert cm to pixels
+            const pxW = boxW * 3;
+            
+            // Center the payload on the pallet
+            const startX = (360 - (finalCols * pxL)) / 2;
+            const startY = (240 - (finalRows * pxW)) / 2;
+
+            for (let c = 0; c < finalCols; c++) {
+                for (let r = 0; r < finalRows; r++) {
+                    const x = startX + (c * pxL);
+                    const y = startY + (r * pxW);
+                    
+                    // Box Fill
+                    ctx.fillStyle = "rgba(59, 130, 246, 0.85)"; // Blue box
+                    ctx.fillRect(x, y, pxL, pxW);
+                    
+                    // Box Border
+                    ctx.strokeStyle = "rgba(255, 255, 255, 0.6)";
+                    ctx.lineWidth = 1.5;
+                    ctx.strokeRect(x, y, pxL, pxW);
+                    
+                    // Tape line in middle
+                    ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(x + (pxL/2), y);
+                    ctx.lineTo(x + (pxL/2), y + pxW);
+                    ctx.stroke();
+                }
+            }
+            
+            // Update UI text
+            document.getElementById('boxesPerLayerTxt').innerText = totalBoxes;
+            document.getElementById('palletEfficiencyTxt').innerText = efficiency + '%';
+        } else if (palletBox) {
+            palletBox.classList.add('hidden');
+        }
     };
 
     // ==========================================
@@ -1311,85 +1390,8 @@ window.downloadSVG = () => {
         }, { passive: true });
     }
 
-    // --- 6. 2D PALLET STACKING VISUALIZER ---
-        const palletBox = document.getElementById('palletVisualizerBox');
-        const canvas = document.getElementById('palletCanvas');
-        
-        if (palletBox && canvas && l > 0 && w > 0) {
-            palletBox.classList.remove('hidden');
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Draw Pallet Wood Slats (Visual texture)
-            ctx.fillStyle = "#c2a88f";
-            for(let i=10; i<360; i+=40) { ctx.fillRect(i, 0, 20, 240); }
-            
-            // Standard EUR Pallet = 120cm x 80cm
-            // Scale: 1cm = 3 pixels (360x240 canvas)
-            const pL = 120, pW = 80;
-            
-            // Layout Option A (Length along 120)
-            const colsA = Math.floor(pL / l);
-            const rowsA = Math.floor(pW / w);
-            const totalA = colsA * rowsA;
-            
-            // Layout Option B (Width along 120 - Rotated)
-            const colsB = Math.floor(pL / w);
-            const rowsB = Math.floor(pW / l);
-            const totalB = colsB * rowsB;
-            
-            // Choose the layout that fits the most boxes
-            const isRotated = totalB > totalA;
-            const finalCols = isRotated ? colsB : colsA;
-            const finalRows = isRotated ? rowsB : rowsA;
-            const boxL = isRotated ? w : l;
-            const boxW = isRotated ? l : w;
-            const totalBoxes = finalCols * finalRows;
-            
-            // Calculate Efficiency
-            const usedArea = totalBoxes * (l * w);
-            const totalArea = pL * pW;
-            const efficiency = Math.round((usedArea / totalArea) * 100);
-            
-            // Draw the boxes
-            const pxL = boxL * 3; // Convert cm to pixels
-            const pxW = boxW * 3;
-            
-            // Center the payload on the pallet
-            const startX = (360 - (finalCols * pxL)) / 2;
-            const startY = (240 - (finalRows * pxW)) / 2;
-
-            for (let c = 0; c < finalCols; c++) {
-                for (let r = 0; r < finalRows; r++) {
-                    const x = startX + (c * pxL);
-                    const y = startY + (r * pxW);
-                    
-                    // Box Fill
-                    ctx.fillStyle = "rgba(59, 130, 246, 0.85)"; // Blue box
-                    ctx.fillRect(x, y, pxL, pxW);
-                    
-                    // Box Border
-                    ctx.strokeStyle = "rgba(255, 255, 255, 0.6)";
-                    ctx.lineWidth = 1.5;
-                    ctx.strokeRect(x, y, pxL, pxW);
-                    
-                    // Tape line in middle
-                    ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.moveTo(x + (pxL/2), y);
-                    ctx.lineTo(x + (pxL/2), y + pxW);
-                    ctx.stroke();
-                }
-            }
-            
-            // Update UI text
-            document.getElementById('boxesPerLayerTxt').innerText = totalBoxes;
-            document.getElementById('palletEfficiencyTxt').innerText = efficiency + '%';
-        } else if (palletBox) {
-            palletBox.classList.add('hidden');
-        }
 });
+
 
 
 
