@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 4. CALCULATORS
     // ==========================================
     window.switchTab = function(tabName) {
-        ['weight', 'reel', 'strength', 'cbm', 'thickness', 'esg'].forEach(t => {
+        ['weight', 'reel', 'strength', 'cbm', 'thickness', 'esg', 'diecut'].forEach(t => {
             const content = document.getElementById('tool-' + t);
             const btn = document.getElementById('tab-' + t);
             if(content) content.classList.add('hidden');
@@ -1290,18 +1290,6 @@ window.sendChatMessage = async () => {
     }
 };
     
-    // --- FEATURE 7: 2D DIE-CUT GENERATOR ---
-window.openDieCut = () => { 
-    document.getElementById('dieCutModal').classList.remove('hidden'); 
-    document.getElementById('dieCutModal').classList.add('flex'); 
-    document.body.style.overflow = 'hidden';
-    drawDieCut(); // Draw initial shape
-};
-window.closeDieCut = () => { 
-    document.getElementById('dieCutModal').classList.add('hidden'); 
-    document.getElementById('dieCutModal').classList.remove('flex'); 
-    document.body.style.overflow = ''; 
-};
 
 window.drawDieCut = () => {
     // Get positive values only
@@ -1408,6 +1396,7 @@ window.downloadSVG = () => {
     }
 
 });
+
 
 
 
