@@ -531,8 +531,13 @@ document.addEventListener('DOMContentLoaded', function() {
         progressCircle.style.strokeDashoffset = circumference;
 
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) scrollBtn.classList.add('visible');
-            else scrollBtn.classList.remove('visible');
+            if (window.scrollY > 300) {
+                scrollBtn.classList.remove('opacity-0', 'invisible');
+                scrollBtn.classList.add('opacity-100', 'visible');
+            } else {
+                scrollBtn.classList.remove('opacity-100', 'visible');
+                scrollBtn.classList.add('opacity-0', 'invisible');
+            }
             
             const scrollTop = window.scrollY;
             const docHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -1069,8 +1074,13 @@ window.downloadESGReport = function() {
             </div>
         `;
         
-        element.style.position = 'absolute';
-        element.style.left = '-9999px';
+        // Render it physically in the DOM, but hide it safely behind other elements
+        element.style.position = 'fixed';
+        element.style.top = '0';
+        element.style.left = '0';
+        element.style.zIndex = '-10000';
+        element.style.opacity = '0';
+        element.style.pointerEvents = 'none';
         document.body.appendChild(element);
         
         html2pdf().set({
@@ -1148,7 +1158,7 @@ window.openARViewer = () => {
         const script = document.createElement('script');
         script.id = 'model-viewer-script';
         script.type = 'module';
-        script.src = 'https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js';
+        script.src = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/BoxTextured/glTF/BoxTextured.gltf';
         script.onload = () => window.showToast("3D Engine Ready!", "success");
         document.body.appendChild(script);
     }
@@ -1391,6 +1401,7 @@ window.downloadSVG = () => {
     }
 
 });
+
 
 
 
