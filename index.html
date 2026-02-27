@@ -122,10 +122,10 @@
 
 <body class="bg-bg-light">
     
-    <div id="customCursor" class="fixed top-0 left-0 w-6 h-6 pointer-events-none z-[99999] transition-transform duration-75 ease-out hidden md:flex items-center justify-center text-blue-600 drop-shadow-md origin-center" style="transform: translate(-50%, -50%);">
+    <div id="customCursor" class="fixed top-0 left-0 w-6 h-6 pointer-events-none z-[99999] hidden md:flex items-center justify-center text-blue-600 drop-shadow-md origin-center transition-colors" style="transform: translate(-50%, -50%);">
         <svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
     </div>
-    <div id="cursorFollower" class="fixed top-0 left-0 h-4 w-12 pointer-events-none z-[99998] transition-transform duration-100 ease-out hidden md:flex flex-col justify-between opacity-60 origin-right" style="transform: translate(-100%, -50%);">
+    <div id="cursorFollower" class="fixed top-0 left-0 h-4 w-12 pointer-events-none z-[99998] hidden md:flex flex-col justify-between opacity-60 origin-right transition-opacity" style="transform: translate(-100%, -50%);">
         <div class="w-full h-[2px] bg-gradient-to-r from-transparent to-blue-300 blur-[1px]"></div>
         <div class="w-full h-[2px] bg-gradient-to-r from-transparent to-blue-300 blur-[1px]"></div>
     </div>
@@ -524,7 +524,7 @@
                     GSM Visualizer</button>
                 <button onclick="switchTab('esg')" id="tab-esg" class="px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm font-bold text-gray-500 hover:text-emerald-600 transition-all">
                     ESG Impact</button>
-                button onclick="switchTab('diecut')" id="tab-diecut" class="px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm font-bold text-gray-500 hover:text-purple-600 transition-all">
+                <button onclick="switchTab('diecut')" id="tab-diecut" class="px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm font-bold text-gray-500 hover:text-purple-600 transition-all">
                     Die-Cut 2D</button>
             </div>
         </div>
@@ -1170,6 +1170,7 @@
     </script>
 </body>
 </html>
+
 
 
 
