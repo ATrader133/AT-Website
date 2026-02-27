@@ -210,10 +210,11 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     window.calculateReel = function() {
-        const rWeight = parseFloat(document.getElementById('reelWeight')?.value) || 0;
-        const rWidth = parseFloat(document.getElementById('reelWidth')?.value) || 0;
-        const rGsm = parseFloat(document.getElementById('reelGsm')?.value) || 0;
-        const cutLen = parseFloat(document.getElementById('cutLength')?.value) || 0;
+        // FIX: Added Math.max to prevent negative lengths/yields
+        const rWeight = Math.max(0, parseFloat(document.getElementById('reelWeight')?.value) || 0);
+        const rWidth = Math.max(0, parseFloat(document.getElementById('reelWidth')?.value) || 0);
+        const rGsm = Math.max(0, parseFloat(document.getElementById('reelGsm')?.value) || 0);
+        const cutLen = Math.max(0, parseFloat(document.getElementById('cutLength')?.value) || 0);
         if (rWeight === 0 || rWidth === 0 || rGsm === 0) return;
         const totalLength = (rWeight * 1000 * 100) / (rGsm * rWidth);
         const sheets = (cutLen > 0) ? (totalLength * 100) / cutLen : 0;
@@ -222,8 +223,9 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     window.calculateStrength = function() {
-        const gsm = parseFloat(document.getElementById('strGsm')?.value) || 0;
-        const bf = parseFloat(document.getElementById('strBf')?.value) || 0;
+        // FIX: Added Math.max
+        const gsm = Math.max(0, parseFloat(document.getElementById('strGsm')?.value) || 0);
+        const bf = Math.max(0, parseFloat(document.getElementById('strBf')?.value) || 0);
         if(document.getElementById('resBs')) document.getElementById('resBs').textContent = ((gsm * bf) / 1000).toFixed(2);
     };
 
@@ -824,10 +826,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // 16. CONTAINER LOAD SIMULATOR LOGIC
     // ==========================================
     window.calculateCBM = function() {
-        const l = parseFloat(document.getElementById('cbmL')?.value) || 0;
-        const w = parseFloat(document.getElementById('cbmW')?.value) || 0;
-        const h = parseFloat(document.getElementById('cbmH')?.value) || 0;
-        const qty = parseFloat(document.getElementById('cbmQty')?.value) || 1;
+        // FIX: Added Math.max to prevent negative volume/container load
+        const l = Math.max(0, parseFloat(document.getElementById('cbmL')?.value) || 0);
+        const w = Math.max(0, parseFloat(document.getElementById('cbmW')?.value) || 0);
+        const h = Math.max(0, parseFloat(document.getElementById('cbmH')?.value) || 0);
+        const qty = Math.max(0, parseFloat(document.getElementById('cbmQty')?.value) || 1);
         
         // Calculate raw CBM
         const totalCbm = (l * w * h * qty) / 1000000;
@@ -939,9 +942,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    
     // ==========================================
-// 18. INNOVATIVE FEATURES ENGINE (AI, AR, ESG PDF, i18n, Sample Kit)
-// ==========================================
+    // 18. INNOVATIVE FEATURES ENGINE (AI, AR, ESG PDF, i18n, Sample Kit)
+    // ==========================================
 
 // --- FEATURE 1: ESG PDF Generator (html2pdf) ---
 document.getElementById('esgTons')?.addEventListener('input', (e) => {
@@ -1127,7 +1131,7 @@ window.sendChatMessage = async () => {
         </div>`;
     log.scrollTop = log.scrollHeight;
 
-    // REAL GEMINI API INTEGRATION
+    // 4. REAL GEMINI API INTEGRATION
     const API_KEY = "AIzaSyAUOLlYaefxxfh0Io6_MBLCyRIiYT1Ll0w"; 
     
     const formattedHistory = chatHistory.filter(msg => msg.role !== "system").map(msg => ({
@@ -1148,6 +1152,7 @@ window.sendChatMessage = async () => {
         });
 
         const data = await response.json();
+        
         const typingIndicator = document.getElementById(typingId);
         if(typingIndicator) typingIndicator.remove();
 
@@ -1166,14 +1171,14 @@ window.sendChatMessage = async () => {
             <a href="#calculator" onclick="toggleChat(); switchTab('weight');" class="text-xs bg-white dark:bg-slate-700 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-md font-bold hover:bg-gray-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Calculate Weight</a>
         </div>`;
 
-        // 4. Render AI Response to UI
+        // 5. Render AI Response to UI
         log.innerHTML += `
             <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm animate-fade-in">
                 ${formattedHTMLResponse}
                 ${actionHtml}
             </div>`;
         
-        // 5. Add AI Response to LLM History Array
+        // 6. Add AI Response to LLM History Array
         chatHistory.push({ role: "assistant", content: aiResponse });
         log.scrollTop = log.scrollHeight;
 
@@ -1305,7 +1310,87 @@ window.downloadSVG = () => {
             lastScrollY = currentScrollY;
         }, { passive: true });
     }
+
+    // --- 6. 2D PALLET STACKING VISUALIZER ---
+        const palletBox = document.getElementById('palletVisualizerBox');
+        const canvas = document.getElementById('palletCanvas');
+        
+        if (palletBox && canvas && l > 0 && w > 0) {
+            palletBox.classList.remove('hidden');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw Pallet Wood Slats (Visual texture)
+            ctx.fillStyle = "#c2a88f";
+            for(let i=10; i<360; i+=40) { ctx.fillRect(i, 0, 20, 240); }
+            
+            // Standard EUR Pallet = 120cm x 80cm
+            // Scale: 1cm = 3 pixels (360x240 canvas)
+            const pL = 120, pW = 80;
+            
+            // Layout Option A (Length along 120)
+            const colsA = Math.floor(pL / l);
+            const rowsA = Math.floor(pW / w);
+            const totalA = colsA * rowsA;
+            
+            // Layout Option B (Width along 120 - Rotated)
+            const colsB = Math.floor(pL / w);
+            const rowsB = Math.floor(pW / l);
+            const totalB = colsB * rowsB;
+            
+            // Choose the layout that fits the most boxes
+            const isRotated = totalB > totalA;
+            const finalCols = isRotated ? colsB : colsA;
+            const finalRows = isRotated ? rowsB : rowsA;
+            const boxL = isRotated ? w : l;
+            const boxW = isRotated ? l : w;
+            const totalBoxes = finalCols * finalRows;
+            
+            // Calculate Efficiency
+            const usedArea = totalBoxes * (l * w);
+            const totalArea = pL * pW;
+            const efficiency = Math.round((usedArea / totalArea) * 100);
+            
+            // Draw the boxes
+            const pxL = boxL * 3; // Convert cm to pixels
+            const pxW = boxW * 3;
+            
+            // Center the payload on the pallet
+            const startX = (360 - (finalCols * pxL)) / 2;
+            const startY = (240 - (finalRows * pxW)) / 2;
+
+            for (let c = 0; c < finalCols; c++) {
+                for (let r = 0; r < finalRows; r++) {
+                    const x = startX + (c * pxL);
+                    const y = startY + (r * pxW);
+                    
+                    // Box Fill
+                    ctx.fillStyle = "rgba(59, 130, 246, 0.85)"; // Blue box
+                    ctx.fillRect(x, y, pxL, pxW);
+                    
+                    // Box Border
+                    ctx.strokeStyle = "rgba(255, 255, 255, 0.6)";
+                    ctx.lineWidth = 1.5;
+                    ctx.strokeRect(x, y, pxL, pxW);
+                    
+                    // Tape line in middle
+                    ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(x + (pxL/2), y);
+                    ctx.lineTo(x + (pxL/2), y + pxW);
+                    ctx.stroke();
+                }
+            }
+            
+            // Update UI text
+            document.getElementById('boxesPerLayerTxt').innerText = totalBoxes;
+            document.getElementById('palletEfficiencyTxt').innerText = efficiency + '%';
+        } else if (palletBox) {
+            palletBox.classList.add('hidden');
+        }
 });
+
 
 
 
