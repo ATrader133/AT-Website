@@ -1150,26 +1150,36 @@
         </div>
     </div>
 
-    <script>
+   <script>
         // Cookie Banner Logic
         function acceptCookies() {
             localStorage.setItem('at_cookieConsent', 'accepted');
-            document.getElementById('cookie-banner').style.transform = 'translateY(150%)';
+            const banner = document.getElementById('cookie-banner');
+            banner.classList.remove('translate-y-0');
+            banner.classList.add('translate-y-[150%]');
         }
+        
         function dismissCookies() {
             localStorage.setItem('at_cookieConsent', 'declined');
-            document.getElementById('cookie-banner').style.transform = 'translateY(150%)';
+            const banner = document.getElementById('cookie-banner');
+            banner.classList.remove('translate-y-0');
+            banner.classList.add('translate-y-[150%]');
         }
+        
         window.addEventListener('DOMContentLoaded', () => {
+            // Check if user has already made a choice
             if (!localStorage.getItem('at_cookieConsent')) {
                 setTimeout(() => {
-                    document.getElementById('cookie-banner').style.transform = 'translateY(0)';
+                    const banner = document.getElementById('cookie-banner');
+                    banner.classList.remove('translate-y-[150%]');
+                    banner.classList.add('translate-y-0');
                 }, 2000); // Slide up after 2 seconds
             }
         });
     </script>
 </body>
 </html>
+
 
 
 
