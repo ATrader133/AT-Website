@@ -728,59 +728,17 @@
                         Download CSR Impact Certificate (PDF)
                     </button>
                     </div>
+                    </div> 
+                        </div> 
+                            <div class="flex justify-center mt-8 border-t border-gray-200 dark:border-gray-700 pt-8">
+                                <button onclick="openDieCut()" class="btn-glow w-auto px-5 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold text-sm rounded-lg shadow-md flex justify-center items-center gap-2 hover:-translate-y-0.5 transition-transform">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
+                                    Open 2D Die-Cut Generator
+                                </button>
                 </div>
-                    <div class="flex justify-center mt-8 border-t border-gray-200 dark:border-gray-700 pt-8">
-                <button onclick="openDieCut()" class="btn-glow w-auto px-5 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold text-sm rounded-lg shadow-md flex justify-center items-center gap-2 hover:-translate-y-0.5 transition-transform">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
-                    Open 2D Die-Cut Generator
-                </button>
-                </div>
-            </div>
-        </div>
-        </section>
-
-        <section>    
-            <div class="p-8">
-                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">📦 2D Die-Line Generator</h2>
-                <p class="text-gray-500 mb-8">Generate standard RSC (Regular Slotted Container) flat templates. Red lines are folds; solid lines are cuts.</p>
+            </div> 
+    </section>
                 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Length (mm)</label>
-                        <input type="number" id="dieL" value="200" oninput="drawDieCut()" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg p-3 text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Width (mm)</label>
-                        <input type="number" id="dieW" value="150" oninput="drawDieCut()" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg p-3 text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Height/Depth (mm)</label>
-                        <input type="number" id="dieH" value="100" oninput="drawDieCut()" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg p-3 text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500">
-                    </div>
-                </div>
-
-                <div class="bg-gray-50 dark:bg-gray-900 border border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-4 flex justify-center items-center overflow-auto mb-6">
-                    <div id="svgContainer" class="w-full flex justify-center min-h-[300px]"></div>
-                </div>
-
-                <div class="flex justify-end gap-4">
-                    <button onclick="downloadSVG()" class="btn-glow px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-lg flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        Download .SVG File
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-        
-        <div class="flex justify-center mt-6">
-            <button onclick="openDieCut()" class="btn-glow w-auto px-5 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold text-sm rounded-lg shadow-md flex justify-center items-center gap-2 hover:-translate-y-0.5 transition-transform">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
-        Open 2D Die-Cut Generator
-            </button>
-    </div>
-        </section>
-            
         <section id="reviews" class="py-20 px-6 bg-bg-light overflow-hidden">
             <div data-aos="fade-up">
                 <h2 class="text-4xl font-extrabold text-center mb-12 text-gray-800">What Our Clients Say</h2>
@@ -1157,6 +1115,45 @@
         </div>
     </div>
 
+        <div id="dieCutModal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-[60000] hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-200 dark:border-gray-700 relative">
+            <button onclick="closeDieCut()" class="absolute top-4 right-4 text-gray-500 hover:text-red-500 transition-colors">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <div class="p-8">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">📦 2D Die-Line Generator</h2>
+                <p class="text-gray-500 mb-8">Generate standard RSC (Regular Slotted Container) flat templates. Red lines are folds; solid lines are cuts.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Length (mm)</label>
+                        <input type="number" id="dieL" value="200" oninput="drawDieCut()" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg p-3 text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Width (mm)</label>
+                        <input type="number" id="dieW" value="150" oninput="drawDieCut()" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg p-3 text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Height/Depth (mm)</label>
+                        <input type="number" id="dieH" value="100" oninput="drawDieCut()" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg p-3 text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-900 border border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-4 flex justify-center items-center overflow-auto mb-6">
+                    <div id="svgContainer" class="w-full flex justify-center min-h-[300px]"></div>
+                </div>
+
+                <div class="flex justify-end gap-4">
+                    <button onclick="downloadSVG()" class="btn-glow px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-lg flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Download .SVG File
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Cookie Banner Logic
         function acceptCookies() {
@@ -1177,6 +1174,7 @@
     </script>
 </body>
 </html>
+
 
 
 
