@@ -1151,21 +1151,9 @@ window.openARViewer = () => {
     modal.classList.remove('hidden'); 
     modal.classList.add('flex'); 
     document.body.style.overflow = 'hidden'; 
-}; 
-    
-    // Inject model-viewer ONLY if it hasn't been loaded yet
-    if (!document.getElementById('model-viewer-script')) {
-        window.showToast("Loading 3D AR Engine...", "info");
-        const script = document.createElement('script');
-        script.id = 'model-viewer-script';
-        script.type = 'module';
-        script.src = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/BoxTextured/glTF/BoxTextured.gltf';
-        script.onload = () => window.showToast("3D Engine Ready!", "success");
-        document.body.appendChild(script);
-    }
 };
 
-window.closeARViewer = () => { 
+window.closeARViewer = () => {
     document.getElementById('arViewerModal').classList.add('hidden'); 
     document.getElementById('arViewerModal').classList.remove('flex'); 
     document.body.style.overflow = ''; 
@@ -1402,6 +1390,7 @@ window.downloadSVG = () => {
     }
 
 });
+
 
 
 
