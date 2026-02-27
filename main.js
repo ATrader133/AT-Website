@@ -693,14 +693,35 @@ document.addEventListener('DOMContentLoaded', function() {
             previousMousePosition = { x: currentX, y: currentY };
         }, {passive: false});
     }
+    
     // ==========================================
-    // 13. CUSTOM FLUID CURSOR (Jet & Vapor Trails)
+    // 13. ADVANCED FLUID CURSOR (Jet & Vapor Clouds)
     // ==========================================
-    // Works only on desktop 
+    // Desktop Feature
     if (window.matchMedia("(min-width: 768px)").matches) {
         const cursor = document.getElementById('customCursor');
         const follower = document.getElementById('cursorFollower');
         
+        // 1. Setup the High-Performance Cloud Canvas
+        const cloudCanvas = document.createElement('canvas');
+        cloudCanvas.id = 'cloudCanvas';
+        cloudCanvas.className = 'fixed top-0 left-0 w-full h-full pointer-events-none z-[99997] transition-opacity duration-300';
+        document.body.appendChild(cloudCanvas);
+        const ctx = cloudCanvas.getContext('2d', { alpha: true });
+        
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        cloudCanvas.width = width;
+        cloudCanvas.height = height;
+        
+        window.addEventListener('resize', () => {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            cloudCanvas.width = width;
+            cloudCanvas.height = height;
+        });
+
+        let particles = [];
         let mouseX = window.innerWidth / 2;
         let mouseY = window.innerHeight / 2;
         let followerX = mouseX;
@@ -715,52 +736,102 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const dx = e.clientX - mouseX;
             const dy = e.clientY - mouseY;
+            const speed = Math.sqrt(dx * dx + dy * dy); // Calculate mouse speed
             
             mouseX = e.clientX;
             mouseY = e.clientY;
             
-            // Calculate flight angle ONLY if mouse moved a decent amount
-            if (Math.abs(dx) > 2 || Math.abs(dy) > 2) { 
+            // Calculate flight angle
+            if (speed > 2) { 
                 targetAngle = Math.atan2(dy, dx) * (180 / Math.PI);
+            }
+
+            // 2. Spawn Clouds if the Jet is flying fast enough
+            if (speed > 8) { 
+                // Calculate the exact 'tail' of the jet to spawn clouds from behind it
+                const tailX = mouseX - Math.cos(currentAngle * (Math.PI / 180)) * 20;
+                const tailY = mouseY - Math.sin(currentAngle * (Math.PI / 180)) * 20;
+
+                // Create a new cloud particle
+                particles.push({
+                    x: tailX,
+                    y: tailY,
+                    radius: Math.min(speed * 0.4, 15) + 5, // Faster = bigger clouds
+                    opacity: 0.6,
+                    growth: 0.3,    // How fast the cloud expands
+                    fadeRate: 0.015 // How fast it fades into the sky
+                });
             }
         });
 
-        // Buttery smooth physics engine loop
-        function animateFollower() {
-            // 1. Smoothly interpolate the Angle (Prevents 360-degree snap glitches)
+        // 3. The 60fps Physics Rendering Loop
+        function animateFlightEngine() {
+            // Smoothly interpolate the Angle
             let deltaAngle = targetAngle - currentAngle;
-            // Normalize the angle so it takes the shortest turn path
             deltaAngle = Math.atan2(Math.sin(deltaAngle * Math.PI / 180), Math.cos(deltaAngle * Math.PI / 180)) * (180 / Math.PI);
-            currentAngle += deltaAngle * 0.15; // Lower = softer turns, Higher = sharper turns
+            currentAngle += deltaAngle * 0.15; 
 
-            // 2. Smoothly pull the vapor trail behind the mouse
+            // Smoothly pull the vapor trail behind the mouse
             followerX += (mouseX - followerX) * 0.2; 
             followerY += (mouseY - followerY) * 0.2;
             
-            // Apply instant snappy position to Jet, but smooth rotation
+            // Apply coordinates to DOM Jet
             if(cursor) cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) rotate(${currentAngle}deg) translate(-50%, -50%)`;
-            
-            // Apply smooth trail position AND smooth rotation to vapor trails
             if(follower) follower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0) rotate(${currentAngle}deg) translate(-20px, -50%)`;
             
-            requestAnimationFrame(animateFollower);
-        }
-        animateFollower();
+            // Render the Vapor Clouds
+            ctx.clearRect(0, 0, width, height);
+            const isDark = document.documentElement.classList.contains('dark');
 
-        // Hover Effects: Jet gets larger over buttons
+            for (let i = 0; i < particles.length; i++) {
+                let p = particles[i];
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                
+                // Create a beautiful radial gradient (Soft center, fading edges)
+                let gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
+                if (isDark) {
+                    gradient.addColorStop(0, `rgba(96, 122, 251, ${p.opacity})`); // Glowing blue clouds in dark mode
+                    gradient.addColorStop(1, `rgba(96, 122, 251, 0)`);
+                } else {
+                    gradient.addColorStop(0, `rgba(167, 192, 255, ${p.opacity})`); // Soft white/blue in light mode
+                    gradient.addColorStop(1, `rgba(167, 192, 255, 0)`);
+                }
+
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                // Apply physics
+                p.radius += p.growth;
+                p.opacity -= p.fadeRate;
+
+                // Delete clouds that have fully evaporated
+                if (p.opacity <= 0) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+
+            requestAnimationFrame(animateFlightEngine);
+        }
+        animateFlightEngine();
+
+        // Hover Effects: Jet reacts to buttons
         const clickables = document.querySelectorAll('a, button, input, textarea, select, .product-card');
         clickables.forEach(el => {
             el.addEventListener('mouseenter', () => {
                 if(cursor) cursor.classList.add('scale-150', 'text-indigo-600');
                 if(follower) follower.classList.add('w-20', 'opacity-100');
+                cloudCanvas.style.opacity = '0'; // Hide clouds when hovering over UI
             });
             el.addEventListener('mouseleave', () => {
                 if(cursor) cursor.classList.remove('scale-150', 'text-indigo-600');
                 if(follower) follower.classList.remove('w-20', 'opacity-100');
+                cloudCanvas.style.opacity = '1';
             });
         });
     }
-
+    
     // ==========================================
     // 14. GSM VISUALIZER LOGIC
     // ==========================================
@@ -1396,6 +1467,7 @@ window.downloadSVG = () => {
     }
 
 });
+
 
 
 
