@@ -1074,12 +1074,12 @@ window.downloadESGReport = function() {
             </div>
         `;
         
-        // Render it physically in the DOM, but hide it safely behind other elements
-        element.style.position = 'fixed';
-        element.style.top = '0';
-        element.style.left = '0';
+        // Render physically in DOM, hidden far off-screen
+        element.style.position = 'absolute';
+        element.style.top = '-9999px';
+        element.style.left = '-9999px';
+        element.style.opacity = '1'; // MUST BE 1 FOR THE PDF TO RENDER TEXT
         element.style.zIndex = '-10000';
-        element.style.opacity = '0';
         element.style.pointerEvents = 'none';
         document.body.appendChild(element);
         
@@ -1145,12 +1145,13 @@ document.getElementById('langToggle')?.addEventListener('change', (e) => {
     window.showToast(`Language changed to ${lang.toUpperCase()}`, "info");
 });
 
-// --- FEATURE 5: AR Pallet Viewer (Lazy Loaded) ---
+// --- FEATURE 5: AR Pallet Viewer ---
 window.openARViewer = () => { 
     const modal = document.getElementById('arViewerModal');
     modal.classList.remove('hidden'); 
     modal.classList.add('flex'); 
     document.body.style.overflow = 'hidden'; 
+}; 
     
     // Inject model-viewer ONLY if it hasn't been loaded yet
     if (!document.getElementById('model-viewer-script')) {
@@ -1401,6 +1402,7 @@ window.downloadSVG = () => {
     }
 
 });
+
 
 
 
