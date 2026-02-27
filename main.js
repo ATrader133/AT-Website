@@ -694,50 +694,60 @@ document.addEventListener('DOMContentLoaded', function() {
         }, {passive: false});
     }
     // ==========================================
-    // 13. CUSTOM FLUID CURSOR
+    // 13. CUSTOM FLUID CURSOR (Jet & Vapor Trails)
     // ==========================================
-    // Only run on desktop devices
+    // Works only on desktop 
     if (window.matchMedia("(min-width: 768px)").matches) {
         const cursor = document.getElementById('customCursor');
         const follower = document.getElementById('cursorFollower');
         
-        let mouseX = 0, mouseY = 0;
-        let followerX = 0, followerY = 0;
-        let prevMouseX = 0, prevMouseY = 0;
-        let angle = 0;
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let followerX = mouseX;
+        let followerY = mouseY;
+        let currentAngle = 0;
+        let targetAngle = 0;
 
         document.addEventListener('mousemove', (e) => {
             if (!document.body.classList.contains('has-custom-cursor')) {
                 document.body.classList.add('has-custom-cursor');
             }
-            prevMouseX = mouseX;
-            prevMouseY = mouseY;
+            
+            const dx = e.clientX - mouseX;
+            const dy = e.clientY - mouseY;
+            
             mouseX = e.clientX;
             mouseY = e.clientY;
             
-            // Calculate flight angle (trigonometry)
-            const dx = mouseX - prevMouseX;
-            const dy = mouseY - prevMouseY;
-            if (Math.abs(dx) > 1 || Math.abs(dy) > 1) { 
-                angle = Math.atan2(dy, dx) * (180 / Math.PI);
+            // Calculate flight angle ONLY if mouse moved a decent amount
+            if (Math.abs(dx) > 2 || Math.abs(dy) > 2) { 
+                targetAngle = Math.atan2(dy, dx) * (180 / Math.PI);
             }
-            
-            // Jet instantly follows mouse, pointing in travel direction
-            if(cursor) cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) rotate(${angle}deg) translate(-50%, -50%)`;
         });
 
-        // Smooth follow animation for the vapor trails
+        // Buttery smooth physics engine loop
         function animateFollower() {
-            followerX += (mouseX - followerX) * 0.2;
+            // 1. Smoothly interpolate the Angle (Prevents 360-degree snap glitches)
+            let deltaAngle = targetAngle - currentAngle;
+            // Normalize the angle so it takes the shortest turn path
+            deltaAngle = Math.atan2(Math.sin(deltaAngle * Math.PI / 180), Math.cos(deltaAngle * Math.PI / 180)) * (180 / Math.PI);
+            currentAngle += deltaAngle * 0.15; // Lower = softer turns, Higher = sharper turns
+
+            // 2. Smoothly pull the vapor trail behind the mouse
+            followerX += (mouseX - followerX) * 0.2; 
             followerY += (mouseY - followerY) * 0.2;
             
-            // Contrails trail behind the jet
-            if(follower) follower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0) rotate(${angle}deg) translate(-20px, -50%)`;
+            // Apply instant snappy position to Jet, but smooth rotation
+            if(cursor) cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) rotate(${currentAngle}deg) translate(-50%, -50%)`;
+            
+            // Apply smooth trail position AND smooth rotation to vapor trails
+            if(follower) follower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0) rotate(${currentAngle}deg) translate(-20px, -50%)`;
+            
             requestAnimationFrame(animateFollower);
         }
         animateFollower();
 
-        // Hover Effects: Jet gets larger when hovering over buttons
+        // Hover Effects: Jet gets larger over buttons
         const clickables = document.querySelectorAll('a, button, input, textarea, select, .product-card');
         clickables.forEach(el => {
             el.addEventListener('mouseenter', () => {
@@ -1398,6 +1408,7 @@ window.downloadSVG = () => {
     }
 
 });
+
 
 
 
