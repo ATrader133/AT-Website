@@ -150,6 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if(tabName === 'cbm') colorClass = "text-green-600";
             if(tabName === 'thickness') colorClass = "text-indigo-600";
             if(tabName === 'esg') colorClass = "text-emerald-600";
+            if(tabName === 'diecut') { colorClass = "text-purple-600"; setTimeout(drawDieCut, 50); } // Add this!
             activeBtn.className = `px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm font-bold transition-all shadow-md bg-white ${colorClass}`;
         }
     };
@@ -702,43 +703,50 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let mouseX = 0, mouseY = 0;
         let followerX = 0, followerY = 0;
+        let prevMouseX = 0, prevMouseY = 0;
+        let angle = 0;
 
-        // Track Mouse Movement
         document.addEventListener('mousemove', (e) => {
-            // Only hide default cursor if mouse actually moves (fixes touch-laptop bug)
             if (!document.body.classList.contains('has-custom-cursor')) {
                 document.body.classList.add('has-custom-cursor');
             }
+            prevMouseX = mouseX;
+            prevMouseY = mouseY;
             mouseX = e.clientX;
             mouseY = e.clientY;
             
-            // Instantly move the solid dot
-            if(cursor) cursor.style.transform = `translate3d(${mouseX - 8}px, ${mouseY - 8}px, 0)`;
+            // Calculate flight angle (trigonometry)
+            const dx = mouseX - prevMouseX;
+            const dy = mouseY - prevMouseY;
+            if (Math.abs(dx) > 1 || Math.abs(dy) > 1) { 
+                angle = Math.atan2(dy, dx) * (180 / Math.PI);
+            }
+            
+            // Jet instantly follows mouse, pointing in travel direction
+            if(cursor) cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) rotate(${angle}deg) translate(-50%, -50%)`;
         });
 
-        // Smooth follow animation for the outer ring
+        // Smooth follow animation for the vapor trails
         function animateFollower() {
-            // Easing formula for smooth trailing effect
-            followerX += (mouseX - followerX) * 0.15;
-            followerY += (mouseY - followerY) * 0.15;
+            followerX += (mouseX - followerX) * 0.2;
+            followerY += (mouseY - followerY) * 0.2;
             
-            if(follower) follower.style.transform = `translate3d(${followerX - 20}px, ${followerY - 20}px, 0)`;
+            // Contrails trail behind the jet
+            if(follower) follower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0) rotate(${angle}deg) translate(-20px, -50%)`;
             requestAnimationFrame(animateFollower);
         }
         animateFollower();
 
-        // Hover Effect Logic: Expand when over clickable items
+        // Hover Effects: Jet gets larger when hovering over buttons
         const clickables = document.querySelectorAll('a, button, input, textarea, select, .product-card');
-        
         clickables.forEach(el => {
             el.addEventListener('mouseenter', () => {
-                if(cursor) cursor.classList.add('scale-[2.5]', 'opacity-50');
-                if(follower) follower.classList.add('scale-150', 'border-transparent', 'bg-blue-200/20');
+                if(cursor) cursor.classList.add('scale-150', 'text-indigo-600');
+                if(follower) follower.classList.add('w-20', 'opacity-100');
             });
-            
             el.addEventListener('mouseleave', () => {
-                if(cursor) cursor.classList.remove('scale-[2.5]', 'opacity-50');
-                if(follower) follower.classList.remove('scale-150', 'border-transparent', 'bg-blue-200/20');
+                if(cursor) cursor.classList.remove('scale-150', 'text-indigo-600');
+                if(follower) follower.classList.remove('w-20', 'opacity-100');
             });
         });
     }
@@ -1390,6 +1398,7 @@ window.downloadSVG = () => {
     }
 
 });
+
 
 
 
