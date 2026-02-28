@@ -1535,7 +1535,36 @@ window.downloadSVG = () => {
             });
         });
     });
+
+    // ==========================================
+    // 15. HERO 3D PAPER PARALLAX ENGINE
+    // ==========================================
+    if (window.matchMedia("(min-width: 768px)").matches) {
+        document.addEventListener('mousemove', (e) => {
+            // Calculate mouse position mapped from -10 to 10
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 50;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 50;
+
+            const kraft = document.getElementById('float-kraft');
+            const white = document.getElementById('float-white');
+            const duplex = document.getElementById('float-duplex');
+
+            // Apply slight 3D rotation shifts based on mouse position
+            if(kraft) {
+                kraft.style.transform = `rotateX(${25 + yAxis}deg) rotateY(${35 - xAxis}deg) rotateZ(-15deg) translateZ(50px)`;
+            }
+            if(white) {
+                // White paper moves slightly faster/further because it's in the foreground
+                white.style.transform = `rotateX(${-15 + yAxis * 1.5}deg) rotateY(${-25 - xAxis * 1.5}deg) rotateZ(10deg) translateZ(120px)`;
+            }
+            if(duplex) {
+                // Duplex is heavy and in the back, moves slower
+                duplex.style.transform = `rotateX(${45 + yAxis * 0.5}deg) rotateY(${15 - xAxis * 0.5}deg) rotateZ(5deg) translateZ(-80px)`;
+            }
+        });
+    }
 });
+
 
 
 
