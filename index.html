@@ -121,62 +121,56 @@
 </head>
 
 <body class="bg-bg-light">
-    <style>
-        /* Jagged SVG Tear Edges generated purely in CSS */
-        .jagged-edge {
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 40' width='20' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L20 10 L2 20 L20 30 L0 40 Z' fill='%23f1f5f9'/%3E%3C/svg%3E");
-            background-repeat: repeat-y;
-        }
-        html.dark .jagged-edge {
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 40' width='20' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L20 10 L2 20 L20 30 L0 40 Z' fill='%231e293b'/%3E%3C/svg%3E");
-        }
-    </style>
-
-    <div id="paper-intro" class="fixed inset-0 z-[100000] flex pointer-events-auto overflow-hidden bg-transparent perspective-[1000px]">
+    <div id="paper-intro" class="fixed inset-0 z-[100000] flex pointer-events-auto overflow-hidden bg-transparent perspective-[1500px]">
         
-        <div id="intro-logo" class="absolute inset-0 flex flex-col items-center justify-center z-20 transition-all duration-700 ease-in-out pointer-events-none">
-            <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders" class="w-24 h-24 md:w-32 md:h-32 mb-4 drop-shadow-xl animate-pulse" />
-            <h1 class="text-3xl md:text-5xl font-black tracking-widest text-slate-800 dark:text-white uppercase drop-shadow-md">Abrar Traders</h1>
+        <div id="intro-logo" class="absolute inset-0 flex flex-col items-center justify-center z-30 transition-all duration-700 ease-in pointer-events-none">
+            <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders" class="w-24 h-24 md:w-32 md:h-32 mb-4 drop-shadow-2xl animate-pulse" />
+            <h1 class="text-3xl md:text-5xl font-black tracking-widest text-slate-800 drop-shadow-md uppercase">Abrar Traders</h1>
         </div>
 
-        <div id="intro-left" class="relative w-1/2 h-full bg-[#f1f5f9] dark:bg-[#1e293b] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] origin-bottom-left shadow-[15px_0_50px_rgba(0,0,0,0.4)] z-10 flex justify-end">
-            <div class="absolute inset-0 opacity-40 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] mix-blend-multiply pointer-events-none"></div>
-            <div class="jagged-edge absolute right-[-19px] top-0 w-[20px] h-full drop-shadow-[5px_0_10px_rgba(0,0,0,0.2)] z-20"></div>
+        <div id="intro-left-wrapper" class="absolute inset-0 w-full h-full origin-bottom-left transition-transform duration-[1800ms] ease-[cubic-bezier(0.25,1,0.3,1)] z-20" style="filter: drop-shadow(15px 0 25px rgba(0,0,0,0.4));">
+            <div class="w-full h-full bg-[#eae3d9] dark:bg-[#1e293b]" style="clip-path: polygon(0 0, 75% 0, 70% 3%, 73% 7%, 67% 11%, 71% 15%, 65% 18%, 68% 22%, 62% 26%, 66% 30%, 58% 34%, 62% 38%, 55% 42%, 59% 46%, 52% 51%, 56% 55%, 48% 60%, 53% 64%, 45% 68%, 49% 73%, 41% 77%, 45% 82%, 37% 86%, 41% 91%, 33% 95%, 36% 98%, 32% 100%, 0 100%);">
+                <div class="absolute inset-0 opacity-60 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] mix-blend-multiply pointer-events-none"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-black/20 pointer-events-none"></div>
+            </div>
         </div>
-        
-        <div id="intro-right" class="relative w-1/2 h-full bg-[#f1f5f9] dark:bg-[#1e293b] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] origin-bottom-right z-0 shadow-[-15px_0_50px_rgba(0,0,0,0.1)]">
-            <div class="absolute inset-0 opacity-40 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] mix-blend-multiply pointer-events-none"></div>
+
+        <div id="intro-right-wrapper" class="absolute inset-0 w-full h-full origin-bottom-right transition-transform duration-[1800ms] ease-[cubic-bezier(0.25,1,0.3,1)] z-10" style="filter: drop-shadow(-5px 0 15px rgba(0,0,0,0.2));">
+            <div class="w-full h-full bg-[#eae3d9] dark:bg-[#1e293b]" style="clip-path: polygon(100% 0, 75% 0, 70% 3%, 73% 7%, 67% 11%, 71% 15%, 65% 18%, 68% 22%, 62% 26%, 66% 30%, 58% 34%, 62% 38%, 55% 42%, 59% 46%, 52% 51%, 56% 55%, 48% 60%, 53% 64%, 45% 68%, 49% 73%, 41% 77%, 45% 82%, 37% 86%, 41% 91%, 33% 95%, 36% 98%, 32% 100%, 100% 100%);">
+                <div class="absolute inset-0 opacity-60 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] mix-blend-multiply pointer-events-none"></div>
+                <div class="absolute inset-0 bg-gradient-to-l from-black/10 via-transparent to-black/5 pointer-events-none"></div>
+            </div>
         </div>
     </div>
     
     <script>
-        // Wait for the main page images to load, then trigger the tear!
+        // Trigger the realistic 3D rip after the page loads
         window.addEventListener('load', () => {
             setTimeout(() => {
-                const left = document.getElementById('intro-left');
-                const right = document.getElementById('intro-right');
+                const left = document.getElementById('intro-left-wrapper');
+                const right = document.getElementById('intro-right-wrapper');
                 const logo = document.getElementById('intro-logo');
                 const intro = document.getElementById('paper-intro');
                 
-                // 1. Pop the logo forward and fade it out
+                // 1. Swell and fade the logo
                 if (logo) {
-                    logo.style.transform = 'scale(1.5)';
+                    logo.style.transform = 'scale(1.3)';
                     logo.style.opacity = '0';
                 }
                 
-                // 2. Tear the paper halves apart with 3D gravity physics
+                // 2. 3D Gravity Physics - The paper curls backward (rotateY) and drops down (translateY)
                 if (left && right) {
-                    left.style.transform = 'translate3d(-100vw, 15vh, 0) rotate(-15deg)';
-                    right.style.transform = 'translate3d(100vw, 15vh, 0) rotate(15deg)';
+                    left.style.transform = 'translate3d(-40vw, 15vh, 0) rotateZ(-12deg) rotateY(-45deg)';
+                    right.style.transform = 'translate3d(40vw, 15vh, 0) rotateZ(12deg) rotateY(45deg)';
                     
                     intro.style.pointerEvents = 'none';
                     
-                    // 3. Remove the heavy DOM elements after animation finishes
+                    // 3. Remove from DOM to keep the website lightning fast
                     setTimeout(() => {
                         if(intro) intro.remove();
-                    }, 1500);
+                    }, 2000); 
                 }
-            }, 1200); // 1.2 second suspense delay before the tear happens
+            }, 800); // 0.8 seconds of suspense before the rip!
         });
     </script>
     
@@ -1237,6 +1231,7 @@
     </script>
 </body>
 </html>
+
 
 
 
