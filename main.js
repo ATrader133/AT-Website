@@ -1534,44 +1534,9 @@ window.downloadSVG = () => {
                 btn.style.transform = `translate(0px, 0px)`;
             });
         });
-
-        // --- C. 3D SCROLLING PAPER REEL ENGINE ---
-        const unrolledPaper = document.getElementById('unrolledPaper');
-        const reelCylinder = document.getElementById('reelCylinder');
-        const scrollReelWrapper = document.getElementById('scrollReelWrapper');
-        const reelText = document.getElementById('reelText');
-        
-        if (unrolledPaper && reelCylinder && scrollReelWrapper) {
-            window.addEventListener('scroll', () => {
-                const scrollY = window.scrollY;
-                
-                // 1. Unroll the paper (increases height dynamically as you scroll down)
-                const baseHeight = window.innerHeight * 0.15;
-                const stretchAmount = baseHeight + (scrollY * 1.8);
-                unrolledPaper.style.height = `${stretchAmount}px`;
-                
-                // 2. Bend Physics (Starts bent back into the screen, flattens out as it unrolls)
-                const bendAngle = Math.max(50 - (scrollY * 0.08), 0);
-                unrolledPaper.style.transform = `rotateX(${bendAngle}deg)`;
-                
-                // 3. Cylinder Spin (Shifts the metallic background gradient to simulate rolling)
-                const spin = scrollY * 0.8;
-                reelCylinder.style.backgroundPosition = `0px ${spin}px`;
-                
-                // 4. Parallax the entire unit (Moves up slightly slower than the user scrolls)
-                scrollReelWrapper.style.transform = `translateY(${scrollY * 0.4}px)`;
-
-                // 5. Fade in the watermark text when unrolled deep enough
-                if (scrollY > 300 && reelText) {
-                    reelText.style.opacity = Math.min((scrollY - 300) / 200, 0.4); 
-                    reelText.style.transform = `translateY(${scrollY * 0.2}px)`; 
-                } else if (reelText) {
-                    reelText.style.opacity = '0';
-                }
-            });
-        }
     });
 });
+
 
 
 
