@@ -121,6 +121,64 @@
 </head>
 
 <body class="bg-bg-light">
+    <style>
+        /* Jagged SVG Tear Edges generated purely in CSS */
+        .jagged-edge {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 40' width='20' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L20 10 L2 20 L20 30 L0 40 Z' fill='%23f1f5f9'/%3E%3C/svg%3E");
+            background-repeat: repeat-y;
+        }
+        html.dark .jagged-edge {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 40' width='20' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L20 10 L2 20 L20 30 L0 40 Z' fill='%231e293b'/%3E%3C/svg%3E");
+        }
+    </style>
+
+    <div id="paper-intro" class="fixed inset-0 z-[100000] flex pointer-events-auto overflow-hidden bg-transparent perspective-[1000px]">
+        
+        <div id="intro-logo" class="absolute inset-0 flex flex-col items-center justify-center z-20 transition-all duration-700 ease-in-out pointer-events-none">
+            <img src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders" class="w-24 h-24 md:w-32 md:h-32 mb-4 drop-shadow-xl animate-pulse" />
+            <h1 class="text-3xl md:text-5xl font-black tracking-widest text-slate-800 dark:text-white uppercase drop-shadow-md">Abrar Traders</h1>
+        </div>
+
+        <div id="intro-left" class="relative w-1/2 h-full bg-[#f1f5f9] dark:bg-[#1e293b] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] origin-bottom-left shadow-[15px_0_50px_rgba(0,0,0,0.4)] z-10 flex justify-end">
+            <div class="absolute inset-0 opacity-40 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] mix-blend-multiply pointer-events-none"></div>
+            <div class="jagged-edge absolute right-[-19px] top-0 w-[20px] h-full drop-shadow-[5px_0_10px_rgba(0,0,0,0.2)] z-20"></div>
+        </div>
+        
+        <div id="intro-right" class="relative w-1/2 h-full bg-[#f1f5f9] dark:bg-[#1e293b] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] origin-bottom-right z-0 shadow-[-15px_0_50px_rgba(0,0,0,0.1)]">
+            <div class="absolute inset-0 opacity-40 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] mix-blend-multiply pointer-events-none"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Wait for the main page images to load, then trigger the tear!
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const left = document.getElementById('intro-left');
+                const right = document.getElementById('intro-right');
+                const logo = document.getElementById('intro-logo');
+                const intro = document.getElementById('paper-intro');
+                
+                // 1. Pop the logo forward and fade it out
+                if (logo) {
+                    logo.style.transform = 'scale(1.5)';
+                    logo.style.opacity = '0';
+                }
+                
+                // 2. Tear the paper halves apart with 3D gravity physics
+                if (left && right) {
+                    left.style.transform = 'translate3d(-100vw, 15vh, 0) rotate(-15deg)';
+                    right.style.transform = 'translate3d(100vw, 15vh, 0) rotate(15deg)';
+                    
+                    intro.style.pointerEvents = 'none';
+                    
+                    // 3. Remove the heavy DOM elements after animation finishes
+                    setTimeout(() => {
+                        if(intro) intro.remove();
+                    }, 1500);
+                }
+            }, 1200); // 1.2 second suspense delay before the tear happens
+        });
+    </script>
     
     <div id="customCursor" class="fixed top-0 left-0 w-6 h-6 pointer-events-none z-[99999] hidden md:flex items-center justify-center text-blue-600 drop-shadow-md origin-center transition-colors" style="transform: translate(-50%, -50%);">
         <svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
@@ -231,28 +289,6 @@
 
     <main>
         <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center p-6 sm:p-10 relative overflow-hidden pt-32">
-            <div class="absolute inset-0 z-0 pointer-events-none flex justify-center perspective-[1200px] opacity-90 dark:opacity-30">
-            <div id="scrollReelWrapper" class="relative w-[130vw] md:w-[70vw] h-full flex flex-col items-center origin-top transform-style-3d -mt-[10vh]">
-                
-                <div id="reelCylinder" class="w-full h-32 md:h-48 rounded-[100%/50%] relative z-20 flex items-center justify-center border-b-[3px] border-gray-300 dark:border-gray-800 shadow-[0_50px_80px_rgba(0,0,0,0.2)]" 
-                     style="background: repeating-linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 10%, #94a3b8 20%, #cbd5e1 30%, #f8fafc 40%); background-size: 100% 200%;">
-                    
-                    <div class="w-[101%] h-28 md:h-44 border-[12px] md:border-[20px] border-white/90 rounded-[100%/50%] absolute shadow-inner mix-blend-overlay"></div>
-                    <div class="w-[102%] h-32 md:h-48 border-[2px] md:border-[4px] border-gray-400/50 rounded-[100%/50%] absolute"></div>
-                </div>
-                
-                <div id="unrolledPaper" class="w-[96%] md:w-[94%] bg-gradient-to-b from-gray-200 via-white to-white/0 dark:from-slate-700 dark:via-slate-800 dark:to-transparent shadow-[0_50px_100px_rgba(0,0,0,0.1)] origin-top absolute top-[64px] md:top-[96px] z-10 rounded-b-[40px] flex flex-col items-center overflow-hidden" style="height: 15vh; transform: rotateX(50deg);">
-                    
-                    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] opacity-50 mix-blend-multiply pointer-events-none"></div>
-                    
-                    <div class="absolute inset-0 bg-[repeating-linear-gradient(90deg,transparent,transparent_100px,rgba(0,0,0,0.04)_100px,rgba(0,0,0,0.04)_101px)] pointer-events-none"></div>
-                    
-                    <div class="mt-[25vh] opacity-0 transition-opacity duration-300 text-gray-300/50 font-black text-4xl md:text-8xl tracking-[0.5em] uppercase text-center" id="reelText">
-                        ROLLING OUT EXCELLENCE
-                    </div>
-                </div>
-            </div>
-        </div>
             <img loading="eager" src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders Main Logo" class="h-32 sm:h-40 mb-6 relative z-10 animate-fade-in" />
             <h1 class="text-5xl sm:text-7xl font-extrabold mb-4 relative z-10 animate-slide-up leading-tight">
                 <span class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">ABRAR TRADERS</span>
@@ -1201,6 +1237,7 @@
     </script>
 </body>
 </html>
+
 
 
 
