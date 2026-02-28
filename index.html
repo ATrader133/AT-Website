@@ -230,111 +230,115 @@
     </div>
 
     <main>
-        <section id="home" class="min-h-screen flex flex-col justify-center p-6 sm:p-10 lg:pl-24 relative overflow-hidden pt-32 bg-slate-900 dark:bg-[#0B0F19]">
+        <section id="home" class="min-h-screen flex flex-col justify-center p-6 sm:p-10 lg:pl-24 relative overflow-hidden pt-32 bg-slate-900 dark:bg-[#0B0F19] perspective-[2000px]">
             
             <style>
-                @keyframes dash {
-                    0% { stroke-dashoffset: 1000; opacity: 0; }
-                    10% { opacity: 1; }
-                    90% { opacity: 1; }
-                    100% { stroke-dashoffset: 0; opacity: 0; }
-                }
-                @keyframes pulse-dot {
-                    0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-                    70% { transform: scale(1.2); box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); }
-                    100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
-                }
                 @keyframes float-slow {
                     0%, 100% { transform: translateY(0px); }
                     50% { transform: translateY(-15px); }
                 }
-                .route-line {
-                    stroke-dasharray: 1000;
-                    stroke-dashoffset: 1000;
-                    animation: dash 4s linear infinite;
+                /* Isometric Vehicle Driving Animations */
+                @keyframes drive-east {
+                    0% { transform: translate(-200px, 0px) translateZ(0); opacity: 0; }
+                    10% { opacity: 1; }
+                    90% { opacity: 1; }
+                    100% { transform: translate(800px, 0px) translateZ(0); opacity: 0; }
                 }
-                .delay-1 { animation-delay: 0.5s; }
-                .delay-2 { animation-delay: 1.5s; }
-                .delay-3 { animation-delay: 2.2s; }
-                .delay-4 { animation-delay: 3.1s; }
+                @keyframes drive-south {
+                    0% { transform: translate(0px, -200px) translateZ(0); opacity: 0; }
+                    10% { opacity: 1; }
+                    90% { opacity: 1; }
+                    100% { transform: translate(0px, 800px) translateZ(0); opacity: 0; }
+                }
+                @keyframes drone-hover {
+                    0%, 100% { transform: translate(150px, -150px) translateZ(100px); }
+                    50% { transform: translate(150px, -150px) translateZ(120px); }
+                }
             </style>
 
-            <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none flex justify-center items-center opacity-80">
-                <div class="absolute inset-0 bg-[radial-gradient(circle_at_right,rgba(30,58,138,0.25)_0%,transparent_70%)]"></div>
-                
-                <svg class="w-full h-full max-w-6xl opacity-30 translate-x-0 lg:translate-x-[20%]" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g fill="rgba(148, 163, 184, 0.4)">
-                        <circle cx="300" cy="200" r="2"/><circle cx="320" cy="190" r="2"/><circle cx="340" cy="210" r="2"/><circle cx="360" cy="230" r="2"/>
-                        <circle cx="280" cy="240" r="2"/><circle cx="310" cy="250" r="2"/><circle cx="330" cy="260" r="2"/><circle cx="350" cy="280" r="2"/>
-                        <circle cx="270" cy="290" r="2"/><circle cx="290" cy="300" r="2"/><circle cx="310" cy="320" r="2"/><circle cx="330" cy="340" r="2"/>
-                        <circle cx="260" cy="330" r="2"/><circle cx="280" cy="350" r="2"/><circle cx="300" cy="370" r="2"/><circle cx="320" cy="390" r="2"/>
-                        <circle cx="380" cy="250" r="2"/><circle cx="400" cy="270" r="2"/><circle cx="420" cy="260" r="2"/><circle cx="450" cy="280" r="2"/>
-                    </g>
-                    <path d="M 270 290 Q 250 200 320 190" stroke="url(#route-grad)" stroke-width="3" stroke-linecap="round" class="route-line" />
-                    <path d="M 270 290 Q 350 250 450 280" stroke="url(#route-grad)" stroke-width="3" stroke-linecap="round" class="route-line delay-1" />
-                    <path d="M 270 290 Q 250 380 315 490" stroke="url(#route-grad)" stroke-width="3" stroke-linecap="round" class="route-line delay-2" />
-                    <path d="M 270 290 Q 330 310 390 320" stroke="url(#route-grad)" stroke-width="3" stroke-linecap="round" class="route-line delay-3" />
-                    <defs>
-                        <linearGradient id="route-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="rgba(59, 130, 246, 0)" />
-                            <stop offset="50%" stop-color="rgba(96, 165, 250, 1)" />
-                            <stop offset="100%" stop-color="rgba(59, 130, 246, 0)" />
-                        </linearGradient>
-                    </defs>
-                </svg>
+            <div class="absolute inset-0 z-0 flex items-center justify-center pointer-events-none opacity-80 overflow-visible">
+                <div class="relative w-[150vw] h-[150vw] md:w-[100vw] md:h-[100vw] transform-style-3d translate-x-[20%] translate-y-[10%]" style="transform: rotateX(60deg) rotateZ(-45deg);">
+                    
+                    <div class="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.15)_2px,transparent_2px),linear-gradient(90deg,rgba(59,130,246,0.15)_2px,transparent_2px)] bg-[size:80px_80px]"></div>
+                    
+                    <div class="absolute top-[50%] left-0 w-full h-[40px] bg-blue-500/10 shadow-[0_0_30px_rgba(59,130,246,0.2)]"></div>
+                    <div class="absolute top-0 left-[50%] w-[40px] h-full bg-blue-500/10 shadow-[0_0_30px_rgba(59,130,246,0.2)]"></div>
 
-                <div class="absolute top-[48%] left-[50%] lg:left-[60%] flex items-center justify-center hidden sm:flex">
-                    <div class="w-4 h-4 bg-blue-500 rounded-full z-10 relative" style="animation: pulse-dot 2s infinite;"></div>
-                    <div class="absolute w-12 h-12 bg-blue-500/20 rounded-full animate-ping"></div>
-                    <span class="absolute left-6 text-blue-400 font-bold text-xs tracking-widest uppercase bg-slate-900/80 px-2 py-1 rounded border border-blue-500/30 backdrop-blur-md">HQ: Surat</span>
-                </div>
+                    <div class="absolute top-[50%] left-[50%] w-[240px] h-[240px] transform-style-3d" style="transform: translate(-50%, -50%);">
+                        <div class="absolute inset-0 bg-blue-900/40 shadow-[20px_20px_60px_rgba(0,0,0,0.8)] backdrop-blur-sm border border-blue-400/30"></div>
+                        <div class="absolute bottom-0 left-0 w-full h-[80px] bg-slate-800/90 border border-blue-500/50 origin-bottom flex items-end justify-center pb-2" style="transform: rotateX(-90deg);">
+                            <div class="w-16 h-[30px] bg-blue-400/20 border-t border-r border-l border-blue-400/50 shadow-[0_0_15px_rgba(59,130,246,0.5)]"></div> </div>
+                        <div class="absolute top-0 right-0 w-[80px] h-full bg-slate-900/90 border border-blue-500/50 origin-right" style="transform: rotateY(90deg);"></div>
+                        <div class="absolute inset-0 bg-slate-800/95 border border-blue-400/50 flex items-center justify-center" style="transform: translateZ(80px);">
+                            <span class="text-blue-300/50 font-black tracking-[0.3em] text-xl" style="transform: rotateZ(45deg);">HQ: SURAT</span>
+                        </div>
+                    </div>
 
-                <div class="absolute top-[15%] right-[5%] lg:right-[15%] glass border border-white/10 dark:border-blue-500/20 bg-white/5 dark:bg-slate-900/50 backdrop-blur-md p-4 rounded-2xl shadow-2xl flex items-center gap-4 hidden sm:flex" style="animation: float-slow 6s ease-in-out infinite;">
-                    <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">📦</div>
-                    <div class="text-left">
-                        <div class="text-white font-black text-xl">10,000+</div>
-                        <div class="text-blue-300 text-[10px] font-bold uppercase tracking-widest">Tons Delivered</div>
+                    <div class="absolute top-[35%] left-[65%] transform-style-3d">
+                        <div class="absolute w-[40px] h-[40px] bg-[#a89078] rounded-full" style="transform: translateZ(0px)"></div>
+                        <div class="absolute w-[40px] h-[40px] bg-[#d1bfae] rounded-full border-[3px] border-[#a89078]" style="transform: translateZ(30px)"></div>
+                        <div class="absolute w-[40px] h-[30px] bg-[#bfae9c] origin-bottom" style="transform: rotateX(-90deg) translateY(20px) translateZ(20px)"></div>
                     </div>
-                </div>
+                    <div class="absolute top-[38%] left-[70%] transform-style-3d">
+                        <div class="absolute w-[40px] h-[40px] bg-slate-400 rounded-full" style="transform: translateZ(0px)"></div>
+                        <div class="absolute w-[40px] h-[40px] bg-white rounded-full border-[3px] border-slate-300" style="transform: translateZ(30px)"></div>
+                        <div class="absolute w-[40px] h-[30px] bg-slate-200 origin-bottom" style="transform: rotateX(-90deg) translateY(20px) translateZ(20px)"></div>
+                    </div>
 
-                <div class="absolute bottom-[20%] right-[10%] lg:right-[25%] glass border border-white/10 dark:border-emerald-500/20 bg-white/5 dark:bg-slate-900/50 backdrop-blur-md p-4 rounded-2xl shadow-2xl flex items-center gap-4 hidden md:flex" style="animation: float-slow 7s ease-in-out infinite; animation-delay: 1s;">
-                    <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400">⏱️</div>
-                    <div class="text-left">
-                        <div class="text-white font-black text-xl">Pan-India</div>
-                        <div class="text-emerald-300 text-[10px] font-bold uppercase tracking-widest">Active Supply Lines</div>
+                    <div class="absolute top-[51%] left-[50%] w-[60px] h-[25px] transform-style-3d" style="animation: drive-east 6s linear infinite;">
+                        <div class="absolute inset-0 bg-emerald-900 shadow-[10px_10px_20px_rgba(0,0,0,0.5)]"></div> <div class="absolute bottom-0 left-0 w-full h-[25px] bg-emerald-500 origin-bottom border border-emerald-400" style="transform: rotateX(-90deg);"></div> <div class="absolute top-0 right-0 w-[25px] h-full bg-emerald-700 origin-right border border-emerald-400" style="transform: rotateY(90deg);"></div> <div class="absolute inset-0 bg-emerald-400 border border-emerald-300 flex items-center justify-center" style="transform: translateZ(25px);">
+                            <div class="w-2 h-2 bg-emerald-200 rounded-full shadow-[0_0_10px_#fff]"></div> </div> 
                     </div>
-                </div>
-                
-                <div class="absolute top-[45%] right-[2%] lg:right-[5%] glass border border-white/10 dark:border-purple-500/20 bg-white/5 dark:bg-slate-900/50 backdrop-blur-md p-4 rounded-2xl shadow-2xl flex items-center gap-4 hidden lg:flex" style="animation: float-slow 8s ease-in-out infinite; animation-delay: 2s;">
-                    <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">🏭</div>
-                    <div class="text-left">
-                        <div class="text-white font-black text-xl">Top Mills</div>
-                        <div class="text-purple-300 text-[10px] font-bold uppercase tracking-widest">Direct Sourcing</div>
-                    </div>
-                </div>
 
-                <div class="absolute bottom-[10%] right-[2%] lg:right-[5%] glass border border-white/10 dark:border-green-500/20 bg-white/5 dark:bg-slate-900/50 backdrop-blur-md p-4 rounded-2xl shadow-2xl flex items-center gap-4 hidden lg:flex" style="animation: float-slow 6.5s ease-in-out infinite; animation-delay: 0.5s;">
-                    <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">♻️</div>
-                    <div class="text-left">
-                        <div class="text-white font-black text-xl">100%</div>
-                        <div class="text-green-300 text-[10px] font-bold uppercase tracking-widest">Recyclable Boards</div>
+                    <div class="absolute top-[50%] left-[51%] w-[25px] h-[60px] transform-style-3d" style="animation: drive-south 8s linear infinite; animation-delay: 2s;">
+                        <div class="absolute inset-0 bg-purple-900 shadow-[10px_10px_20px_rgba(0,0,0,0.5)]"></div> <div class="absolute bottom-0 left-0 w-full h-[25px] bg-purple-500 origin-bottom border border-purple-400" style="transform: rotateX(-90deg);"></div> <div class="absolute top-0 right-0 w-[25px] h-full bg-purple-700 origin-right border border-purple-400" style="transform: rotateY(90deg);"></div> <div class="absolute inset-0 bg-purple-400 border border-purple-300 flex items-center justify-center" style="transform: translateZ(25px);"></div> 
                     </div>
-                </div>
 
-                <div class="absolute top-[10%] right-[35%] glass border border-white/10 dark:border-amber-500/20 bg-white/5 dark:bg-slate-900/50 backdrop-blur-md p-4 rounded-2xl shadow-2xl flex items-center gap-4 hidden lg:flex" style="animation: float-slow 7.5s ease-in-out infinite; animation-delay: 1.5s;">
-                    <div class="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400">✂️</div>
-                    <div class="text-left">
-                        <div class="text-white font-black text-xl">Custom</div>
-                        <div class="text-amber-300 text-[10px] font-bold uppercase tracking-widest">Reel-to-Sheet</div>
-                    </div>
+                    <div class="absolute transform-style-3d" style="animation: drone-hover 4s ease-in-out infinite;">
+                        <div class="w-[20px] h-[20px] bg-blue-400 rounded-full shadow-[0_0_30px_rgba(59,130,246,1)]"></div>
+                        <div class="absolute -top-10 -left-10 w-[60px] h-[60px] border border-blue-400/30 rounded-full animate-spin"></div>
+                        <div class="absolute -bottom-20 -left-20 w-[40px] h-[40px] bg-blue-500/20 blur-md rounded-full" style="transform: translateZ(-100px)"></div> </div>
+
                 </div>
             </div>
 
-            <div class="w-full lg:w-[55%] relative z-10 flex flex-col items-start text-left mt-8 lg:mt-0">
+            <div class="absolute z-10 top-[15%] right-[5%] lg:right-[15%] glass border border-blue-500/20 bg-slate-900/50 backdrop-blur-xl p-4 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center gap-4 hidden sm:flex" style="animation: float-slow 6s ease-in-out infinite;">
+                <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-xl drop-shadow-md">📦</div>
+                <div class="text-left">
+                    <div class="text-white font-black text-xl drop-shadow-md">10,000+</div>
+                    <div class="text-blue-300 text-[10px] font-bold uppercase tracking-widest drop-shadow-md">Tons Delivered</div>
+                </div>
+            </div>
+
+            <div class="absolute z-10 bottom-[20%] right-[10%] lg:right-[25%] glass border border-emerald-500/20 bg-slate-900/50 backdrop-blur-xl p-4 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center gap-4 hidden md:flex" style="animation: float-slow 7s ease-in-out infinite; animation-delay: 1s;">
+                <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl drop-shadow-md">⏱️</div>
+                <div class="text-left">
+                    <div class="text-white font-black text-xl drop-shadow-md">Pan-India</div>
+                    <div class="text-emerald-300 text-[10px] font-bold uppercase tracking-widest drop-shadow-md">Active Supply Lines</div>
+                </div>
+            </div>
+            
+            <div class="absolute z-10 top-[45%] right-[2%] lg:right-[5%] glass border border-white/20 bg-slate-900/50 backdrop-blur-xl p-4 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center gap-4 hidden lg:flex" style="animation: float-slow 8s ease-in-out infinite; animation-delay: 2s;">
+                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white text-xl drop-shadow-md">🏭</div>
+                <div class="text-left">
+                    <div class="text-white font-black text-xl drop-shadow-md">Top Mills</div>
+                    <div class="text-gray-300 text-[10px] font-bold uppercase tracking-widest drop-shadow-md">Direct Sourcing</div>
+                </div>
+            </div>
+
+            <div class="absolute z-10 bottom-[10%] right-[2%] lg:right-[5%] glass border border-amber-500/20 bg-slate-900/50 backdrop-blur-xl p-4 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center gap-4 hidden lg:flex" style="animation: float-slow 6.5s ease-in-out infinite; animation-delay: 0.5s;">
+                <div class="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 text-xl drop-shadow-md">✂️</div>
+                <div class="text-left">
+                    <div class="text-white font-black text-xl drop-shadow-md">Custom</div>
+                    <div class="text-amber-300 text-[10px] font-bold uppercase tracking-widest drop-shadow-md">Reel-to-Sheet</div>
+                </div>
+            </div>
+
+            <div class="w-full lg:w-[55%] relative z-20 flex flex-col items-start text-left mt-8 lg:mt-0">
                 
                 <img loading="eager" src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders Main Logo" class="h-28 sm:h-36 mb-6 animate-fade-in" style="filter: drop-shadow(0px 0px 2px #ffffff) drop-shadow(0px 0px 8px #ffffff) drop-shadow(0px 0px 15px rgba(255,255,255,0.9));" />
                 
-                <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-5 animate-slide-up leading-[1.15] text-white drop-shadow-xl">
+                <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-5 animate-slide-up leading-[1.15] text-white drop-shadow-2xl">
                     ABRAR TRADERS
                     <span class="sr-only"> - Premium Paper Bulk Supplier, Duplex Paper, Paper Board, Sundry Grey Board, Kappa Board, Kraft Paper Board, SBS, FBB, Maplitho, Writing & Printing, Stationery Products & Bulk Packaging Suppliers in India</span>
                 </h1>
@@ -342,11 +346,11 @@
                 <p class="text-xl sm:text-2xl text-blue-200 mb-10 font-medium animate-fade-in-delay max-w-lg leading-relaxed"><span id="typed"></span></p>
                 
                 <div class="flex flex-col sm:flex-row justify-start gap-4 w-full sm:w-auto mt-2">
-                    <a href="#products" class="action-button flex-1 sm:flex-none bg-blue-600 text-white px-8 py-4 rounded-xl shadow-[0_10px_30px_rgba(37,99,235,0.4)] hover:shadow-xl transition-all duration-300 font-bold text-lg flex items-center justify-center text-center">
+                    <a href="#products" class="action-button flex-1 sm:flex-none bg-blue-600 text-white px-8 py-4 rounded-xl shadow-[0_10px_30px_rgba(37,99,235,0.4)] hover:shadow-[0_15px_40px_rgba(37,99,235,0.6)] transition-all duration-300 font-bold text-lg flex items-center justify-center text-center">
                         Explore Products
                     </a>
                     
-                    <button onclick="openSampleKit()" class="action-button flex-1 sm:flex-none bg-white/10 backdrop-blur-md border border-gray-400/30 text-white px-8 py-4 rounded-xl shadow-md hover:bg-white/20 transition-all duration-300 font-bold text-lg flex items-center justify-center gap-2 text-center">
+                    <button onclick="openSampleKit()" class="action-button flex-1 sm:flex-none bg-slate-800/80 backdrop-blur-md border border-slate-600 text-white px-8 py-4 rounded-xl shadow-md hover:bg-slate-700 transition-all duration-300 font-bold text-lg flex items-center justify-center gap-2 text-center">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
                         Request Sample Kit
                     </button>
@@ -354,7 +358,7 @@
             </div>
 
         </section>
-
+        
         <section id="why-us" class="py-20 px-6 bg-white">
             <div class="max-w-6xl mx-auto text-center" data-aos="fade-up">
                 <h2 class="text-4xl font-extrabold text-center mb-4 text-gray-800">Why Partner With Us?</h2>
@@ -1284,6 +1288,7 @@
     </script>
 </body>
 </html>
+
 
 
 
