@@ -442,19 +442,47 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (window.tsParticles && document.getElementById('tsparticles') && !window.particlesLoaded) {
         window.particlesLoaded = true; // Prevent duplicate initializations
-        tsParticles.load("tsparticles", {
-            fpsLimit: 60, fullScreen: { enable: false },
-            particles: {
-                number: { value: 40, density: { enable: true, area: 800 } },
-                color: { value: ["#607afb", "#8e9bfa", "#a78bfa"] },
-                shape: { type: "circle" },
-                opacity: { value: 0.4, random: true },
-                size: { value: 3, random: true },
-                line_linked: { enable: true, distance: 150, color: "#607afb", opacity: 0.2 },
-                move: { enable: true, speed: 1 }
+        // Falling Paper Particles
+    tsParticles.load("tsparticles", {
+        particles: {
+            number: { value: 35, density: { enable: true, value_area: 800 } },
+            color: { value: ["#3B82F6", "#8B5CF6", "#10B981", "#ffffff", "#cbd5e1"] }, // Brand colors
+            shape: { 
+                type: "polygon", 
+                polygon: { nb_sides: 4 } // Makes them squares/rectangles like paper sheets
             },
-            interactivity: { events: { onhover: { enable: true, mode: "grab" } } }
-        });
+            opacity: { value: 0.6, random: true },
+            size: { value: 8, random: true }, // Bigger pieces
+            move: {
+                enable: true,
+                speed: 1.5,
+                direction: "bottom", // Fall downwards
+                random: true,
+                straight: false,
+                out_mode: "out",
+                bounce: false,
+            },
+            rotate: {
+                value: 0,
+                random: true,
+                direction: "random",
+                animation: { enable: true, speed: 10 } // Spin as they fall
+            }
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: {
+                onhover: { enable: true, mode: "repulse" }, // Paper blows away from Jet Cursor
+                onclick: { enable: true, mode: "push" }, 
+                resize: true
+            },
+            modes: {
+                repulse: { distance: 100, duration: 0.4 },
+                push: { particles_nb: 4 }
+            }
+        },
+        retina_detect: true
+    });
     }
 
     // Advanced Magnetic Parallax Buttons
@@ -1466,7 +1494,85 @@ window.downloadSVG = () => {
         }, { passive: true });
     }
 
+    // ==========================================
+    // 14. NEXT-GEN UI: 3D REEL, TILT & MAGNETIC BUTTONS
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        // --- A. 3D PRODUCT CARD TILT ---
+        // Activates the vanilla-tilt.js library you already linked in the HTML head
+        if (typeof VanillaTilt !== 'undefined') {
+            VanillaTilt.init(document.querySelectorAll(".product-card"), {
+                max: 12,           // Maximum tilt rotation
+                speed: 400,        // Speed of the enter/exit transition
+                glare: true,       // Adds a glass reflection
+                "max-glare": 0.2,  // Maximum opacity of the reflection
+                perspective: 1000
+            });
+        }
+
+        // --- B. MAGNETIC BUTTON PHYSICS ---
+        const magneticButtons = document.querySelectorAll('.action-button');
+        magneticButtons.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const h = rect.width / 2;
+                const v = rect.height / 2;
+                
+                // Calculate mouse position relative to center of button
+                const x = e.clientX - rect.left - h;
+                const y = e.clientY - rect.top - v;
+                
+                // Remove CSS transition for instant snappy follow, apply magnetic pull
+                btn.style.transition = 'none';
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                // Restore CSS transition for an elastic snap-back
+                btn.style.transition = 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+                btn.style.transform = `translate(0px, 0px)`;
+            });
+        });
+
+        // --- C. 3D SCROLLING PAPER REEL ENGINE ---
+        const unrolledPaper = document.getElementById('unrolledPaper');
+        const reelCylinder = document.getElementById('reelCylinder');
+        const scrollReelWrapper = document.getElementById('scrollReelWrapper');
+        const reelText = document.getElementById('reelText');
+        
+        if (unrolledPaper && reelCylinder && scrollReelWrapper) {
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                
+                // 1. Unroll the paper (increases height dynamically as you scroll down)
+                const baseHeight = window.innerHeight * 0.15;
+                const stretchAmount = baseHeight + (scrollY * 1.8);
+                unrolledPaper.style.height = `${stretchAmount}px`;
+                
+                // 2. Bend Physics (Starts bent back into the screen, flattens out as it unrolls)
+                const bendAngle = Math.max(50 - (scrollY * 0.08), 0);
+                unrolledPaper.style.transform = `rotateX(${bendAngle}deg)`;
+                
+                // 3. Cylinder Spin (Shifts the metallic background gradient to simulate rolling)
+                const spin = scrollY * 0.8;
+                reelCylinder.style.backgroundPosition = `0px ${spin}px`;
+                
+                // 4. Parallax the entire unit (Moves up slightly slower than the user scrolls)
+                scrollReelWrapper.style.transform = `translateY(${scrollY * 0.4}px)`;
+
+                // 5. Fade in the watermark text when unrolled deep enough
+                if (scrollY > 300 && reelText) {
+                    reelText.style.opacity = Math.min((scrollY - 300) / 200, 0.4); 
+                    reelText.style.transform = `translateY(${scrollY * 0.2}px)`; 
+                } else if (reelText) {
+                    reelText.style.opacity = '0';
+                }
+            });
+        }
+    });
 });
+
 
 
 
