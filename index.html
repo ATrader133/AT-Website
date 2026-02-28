@@ -230,112 +230,129 @@
     </div>
 
     <main>
-        <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center p-6 sm:p-10 relative overflow-hidden pt-32 bg-slate-900 dark:bg-[#0B0F19]">
+        <section id="home" class="min-h-screen flex flex-col justify-center p-6 sm:p-10 lg:pl-24 relative overflow-hidden pt-32 bg-slate-900 dark:bg-[#0B0F19]">
+            
             <style>
-            @keyframes dash {
-                0% { stroke-dashoffset: 1000; opacity: 0; }
-                10% { opacity: 1; }
-                90% { opacity: 1; }
-                100% { stroke-dashoffset: 0; opacity: 0; }
-            }
-            @keyframes pulse-dot {
-                0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-                70% { transform: scale(1.2); box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); }
-                100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
-            }
-            @keyframes float-slow {
-                0%, 100% { transform: translateY(0px); }
-                50% { transform: translateY(-15px); }
-            }
-            .route-line {
-                stroke-dasharray: 1000;
-                stroke-dashoffset: 1000;
-                animation: dash 4s linear infinite;
-            }
-            .delay-1 { animation-delay: 0.5s; }
-            .delay-2 { animation-delay: 1.5s; }
-            .delay-3 { animation-delay: 2.2s; }
-            .delay-4 { animation-delay: 3.1s; }
-        </style>
+                @keyframes dash {
+                    0% { stroke-dashoffset: 1000; opacity: 0; }
+                    10% { opacity: 1; }
+                    90% { opacity: 1; }
+                    100% { stroke-dashoffset: 0; opacity: 0; }
+                }
+                @keyframes pulse-dot {
+                    0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+                    70% { transform: scale(1.2); box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); }
+                    100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+                }
+                @keyframes float-slow {
+                    0%, 100% { transform: translateY(0px); }
+                    50% { transform: translateY(-15px); }
+                }
+                .route-line {
+                    stroke-dasharray: 1000;
+                    stroke-dashoffset: 1000;
+                    animation: dash 4s linear infinite;
+                }
+                .delay-1 { animation-delay: 0.5s; }
+                .delay-2 { animation-delay: 1.5s; }
+                .delay-3 { animation-delay: 2.2s; }
+                .delay-4 { animation-delay: 3.1s; }
+            </style>
 
-        <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none flex justify-center items-center opacity-80">
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(30,58,138,0.2)_0%,transparent_70%)]"></div>
-            
-            <svg class="w-full h-full max-w-5xl opacity-30" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g fill="rgba(148, 163, 184, 0.4)">
-                    <circle cx="300" cy="200" r="2"/><circle cx="320" cy="190" r="2"/><circle cx="340" cy="210" r="2"/><circle cx="360" cy="230" r="2"/>
-                    <circle cx="280" cy="240" r="2"/><circle cx="310" cy="250" r="2"/><circle cx="330" cy="260" r="2"/><circle cx="350" cy="280" r="2"/>
-                    <circle cx="270" cy="290" r="2"/><circle cx="290" cy="300" r="2"/><circle cx="310" cy="320" r="2"/><circle cx="330" cy="340" r="2"/>
-                    <circle cx="260" cy="330" r="2"/><circle cx="280" cy="350" r="2"/><circle cx="300" cy="370" r="2"/><circle cx="320" cy="390" r="2"/>
-                    <circle cx="290" cy="410" r="2"/><circle cx="310" cy="430" r="2"/><circle cx="300" cy="460" r="2"/><circle cx="315" cy="490" r="2"/>
-                    <circle cx="380" cy="250" r="2"/><circle cx="400" cy="270" r="2"/><circle cx="420" cy="260" r="2"/><circle cx="450" cy="280" r="2"/>
-                    <circle cx="370" cy="300" r="2"/><circle cx="390" cy="320" r="2"/><circle cx="410" cy="310" r="2"/><circle cx="430" cy="330" r="2"/>
-                    <circle cx="350" cy="350" r="2"/><circle cx="370" cy="370" r="2"/><circle cx="360" cy="400" r="2"/><circle cx="340" cy="430" r="2"/>
-                </g>
-
-                <path d="M 270 290 Q 250 200 320 190" stroke="url(#route-grad)" stroke-width="3" stroke-linecap="round" class="route-line" />
-                <path d="M 270 290 Q 350 250 450 280" stroke="url(#route-grad)" stroke-width="3" stroke-linecap="round" class="route-line delay-1" />
-                <path d="M 270 290 Q 250 380 315 490" stroke="url(#route-grad)" stroke-width="3" stroke-linecap="round" class="route-line delay-2" />
-                <path d="M 270 290 Q 330 310 390 320" stroke="url(#route-grad)" stroke-width="3" stroke-linecap="round" class="route-line delay-3" />
-                <path d="M 270 290 Q 260 310 260 330" stroke="url(#route-grad)" stroke-width="3" stroke-linecap="round" class="route-line delay-4" />
-
-                <defs>
-                    <linearGradient id="route-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="rgba(59, 130, 246, 0)" />
-                        <stop offset="50%" stop-color="rgba(96, 165, 250, 1)" />
-                        <stop offset="100%" stop-color="rgba(59, 130, 246, 0)" />
-                    </linearGradient>
-                </defs>
-            </svg>
-
-            <div class="absolute top-[48%] left-[34%] md:left-[40%] flex items-center justify-center">
-                <div class="w-4 h-4 bg-blue-500 rounded-full z-10 relative" style="animation: pulse-dot 2s infinite;"></div>
-                <div class="absolute w-12 h-12 bg-blue-500/20 rounded-full animate-ping"></div>
-                <span class="absolute left-6 text-blue-400 font-bold text-xs tracking-widest uppercase bg-slate-900/80 px-2 py-1 rounded border border-blue-500/30 backdrop-blur-md">HQ: Surat</span>
-            </div>
-
-            <div class="absolute top-[20%] left-[10%] glass border border-white/10 dark:border-blue-500/20 bg-white/5 dark:bg-slate-900/50 backdrop-blur-md p-4 rounded-2xl shadow-2xl flex items-center gap-4" style="animation: float-slow 6s ease-in-out infinite;">
-                <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">📦</div>
-                <div class="text-left">
-                    <div class="text-white font-black text-xl">10,000+</div>
-                    <div class="text-blue-300 text-[10px] font-bold uppercase tracking-widest">Tons Delivered</div>
-                </div>
-            </div>
-
-            <div class="absolute bottom-[25%] right-[10%] glass border border-white/10 dark:border-emerald-500/20 bg-white/5 dark:bg-slate-900/50 backdrop-blur-md p-4 rounded-2xl shadow-2xl flex items-center gap-4" style="animation: float-slow 7s ease-in-out infinite; animation-delay: 1s;">
-                <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400">⏱️</div>
-                <div class="text-left">
-                    <div class="text-white font-black text-xl">Pan-India</div>
-                    <div class="text-emerald-300 text-[10px] font-bold uppercase tracking-widest">Active Supply Lines</div>
-                </div>
-            </div>
-            
-            <div class="absolute top-[30%] right-[15%] glass border border-white/10 dark:border-purple-500/20 bg-white/5 dark:bg-slate-900/50 backdrop-blur-md p-4 rounded-2xl shadow-2xl flex items-center gap-4 hidden md:flex" style="animation: float-slow 8s ease-in-out infinite; animation-delay: 2s;">
-                <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">🏭</div>
-                <div class="text-left">
-                    <div class="text-white font-black text-xl">Top Mills</div>
-                    <div class="text-purple-300 text-[10px] font-bold uppercase tracking-widest">Direct Sourcing</div>
-                </div>
-            </div>
-
-        </div>
-            <img loading="eager" src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders Main Logo" class="h-32 sm:h-40 mb-6 relative z-10 animate-fade-in drop-shadow-2xl" />
-            <h1 class="text-5xl sm:text-7xl font-extrabold mb-4 relative z-10 animate-slide-up leading-tight">
-                <span class="text-white drop-shadow-lg">ABRAR TRADERS</span>
-                <span class="sr-only"> - Premium Paper Bulk Supplier, Duplex Paper, Paper Board, Sundry Grey Board, Kappa Board, Kraft Paper Board, SBS, FBB, Maplitho, Writing & Printing, Stationery Products & Bulk Packaging Suppliers in India</span>
-            </h1>
-            <p class="text-xl sm:text-2xl text-blue-200 mb-8 font-medium relative z-10 animate-fade-in-delay"><span id="typed"></span></p>
-            
-            <div class="flex flex-col sm:flex-row justify-center gap-4 relative z-10 w-full max-w-sm sm:max-w-xl mx-auto mt-4">
-                <a href="#products" class="action-button flex-1 bg-blue-600 text-white px-6 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 font-bold text-lg flex items-center justify-center text-center">
-                    Explore Products
-                </a>
+            <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none flex justify-center items-center opacity-80">
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_right,rgba(30,58,138,0.25)_0%,transparent_70%)]"></div>
                 
-                <button onclick="openSampleKit()" class="action-button flex-1 bg-blue-600 text-white px-6 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 font-bold text-lg flex items-center justify-center gap-2 text-center">
-                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-                    Request Sample Kit
-                </button>
+                <svg class="w-full h-full max-w-6xl opacity-30 translate-x-0 lg:translate-x-[20%]" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="rgba(148, 163, 184, 0.4)">
+                        <circle cx="300" cy="200" r="2"/><circle cx="320" cy="190" r="2"/><circle cx="340" cy="210" r="2"/><circle cx="360" cy="230" r="2"/>
+                        <circle cx="280" cy="240" r="2"/><circle cx="310" cy="250" r="2"/><circle cx="330" cy="260" r="2"/><circle cx="350" cy="280" r="2"/>
+                        <circle cx="270" cy="290" r="2"/><circle cx="290" cy="300" r="2"/><circle cx="310" cy="320" r="2"/><circle cx="330" cy="340" r="2"/>
+                        <circle cx="260" cy="330" r="2"/><circle cx="280" cy="350" r="2"/><circle cx="300" cy="370" r="2"/><circle cx="320" cy="390" r="2"/>
+                        <circle cx="380" cy="250" r="2"/><circle cx="400" cy="270" r="2"/><circle cx="420" cy="260" r="2"/><circle cx="450" cy="280" r="2"/>
+                    </g>
+                    <path d="M 270 290 Q 250 200 320 190" stroke="url(#route-grad)" stroke-width="3" stroke-linecap="round" class="route-line" />
+                    <path d="M 270 290 Q 350 250 450 280" stroke="url(#route-grad)" stroke-width="3" stroke-linecap="round" class="route-line delay-1" />
+                    <path d="M 270 290 Q 250 380 315 490" stroke="url(#route-grad)" stroke-width="3" stroke-linecap="round" class="route-line delay-2" />
+                    <path d="M 270 290 Q 330 310 390 320" stroke="url(#route-grad)" stroke-width="3" stroke-linecap="round" class="route-line delay-3" />
+                    <defs>
+                        <linearGradient id="route-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="rgba(59, 130, 246, 0)" />
+                            <stop offset="50%" stop-color="rgba(96, 165, 250, 1)" />
+                            <stop offset="100%" stop-color="rgba(59, 130, 246, 0)" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+
+                <div class="absolute top-[48%] left-[50%] lg:left-[60%] flex items-center justify-center hidden sm:flex">
+                    <div class="w-4 h-4 bg-blue-500 rounded-full z-10 relative" style="animation: pulse-dot 2s infinite;"></div>
+                    <div class="absolute w-12 h-12 bg-blue-500/20 rounded-full animate-ping"></div>
+                    <span class="absolute left-6 text-blue-400 font-bold text-xs tracking-widest uppercase bg-slate-900/80 px-2 py-1 rounded border border-blue-500/30 backdrop-blur-md">HQ: Surat</span>
+                </div>
+
+                <div class="absolute top-[15%] right-[5%] lg:right-[15%] glass border border-white/10 dark:border-blue-500/20 bg-white/5 dark:bg-slate-900/50 backdrop-blur-md p-4 rounded-2xl shadow-2xl flex items-center gap-4 hidden sm:flex" style="animation: float-slow 6s ease-in-out infinite;">
+                    <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">📦</div>
+                    <div class="text-left">
+                        <div class="text-white font-black text-xl">10,000+</div>
+                        <div class="text-blue-300 text-[10px] font-bold uppercase tracking-widest">Tons Delivered</div>
+                    </div>
+                </div>
+
+                <div class="absolute bottom-[20%] right-[10%] lg:right-[25%] glass border border-white/10 dark:border-emerald-500/20 bg-white/5 dark:bg-slate-900/50 backdrop-blur-md p-4 rounded-2xl shadow-2xl flex items-center gap-4 hidden md:flex" style="animation: float-slow 7s ease-in-out infinite; animation-delay: 1s;">
+                    <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400">⏱️</div>
+                    <div class="text-left">
+                        <div class="text-white font-black text-xl">Pan-India</div>
+                        <div class="text-emerald-300 text-[10px] font-bold uppercase tracking-widest">Active Supply Lines</div>
+                    </div>
+                </div>
+                
+                <div class="absolute top-[45%] right-[2%] lg:right-[5%] glass border border-white/10 dark:border-purple-500/20 bg-white/5 dark:bg-slate-900/50 backdrop-blur-md p-4 rounded-2xl shadow-2xl flex items-center gap-4 hidden lg:flex" style="animation: float-slow 8s ease-in-out infinite; animation-delay: 2s;">
+                    <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">🏭</div>
+                    <div class="text-left">
+                        <div class="text-white font-black text-xl">Top Mills</div>
+                        <div class="text-purple-300 text-[10px] font-bold uppercase tracking-widest">Direct Sourcing</div>
+                    </div>
+                </div>
+
+                <div class="absolute bottom-[10%] right-[2%] lg:right-[5%] glass border border-white/10 dark:border-green-500/20 bg-white/5 dark:bg-slate-900/50 backdrop-blur-md p-4 rounded-2xl shadow-2xl flex items-center gap-4 hidden lg:flex" style="animation: float-slow 6.5s ease-in-out infinite; animation-delay: 0.5s;">
+                    <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">♻️</div>
+                    <div class="text-left">
+                        <div class="text-white font-black text-xl">100%</div>
+                        <div class="text-green-300 text-[10px] font-bold uppercase tracking-widest">Recyclable Boards</div>
+                    </div>
+                </div>
+
+                <div class="absolute top-[10%] right-[35%] glass border border-white/10 dark:border-amber-500/20 bg-white/5 dark:bg-slate-900/50 backdrop-blur-md p-4 rounded-2xl shadow-2xl flex items-center gap-4 hidden lg:flex" style="animation: float-slow 7.5s ease-in-out infinite; animation-delay: 1.5s;">
+                    <div class="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400">✂️</div>
+                    <div class="text-left">
+                        <div class="text-white font-black text-xl">Custom</div>
+                        <div class="text-amber-300 text-[10px] font-bold uppercase tracking-widest">Reel-to-Sheet</div>
+                    </div>
+                </div>
             </div>
+
+            <div class="w-full lg:w-[55%] relative z-10 flex flex-col items-start text-left mt-8 lg:mt-0">
+                
+                <img loading="eager" src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders Main Logo" class="h-28 sm:h-36 mb-6 animate-fade-in" style="filter: drop-shadow(0px 0px 2px #ffffff) drop-shadow(0px 0px 8px #ffffff) drop-shadow(0px 0px 15px rgba(255,255,255,0.9));" />
+                
+                <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-5 animate-slide-up leading-[1.15] text-white drop-shadow-xl">
+                    ABRAR TRADERS
+                    <span class="sr-only"> - Premium Paper Bulk Supplier, Duplex Paper, Paper Board, Sundry Grey Board, Kappa Board, Kraft Paper Board, SBS, FBB, Maplitho, Writing & Printing, Stationery Products & Bulk Packaging Suppliers in India</span>
+                </h1>
+                
+                <p class="text-xl sm:text-2xl text-blue-200 mb-10 font-medium animate-fade-in-delay max-w-lg leading-relaxed"><span id="typed"></span></p>
+                
+                <div class="flex flex-col sm:flex-row justify-start gap-4 w-full sm:w-auto mt-2">
+                    <a href="#products" class="action-button flex-1 sm:flex-none bg-blue-600 text-white px-8 py-4 rounded-xl shadow-[0_10px_30px_rgba(37,99,235,0.4)] hover:shadow-xl transition-all duration-300 font-bold text-lg flex items-center justify-center text-center">
+                        Explore Products
+                    </a>
+                    
+                    <button onclick="openSampleKit()" class="action-button flex-1 sm:flex-none bg-white/10 backdrop-blur-md border border-gray-400/30 text-white px-8 py-4 rounded-xl shadow-md hover:bg-white/20 transition-all duration-300 font-bold text-lg flex items-center justify-center gap-2 text-center">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                        Request Sample Kit
+                    </button>
+                </div>
+            </div>
+
         </section>
 
         <section id="why-us" class="py-20 px-6 bg-white">
@@ -1267,6 +1284,7 @@
     </script>
 </body>
 </html>
+
 
 
 
