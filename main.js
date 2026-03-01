@@ -1537,33 +1537,118 @@ window.downloadSVG = () => {
     });
 
     // ==========================================
-    // 15. HERO 3D PAPER PARALLAX ENGINE
+    // 15. DIGITAL PAPER LOOM - SMOOTH PHYSICS ENGINE
     // ==========================================
-    if (window.matchMedia("(min-width: 768px)").matches) {
+    const loomCanvas = document.getElementById('loomCanvas');
+    
+    // Only run on Desktop/Tablet to keep mobile battery healthy
+    if (loomCanvas && window.matchMedia("(min-width: 768px)").matches) {
+        const ctx = loomCanvas.getContext('2d', { alpha: false }); // Optimize performance
+        
+        let width, height;
+        function resize() {
+            // Support high-DPI (Retina) displays for crisp edges
+            const dpr = window.devicePixelRatio || 1;
+            width = window.innerWidth;
+            height = window.innerHeight;
+            loomCanvas.width = width * dpr;
+            loomCanvas.height = height * dpr;
+            ctx.scale(dpr, dpr);
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        let time = 0;
+        let targetWindY = 0;
+        let windY = 0;
+
+        // Mouse acts as gentle vertical wind
         document.addEventListener('mousemove', (e) => {
-            // Calculate mouse position mapped from -10 to 10
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 50;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 50;
-
-            const kraft = document.getElementById('float-kraft');
-            const white = document.getElementById('float-white');
-            const duplex = document.getElementById('float-duplex');
-
-            // Apply slight 3D rotation shifts based on mouse position
-            if(kraft) {
-                kraft.style.transform = `rotateX(${25 + yAxis}deg) rotateY(${35 - xAxis}deg) rotateZ(-15deg) translateZ(50px)`;
-            }
-            if(white) {
-                // White paper moves slightly faster/further because it's in the foreground
-                white.style.transform = `rotateX(${-15 + yAxis * 1.5}deg) rotateY(${-25 - xAxis * 1.5}deg) rotateZ(10deg) translateZ(120px)`;
-            }
-            if(duplex) {
-                // Duplex is heavy and in the back, moves slower
-                duplex.style.transform = `rotateX(${45 + yAxis * 0.5}deg) rotateY(${15 - xAxis * 0.5}deg) rotateZ(5deg) translateZ(-80px)`;
-            }
+            targetWindY = ((e.clientY / height) - 0.5) * 2; // Range: -1 to 1
         });
+
+        // The 3 massive sheets of paper
+        const ribbons = [
+            // Background: Duplex Grey (Slower, Wider, Deeper)
+            { top: '#64748b', bottom: '#1e293b', yOff: -80, thickness: 120, speed: 0.010, waveLength: 0.002, baseAmp: 160 },
+            // Middle: Kraft Brown
+            { top: '#c2a88f', bottom: '#7a5a3f', yOff: 0, thickness: 100, speed: 0.014, waveLength: 0.003, baseAmp: 120 },
+            // Foreground: Bright White Bond (Faster, Tighter)
+            { top: '#ffffff', bottom: '#94a3b8', yOff: 60, thickness: 80, speed: 0.018, waveLength: 0.004, baseAmp: 80 }
+        ];
+
+        function drawLoom() {
+            // Draw dark background
+            ctx.fillStyle = '#020617';
+            ctx.fillRect(0, 0, width, height);
+            
+            time += 1;
+
+            // Ultra-smooth linear interpolation (lerp) for the wind interaction
+            windY += (targetWindY - windY) * 0.03; 
+
+            const cx = width / 2;
+            const cy = height / 2;
+
+            ribbons.forEach((r) => {
+                ctx.beginPath();
+                
+                // Draw Top Edge (Left to Right)
+                for (let x = 0; x <= width; x += 5) { // 5px steps for ultra-smooth curves
+                    const distFromCenter = Math.abs(x - cx);
+                    // Normalize distance: 0 at center, 1 at edge
+                    const normalizedDist = distFromCenter / (width / 2); 
+                    
+                    // Magic Math: Amplitude is 0 at the logo, and grows outward.
+                    // Wind gently bends the overall wave path up or down.
+                    const dynamicAmp = normalizedDist * r.baseAmp;
+                    const windBend = (windY * 300) * normalizedDist;
+                    
+                    // Phase makes it flow OUTWARD from the center
+                    const phase = (distFromCenter * r.waveLength) - (time * r.speed);
+                    
+                    const y = cy + r.yOff + (Math.sin(phase) * dynamicAmp) + windBend;
+                    
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+
+                // Draw Bottom Edge (Right to Left to close the shape)
+                for (let x = width; x >= 0; x -= 5) {
+                    const distFromCenter = Math.abs(x - cx);
+                    const normalizedDist = distFromCenter / (width / 2);
+                    const dynamicAmp = normalizedDist * r.baseAmp;
+                    const windBend = (windY * 300) * normalizedDist;
+                    const phase = (distFromCenter * r.waveLength) - (time * r.speed);
+                    
+                    // Add physical thickness
+                    const y = cy + r.yOff + (Math.sin(phase) * dynamicAmp) + windBend + r.thickness;
+                    ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+
+                // 3D Shading Gradient
+                const gradient = ctx.createLinearGradient(0, 0, 0, height);
+                gradient.addColorStop(0, r.top);
+                gradient.addColorStop(1, r.bottom);
+                
+                ctx.fillStyle = gradient;
+                
+                // High-End Drop Shadows
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
+                ctx.shadowBlur = 30;
+                ctx.shadowOffsetY = 15;
+
+                ctx.fill();
+            });
+
+            requestAnimationFrame(drawLoom);
+        }
+        
+        drawLoom();
     }
 });
+
 
 
 
