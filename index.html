@@ -230,119 +230,52 @@
     </div>
 
     <main>
-        <section id="home" class="min-h-screen flex items-center pt-24 pb-12 relative overflow-hidden bg-[#050B14]">
+        <section id="home" class="min-h-screen flex flex-col items-center justify-center text-center p-6 relative overflow-hidden bg-[#020617]">
             
             <style>
-                /* Subtle ambient breathing for the glass cards */
-                @keyframes float-bento {
-                    0%, 100% { transform: translateY(0px); }
-                    50% { transform: translateY(-8px); }
-                }
-                /* Mini 3D Paper Roll Animation */
-                @keyframes spin-roll {
-                    from { transform: rotateX(60deg) rotateZ(0deg); }
-                    to { transform: rotateX(60deg) rotateZ(360deg); }
-                }
-                /* Blueprint scanning line */
-                @keyframes scanner {
-                    0% { top: 0; opacity: 0; }
-                    10% { opacity: 1; }
-                    90% { opacity: 1; }
-                    100% { top: 100%; opacity: 0; }
+                /* Elegant pulsing core light */
+                @keyframes core-glow {
+                    0%, 100% { filter: drop-shadow(0 0 20px rgba(255,255,255,0.2)) drop-shadow(0 0 40px rgba(255,255,255,0.1)); transform: scale(1); }
+                    50% { filter: drop-shadow(0 0 30px rgba(255,255,255,0.6)) drop-shadow(0 0 60px rgba(255,255,255,0.3)); transform: scale(1.03); }
                 }
             </style>
 
-            <div class="absolute inset-0 z-0 pointer-events-none flex justify-center items-center">
-                <div class="absolute top-0 right-0 w-[80vw] h-[80vw] bg-blue-600/10 rounded-full blur-[120px] mix-blend-screen"></div>
-                <div class="absolute bottom-0 left-0 w-[60vw] h-[60vw] bg-indigo-600/10 rounded-full blur-[100px] mix-blend-screen"></div>
+            <canvas id="loomCanvas" class="absolute inset-0 z-0 pointer-events-none"></canvas>
+            
+            <div class="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,transparent_15%,#020617_85%)] pointer-events-none"></div>
+
+            <div class="relative z-20 flex flex-col items-center mt-[-30px]">
                 
-                <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 1px 1px, #ffffff 1px, transparent 0); background-size: 32px 32px;"></div>
-            </div>
+                <div class="relative mb-10 mt-12 group">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-white rounded-full blur-[50px] opacity-40 transition-opacity duration-700 group-hover:opacity-70"></div>
+                    <img loading="eager" src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders Core Logo" class="h-32 sm:h-44 relative z-10" style="animation: core-glow 4s ease-in-out infinite;" />
+                </div>
+                
+                <h1 class="text-5xl sm:text-6xl md:text-[5.5rem] font-black mb-6 text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-50 to-slate-400 drop-shadow-2xl tracking-tight animate-slide-up leading-[1.1]">
+                    ABRAR TRADERS
+                </h1>
+                
+                <p class="text-lg md:text-xl text-blue-200/70 mb-10 max-w-2xl font-light tracking-wide animate-fade-in-delay">
+                    <span id="typed">Premium Paper Bulk Supplier & Packaging Solutions.</span>
+                </p>
 
-            <div class="max-w-7xl mx-auto px-6 md:px-10 w-full relative z-10">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                <div class="flex flex-col sm:flex-row gap-5 w-full sm:w-auto z-30 relative animate-fade-in-delay">
+                    <a href="#products" class="relative inline-flex items-center justify-center px-10 py-4 text-lg font-bold text-white transition-all duration-300 bg-blue-600 rounded-xl hover:bg-blue-500 hover:-translate-y-1 shadow-[0_0_25px_rgba(37,99,235,0.4)] hover:shadow-[0_0_40px_rgba(37,99,235,0.7)] border border-blue-400/50 overflow-hidden group">
+                        <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-64 group-hover:h-56 opacity-10"></span>
+                        <span class="relative">Explore Products</span>
+                    </a>
                     
-                    <div class="lg:col-span-7 flex flex-col items-start text-left">
-                        
-                        <div class="relative mb-8 group inline-block">
-                            <div class="absolute inset-0 bg-white blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500 rounded-full"></div>
-                            <img loading="eager" src="https://i.postimg.cc/mg9xFDRQ/Whats-App-Image-2025-05-29-at-9-21-00-PM-removebg-preview.png" alt="Abrar Traders Logo" class="h-24 sm:h-32 relative z-10 animate-fade-in" style="filter: drop-shadow(0px 0px 2px #ffffff) drop-shadow(0px 0px 8px rgba(255,255,255,0.8));" />
-                        </div>
-                        
-                        <h1 class="text-5xl sm:text-6xl lg:text-[5rem] font-black mb-6 leading-[1.1] text-transparent bg-clip-text bg-gradient-to-br from-white via-blue-100 to-slate-400 drop-shadow-lg animate-slide-up">
-                            Supply Chain <br/> <span class="text-blue-500">Excellence.</span>
-                        </h1>
-                        
-                        <p class="text-lg sm:text-xl text-slate-300 mb-10 font-medium max-w-lg leading-relaxed animate-fade-in-delay border-l-4 border-blue-500 pl-4 bg-gradient-to-r from-blue-500/10 to-transparent py-2">
-                            <span id="typed">Premium Paper Bulk Supplier & Packaging Solutions.</span>
-                        </p>
-                        
-                        <div class="flex flex-col sm:flex-row justify-start gap-4 w-full sm:w-auto mt-2">
-                            <a href="#products" class="action-button flex-1 sm:flex-none bg-blue-600 text-white px-8 py-4 rounded-xl shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(37,99,235,0.7)] transition-all duration-300 font-bold text-lg flex items-center justify-center text-center border border-blue-400/50">
-                                Explore Products
-                            </a>
-                            
-                            <button onclick="openSampleKit()" class="action-button flex-1 sm:flex-none bg-slate-800/50 backdrop-blur-xl border border-slate-600/50 text-white px-8 py-4 rounded-xl shadow-md hover:bg-slate-800 transition-all duration-300 font-bold text-lg flex items-center justify-center gap-2 text-center hover:border-slate-400">
-                                <svg class="w-5 h-5 flex-shrink-0 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-                                Request Sample Kit
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-5 grid grid-cols-2 gap-4 relative animate-fade-in-delay">
-                        
-                        <div class="absolute inset-0 bg-blue-500/20 blur-[80px] rounded-full pointer-events-none"></div>
-
-                        <div class="col-span-2 glass bg-slate-900/40 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 shadow-2xl relative overflow-hidden group hover:border-blue-500/30 transition-colors duration-500" style="animation: float-bento 8s ease-in-out infinite;">
-                            <div class="absolute top-0 left-0 w-full h-[2px] bg-blue-500 shadow-[0_0_15px_#3b82f6]" style="animation: scanner 3s linear infinite;"></div>
-                            
-                            <div class="flex justify-between items-start mb-4">
-                                <h3 class="text-white font-bold tracking-widest text-xs uppercase">Material Grade</h3>
-                                <span class="bg-blue-500/20 text-blue-400 px-2 py-1 rounded text-[10px] font-black">LIVE</span>
-                            </div>
-                            
-                            <div class="h-40 w-full flex items-center justify-center perspective-[1000px]">
-                                <div class="relative w-24 h-24 transform-style-3d" style="animation: spin-roll 10s linear infinite;">
-                                    <div class="absolute inset-0 rounded-full border-[15px] border-[#d1bfae] shadow-[inset_0_0_15px_rgba(0,0,0,0.8),0_20px_30px_rgba(0,0,0,0.5)]"></div>
-                                    <div class="absolute inset-0 m-auto w-10 h-10 rounded-full border-[4px] border-[#8a6c51] bg-[#1e293b] shadow-[inset_0_0_10px_black]"></div>
-                                    <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/20 to-transparent"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="text-center mt-2">
-                                <div class="text-blue-200 font-mono text-sm">Industrial Kraft Board</div>
-                                <div class="text-slate-400 text-xs">High-Burst Factor • 150-450 GSM</div>
-                            </div>
-                        </div>
-
-                        <div class="col-span-1 glass bg-slate-900/40 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 shadow-2xl flex flex-col justify-between group hover:border-emerald-500/30 transition-colors duration-500" style="animation: float-bento 7s ease-in-out infinite; animation-delay: 1s;">
-                            <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                            </div>
-                            <div>
-                                <div class="text-3xl font-black text-white">10k+</div>
-                                <div class="text-emerald-400 text-[10px] font-bold uppercase tracking-widest mt-1">Tons Delivered</div>
-                            </div>
-                        </div>
-
-                        <div class="col-span-1 glass bg-slate-900/40 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 shadow-2xl flex flex-col justify-between overflow-hidden relative group hover:border-purple-500/30 transition-colors duration-500" style="animation: float-bento 9s ease-in-out infinite; animation-delay: 2s;">
-                            
-                            <svg class="absolute -right-4 -bottom-4 w-32 h-32 opacity-20 text-purple-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-
-                            <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 mb-4 relative z-10">
-                                <div class="w-2 h-2 bg-purple-400 rounded-full animate-ping absolute"></div>
-                                <div class="w-2 h-2 bg-purple-400 rounded-full relative z-10"></div>
-                            </div>
-                            <div class="relative z-10">
-                                <div class="text-xl font-black text-white">Pan-India</div>
-                                <div class="text-purple-400 text-[10px] font-bold uppercase tracking-widest mt-1">Active Routes</div>
-                            </div>
-                        </div>
-
-                    </div>
+                    <button onclick="openSampleKit()" class="relative inline-flex items-center justify-center px-10 py-4 text-lg font-bold text-white transition-all duration-300 bg-white/5 border border-white/20 backdrop-blur-xl rounded-xl hover:bg-white/10 hover:border-white/50 hover:-translate-y-1 shadow-lg group">
+                        <svg class="w-5 h-5 mr-3 text-blue-400 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                        Request Sample Kit
+                    </button>
                 </div>
             </div>
-
+            
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center animate-bounce opacity-50 z-20 pointer-events-none hidden md:flex">
+                <span class="text-[10px] text-blue-300 tracking-[0.3em] uppercase mb-2">Scroll</span>
+                <div class="w-[2px] h-8 bg-gradient-to-b from-blue-400 to-transparent rounded-full"></div>
+            </div>
         </section>
         
         <section id="why-us" class="py-20 px-6 bg-white">
@@ -1274,6 +1207,7 @@
     </script>
 </body>
 </html>
+
 
 
 
