@@ -1534,7 +1534,6 @@ window.downloadSVG = () => {
                 btn.style.transition = 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
                 btn.style.transform = `translate(0px, 0px)`;
             });
-        });
     });
 
     // ==========================================
@@ -1579,6 +1578,7 @@ window.downloadSVG = () => {
         });
     }
 });
+
 
 
 
