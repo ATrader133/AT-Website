@@ -1336,7 +1336,7 @@ window.sendChatMessage = async () => {
 
     try {
         // We now call YOUR secure backend, NOT Google directly.
-        const response = await fetch('/api/chat', {
+        const response = await fetch('chat.js', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -1577,6 +1577,7 @@ window.downloadSVG = () => {
         });
     }
 });
+
 
 
 
