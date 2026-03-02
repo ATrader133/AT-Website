@@ -1326,9 +1326,7 @@ window.sendChatMessage = async () => {
         </div>`;
     log.scrollTop = log.scrollHeight;
 
-    // 4. REAL GEMINI API INTEGRATION
-    const API_KEY = "AIzaSyAUOLlYaefxxfh0Io6_MBLCyRIiYT1Ll0w"; 
-    
+    // 4. SECURE BACKEND API INTEGRATION
     const formattedHistory = chatHistory.filter(msg => msg.role !== "system").map(msg => ({
         role: msg.role === "assistant" ? "model" : "user",
         parts: [{ text: msg.content }]
@@ -1337,11 +1335,12 @@ window.sendChatMessage = async () => {
     const systemInstruction = chatHistory.find(msg => msg.role === "system").content;
 
     try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+        // We now call YOUR secure backend, NOT Google directly.
+        const response = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                systemInstruction: { parts: [{ text: systemInstruction }] },
+                systemInstruction: systemInstruction,
                 contents: formattedHistory
             })
         });
@@ -1578,6 +1577,7 @@ window.downloadSVG = () => {
         });
     }
 });
+
 
 
 
