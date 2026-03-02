@@ -1499,12 +1499,10 @@ window.downloadSVG = () => {
     // ==========================================
     // 14. NEXT-GEN UI: 3D REEL, TILT & MAGNETIC BUTTONS
     // ==========================================
-    document.addEventListener('DOMContentLoaded', () => {
         
-        // --- A. 3D PRODUCT CARD TILT ---
-        // Activates the vanilla-tilt.js library you already linked in the HTML head
-        if (typeof VanillaTilt !== 'undefined') {
-            VanillaTilt.init(document.querySelectorAll(".product-card"), {
+    // --- A. 3D PRODUCT CARD TILT ---
+    if (typeof VanillaTilt !== 'undefined') {
+        VanillaTilt.init(document.querySelectorAll(".product-card"), {
                 max: 12,           // Maximum tilt rotation
                 speed: 400,        // Speed of the enter/exit transition
                 glare: true,       // Adds a glass reflection
@@ -1580,6 +1578,7 @@ window.downloadSVG = () => {
         });
     }
 });
+
 
 
 
