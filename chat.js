@@ -8,7 +8,7 @@ export default async function handler(req, res) {
 
     try {
         // 2. Grab the Secure API Key from your Environment Variables (NOT hardcoded)
-        const apiKey = process.env.GEMINI_API_KEY;
+        const apiKey = process.env.AIzaSyBEt5661dwdGIjRK-MMIj28y3Y2loOjcJk;
         
         if (!apiKey) {
             return res.status(500).json({ error: "Missing API Key on server." });
