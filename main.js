@@ -1326,7 +1326,7 @@ window.sendChatMessage = async () => {
         </div>`;
     log.scrollTop = log.scrollHeight;
 
-    // 4. SECURE BACKEND API INTEGRATION
+    // 4. SECURE NETLIFY FUNCTION INTEGRATION
     const formattedHistory = chatHistory.filter(msg => msg.role !== "system").map(msg => ({
         role: msg.role === "assistant" ? "model" : "user",
         parts: [{ text: msg.content }]
@@ -1335,8 +1335,8 @@ window.sendChatMessage = async () => {
     const systemInstruction = chatHistory.find(msg => msg.role === "system").content;
 
     try {
-        // We now call YOUR secure backend, NOT Google directly.
-        const response = await fetch('chat.js', {
+        // Call the secure Netlify backend
+        const response = await fetch('/.netlify/functions/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -1344,6 +1344,16 @@ window.sendChatMessage = async () => {
                 contents: formattedHistory
             })
         });
+
+        const data = await response.json();
+        
+        const typingIndicator = document.getElementById(typingId);
+        if(typingIndicator) typingIndicator.remove();
+
+        if (data.error) throw new Error(data.error);
+
+        // Netlify returns the text directly in this setup
+        const aiResponse = data.reply;
 
         const data = await response.json();
         
@@ -1577,6 +1587,7 @@ window.downloadSVG = () => {
         });
     }
 });
+
 
 
 
