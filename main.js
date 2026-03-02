@@ -1345,24 +1345,18 @@ window.sendChatMessage = async () => {
             })
         });
 
+        // Read the response ONCE
         const data = await response.json();
         
+        // Remove the typing animation
         const typingIndicator = document.getElementById(typingId);
         if(typingIndicator) typingIndicator.remove();
 
+        // Check for backend errors
         if (data.error) throw new Error(data.error);
 
-        // Netlify returns the text directly in this setup
+        // Extract the AI text from the Netlify response
         const aiResponse = data.reply;
-
-        const data = await response.json();
-        
-        const typingIndicator = document.getElementById(typingId);
-        if(typingIndicator) typingIndicator.remove();
-
-        if (data.error) throw new Error(data.error.message);
-
-        const aiResponse = data.candidates[0].content.parts[0].text;
         
         // Convert Markdown bold/newlines to HTML
         const formattedHTMLResponse = aiResponse
@@ -1375,14 +1369,14 @@ window.sendChatMessage = async () => {
             <a href="#calculator" onclick="toggleChat(); switchTab('weight');" class="text-xs bg-white dark:bg-slate-700 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-md font-bold hover:bg-gray-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Calculate Weight</a>
         </div>`;
 
-        // 5. Render AI Response to UI
+        // Render AI Response to UI
         log.innerHTML += `
             <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm animate-fade-in">
                 ${formattedHTMLResponse}
                 ${actionHtml}
             </div>`;
         
-        // 6. Add AI Response to LLM History Array
+        // Add AI Response to LLM History Array
         chatHistory.push({ role: "assistant", content: aiResponse });
         log.scrollTop = log.scrollHeight;
 
@@ -1392,11 +1386,10 @@ window.sendChatMessage = async () => {
         console.error("Gemini API Error:", error);
         log.innerHTML += `
             <div class="bg-red-50 text-red-600 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] text-xs">
-                Connection error or Invalid API Key. Please try again later.
+                Connection error. Please try again later.
             </div>`;
         log.scrollTop = log.scrollHeight;
     }
-};
     
 
 window.drawDieCut = () => {
@@ -1587,6 +1580,7 @@ window.downloadSVG = () => {
         });
     }
 });
+
 
 
 
