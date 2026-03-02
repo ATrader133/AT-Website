@@ -1390,6 +1390,7 @@ window.sendChatMessage = async () => {
             </div>`;
         log.scrollTop = log.scrollHeight;
     }
+};
     
 
 window.drawDieCut = () => {
@@ -1578,6 +1579,7 @@ window.downloadSVG = () => {
         });
     }
 });
+
 
 
 
