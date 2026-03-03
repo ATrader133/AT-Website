@@ -1577,35 +1577,26 @@ window.downloadSVG = () => {
             footerTiltLayer.style.transition = 'transform 0.1s ease-out';
         });
     }
+}); 
 
-    // ==========================================
-    // 20. LAZY LOAD IMAGE REVEAL LOGIC
-    // ==========================================
-        const imageObserver = new IntersectionObserver((entries, observer) => {
+// ==========================================
+// 20. LAZY LOAD IMAGE REVEAL LOGIC (FAIL-PROOF)
+// ==========================================
+window.addEventListener('load', () => {
+    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+    
+    const imageObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const img = entry.target;
-                
-                // Function to reveal image
-                const revealImage = () => {
-                    img.classList.add('loaded');
-                };
-
-                // Check if already loaded from cache
-                if (img.complete) {
-                    revealImage();
-                } else {
-                    img.addEventListener('load', revealImage);
-                    img.addEventListener('error', revealImage); // Prevent permanent invisibility on broken links
-                }
-                
+                // Force reveal immediately to prevent infinite blur on cache load
+                img.classList.add('loaded'); 
                 observer.unobserve(img);
             }
-                });
-                }, { rootMargin: "50px 0px" });
+        });
+    }, { rootMargin: "250px 0px" }); // Loads 250px before entering screen for smoother UX
 
-        lazyImages.forEach(img => imageObserver.observe(img));
-    });  
+    lazyImages.forEach(img => imageObserver.observe(img));
 });
 
 
