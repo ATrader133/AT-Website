@@ -372,6 +372,54 @@ body.dark-mode .aurora-bg { opacity: 0.15; }
     .aurora-bg { filter: blur(50px); opacity: 0.25; animation-duration: 30s; }
 }
 
+/* --- 17. NEXT-GEN AESTHETICS & UI POLISH --- */
+
+/* 1. Custom Brand Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f5f9; /* Light mode track */
+}
+.dark-mode ::-webkit-scrollbar-track {
+    background: #0f172a; /* Dark mode track */
+}
+::-webkit-scrollbar-thumb {
+    background: #3b82f6; /* Blue brand color */
+    border-radius: 10px;
+    border: 2px solid #f1f5f9;
+}
+.dark-mode ::-webkit-scrollbar-thumb {
+    border: 2px solid #0f172a;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #2563eb;
+}
+
+/* 2. Custom Text Highlight Color */
+::selection {
+    background: rgba(59, 130, 246, 0.3); /* Soft blue highlight */
+    color: inherit;
+}
+.dark-mode ::selection {
+    background: rgba(99, 102, 241, 0.5); /* Indigo highlight for dark mode */
+}
+
+/* 3. Smooth Image Blur-Up Loading */
+img {
+    transition: filter 0.5s ease-out, opacity 0.5s ease-out;
+}
+img[loading="lazy"] {
+    filter: blur(10px);
+    opacity: 0;
+}
+img.loaded {
+    filter: blur(0);
+    opacity: 1;
+}
+
+
 
 
 
