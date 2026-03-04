@@ -1,4 +1,4 @@
-console.log("ABRAR TRADERS: Enterprise Engine Booting v9.0 (Optimized & Tactile)");
+console.log("ABRAR TRADERS: Enterprise Engine Booting v10.0 (Clean Architecture)");
 
 // ==========================================
 // 1. GLOBAL STATE & NOTIFICATIONS
@@ -32,7 +32,7 @@ window.showToast = function(message, type = 'success') {
 };
 
 // ==========================================
-// 2. GLOBAL FUNCTIONS (Bypasses Race Conditions)
+// 2. GLOBAL UI FUNCTIONS
 // ==========================================
 
 // --- AI CHATBOT LOGIC ---
@@ -102,7 +102,7 @@ window.sendChatMessage = async () => {
         const productKeywords = [ { key: /Kraft Paper/gi, id: "Kraft Paper" }, { key: /Duplex Board/gi, id: "Duplex Paper, Duplex Board" }, { key: /SBS/gi, id: "SBS (Solid Bleached Sulfate)" }, { key: /FBB/gi, id: "FBB (Folding Box Board)" } ];
         productKeywords.forEach(prod => { formattedHTMLResponse = formattedHTMLResponse.replace(prod.key, `<a href="javascript:void(0)" onclick="openProductByName('${prod.id}')" class="text-blue-600 dark:text-blue-400 font-bold underline decoration-blue-300 hover:text-blue-800 transition-colors">$&</a>`); });
 
-        const actionHtml = `<div class="mt-4 flex gap-2 border-t border-blue-200/50 dark:border-slate-700 pt-3"><a href="#quote" onclick="toggleChat()" class="text-xs bg-white dark:bg-slate-700 text-blue-600 dark:text-white px-3 py-1.5 rounded-md font-bold shadow-sm border border-gray-200 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-600 transition">Get a Quote</a><a href="#calculator" onclick="toggleChat(); window.switchTab('weight');" class="text-xs bg-white dark:bg-slate-700 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-md font-bold shadow-sm border border-gray-200 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-600 transition">Calculate Weight</a></div>`;
+        const actionHtml = `<div class="mt-4 flex gap-2 border-t border-blue-200/50 dark:border-slate-700 pt-3"><a href="#quote" onclick="toggleChat()" class="text-xs bg-white dark:bg-slate-700 text-blue-600 dark:text-white px-3 py-1.5 rounded-md font-bold shadow-sm border border-gray-200 dark:border-slate-600 hover:bg-gray-50 transition">Get a Quote</a><a href="#calculator" onclick="toggleChat(); window.switchTab('weight');" class="text-xs bg-white dark:bg-slate-700 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-md font-bold shadow-sm border border-gray-200 dark:border-slate-600 hover:bg-gray-50 transition">Calculate Weight</a></div>`;
         log.innerHTML += `<div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm animate-fade-in">${formattedHTMLResponse}${actionHtml}</div>`;
         chatHistory.push({ role: "assistant", content: aiResponse });
     } catch (error) {
@@ -131,7 +131,6 @@ window.addToBasket = function(productName) {
         basket.push(productName);
         window.updateBasketUI();
         window.showToast(`${productName} added to Quote Basket!`, "success");
-        // COOL NEW FEATURE: Tactile Haptic Feedback
         if (navigator.vibrate) navigator.vibrate([50, 50, 50]); 
     } else {
         window.showToast(`${productName} is already in your basket.`, "info");
@@ -403,7 +402,7 @@ window.quizSelect = function(step, value) {
 };
 window.quizBack = function() { const step1 = document.getElementById('quiz-step-1'); const step2 = document.getElementById('quiz-step-2'); if(step1 && step2) { step2.style.opacity = '0'; setTimeout(() => { step2.classList.add('hidden'); step1.classList.remove('hidden'); void step1.offsetWidth; step1.style.opacity = '1'; quizState.use = ''; }, 300); } };
 window.quizReset = function() { const step1 = document.getElementById('quiz-step-1'); const step3 = document.getElementById('quiz-step-3'); if(step1 && step3) { step3.style.opacity = '0'; setTimeout(() => { step3.classList.add('hidden'); step1.classList.remove('hidden'); void step1.offsetWidth; step1.style.opacity = '1'; quizState = { use: '', weight: '' }; }, 300); } };
-function showQuizResult() {
+window.showQuizResult = function() {
     let result = { title: 'Kraft Paper', desc: 'Versatile and strong. Standard recommendation.' };
     if (quizState.use === 'packaging') { if (quizState.weight === 'heavy') result = { title: 'Laminated Paper Board', desc: 'Maximum protection.' }; else if (quizState.weight === 'medium') result = { title: 'Duplex Board', desc: 'The industry standard.' }; } 
     else if (quizState.use === 'printing') { if (quizState.weight === 'heavy') result = { title: 'SBS', desc: 'Premium coated board.' }; else if (quizState.weight === 'medium') result = { title: 'FBB', desc: 'Perfect for vibrant colors.' }; else result = { title: 'Maplitho Paper', desc: 'Standard high-quality bond paper.' }; } 
@@ -412,13 +411,12 @@ function showQuizResult() {
     if(document.getElementById('quiz-result-desc')) document.getElementById('quiz-result-desc').textContent = result.desc;
     if(document.getElementById('quiz-add-btn')) document.getElementById('quiz-add-btn').onclick = () => window.addToBasket(result.title);
     const step3 = document.getElementById('quiz-step-3'); if(step3) { step3.classList.remove('hidden'); void step3.offsetWidth; step3.style.opacity = '1'; }
-}
+};
 
 // ==========================================
 // 3. THE INITIALIZATION ENGINE (Perfect Closure)
 // ==========================================
-const initAbrarEngine = () => {
-
+function initAbrarEngine() {
     window.updateBasketUI();
     window.switchTab('weight'); 
 
@@ -429,7 +427,7 @@ const initAbrarEngine = () => {
     ['cbmL', 'cbmW', 'cbmH', 'cbmQty'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateCBM));
     document.getElementById('esgTons')?.addEventListener('input', window.calculateESG);
 
-    // Product Search Logic (Now Keyboard Accessible)
+    // Product Search Logic
     const searchInput = document.getElementById('productSearch');
     const searchDropdown = document.getElementById('searchDropdown');
     const products = document.querySelectorAll('.product-item');
@@ -446,7 +444,7 @@ const initAbrarEngine = () => {
                     hasResults = true; item.style.display = 'block'; item.classList.remove('aos-animate'); setTimeout(() => item.classList.add('aos-animate'), 50);
                     if(searchDropdown) {
                         const div = document.createElement('div'); div.className = 'flex items-center gap-4 p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 focus:bg-gray-100 outline-none';
-                        div.tabIndex = 0; // Accessibility fix
+                        div.tabIndex = 0; 
                         div.innerHTML = `<img src="${item.dataset.image}" alt="" class="w-10 h-10 rounded object-cover"><div><div class="font-bold text-gray-800 text-sm">${item.dataset.name}</div><div class="text-xs text-gray-500">${item.dataset.category}</div></div>`;
                         div.onclick = div.onkeydown = (ev) => { 
                             if(ev.type === 'click' || ev.key === 'Enter') { window.openProductModal(item); searchDropdown.classList.add('hidden'); searchInput.value = ''; products.forEach(p => p.style.display = 'block'); }
@@ -569,15 +567,16 @@ const initAbrarEngine = () => {
         });
     }
 
-    // 💡 COOL NEW FEATURE: Universal Mobile & Desktop Chat Dragger
+    // AI Copilot Dragger (Touch & Mouse Support)
     const chatWindow = document.getElementById('aiChatWindow');
     if (chatWindow) {
-        const header = chatWindow.querySelector('.bg-blue-600') || chatWindow.firstElementChild; 
+        const header = chatWindow.querySelector('.bg-white\\/50') || chatWindow.firstElementChild; 
         if(header) {
             header.style.cursor = 'grab';
             let isDraggingChat = false, offsetX = 0, offsetY = 0;
             
             const startDrag = (e) => {
+                if(e.target.tagName === 'BUTTON' || e.target.closest('button')) return; // Ignore buttons
                 isDraggingChat = true; header.style.cursor = 'grabbing';
                 const clientX = e.touches ? e.touches[0].clientX : e.clientX;
                 const clientY = e.touches ? e.touches[0].clientY : e.clientY;
@@ -587,7 +586,7 @@ const initAbrarEngine = () => {
             };
             const onDrag = (e) => {
                 if (!isDraggingChat) return;
-                if(e.touches) e.preventDefault(); // Stop mobile scrolling
+                if(e.touches && e.cancelable) e.preventDefault(); 
                 const clientX = e.touches ? e.touches[0].clientX : e.clientX;
                 const clientY = e.touches ? e.touches[0].clientY : e.clientY;
                 chatWindow.style.left = `${clientX - offsetX}px`;
@@ -626,7 +625,7 @@ const initAbrarEngine = () => {
         scene.addEventListener('touchstart', (e) => { isDragging = true; const touch = e.touches[0]; const rect = scene.getBoundingClientRect(); previousMousePosition = { x: touch.clientX - rect.left, y: touch.clientY - rect.top }; }, {passive: true});
         document.addEventListener('touchend', () => isDragging = false);
         scene.addEventListener('touchmove', (e) => {
-            if (!isDragging) return; e.preventDefault(); 
+            if (!isDragging) return; if(e.cancelable) e.preventDefault(); 
             const touch = e.touches[0]; const rect = scene.getBoundingClientRect(); const currentX = touch.clientX - rect.left; const currentY = touch.clientY - rect.top;
             window.cubeRotation.x -= (currentY - previousMousePosition.y) * 0.6; window.cubeRotation.y += (currentX - previousMousePosition.x) * 0.6;
             cube.style.transform = `rotateX(${window.cubeRotation.x}deg) rotateY(${window.cubeRotation.y}deg)`;
@@ -750,10 +749,10 @@ const initAbrarEngine = () => {
             el.addEventListener('mouseleave', () => { if(cursor) cursor.classList.remove('scale-150', 'text-indigo-600'); if(follower) follower.classList.remove('w-20', 'opacity-100'); cloudCanvas.style.opacity = '1'; });
         });
     }
-};
+}
 
 // ==========================================
-// 4. BOOT LOADER (Defeats Defer Race Conditions)
+// 4. THE LAUNCH MECHANISM
 // ==========================================
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAbrarEngine);
