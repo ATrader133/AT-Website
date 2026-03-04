@@ -1203,18 +1203,18 @@ if (quoteBasketBtn) {
     // 18. INNOVATIVE FEATURES ENGINE (AI, AR, ESG PDF, i18n, Sample Kit)
     // ==========================================
 
-// --- FEATURE 1: ESG PDF Generator (html2pdf) ---
-document.getElementById('esgTons')?.addEventListener('input', (e) => {
+    // --- FEATURE 1: ESG PDF Generator (html2pdf) ---
+    document.getElementById('esgTons')?.addEventListener('input', (e) => {
     const tons = parseFloat(e.target.value) || 0;
     const btn = document.getElementById('esgDownloadBtn');
     if(btn) tons > 0 ? btn.classList.remove('hidden') : btn.classList.add('hidden');
 });
 
-window.downloadESGReport = function() {
+    window.downloadESGReport = function() {
     window.showToast("Initializing PDF Engine... Please wait.", "info");
 
     // 1. Function to actually generate the PDF once library is loaded
-    const generatePDF = () => {
+        const generatePDF = () => {
         const tons = Math.max(0, parseFloat(document.getElementById('esgTons').value) || 0);
         const trees = document.getElementById('esgTrees').innerText;
         const water = document.getElementById('esgWater').innerText;
@@ -1293,7 +1293,7 @@ window.submitSampleKit = (e) => {
     window.showToast("Sample Kit requested! Our team will contact you for dispatch details.", "success");
 };
     
-// --- FEATURE 4: Basic Multilingual Support (i18n) ---
+// --- FEATURE 3: Basic Multilingual Support (i18n) ---
 const translations = {
     en: { home: "Home", products: "Products", tools: "Pro Tools", blog: "Blog", contact: "Contact", heroTitle: "ABRAR TRADERS" },
     hi: { home: "होम", products: "उत्पाद", tools: "उपकरण", blog: "ब्लॉग", contact: "संपर्क", heroTitle: "अबरार ट्रेडर्स" },
@@ -1317,7 +1317,7 @@ document.getElementById('langToggle')?.addEventListener('change', (e) => {
     window.showToast(`Language changed to ${lang.toUpperCase()}`, "info");
 });
 
-// --- FEATURE 5: AR Pallet Viewer ---
+// --- FEATURE 4: AR Pallet Viewer ---
 window.openARViewer = () => { 
     const modal = document.getElementById('arViewerModal');
     modal.classList.remove('hidden'); 
@@ -1331,7 +1331,7 @@ window.closeARViewer = () => {
     document.body.style.overflow = ''; 
 };
 
-// --- FEATURE 6: TRUE AI SUPPLY CHAIN ASSISTANT ARCHITECTURE ---
+// --- FEATURE 5: TRUE AI SUPPLY CHAIN ASSISTANT ARCHITECTURE ---
 let chatHistory = [
     { role: "system", content: "You are the Abrar Traders AI Assistant. You are an expert in paper packaging, GSM, Burst Factor, Kraft paper, Duplex Board, and logistics. Be helpful, professional, and concise." }
 ];
@@ -1374,6 +1374,7 @@ window.openProductByName = (productName) => {
     }
 };
 
+// --- FEATURE 6: Backend (Netlify) ---
 window.sendChatMessage = async () => {
     const input = document.getElementById('chatInput');
     const sendBtn = input.nextElementSibling; 
@@ -1494,8 +1495,10 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// --- Die Cut Tool --
-window.drawDieCut = () => {
+    // ==========================================
+    // 19. DIE-Cut Tool
+    // ==========================================
+    window.drawDieCut = () => {
     // 1. Extract dimensions safely
     const l = Math.max(10, parseFloat(document.getElementById('dieL').value) || 200);
     const w = Math.max(10, parseFloat(document.getElementById('dieW').value) || 150);
@@ -1566,7 +1569,7 @@ window.downloadSVG = () => {
 };
 
 // ==========================================
-// 19. SMART NAV SCROLL LOGIC
+// 20. SMART NAV SCROLL LOGIC
 // ==========================================
 const nav = document.getElementById('mainNav');
 let lastScrollY = window.scrollY;
@@ -1589,7 +1592,7 @@ if (nav) {
 }
 
 // ==========================================
-// 20. NEXT-GEN UI: 3D REEL, TILT & MAGNETIC BUTTONS
+// 21. NEXT-GEN UI: 3D REEL, TILT & MAGNETIC BUTTONS
 // ==========================================
 if (typeof VanillaTilt !== 'undefined') {
     VanillaTilt.init(document.querySelectorAll(".product-card"), {
@@ -1615,7 +1618,7 @@ magneticButtons.forEach(btn => {
 });
 
 // ==========================================
-// 21. CINEMATIC FOOTER PARALLAX ENGINE
+// 22. CINEMATIC FOOTER PARALLAX ENGINE
 // ==========================================
 const footerElement = document.querySelector('footer');
 const footerTiltLayer = document.getElementById('footer-tilt-layer');
@@ -1644,7 +1647,7 @@ if (footerElement && footerTiltLayer && window.matchMedia("(min-width: 768px)").
 }
 
 // ==========================================
-// 22. ENTERPRISE SHORTCUTS
+// 23. ENTERPRISE SHORTCUTS
 // ==========================================
 document.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key === '/') {
@@ -1656,7 +1659,7 @@ document.addEventListener('keydown', (e) => {
 }); // <-- CRITICAL: THIS IS THE ONLY MAIN SCRIPT CLOSURE. DO NOT DELETE OR DUPLICATE IT.
 
 // ==========================================
-// 23. LAZY LOAD IMAGE REVEAL LOGIC
+// 24. LAZY LOAD IMAGE REVEAL LOGIC
 // ==========================================
 window.addEventListener('load', () => {
     const lazyImages = document.querySelectorAll('img[loading="lazy"]');
@@ -1670,3 +1673,4 @@ window.addEventListener('load', () => {
     }, { rootMargin: "250px 0px" });
     lazyImages.forEach(img => imageObserver.observe(img));
 });
+
