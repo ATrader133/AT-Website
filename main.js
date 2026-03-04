@@ -1346,21 +1346,28 @@ window.handleChatEnter = (e) => {
 
 window.sendChatMessage = async () => {
     const input = document.getElementById('chatInput');
+    const sendBtn = input.nextElementSibling; // Grabs the send button
     const msg = input.value.trim();
     if(!msg) return;
     
     const log = document.getElementById('chatLog');
     
-    // 1. Add User Message to UI
+    // 1. Lock the UI to prevent double-submissions
+    input.disabled = true;
+    sendBtn.disabled = true;
+    input.classList.add('opacity-50', 'cursor-not-allowed');
+    sendBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+    // 2. Add User Message to UI
     log.innerHTML += `<div class="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-4 rounded-2xl rounded-tr-none self-end max-w-[85%] shadow-md transform transition-all animate-slide-up">${msg}</div>`;
     input.value = '';
     input.style.height = 'auto'; 
     log.scrollTop = log.scrollHeight;
 
-    // 2. Add User Message to LLM History Array
+    // 3. Add User Message to LLM History Array
     chatHistory.push({ role: "user", content: msg });
 
-    // 3. Show "AI is thinking..." indicator
+    // 4. Show "AI is thinking..." indicator
     const typingId = 'typing-' + Date.now();
     log.innerHTML += `
         <div id="${typingId}" class="bg-gray-100 dark:bg-slate-800 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] flex items-center gap-2 animate-pulse">
@@ -1370,7 +1377,7 @@ window.sendChatMessage = async () => {
         </div>`;
     log.scrollTop = log.scrollHeight;
 
-    // 4. SECURE NETLIFY FUNCTION INTEGRATION
+    // 5. SECURE NETLIFY FUNCTION INTEGRATION
     const formattedHistory = chatHistory.filter(msg => msg.role !== "system").map(msg => ({
         role: msg.role === "assistant" ? "model" : "user",
         parts: [{ text: msg.content }]
@@ -1379,7 +1386,6 @@ window.sendChatMessage = async () => {
     const systemInstruction = chatHistory.find(msg => msg.role === "system").content;
 
     try {
-        // 1. Call the secure Netlify backend
         const response = await fetch('/.netlify/functions/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1389,53 +1395,85 @@ window.sendChatMessage = async () => {
             })
         });
 
-        // 2. Read the response ONCE
         const data = await response.json();
         
-        // 3. Remove the typing animation
-        const typingIndicator = document.getElementById(typingId);
-        if(typingIndicator) typingIndicator.remove();
+        // Remove typing indicator immediately
+        document.getElementById(typingId)?.remove();
 
-        // 4. Check for backend errors
         if (data.error) throw new Error(data.error);
 
-        // 5. Extract the AI text from the Netlify response
-        const aiResponse = data.reply;
+        const aiResponse = data.reply || "I encountered an unexpected format. Please try again.";
         
-        // 6. Convert Markdown bold/newlines to HTML
+        // Auto-Link Products to Modals (Feature implemented previously)
         let formattedHTMLResponse = aiResponse
-        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900 dark:text-white">$1</strong>')
-        .replace(/\n/g, '<br>');
+            .replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900 dark:text-white">$1</strong>')
+            .replace(/\n/g, '<br>');
 
-        // Auto-Link Products to Modals
         const productKeywords = [
-        { key: /Kraft Paper/gi, id: "Kraft Paper" },
-        { key: /Duplex Board/gi, id: "Duplex Paper, Duplex Board" },
-        { key: /SBS/gi, id: "SBS (Solid Bleached Sulfate)" },
-        { key: /FBB/gi, id: "FBB (Folding Box Board)" }
+            { key: /Kraft Paper/gi, id: "Kraft Paper" },
+            { key: /Duplex Board/gi, id: "Duplex Paper, Duplex Board" },
+            { key: /SBS/gi, id: "SBS (Solid Bleached Sulfate)" },
+            { key: /FBB/gi, id: "FBB (Folding Box Board)" }
         ];
 
         productKeywords.forEach(prod => {
-        formattedHTMLResponse = formattedHTMLResponse.replace(
-        prod.key, 
-        `<a href="javascript:void(0)" onclick="openProductByName('${prod.id}')" class="text-blue-600 dark:text-blue-400 font-bold underline decoration-blue-300 hover:text-blue-800 transition-colors">$&</a>`
-        );
+            formattedHTMLResponse = formattedHTMLResponse.replace(
+                prod.key, 
+                `<a href="javascript:void(0)" onclick="openProductByName('${prod.id}')" class="text-blue-600 dark:text-blue-400 font-bold underline decoration-blue-300 hover:text-blue-800 transition-colors">$&</a>`
+            );
         });
 
-        // 7. Add action buttons to the AI response
         const actionHtml = `<div class="mt-4 flex gap-2 border-t border-blue-200/50 dark:border-slate-700 pt-3">
             <a href="#quote" onclick="toggleChat()" class="text-xs bg-white dark:bg-slate-700 text-blue-600 dark:text-white px-3 py-1.5 rounded-md font-bold hover:bg-blue-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Get a Quote</a>
             <a href="#calculator" onclick="toggleChat(); switchTab('weight');" class="text-xs bg-white dark:bg-slate-700 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-md font-bold hover:bg-gray-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Calculate Weight</a>
         </div>`;
 
-        // 8. Render AI Response to UI
+        // 6. Render AI Response
         log.innerHTML += `
             <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm animate-fade-in">
                 ${formattedHTMLResponse}
                 ${actionHtml}
             </div>`;
         
-        // 9. Add AI Response to LLM History Array
+        chatHistory.push({ role: "assistant", content: aiResponse });
+
+    } catch (error) {
+        document.getElementById(typingId)?.remove();
+        console.error("Chat API Error:", error);
+        log.innerHTML += `
+            <div class="bg-red-50 text-red-600 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] text-xs border border-red-200 shadow-sm">
+                Connection error. Please ensure you are connected to the internet and try again.
+            </div>`;
+        
+        // Remove the user's last message from history so they can retry without corrupting context
+        chatHistory.pop(); 
+    } finally {
+        // 7. ALWAYS unlock the UI, even if it fails
+        input.disabled = false;
+        sendBtn.disabled = false;
+        input.classList.remove('opacity-50', 'cursor-not-allowed');
+        sendBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        log.scrollTop = log.scrollHeight;
+        
+        // Only auto-focus if on desktop to prevent mobile keyboard from popping up annoyingly
+        if (window.innerWidth > 768) input.focus();
+    }
+};
+
+        // --- FEATURE 7. Add action buttons to the AI response ---
+        const actionHtml = `<div class="mt-4 flex gap-2 border-t border-blue-200/50 dark:border-slate-700 pt-3">
+            <a href="#quote" onclick="toggleChat()" class="text-xs bg-white dark:bg-slate-700 text-blue-600 dark:text-white px-3 py-1.5 rounded-md font-bold hover:bg-blue-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Get a Quote</a>
+            <a href="#calculator" onclick="toggleChat(); switchTab('weight');" class="text-xs bg-white dark:bg-slate-700 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-md font-bold hover:bg-gray-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Calculate Weight</a>
+        </div>`;
+
+        // --- FEATURE 8. Render AI Response to UI ---
+        log.innerHTML += `
+            <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm animate-fade-in">
+                ${formattedHTMLResponse}
+                ${actionHtml}
+            </div>`;
+        
+        // --- FEATURE 9. Add AI Response to LLM History Array ---
         chatHistory.push({ role: "assistant", content: aiResponse });
         log.scrollTop = log.scrollHeight;
 
@@ -1566,9 +1604,7 @@ window.downloadSVG = () => {
         }, { passive: true });
     }
 
-    // ==========================================
-    // 14. NEXT-GEN UI: 3D REEL, TILT & MAGNETIC BUTTONS
-    // ==========================================
+    // --- FEATURE 14. NEXT-GEN UI: 3D REEL, TILT & MAGNETIC BUTTONS ---
         
     // --- A. 3D PRODUCT CARD TILT ---
     if (typeof VanillaTilt !== 'undefined') {
@@ -1605,9 +1641,8 @@ window.downloadSVG = () => {
             });
     });
 
-    // ==========================================
-    // 15. CINEMATIC FOOTER PARALLAX ENGINE
-    // ==========================================
+    
+    // --- FEATURE 15. CINEMATIC FOOTER PARALLAX ENGINE ---
     const footerElement = document.querySelector('footer');
     const footerTiltLayer = document.getElementById('footer-tilt-layer');
 
@@ -1648,9 +1683,7 @@ window.downloadSVG = () => {
     }
 }); 
 
-// ==========================================
-// 20. LAZY LOAD IMAGE REVEAL LOGIC (FAIL-PROOF)
-// ==========================================
+// --- FEATURE 16. LAZY LOAD IMAGE REVEAL LOGIC (FAIL-PROOF) ---
 window.addEventListener('load', () => {
     const lazyImages = document.querySelectorAll('img[loading="lazy"]');
     
@@ -1667,10 +1700,8 @@ window.addEventListener('load', () => {
 
     lazyImages.forEach(img => imageObserver.observe(img));
 
-    // ==========================================
-    // 21. Product Modal Opener
-    // ==========================================    
-
+   =
+    // --- FEATURE 17. Product Modal Opener ---
     window.openProductByName = (productName) => {
     const cards = document.querySelectorAll('.product-item');
     for (let card of cards) {
@@ -1681,7 +1712,23 @@ window.addEventListener('load', () => {
         }
     }
 };
+
+    // --- FEATURE 18. Clear Chat History ---
+    window.clearChatHistory = () => {
+    // Reset history array back to just the system instruction
+    chatHistory = [chatHistory[0]]; 
+    
+    // Clear the visual log and restore the initial greeting
+    const log = document.getElementById('chatLog');
+    log.innerHTML = `
+        <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm">
+            Hi! I'm your packaging engineering assistant. Tell me what you are trying to pack (e.g., <em>"500kg of fragile glassware"</em> or <em>"frozen food exports"</em>) and I'll calculate the exact paper grade and GSM you need.
+        </div>`;
+    
+    window.showToast("Chat history cleared.", "success");
+};
 });
+
 
 
 
