@@ -129,7 +129,51 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     updateBasketUI();
     document.getElementById('quoteBasket')?.addEventListener('click', () => document.getElementById('quote')?.scrollIntoView({behavior: 'smooth'}));
+        window.toggleBasketModal = () => {
+    const modal = document.getElementById('basketModal');
+    if (modal.classList.contains('hidden')) {
+        renderBasketItems();
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    } else {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+};
 
+window.renderBasketItems = () => {
+    const list = document.getElementById('basketItemList');
+    list.innerHTML = '';
+    if (basket.length === 0) {
+        list.innerHTML = '<li class="text-gray-500 text-sm text-center py-4">Your basket is empty.</li>';
+        return;
+    }
+    basket.forEach((item, index) => {
+        list.innerHTML += `
+            <li class="flex justify-between items-center bg-gray-50 dark:bg-slate-800 p-3 rounded-lg border border-gray-100 dark:border-slate-700">
+                <span class="font-bold text-gray-700 dark:text-gray-200 text-sm">${item}</span>
+                <button onclick="removeFromBasket(${index})" class="text-red-400 hover:text-red-600 p-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                </button>
+            </li>`;
+    });
+};
+
+window.removeFromBasket = (index) => {
+    basket.splice(index, 1);
+    updateBasketUI();
+    renderBasketItems();
+};
+
+window.proceedToQuote = () => {
+    toggleBasketModal();
+    document.getElementById('quote')?.scrollIntoView({behavior: 'smooth'});
+};
+
+// OVERRIDE the existing quoteBasket click listener:
+document.getElementById('quoteBasket')?.removeEventListener('click', () => document.getElementById('quote')?.scrollIntoView({behavior: 'smooth'}));
+document.getElementById('quoteBasket')?.addEventListener('click', window.toggleBasketModal);
+    
     // ==========================================
     // 4. CALCULATORS
     // ==========================================
@@ -1359,9 +1403,24 @@ window.sendChatMessage = async () => {
         const aiResponse = data.reply;
         
         // 6. Convert Markdown bold/newlines to HTML
-        const formattedHTMLResponse = aiResponse
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\n/g, '<br>');
+        let formattedHTMLResponse = aiResponse
+        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900 dark:text-white">$1</strong>')
+        .replace(/\n/g, '<br>');
+
+        // Auto-Link Products to Modals
+        const productKeywords = [
+        { key: /Kraft Paper/gi, id: "Kraft Paper" },
+        { key: /Duplex Board/gi, id: "Duplex Paper, Duplex Board" },
+        { key: /SBS/gi, id: "SBS (Solid Bleached Sulfate)" },
+        { key: /FBB/gi, id: "FBB (Folding Box Board)" }
+        ];
+
+        productKeywords.forEach(prod => {
+        formattedHTMLResponse = formattedHTMLResponse.replace(
+        prod.key, 
+        `<a href="javascript:void(0)" onclick="openProductByName('${prod.id}')" class="text-blue-600 dark:text-blue-400 font-bold underline decoration-blue-300 hover:text-blue-800 transition-colors">$&</a>`
+        );
+        });
 
         // 7. Add action buttons to the AI response
         const actionHtml = `<div class="mt-4 flex gap-2 border-t border-blue-200/50 dark:border-slate-700 pt-3">
@@ -1398,6 +1457,16 @@ window.drawDieCut = () => {
     const l = Math.max(10, parseFloat(document.getElementById('dieL').value) || 200);
     const w = Math.max(10, parseFloat(document.getElementById('dieW').value) || 150);
     const h = Math.max(10, parseFloat(document.getElementById('dieH').value) || 100);
+
+    // NEW COOL FEATURE: Sync physical scale to AR Model Viewer
+    const viewer = document.querySelector('model-viewer');
+    if (viewer) {
+        // Normalize mm to meters for the 3D engine (assuming base model is 1x1x1m)
+        const scaleX = l / 1000;
+        const scaleY = h / 1000;
+        const scaleZ = w / 1000;
+        viewer.scale = `${scaleX} ${scaleY} ${scaleZ}`;
+    }
     
     // Standard RSC calculations
     const flap = w / 2; // Top and bottom flaps meet in the middle
@@ -1597,7 +1666,23 @@ window.addEventListener('load', () => {
     }, { rootMargin: "250px 0px" }); // Loads 250px before entering screen for smoother UX
 
     lazyImages.forEach(img => imageObserver.observe(img));
+
+    // ==========================================
+    // 21. Product Modal Opener
+    // ==========================================    
+
+    window.openProductByName = (productName) => {
+    const cards = document.querySelectorAll('.product-item');
+    for (let card of cards) {
+        if (card.dataset.name === productName) {
+            window.toggleChat(); // Close chat
+            window.openProductModal(card); // Open the specific modal
+            return;
+        }
+    }
+};
 });
+
 
 
 
