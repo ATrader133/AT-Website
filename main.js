@@ -1,4 +1,4 @@
-console.log("ABRAR TRADERS: Enterprise Engine Booting v8.0");
+console.log("ABRAR TRADERS: Enterprise Engine Booting v9.0 (Optimized & Tactile)");
 
 // ==========================================
 // 1. GLOBAL STATE & NOTIFICATIONS
@@ -131,6 +131,8 @@ window.addToBasket = function(productName) {
         basket.push(productName);
         window.updateBasketUI();
         window.showToast(`${productName} added to Quote Basket!`, "success");
+        // COOL NEW FEATURE: Tactile Haptic Feedback
+        if (navigator.vibrate) navigator.vibrate([50, 50, 50]); 
     } else {
         window.showToast(`${productName} is already in your basket.`, "info");
     }
@@ -413,9 +415,9 @@ function showQuizResult() {
 }
 
 // ==========================================
-// 3. DOM EVENT INITIALIZATION ENGINE
+// 3. THE INITIALIZATION ENGINE (Perfect Closure)
 // ==========================================
-document.addEventListener('DOMContentLoaded', () => {
+const initAbrarEngine = () => {
 
     window.updateBasketUI();
     window.switchTab('weight'); 
@@ -427,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ['cbmL', 'cbmW', 'cbmH', 'cbmQty'].forEach(id => document.getElementById(id)?.addEventListener('input', window.calculateCBM));
     document.getElementById('esgTons')?.addEventListener('input', window.calculateESG);
 
-    // Product Search Logic
+    // Product Search Logic (Now Keyboard Accessible)
     const searchInput = document.getElementById('productSearch');
     const searchDropdown = document.getElementById('searchDropdown');
     const products = document.querySelectorAll('.product-item');
@@ -443,9 +445,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(name.includes(term) || desc.includes(term)) {
                     hasResults = true; item.style.display = 'block'; item.classList.remove('aos-animate'); setTimeout(() => item.classList.add('aos-animate'), 50);
                     if(searchDropdown) {
-                        const div = document.createElement('div'); div.className = 'flex items-center gap-4 p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50';
+                        const div = document.createElement('div'); div.className = 'flex items-center gap-4 p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 focus:bg-gray-100 outline-none';
+                        div.tabIndex = 0; // Accessibility fix
                         div.innerHTML = `<img src="${item.dataset.image}" alt="" class="w-10 h-10 rounded object-cover"><div><div class="font-bold text-gray-800 text-sm">${item.dataset.name}</div><div class="text-xs text-gray-500">${item.dataset.category}</div></div>`;
-                        div.onclick = () => { window.openProductModal(item); searchDropdown.classList.add('hidden'); searchInput.value = ''; products.forEach(p => p.style.display = 'block'); };
+                        div.onclick = div.onkeydown = (ev) => { 
+                            if(ev.type === 'click' || ev.key === 'Enter') { window.openProductModal(item); searchDropdown.classList.add('hidden'); searchInput.value = ''; products.forEach(p => p.style.display = 'block'); }
+                        };
                         searchDropdown.appendChild(div);
                     }
                 } else { item.style.display = 'none'; }
@@ -564,25 +569,38 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 💡 COOL NEW FEATURE: Draggable AI Copilot Chat Window
+    // 💡 COOL NEW FEATURE: Universal Mobile & Desktop Chat Dragger
     const chatWindow = document.getElementById('aiChatWindow');
     if (chatWindow) {
-        const header = chatWindow.querySelector('.bg-blue-600') || chatWindow.firstElementChild; // Grab the top header
+        const header = chatWindow.querySelector('.bg-blue-600') || chatWindow.firstElementChild; 
         if(header) {
             header.style.cursor = 'grab';
             let isDraggingChat = false, offsetX = 0, offsetY = 0;
-            header.addEventListener('mousedown', (e) => {
+            
+            const startDrag = (e) => {
                 isDraggingChat = true; header.style.cursor = 'grabbing';
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
                 const rect = chatWindow.getBoundingClientRect();
-                offsetX = e.clientX - rect.left; offsetY = e.clientY - rect.top;
-                chatWindow.style.right = 'auto'; chatWindow.style.bottom = 'auto'; // Disable flex positioning
-            });
-            document.addEventListener('mousemove', (e) => {
+                offsetX = clientX - rect.left; offsetY = clientY - rect.top;
+                chatWindow.style.right = 'auto'; chatWindow.style.bottom = 'auto';
+            };
+            const onDrag = (e) => {
                 if (!isDraggingChat) return;
-                chatWindow.style.left = `${e.clientX - offsetX}px`;
-                chatWindow.style.top = `${e.clientY - offsetY}px`;
-            });
-            document.addEventListener('mouseup', () => { isDraggingChat = false; header.style.cursor = 'grab'; });
+                if(e.touches) e.preventDefault(); // Stop mobile scrolling
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                chatWindow.style.left = `${clientX - offsetX}px`;
+                chatWindow.style.top = `${clientY - offsetY}px`;
+            };
+            const endDrag = () => { isDraggingChat = false; header.style.cursor = 'grab'; };
+
+            header.addEventListener('mousedown', startDrag);
+            header.addEventListener('touchstart', startDrag, {passive: false});
+            document.addEventListener('mousemove', onDrag);
+            document.addEventListener('touchmove', onDrag, {passive: false});
+            document.addEventListener('mouseup', endDrag);
+            document.addEventListener('touchend', endDrag);
         }
     }
 
@@ -732,4 +750,13 @@ document.addEventListener('DOMContentLoaded', () => {
             el.addEventListener('mouseleave', () => { if(cursor) cursor.classList.remove('scale-150', 'text-indigo-600'); if(follower) follower.classList.remove('w-20', 'opacity-100'); cloudCanvas.style.opacity = '1'; });
         });
     }
-}); // <-- THIS SINGLE BRACKET IS THE ONLY CLOSURE IN THE ENTIRE FILE.
+};
+
+// ==========================================
+// 4. BOOT LOADER (Defeats Defer Race Conditions)
+// ==========================================
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAbrarEngine);
+} else {
+    initAbrarEngine();
+}
