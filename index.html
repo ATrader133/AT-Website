@@ -1237,21 +1237,14 @@
     <div id="aiChatWindow" class="fixed bottom-24 right-6 w-[90vw] md:w-[400px] glass bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-blue-200/50 dark:border-blue-900/50 rounded-2xl shadow-2xl z-[50000] transform transition-all duration-300 translate-y-10 opacity-0 pointer-events-none flex flex-col overflow-hidden" style="height: 550px; max-height: 80vh;">
         
         <div class="bg-white/50 dark:bg-slate-800/50 backdrop-blur-md p-4 flex justify-between items-center border-b border-gray-100 dark:border-slate-700/50">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-inner">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                </div>
-                <div>
-                    <h3 class="font-bold text-gray-800 dark:text-white font-serif leading-none">Abrar AI Copilot</h3>
-                    <span class="text-[10px] font-bold text-green-500 uppercase tracking-widest flex items-center gap-1 mt-1">
-                        <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span> Online
-                    </span>
-                </div>
+            <div class="flex items-center gap-2">
+                <button onclick="clearChatHistory()" class="text-xs font-bold text-gray-500 hover:text-red-500 transition-colors px-2 py-1 rounded bg-gray-100 dark:bg-slate-800" title="Clear Chat History">
+                    Clear
+                </button>
+                <button onclick="toggleChat()" class="text-gray-400 hover:text-gray-800 dark:hover:text-white transition-colors bg-gray-100 dark:bg-slate-800 p-2 rounded-full">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
             </div>
-            <button onclick="toggleChat()" class="text-gray-400 hover:text-gray-800 dark:hover:text-white transition-colors bg-gray-100 dark:bg-slate-800 p-2 rounded-full">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
 
         <div id="chatLog" class="flex-1 p-5 overflow-y-auto flex flex-col gap-4 text-sm scrollbar-hide">
             <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm">
@@ -1315,6 +1308,7 @@
     </script>
 </body>
 </html>
+
 
 
 
