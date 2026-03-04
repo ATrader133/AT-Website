@@ -1340,30 +1340,49 @@ window.toggleChat = () => {
     const chat = document.getElementById('aiChatWindow');
     if(chat.classList.contains('opacity-0')) {
         chat.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
-        if (window.innerWidth > 768) {
-            document.getElementById('chatInput').focus();
-        }
+        if (window.innerWidth > 768) document.getElementById('chatInput').focus();
     } else {
         chat.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
     }
 };
 
+window.clearChatHistory = () => {
+    chatHistory = [chatHistory[0]]; 
+    const log = document.getElementById('chatLog');
+    log.innerHTML = `
+        <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm">
+            Hi! I'm your packaging engineering assistant. Tell me what you are trying to pack, and I'll calculate the exact paper grade and GSM you need.
+        </div>`;
+    window.showToast("Chat history cleared.", "success");
+};
+
 window.handleChatEnter = (e) => { 
     if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault(); // Prevents new line
-        sendChatMessage(); 
+        e.preventDefault(); 
+        window.sendChatMessage(); 
+    }
+};
+
+window.openProductByName = (productName) => {
+    const cards = document.querySelectorAll('.product-item');
+    for (let card of cards) {
+        if (card.dataset.name === productName) {
+            window.toggleChat(); 
+            window.openProductModal(card); 
+            return;
+        }
     }
 };
 
 window.sendChatMessage = async () => {
     const input = document.getElementById('chatInput');
-    const sendBtn = input.nextElementSibling; // Grabs the send button
+    const sendBtn = input.nextElementSibling; 
     const msg = input.value.trim();
     if(!msg) return;
     
     const log = document.getElementById('chatLog');
     
-    // 1. Lock the UI to prevent double-submissions
+    // 1. Lock UI to prevent double-submissions
     input.disabled = true;
     sendBtn.disabled = true;
     input.classList.add('opacity-50', 'cursor-not-allowed');
@@ -1375,10 +1394,8 @@ window.sendChatMessage = async () => {
     input.style.height = 'auto'; 
     log.scrollTop = log.scrollHeight;
 
-    // 3. Add User Message to LLM History Array
     chatHistory.push({ role: "user", content: msg });
 
-    // 4. Show "AI is thinking..." indicator
     const typingId = 'typing-' + Date.now();
     log.innerHTML += `
         <div id="${typingId}" class="bg-gray-100 dark:bg-slate-800 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] flex items-center gap-2 animate-pulse">
@@ -1388,7 +1405,6 @@ window.sendChatMessage = async () => {
         </div>`;
     log.scrollTop = log.scrollHeight;
 
-    // 5. SECURE NETLIFY FUNCTION INTEGRATION
     const formattedHistory = chatHistory.filter(msg => msg.role !== "system").map(msg => ({
         role: msg.role === "assistant" ? "model" : "user",
         parts: [{ text: msg.content }]
@@ -1406,16 +1422,21 @@ window.sendChatMessage = async () => {
             })
         });
 
-        const data = await response.json();
+        // Fail-safe JSON parsing in case Netlify returns an HTML error page
+        const textResponse = await response.text();
+        let data;
+        try {
+            data = JSON.parse(textResponse);
+        } catch (e) {
+            throw new Error("Invalid backend response. Ensure site is deployed on Netlify.");
+        }
         
-        // Remove typing indicator immediately
         document.getElementById(typingId)?.remove();
 
         if (data.error) throw new Error(data.error);
 
         const aiResponse = data.reply || "I encountered an unexpected format. Please try again.";
         
-        // Auto-Link Products to Modals (Feature implemented previously)
         let formattedHTMLResponse = aiResponse
             .replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900 dark:text-white">$1</strong>')
             .replace(/\n/g, '<br>');
@@ -1436,10 +1457,9 @@ window.sendChatMessage = async () => {
 
         const actionHtml = `<div class="mt-4 flex gap-2 border-t border-blue-200/50 dark:border-slate-700 pt-3">
             <a href="#quote" onclick="toggleChat()" class="text-xs bg-white dark:bg-slate-700 text-blue-600 dark:text-white px-3 py-1.5 rounded-md font-bold hover:bg-blue-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Get a Quote</a>
-            <a href="#calculator" onclick="toggleChat(); switchTab('weight');" class="text-xs bg-white dark:bg-slate-700 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-md font-bold hover:bg-gray-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Calculate Weight</a>
+            <a href="#calculator" onclick="toggleChat(); window.switchTab('weight');" class="text-xs bg-white dark:bg-slate-700 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-md font-bold hover:bg-gray-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Calculate Weight</a>
         </div>`;
 
-        // 6. Render AI Response
         log.innerHTML += `
             <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm animate-fade-in">
                 ${formattedHTMLResponse}
@@ -1453,54 +1473,30 @@ window.sendChatMessage = async () => {
         console.error("Chat API Error:", error);
         log.innerHTML += `
             <div class="bg-red-50 text-red-600 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] text-xs border border-red-200 shadow-sm">
-                Connection error. Please ensure you are connected to the internet and try again.
+                Connection error: ${error.message}
             </div>`;
-        
-        // Remove the user's last message from history so they can retry without corrupting context
         chatHistory.pop(); 
     } finally {
-        // 7. ALWAYS unlock the UI, even if it fails
         input.disabled = false;
         sendBtn.disabled = false;
         input.classList.remove('opacity-50', 'cursor-not-allowed');
         sendBtn.classList.remove('opacity-50', 'cursor-not-allowed');
         log.scrollTop = log.scrollHeight;
-        
-        // Only auto-focus if on desktop to prevent mobile keyboard from popping up annoyingly
         if (window.innerWidth > 768) input.focus();
     }
 };
 
-        // --- FEATURE 7. Add action buttons to the AI response ---
-        const actionHtml = `<div class="mt-4 flex gap-2 border-t border-blue-200/50 dark:border-slate-700 pt-3">
-            <a href="#quote" onclick="toggleChat()" class="text-xs bg-white dark:bg-slate-700 text-blue-600 dark:text-white px-3 py-1.5 rounded-md font-bold hover:bg-blue-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Get a Quote</a>
-            <a href="#calculator" onclick="toggleChat(); switchTab('weight');" class="text-xs bg-white dark:bg-slate-700 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-md font-bold hover:bg-gray-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Calculate Weight</a>
-        </div>`;
-
-        // --- FEATURE 8. Render AI Response to UI ---
-        log.innerHTML += `
-            <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm animate-fade-in">
-                ${formattedHTMLResponse}
-                ${actionHtml}
-            </div>`;
-        
-        // --- FEATURE 9. Add AI Response to LLM History Array ---
-        chatHistory.push({ role: "assistant", content: aiResponse });
-        log.scrollTop = log.scrollHeight;
-
-    } catch (error) {
-        const typingIndicator = document.getElementById(typingId);
-        if(typingIndicator) typingIndicator.remove();
-        console.error("Gemini API Error:", error);
-        log.innerHTML += `
-            <div class="bg-red-50 text-red-600 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] text-xs">
-                Connection error or Invalid API Key. Please try again later.
-            </div>`;
-        log.scrollTop = log.scrollHeight;
+// Enterprise Shortcuts
+document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+        e.preventDefault();
+        window.toggleChat();
     }
-};
-    
+});
 
+}); // <-- CRITICAL: THIS CLOSES THE MAIN SCRIPT BLOCK. DO NOT DELETE OR DUPLICATE.
+
+// --- Die Cut Tool --
 window.drawDieCut = () => {
     // 1. Extract dimensions safely
     const l = Math.max(10, parseFloat(document.getElementById('dieL').value) || 200);
@@ -1740,6 +1736,7 @@ window.addEventListener('load', () => {
         }
     });
 });
+
 
 
 
