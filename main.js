@@ -1503,7 +1503,7 @@ window.drawDieCut = () => {
     const w = Math.max(10, parseFloat(document.getElementById('dieW').value) || 150);
     const h = Math.max(10, parseFloat(document.getElementById('dieH').value) || 100);
     
-    // 2. NEW COOL FEATURE: Sync physical scale to AR Model Viewer dynamically
+    // 2. Sync physical scale to AR Model Viewer dynamically
     const viewer = document.querySelector('model-viewer');
     if (viewer) {
         const scaleX = l / 1000;
@@ -1551,19 +1551,12 @@ window.drawDieCut = () => {
     if (svgContainer) svgContainer.innerHTML = svgContent;
 };
 
-// Download logic
 window.downloadSVG = () => {
     const svgElement = document.getElementById('generatedSvg');
     if (!svgElement) return;
-    
-    // Convert SVG to string
     const serializer = new XMLSerializer();
     let source = serializer.serializeToString(svgElement);
-    
-    // Add xml declaration
     source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
-    
-    // Create a download link
     const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
     const link = document.createElement("a");
     link.href = url;
@@ -1571,170 +1564,391 @@ window.downloadSVG = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
     window.showToast("SVG Die-Line Downloaded!", "success");
 };
 
-    // ==========================================
-    // 19. SMART NAV SCROLL LOGIC
-    // ==========================================
-    const nav = document.getElementById('mainNav');
-    let lastScrollY = window.scrollY;
+// ==========================================
+// 18. INNOVATIVE FEATURES ENGINE (AI, AR, ESG PDF, i18n, Sample Kit)
+// ==========================================
 
-    if (nav) {
-        window.addEventListener('scroll', () => {
-            const currentScrollY = window.scrollY;
-            
-            // Add shrink/shadow effect when not at the top
-            if (currentScrollY > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
+// --- FEATURE 1: ESG PDF Generator (html2pdf) ---
+document.getElementById('esgTons')?.addEventListener('input', (e) => {
+    const tons = parseFloat(e.target.value) || 0;
+    const btn = document.getElementById('esgDownloadBtn');
+    if(btn) tons > 0 ? btn.classList.remove('hidden') : btn.classList.add('hidden');
+});
 
-            // Hide nav when scrolling down, show when scrolling up
-            if (currentScrollY > lastScrollY && currentScrollY > 300) {
-                nav.style.transform = 'translateY(-150%)';
-            } else {
-                nav.style.transform = 'translateY(0)';
-            }
-            lastScrollY = currentScrollY;
-        }, { passive: true });
-    }
+window.downloadESGReport = function() {
+    window.showToast("Initializing PDF Engine... Please wait.", "info");
+    const generatePDF = () => {
+        const tons = Math.max(0, parseFloat(document.getElementById('esgTons').value) || 0);
+        const trees = document.getElementById('esgTrees').innerText;
+        const water = document.getElementById('esgWater').innerText;
+        const energy = document.getElementById('esgEnergy').innerText;
 
-    // --- FEATURE 14. NEXT-GEN UI: 3D REEL, TILT & MAGNETIC BUTTONS ---
+        const element = document.createElement('div');
+        element.innerHTML = `
+            <div style="padding: 40px; font-family: 'Helvetica', sans-serif; color: #1f2937;">
+                <div style="text-align: center; border-bottom: 3px solid #10b981; padding-bottom: 20px; margin-bottom: 30px;">
+                    <h1 style="color: #047857; margin: 0; font-size: 32px;">Certificate of Environmental Impact</h1>
+                    <p style="color: #6b7280; font-size: 14px; margin-top: 5px;">Certified by ABRAR TRADERS | Sustainable Packaging Solutions</p>
+                </div>
+                <p style="font-size: 18px; line-height: 1.6;">This certifies that the procurement of <strong>${tons} Metric Tons</strong> of Recycled Paper Board actively contributes to the following environmental savings globally:</p>
+                <div style="display: flex; justify-content: space-between; margin-top: 40px;">
+                    <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 20px; border-radius: 12px; width: 30%; text-align: center;">
+                        <h2 style="color: #059669; font-size: 28px; margin: 0;">🌳 ${trees}</h2>
+                        <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: bold;">Trees Saved</p>
+                    </div>
+                    <div style="background: #eff6ff; border: 1px solid #bfdbfe; padding: 20px; border-radius: 12px; width: 30%; text-align: center;">
+                        <h2 style="color: #2563eb; font-size: 28px; margin: 0;">💧 ${water} L</h2>
+                        <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: bold;">Water Preserved</p>
+                    </div>
+                    <div style="background: #fefce8; border: 1px solid #fef08a; padding: 20px; border-radius: 12px; width: 30%; text-align: center;">
+                        <h2 style="color: #ca8a04; font-size: 28px; margin: 0;">⚡ ${energy} kWh</h2>
+                        <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: bold;">Energy Conserved</p>
+                    </div>
+                </div>
+                <p style="margin-top: 50px; font-size: 12px; color: #9ca3af; text-align: center;">Generated on ${new Date().toLocaleDateString()}. Calculations based on standard recycling metrics. Thank you for choosing a greener supply chain.</p>
+            </div>
+        `;
         
-    // --- A. 3D PRODUCT CARD TILT ---
-    if (typeof VanillaTilt !== 'undefined') {
-        VanillaTilt.init(document.querySelectorAll(".product-card"), {
-                max: 12,           // Maximum tilt rotation
-                speed: 400,        // Speed of the enter/exit transition
-                glare: true,       // Adds a glass reflection
-                "max-glare": 0.2,  // Maximum opacity of the reflection
-                perspective: 1000
-            });
+        element.style.position = 'absolute';
+        element.style.top = '-9999px';
+        element.style.left = '-9999px';
+        element.style.opacity = '1';
+        element.style.zIndex = '-10000';
+        element.style.pointerEvents = 'none';
+        document.body.appendChild(element);
+        
+        html2pdf().set({
+            margin: 10,
+            filename: 'Abrar_Traders_CSR_Impact.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        }).from(element).save().then(() => {
+            document.body.removeChild(element);
+            window.showToast("Certificate Downloaded Successfully!", "success");
+        });
+    };
+
+    if (typeof html2pdf !== 'undefined') {
+        generatePDF();
+    } else {
+        const script = document.createElement('script');
+        script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
+        script.onload = () => {
+            window.showToast("Generating PDF Certificate...", "success");
+            generatePDF();
+        };
+        script.onerror = () => window.showToast("Failed to load PDF engine. Check connection.", "info");
+        document.body.appendChild(script);
+    }
+};
+
+// --- FEATURE 2: Sample Kit Modal ---
+window.openSampleKit = () => { document.getElementById('sampleKitModal').classList.remove('hidden'); document.getElementById('sampleKitModal').classList.add('flex'); };
+window.closeSampleKit = () => { document.getElementById('sampleKitModal').classList.add('hidden'); document.getElementById('sampleKitModal').classList.remove('flex'); };
+window.submitSampleKit = (e) => {
+    e.preventDefault();
+    window.closeSampleKit();
+    window.showToast("Sample Kit requested! Our team will contact you for dispatch details.", "success");
+};
+    
+// --- FEATURE 4: Basic Multilingual Support (i18n) ---
+const translations = {
+    en: { home: "Home", products: "Products", tools: "Pro Tools", blog: "Blog", contact: "Contact", heroTitle: "ABRAR TRADERS" },
+    hi: { home: "होम", products: "उत्पाद", tools: "उपकरण", blog: "ब्लॉग", contact: "संपर्क", heroTitle: "अबरार ट्रेडर्स" },
+    gu: { home: "ઘર", products: "ઉત્પાદનો", tools: "સાધનો", blog: "બ્લોગ", contact: "સંપર્ક", heroTitle: "અબરાર ટ્રેડર્સ" }
+};
+
+document.querySelectorAll('.nav-link').forEach((el, i) => {
+    const keys = ["home", "products", "tools", "blog", "contact"];
+    if(keys[i]) el.setAttribute('data-i18n', keys[i]);
+});
+document.querySelector('h1 span.bg-gradient-to-r')?.setAttribute('data-i18n', 'heroTitle');
+
+document.getElementById('langToggle')?.addEventListener('change', (e) => {
+    const lang = e.target.value;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+            el.innerText = translations[lang][key];
         }
-
-        // --- B. MAGNETIC BUTTON PHYSICS ---
-        const magneticButtons = document.querySelectorAll('.action-button');
-        magneticButtons.forEach(btn => {
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const h = rect.width / 2;
-                const v = rect.height / 2;
-                
-                // Calculate mouse position relative to center of button
-                const x = e.clientX - rect.left - h;
-                const y = e.clientY - rect.top - v;
-                
-                // Remove CSS transition for instant snappy follow, apply magnetic pull
-                btn.style.transition = 'none';
-                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-            });
-            
-            btn.addEventListener('mouseleave', () => {
-                // Restore CSS transition for an elastic snap-back
-                btn.style.transition = 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
-                btn.style.transform = `translate(0px, 0px)`;
-            });
     });
+    window.showToast(`Language changed to ${lang.toUpperCase()}`, "info");
+});
 
-    
-    // --- FEATURE 15. CINEMATIC FOOTER PARALLAX ENGINE ---
-    const footerElement = document.querySelector('footer');
-    const footerTiltLayer = document.getElementById('footer-tilt-layer');
+// --- FEATURE 5: AR Pallet Viewer ---
+window.openARViewer = () => { 
+    const modal = document.getElementById('arViewerModal');
+    modal.classList.remove('hidden'); 
+    modal.classList.add('flex'); 
+    document.body.style.overflow = 'hidden'; 
+};
 
-    if (footerElement && footerTiltLayer && window.matchMedia("(min-width: 768px)").matches) {
-        
-        footerElement.addEventListener('mousemove', (e) => {
-            const rect = footerElement.getBoundingClientRect();
-            
-            // Calculate mouse position relative to the footer
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            // Calculate subtle 3D tilt (Max 12 degrees)
-            const tiltX = ((y - centerY) / centerY) * -12; 
-            const tiltY = ((x - centerX) / centerX) * 12;
+window.closeARViewer = () => {
+    document.getElementById('arViewerModal').classList.add('hidden'); 
+    document.getElementById('arViewerModal').classList.remove('flex'); 
+    document.body.style.overflow = ''; 
+};
 
-            // Apply tilt and slight scale to push it into the background
-            footerTiltLayer.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.05, 1.05, 1.05)`;
-        });
-        
-        // Elastic snap-back when the mouse leaves the footer
-        footerElement.addEventListener('mouseleave', () => {
-            footerTiltLayer.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-            footerTiltLayer.style.transition = 'transform 1s cubic-bezier(0.25, 1, 0.5, 1)';
-            
-            // Reset to quick transitions for the next hover
-            setTimeout(() => {
-                footerTiltLayer.style.transition = 'transform 0.1s ease-out';
-            }, 1000);
-        });
-        
-        footerElement.addEventListener('mouseenter', () => {
-            footerTiltLayer.style.transition = 'transform 0.1s ease-out';
-        });
+// --- FEATURE 6: TRUE AI SUPPLY CHAIN ASSISTANT ARCHITECTURE ---
+let chatHistory = [
+    { role: "system", content: "You are the Abrar Traders AI Assistant. You are an expert in paper packaging, GSM, Burst Factor, Kraft paper, Duplex Board, and logistics. Be helpful, professional, and concise." }
+];
+
+window.toggleChat = () => {
+    const chat = document.getElementById('aiChatWindow');
+    if(chat.classList.contains('opacity-0')) {
+        chat.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+        if (window.innerWidth > 768) document.getElementById('chatInput').focus();
+    } else {
+        chat.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
     }
-}); 
+};
 
-// --- FEATURE 16. LAZY LOAD IMAGE REVEAL LOGIC (FAIL-PROOF) ---
-window.addEventListener('load', () => {
-    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
-    
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                // Force reveal immediately to prevent infinite blur on cache load
-                img.classList.add('loaded'); 
-                observer.unobserve(img);
-            }
-        });
-    }, { rootMargin: "250px 0px" }); // Loads 250px before entering screen for smoother UX
+window.clearChatHistory = () => {
+    chatHistory = [chatHistory[0]]; 
+    const log = document.getElementById('chatLog');
+    log.innerHTML = `
+        <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm">
+            Hi! I'm your packaging engineering assistant. Tell me what you are trying to pack, and I'll calculate the exact paper grade and GSM you need.
+        </div>`;
+    window.showToast("Chat history cleared.", "success");
+};
 
-    lazyImages.forEach(img => imageObserver.observe(img));
+window.handleChatEnter = (e) => { 
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault(); 
+        window.sendChatMessage(); 
+    }
+};
 
-   =
-    // --- FEATURE 17. Product Modal Opener ---
-    window.openProductByName = (productName) => {
+window.openProductByName = (productName) => {
     const cards = document.querySelectorAll('.product-item');
     for (let card of cards) {
         if (card.dataset.name === productName) {
-            window.toggleChat(); // Close chat
-            window.openProductModal(card); // Open the specific modal
+            window.toggleChat(); 
+            window.openProductModal(card); 
             return;
         }
     }
 };
 
-    // --- FEATURE 18. Clear Chat History ---
-    window.clearChatHistory = () => {
-    // Reset history array back to just the system instruction
-    chatHistory = [chatHistory[0]]; 
+window.sendChatMessage = async () => {
+    const input = document.getElementById('chatInput');
+    const sendBtn = input.nextElementSibling; 
+    const msg = input.value.trim();
+    if(!msg) return;
     
-    // Clear the visual log and restore the initial greeting
     const log = document.getElementById('chatLog');
-    log.innerHTML = `
-        <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm">
-            Hi! I'm your packaging engineering assistant. Tell me what you are trying to pack (e.g., <em>"500kg of fragile glassware"</em> or <em>"frozen food exports"</em>) and I'll calculate the exact paper grade and GSM you need.
-        </div>`;
     
-    window.showToast("Chat history cleared.", "success");
-};
-    // ==========================================
-    // 21. ENTERPRISE SHORTCUTS
-    // ==========================================
-    document.addEventListener('keydown', (e) => {
-        // Press Ctrl + / (Windows) or Cmd + / (Mac) to toggle AI Chat instantly
-        if ((e.ctrlKey || e.metaKey) && e.key === '/') {
-            e.preventDefault();
-            window.toggleChat();
+    input.disabled = true;
+    sendBtn.disabled = true;
+    input.classList.add('opacity-50', 'cursor-not-allowed');
+    sendBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+    log.innerHTML += `<div class="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-4 rounded-2xl rounded-tr-none self-end max-w-[85%] shadow-md transform transition-all animate-slide-up">${msg}</div>`;
+    input.value = '';
+    input.style.height = 'auto'; 
+    log.scrollTop = log.scrollHeight;
+
+    chatHistory.push({ role: "user", content: msg });
+
+    const typingId = 'typing-' + Date.now();
+    log.innerHTML += `
+        <div id="${typingId}" class="bg-gray-100 dark:bg-slate-800 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] flex items-center gap-2 animate-pulse">
+            <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+            <span class="w-2 h-2 bg-blue-500 rounded-full" style="animation-delay: 0.2s"></span>
+            <span class="w-2 h-2 bg-blue-600 rounded-full" style="animation-delay: 0.4s"></span>
+        </div>`;
+    log.scrollTop = log.scrollHeight;
+
+    const formattedHistory = chatHistory.filter(msg => msg.role !== "system").map(msg => ({
+        role: msg.role === "assistant" ? "model" : "user",
+        parts: [{ text: msg.content }]
+    }));
+
+    const systemInstruction = chatHistory.find(msg => msg.role === "system").content;
+
+    try {
+        const response = await fetch('/.netlify/functions/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                systemInstruction: systemInstruction,
+                contents: formattedHistory
+            })
+        });
+
+        const textResponse = await response.text();
+        let data;
+        try {
+            data = JSON.parse(textResponse);
+        } catch (e) {
+            throw new Error("Invalid backend response. Ensure site is deployed on Netlify.");
         }
+        
+        document.getElementById(typingId)?.remove();
+
+        if (data.error) throw new Error(data.error);
+
+        const aiResponse = data.reply || "I encountered an unexpected format. Please try again.";
+        
+        let formattedHTMLResponse = aiResponse
+            .replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900 dark:text-white">$1</strong>')
+            .replace(/\n/g, '<br>');
+
+        const productKeywords = [
+            { key: /Kraft Paper/gi, id: "Kraft Paper" },
+            { key: /Duplex Board/gi, id: "Duplex Paper, Duplex Board" },
+            { key: /SBS/gi, id: "SBS (Solid Bleached Sulfate)" },
+            { key: /FBB/gi, id: "FBB (Folding Box Board)" }
+        ];
+
+        productKeywords.forEach(prod => {
+            formattedHTMLResponse = formattedHTMLResponse.replace(
+                prod.key, 
+                `<a href="javascript:void(0)" onclick="openProductByName('${prod.id}')" class="text-blue-600 dark:text-blue-400 font-bold underline decoration-blue-300 hover:text-blue-800 transition-colors">$&</a>`
+            );
+        });
+
+        const actionHtml = `<div class="mt-4 flex gap-2 border-t border-blue-200/50 dark:border-slate-700 pt-3">
+            <a href="#quote" onclick="toggleChat()" class="text-xs bg-white dark:bg-slate-700 text-blue-600 dark:text-white px-3 py-1.5 rounded-md font-bold hover:bg-blue-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Get a Quote</a>
+            <a href="#calculator" onclick="toggleChat(); window.switchTab('weight');" class="text-xs bg-white dark:bg-slate-700 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-md font-bold hover:bg-gray-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Calculate Weight</a>
+        </div>`;
+
+        log.innerHTML += `
+            <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm animate-fade-in">
+                ${formattedHTMLResponse}
+                ${actionHtml}
+            </div>`;
+        
+        chatHistory.push({ role: "assistant", content: aiResponse });
+
+    } catch (error) {
+        document.getElementById(typingId)?.remove();
+        console.error("Chat API Error:", error);
+        log.innerHTML += `
+            <div class="bg-red-50 text-red-600 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] text-xs border border-red-200 shadow-sm">
+                Connection error: ${error.message}
+            </div>`;
+        chatHistory.pop(); 
+    } finally {
+        input.disabled = false;
+        sendBtn.disabled = false;
+        input.classList.remove('opacity-50', 'cursor-not-allowed');
+        sendBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        log.scrollTop = log.scrollHeight;
+        if (window.innerWidth > 768) input.focus();
+    }
+};
+
+// ==========================================
+// 19. SMART NAV SCROLL LOGIC
+// ==========================================
+const nav = document.getElementById('mainNav');
+let lastScrollY = window.scrollY;
+
+if (nav) {
+    window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+        if (currentScrollY > 50) {
+            nav.classList.add('scrolled');
+        } else {
+            nav.classList.remove('scrolled');
+        }
+        if (currentScrollY > lastScrollY && currentScrollY > 300) {
+            nav.style.transform = 'translateY(-150%)';
+        } else {
+            nav.style.transform = 'translateY(0)';
+        }
+        lastScrollY = currentScrollY;
+    }, { passive: true });
+}
+
+// ==========================================
+// 20. NEXT-GEN UI: 3D REEL, TILT & MAGNETIC BUTTONS
+// ==========================================
+if (typeof VanillaTilt !== 'undefined') {
+    VanillaTilt.init(document.querySelectorAll(".product-card"), {
+        max: 12, speed: 400, glare: true, "max-glare": 0.2, perspective: 1000
     });
+}
+
+const magneticButtons = document.querySelectorAll('.action-button');
+magneticButtons.forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const h = rect.width / 2;
+        const v = rect.height / 2;
+        const x = e.clientX - rect.left - h;
+        const y = e.clientY - rect.top - v;
+        btn.style.transition = 'none';
+        btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+        btn.style.transition = 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+        btn.style.transform = `translate(0px, 0px)`;
+    });
+});
+
+// ==========================================
+// 21. CINEMATIC FOOTER PARALLAX ENGINE
+// ==========================================
+const footerElement = document.querySelector('footer');
+const footerTiltLayer = document.getElementById('footer-tilt-layer');
+
+if (footerElement && footerTiltLayer && window.matchMedia("(min-width: 768px)").matches) {
+    footerElement.addEventListener('mousemove', (e) => {
+        const rect = footerElement.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const tiltX = ((y - centerY) / centerY) * -12; 
+        const tiltY = ((x - centerX) / centerX) * 12;
+        footerTiltLayer.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.05, 1.05, 1.05)`;
+    });
+    footerElement.addEventListener('mouseleave', () => {
+        footerTiltLayer.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        footerTiltLayer.style.transition = 'transform 1s cubic-bezier(0.25, 1, 0.5, 1)';
+        setTimeout(() => {
+            footerTiltLayer.style.transition = 'transform 0.1s ease-out';
+        }, 1000);
+    });
+    footerElement.addEventListener('mouseenter', () => {
+        footerTiltLayer.style.transition = 'transform 0.1s ease-out';
+    });
+}
+
+// ==========================================
+// 22. ENTERPRISE SHORTCUTS
+// ==========================================
+document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+        e.preventDefault();
+        window.toggleChat();
+    }
+});
+
+
+// ==========================================
+// 23. LAZY LOAD IMAGE REVEAL LOGIC
+// ==========================================
+window.addEventListener('load', () => {
+    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('loaded'); 
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { rootMargin: "250px 0px" });
+    lazyImages.forEach(img => imageObserver.observe(img));
+});
 });
 
 
