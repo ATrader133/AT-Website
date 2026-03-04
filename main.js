@@ -106,36 +106,39 @@ document.addEventListener('DOMContentLoaded', function() {
     productModalBackdrop?.addEventListener('click', window.closeModal);
 
     // ==========================================
-    // 3. QUOTE BASKET
-    // ==========================================
-    window.addToBasket = function(productName) {
-        if(!basket.includes(productName)) {
-            basket.push(productName);
-            updateBasketUI();
-            window.showToast(`${productName} added to Quote Basket!`, "success");
-        } else {
-            window.showToast(`${productName} is already in your basket.`, "info");
-        }
-    };
-
-    function updateBasketUI() {
-        localStorage.setItem('at_basket', JSON.stringify(basket));
-        const countEl = document.getElementById('basketCount');
-        const basketBtn = document.getElementById('quoteBasket');
-        const formInput = document.getElementById('quoteProduct');
-        if(countEl) countEl.textContent = basket.length;
-        if(basketBtn) basketBtn.classList.toggle('hidden', basket.length === 0);
-        if(formInput && basket.length > 0) formInput.value = basket.join(', ');
+// 3. QUOTE BASKET & MODAL LOGIC (COMPLETE FIX)
+// ==========================================
+window.addToBasket = function(productName) {
+    if(!basket.includes(productName)) {
+        basket.push(productName);
+        updateBasketUI();
+        window.showToast(`${productName} added to Quote Basket!`, "success");
+    } else {
+        window.showToast(`${productName} is already in your basket.`, "info");
     }
-    updateBasketUI();
-    document.getElementById('quoteBasket')?.addEventListener('click', () => document.getElementById('quote')?.scrollIntoView({behavior: 'smooth'}));
-        window.toggleBasketModal = () => {
+};
+
+function updateBasketUI() {
+    localStorage.setItem('at_basket', JSON.stringify(basket));
+    const countEl = document.getElementById('basketCount');
+    const basketBtn = document.getElementById('quoteBasket');
+    const formInput = document.getElementById('quoteProduct');
+    if(countEl) countEl.textContent = basket.length;
+    if(basketBtn) basketBtn.classList.toggle('hidden', basket.length === 0);
+    if(formInput && basket.length > 0) formInput.value = basket.join(', ');
+}
+
+// Call it immediately on load to set initial state safely
+updateBasketUI();
+
+// New Interactive Modal Logic
+window.toggleBasketModal = () => {
     const modal = document.getElementById('basketModal');
-    if (modal.classList.contains('hidden')) {
-        renderBasketItems();
+    if (modal && modal.classList.contains('hidden')) {
+        window.renderBasketItems();
         modal.classList.remove('hidden');
         modal.classList.add('flex');
-    } else {
+    } else if (modal) {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
     }
@@ -143,17 +146,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
 window.renderBasketItems = () => {
     const list = document.getElementById('basketItemList');
+    if (!list) return;
     list.innerHTML = '';
+    
     if (basket.length === 0) {
         list.innerHTML = '<li class="text-gray-500 text-sm text-center py-4">Your basket is empty.</li>';
         return;
     }
+    
     basket.forEach((item, index) => {
         list.innerHTML += `
             <li class="flex justify-between items-center bg-gray-50 dark:bg-slate-800 p-3 rounded-lg border border-gray-100 dark:border-slate-700">
                 <span class="font-bold text-gray-700 dark:text-gray-200 text-sm">${item}</span>
-                <button onclick="removeFromBasket(${index})" class="text-red-400 hover:text-red-600 p-1">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                <button onclick="removeFromBasket(${index})" class="text-red-400 hover:text-red-600 p-1 font-bold">
+                    ✖
                 </button>
             </li>`;
     });
@@ -162,17 +168,22 @@ window.renderBasketItems = () => {
 window.removeFromBasket = (index) => {
     basket.splice(index, 1);
     updateBasketUI();
-    renderBasketItems();
+    window.renderBasketItems();
 };
 
 window.proceedToQuote = () => {
-    toggleBasketModal();
+    window.toggleBasketModal();
     document.getElementById('quote')?.scrollIntoView({behavior: 'smooth'});
 };
 
-// OVERRIDE the existing quoteBasket click listener:
-document.getElementById('quoteBasket')?.removeEventListener('click', () => document.getElementById('quote')?.scrollIntoView({behavior: 'smooth'}));
-document.getElementById('quoteBasket')?.addEventListener('click', window.toggleBasketModal);
+// Safely attach the new click listener
+const quoteBasketBtn = document.getElementById('quoteBasket');
+if (quoteBasketBtn) {
+    // Remove old scroll behavior and attach the modal toggle
+    const oldClone = quoteBasketBtn.cloneNode(true);
+    quoteBasketBtn.parentNode.replaceChild(oldClone, quoteBasketBtn);
+    oldClone.addEventListener('click', window.toggleBasketModal);
+}
     
     // ==========================================
     // 4. CALCULATORS
@@ -1491,31 +1502,28 @@ window.sendChatMessage = async () => {
     
 
 window.drawDieCut = () => {
-    // Get positive values only
+    // 1. Extract dimensions safely
     const l = Math.max(10, parseFloat(document.getElementById('dieL').value) || 200);
     const w = Math.max(10, parseFloat(document.getElementById('dieW').value) || 150);
     const h = Math.max(10, parseFloat(document.getElementById('dieH').value) || 100);
-
-    // NEW COOL FEATURE: Sync physical scale to AR Model Viewer
+    
+    // 2. NEW COOL FEATURE: Sync physical scale to AR Model Viewer dynamically
     const viewer = document.querySelector('model-viewer');
     if (viewer) {
-        // Normalize mm to meters for the 3D engine (assuming base model is 1x1x1m)
         const scaleX = l / 1000;
         const scaleY = h / 1000;
         const scaleZ = w / 1000;
         viewer.scale = `${scaleX} ${scaleY} ${scaleZ}`;
     }
     
-    // Standard RSC calculations
-    const flap = w / 2; // Top and bottom flaps meet in the middle
-    const glueTab = 30; // Standard 30mm glue tab
+    // 3. Standard RSC calculations
+    const flap = w / 2; 
+    const glueTab = 30; 
     const totalW = glueTab + (l * 2) + (w * 2);
     const totalH = h + (flap * 2);
-
-    // Padding for the canvas so it doesn't touch the edges
     const pad = 20; 
 
-    // Create SVG Elements
+    // 4. Create and inject SVG Elements
     const svgContent = `
         <svg id="generatedSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${totalW + (pad*2)} ${totalH + (pad*2)}" class="w-full max-w-full h-auto" style="max-height: 50vh;">
             <style>
@@ -1523,34 +1531,28 @@ window.drawDieCut = () => {
                 .fold { stroke: #ef4444; stroke-width: 2; stroke-dasharray: 8,6; fill: none; }
                 .dark-mode .cut { stroke: #f9fafb; }
             </style>
-            
             <g transform="translate(${pad}, ${pad})">
                 <line class="fold" x1="${glueTab}" y1="${flap}" x2="${totalW}" y2="${flap}" />
                 <line class="fold" x1="${glueTab}" y1="${flap + h}" x2="${totalW}" y2="${flap + h}" />
-                
                 <line class="fold" x1="${glueTab}" y1="${flap}" x2="${glueTab}" y2="${flap + h}" />
                 <line class="fold" x1="${glueTab + l}" y1="${flap}" x2="${glueTab + l}" y2="${flap + h}" />
                 <line class="fold" x1="${glueTab + l + w}" y1="${flap}" x2="${glueTab + l + w}" y2="${flap + h}" />
                 <line class="fold" x1="${glueTab + (l*2) + w}" y1="${flap}" x2="${glueTab + (l*2) + w}" y2="${flap + h}" />
-
                 <path class="cut" d="M ${glueTab} ${flap} L 0 ${flap + 10} L 0 ${flap + h - 10} L ${glueTab} ${flap + h}" />
-                
                 <path class="cut" d="M ${glueTab} ${flap} L ${glueTab} 0 L ${glueTab + l} 0 L ${glueTab + l} ${flap}" />
                 <path class="cut" d="M ${glueTab + l} ${flap} L ${glueTab + l} 0 L ${glueTab + l + w} 0 L ${glueTab + l + w} ${flap}" />
                 <path class="cut" d="M ${glueTab + l + w} ${flap} L ${glueTab + l + w} 0 L ${glueTab + (l*2) + w} 0 L ${glueTab + (l*2) + w} ${flap}" />
                 <path class="cut" d="M ${glueTab + (l*2) + w} ${flap} L ${glueTab + (l*2) + w} 0 L ${totalW} 0 L ${totalW} ${flap}" />
-                
                 <path class="cut" d="M ${glueTab} ${flap + h} L ${glueTab} ${totalH} L ${glueTab + l} ${totalH} L ${glueTab + l} ${flap + h}" />
                 <path class="cut" d="M ${glueTab + l} ${flap + h} L ${glueTab + l} ${totalH} L ${glueTab + l + w} ${totalH} L ${glueTab + l + w} ${flap + h}" />
                 <path class="cut" d="M ${glueTab + l + w} ${flap + h} L ${glueTab + l + w} ${totalH} L ${glueTab + (l*2) + w} ${totalH} L ${glueTab + (l*2) + w} ${flap + h}" />
                 <path class="cut" d="M ${glueTab + (l*2) + w} ${flap + h} L ${glueTab + (l*2) + w} ${totalH} L ${totalW} ${totalH} L ${totalW} ${flap + h}" />
-                
                 <line class="cut" x1="${totalW}" y1="${flap}" x2="${totalW}" y2="${flap + h}" />
             </g>
         </svg>
     `;
-    
-    document.getElementById('svgContainer').innerHTML = svgContent;
+    const svgContainer = document.getElementById('svgContainer');
+    if (svgContainer) svgContainer.innerHTML = svgContent;
 };
 
 // Download logic
@@ -1727,7 +1729,18 @@ window.addEventListener('load', () => {
     
     window.showToast("Chat history cleared.", "success");
 };
+    // ==========================================
+    // 21. ENTERPRISE SHORTCUTS
+    // ==========================================
+    document.addEventListener('keydown', (e) => {
+        // Press Ctrl + / (Windows) or Cmd + / (Mac) to toggle AI Chat instantly
+        if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+            e.preventDefault();
+            window.toggleChat();
+        }
+    });
 });
+
 
 
 
