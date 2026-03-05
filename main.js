@@ -1453,18 +1453,8 @@ window.sendChatMessage = async () => {
             .replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900 dark:text-white">$1</strong>')
             .replace(/\n/g, '<br>');
             // Sanitize the output before injecting
-        const cleanHTML = DOMPurify.sanitize(formattedHTMLResponse);
-
-        const actionHtml = `<div class="mt-4 flex gap-2 border-t border-blue-200/50 dark:border-slate-700 pt-3">
-            <a href="#quote" onclick="toggleChat()" class="text-xs bg-white dark:bg-slate-700 text-blue-600 dark:text-white px-3 py-1.5 rounded-md font-bold hover:bg-blue-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Get a Quote</a>
-            <a href="#calculator" onclick="toggleChat(); window.switchTab('weight');" class="text-xs bg-white dark:bg-slate-700 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-md font-bold hover:bg-gray-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Calculate Weight</a>
-        </div>`;
-
-        log.innerHTML += `
-            <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm animate-fade-in">
-                ${cleanHTML} 
-                ${actionHtml}
-            </div>`;
+        // Sanitize the output before injecting
+        let cleanHTML = DOMPurify.sanitize(formattedHTMLResponse);
 
         const productKeywords = [
             { key: /Kraft Paper/gi, id: "Kraft Paper" },
@@ -1474,7 +1464,7 @@ window.sendChatMessage = async () => {
         ];
 
         productKeywords.forEach(prod => {
-            formattedHTMLResponse = formattedHTMLResponse.replace(
+            cleanHTML = cleanHTML.replace(
                 prod.key, 
                 `<a href="javascript:void(0)" onclick="openProductByName('${prod.id}')" class="text-blue-600 dark:text-blue-400 font-bold underline decoration-blue-300 hover:text-blue-800 transition-colors">$&</a>`
             );
@@ -1487,7 +1477,7 @@ window.sendChatMessage = async () => {
 
         log.innerHTML += `
             <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm animate-fade-in">
-                ${formattedHTMLResponse}
+                ${cleanHTML}
                 ${actionHtml}
             </div>`;
         
@@ -1624,17 +1614,6 @@ if (typeof VanillaTilt !== 'undefined') {
     });
 }
 
-const magneticButtons = document.querySelectorAll('.action-button');
-magneticButtons.forEach(btn => {
-    btn.addEventListener('mousemove', (e) => {
-        const rect = btn.getBoundingClientRect();
-        const h = rect.width / 2;
-        const v = rect.height / 2;
-        const x = e.clientX - rect.left - h;
-        const y = e.clientY - rect.top - v;
-        btn.style.transition = 'none';
-        btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-    });
     btn.addEventListener('mouseleave', () => {
         btn.style.transition = 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
         btn.style.transform = `translate(0px, 0px)`;
@@ -1727,6 +1706,7 @@ window.addEventListener('load', () => {
     }, { rootMargin: "250px 0px" });
     lazyImages.forEach(img => imageObserver.observe(img));
 });
+
 
 
 
