@@ -540,24 +540,43 @@ if (quoteBasketBtn) {
     });
     }
 
-    // Advanced Magnetic Parallax Buttons
+    // Advanced Magnetic Parallax Buttons (Throttled for Performance)
+    let isTicking = false;
     document.querySelectorAll('.action-button, .btn-glow').forEach(btn => {
         btn.addEventListener('mousemove', (e) => {
-            const rect = btn.getBoundingClientRect();
-            const x = (e.clientX - rect.left) - (rect.width / 2);
-            const y = (e.clientY - rect.top) - (rect.height / 2);
+            if (!isTicking) {
+                window.requestAnimationFrame(() => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) - (rect.width / 2);
+                    const y = (e.clientY - rect.top) - (rect.height / 2);
+                    btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px) scale(1.02)`;
+                    
+                    const children = Array.from(btn.children);
+                    children.forEach(child => {
+                        if (child.tagName.toLowerCase() !== 'svg') {
+                            child.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+                        }
+                    });
+                    isTicking = false;
+                });
+                isTicking = true;
+            }
+        });
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = `translate(0px, 0px) scale(1)`;
+            btn.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)'; 
             
-            // Move and slightly scale the main button
-            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px) scale(1.02)`;
-            
-            // Parallax the inner text/icons for depth
             const children = Array.from(btn.children);
             children.forEach(child => {
-                if (child.tagName.toLowerCase() !== 'svg') {
-                    child.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
-                }
+                child.style.transform = `translate(0px, 0px)`;
+                child.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)'; 
             });
+            setTimeout(() => { 
+                btn.style.transition = ''; 
+                children.forEach(c => c.style.transition = ''); 
+            }, 500);
         });
+    });
         btn.addEventListener('mouseleave', () => {
             btn.style.transform = `translate(0px, 0px) scale(1)`;
             btn.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)'; 
@@ -849,6 +868,13 @@ if (quoteBasketBtn) {
 
         // 3. The 60fps Physics Rendering Loop
         function animateFlightEngine() {
+            
+            // CRITICAL FIX: Stop rendering if mouse is idle and clouds have evaporated
+            if (particles.length === 0 && Math.abs(mouseX - followerX) < 0.5 && Math.abs(mouseY - followerY) < 0.5) {
+                requestAnimationFrame(animateFlightEngine);
+                return; 
+            }
+       
             // Smoothly interpolate the Angle
             let deltaAngle = targetAngle - currentAngle;
             deltaAngle = Math.atan2(Math.sin(deltaAngle * Math.PI / 180), Math.cos(deltaAngle * Math.PI / 180)) * (180 / Math.PI);
@@ -1441,6 +1467,19 @@ window.sendChatMessage = async () => {
         let formattedHTMLResponse = aiResponse
             .replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900 dark:text-white">$1</strong>')
             .replace(/\n/g, '<br>');
+            // Sanitize the output before injecting
+        const cleanHTML = DOMPurify.sanitize(formattedHTMLResponse);
+
+        const actionHtml = `<div class="mt-4 flex gap-2 border-t border-blue-200/50 dark:border-slate-700 pt-3">
+            <a href="#quote" onclick="toggleChat()" class="text-xs bg-white dark:bg-slate-700 text-blue-600 dark:text-white px-3 py-1.5 rounded-md font-bold hover:bg-blue-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Get a Quote</a>
+            <a href="#calculator" onclick="toggleChat(); window.switchTab('weight');" class="text-xs bg-white dark:bg-slate-700 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-md font-bold hover:bg-gray-50 transition border border-gray-200 dark:border-slate-600 shadow-sm">Calculate Weight</a>
+        </div>`;
+
+        log.innerHTML += `
+            <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm animate-fade-in">
+                ${cleanHTML} 
+                ${actionHtml}
+            </div>`;
 
         const productKeywords = [
             { key: /Kraft Paper/gi, id: "Kraft Paper" },
@@ -1655,11 +1694,41 @@ document.addEventListener('keydown', (e) => {
         window.toggleChat();
     }
 });
+        
+// ==========================================
+// 24. VOICE TO TEXT
+// ==========================================
+        window.startVoiceDictation = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+        window.showToast("Voice dictation is not supported in this browser.", "info");
+        return;
+    }
+    
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-IN';
+    recognition.start();
+    
+    const input = document.getElementById('chatInput');
+    const originalPlaceholder = input.placeholder;
+    input.placeholder = "Listening... Speak now.";
+    
+    recognition.onresult = (event) => {
+        input.value = event.results[0][0].transcript;
+        input.placeholder = originalPlaceholder;
+        window.sendChatMessage(); // Automatically send when they finish speaking
+    };
+    
+    recognition.onerror = () => {
+        input.placeholder = originalPlaceholder;
+        window.showToast("Could not hear clearly. Try again.", "info");
+    };
+};
 
 }); // <-- CRITICAL: THIS IS THE ONLY MAIN SCRIPT CLOSURE. DO NOT DELETE OR DUPLICATE IT.
 
 // ==========================================
-// 24. LAZY LOAD IMAGE REVEAL LOGIC
+// 25. LAZY LOAD IMAGE REVEAL LOGIC
 // ==========================================
 window.addEventListener('load', () => {
     const lazyImages = document.querySelectorAll('img[loading="lazy"]');
@@ -1673,4 +1742,5 @@ window.addEventListener('load', () => {
     }, { rootMargin: "250px 0px" });
     lazyImages.forEach(img => imageObserver.observe(img));
 });
+
 
