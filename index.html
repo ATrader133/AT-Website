@@ -1258,6 +1258,11 @@
         <div class="p-4 bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800">
             <div class="relative flex items-end gap-2 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-1 shadow-inner focus-within:ring-2 focus-within:ring-blue-500 transition-all">
                 <textarea id="chatInput" rows="1" onkeypress="handleChatEnter(event)" placeholder="Ask about paper grades, MOQs, or specs..." class="flex-1 bg-transparent border-none px-3 py-3 text-sm outline-none resize-none dark:text-white max-h-32 min-h-[44px] placeholder-gray-400"></textarea>
+                
+                <button onclick="startVoiceDictation()" class="text-gray-400 hover:text-blue-600 p-3 transition-colors flex-shrink-0 mb-0.5" title="Dictate Requirement">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
+                </button>
+
                 <button onclick="sendChatMessage()" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg transition-colors flex-shrink-0 mb-0.5 mr-0.5">
                     <svg class="w-5 h-5 translate-x-[-1px] translate-y-[1px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
                 </button>
@@ -1311,6 +1316,7 @@
     </script>
 </body>
 </html>
+
 
 
 
