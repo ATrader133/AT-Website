@@ -562,6 +562,7 @@ if (quoteBasketBtn) {
                 isTicking = true;
             }
         });
+
         btn.addEventListener('mouseleave', () => {
             btn.style.transform = `translate(0px, 0px) scale(1)`;
             btn.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)'; 
@@ -571,22 +572,6 @@ if (quoteBasketBtn) {
                 child.style.transform = `translate(0px, 0px)`;
                 child.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)'; 
             });
-            setTimeout(() => { 
-                btn.style.transition = ''; 
-                children.forEach(c => c.style.transition = ''); 
-            }, 500);
-        });
-    });
-        btn.addEventListener('mouseleave', () => {
-            btn.style.transform = `translate(0px, 0px) scale(1)`;
-            btn.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)'; 
-            
-            const children = Array.from(btn.children);
-            children.forEach(child => {
-                child.style.transform = `translate(0px, 0px)`;
-                child.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)'; 
-            });
-            
             setTimeout(() => { 
                 btn.style.transition = ''; 
                 children.forEach(c => c.style.transition = ''); 
@@ -1742,5 +1727,6 @@ window.addEventListener('load', () => {
     }, { rootMargin: "250px 0px" });
     lazyImages.forEach(img => imageObserver.observe(img));
 });
+
 
 
