@@ -52,6 +52,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.0/dist/js/splide.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js" defer></script>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QW4TG03G24" defer></script>
     <script>
@@ -1237,13 +1238,18 @@
     <div id="aiChatWindow" class="fixed bottom-24 right-6 w-[90vw] md:w-[400px] glass bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-blue-200/50 dark:border-blue-900/50 rounded-2xl shadow-2xl z-[50000] transform transition-all duration-300 translate-y-10 opacity-0 pointer-events-none flex flex-col overflow-hidden" style="height: 550px; max-height: 80vh;">
         
       <div class="bg-white/50 dark:bg-slate-800/50 backdrop-blur-md p-4 flex justify-between items-center border-b border-gray-100 dark:border-slate-700/50">
+            <span class="font-bold text-gray-800 dark:text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> AI Assistant
+            </span>
             <div class="flex items-center gap-2">
                 <button onclick="clearChatHistory()" class="text-xs font-bold text-gray-500 hover:text-red-500 transition-colors px-2 py-1 rounded bg-gray-100 dark:bg-slate-800" title="Clear Chat History">
                     Clear
                 </button>
+                <button onclick="toggleChat()" class="text-gray-400 hover:text-gray-800 dark:hover:text-white transition-colors bg-gray-100 dark:bg-slate-800 p-2 rounded-full">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
             </div>
-
-        <div id="chatLog" class="flex-1 p-5 overflow-y-auto flex flex-col gap-4 text-sm scrollbar-hide">
+        </div> <div id="chatLog" class="flex-1 p-5 overflow-y-auto flex flex-col gap-4 text-sm scrollbar-hide">
             <div class="bg-blue-50 dark:bg-slate-800 text-gray-800 dark:text-gray-200 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-blue-100 dark:border-slate-700 shadow-sm">
                 Hi! I'm your packaging engineering assistant. Tell me what you are trying to pack (e.g., <em>"500kg of fragile glassware"</em> or <em>"frozen food exports"</em>) and I'll calculate the exact paper grade and GSM you need.
             </div>
@@ -1305,6 +1311,7 @@
     </script>
 </body>
 </html>
+
 
 
 
