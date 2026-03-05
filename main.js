@@ -1683,10 +1683,115 @@ document.addEventListener('keydown', (e) => {
     };
 };
 
+    // ==========================================
+    // 25. PWA SERVICE WORKER REGISTRATION
+    // ==========================================
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').then(registration => {
+                console.log('PWA: ServiceWorker registered with scope:', registration.scope);
+            }).catch(error => {
+                console.error('PWA: ServiceWorker registration failed:', error);
+            });
+        });
+    }
+
+    // ==========================================
+    // 26. WEBGL 3D PAPER HERO ENGINE (Three.js)
+    // ==========================================
+    const heroCanvasContainer = document.getElementById('webgl-hero-canvas');
+    if (heroCanvasContainer && typeof THREE !== 'undefined') {
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Optimize for high-DPI displays
+        heroCanvasContainer.appendChild(renderer.domElement);
+
+        // Create 3D Paper Sheets
+        const sheets = [];
+        const geometry = new THREE.PlaneGeometry(10, 14, 32, 32);
+        
+        // Define materials (Frosty glass effect)
+        const materials = [
+            new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.15, side: THREE.DoubleSide, wireframe: true }),
+            new THREE.MeshBasicMaterial({ color: 0x607afb, transparent: true, opacity: 0.1, side: THREE.DoubleSide }),
+            new THREE.MeshBasicMaterial({ color: 0x8e9bfa, transparent: true, opacity: 0.05, side: THREE.DoubleSide })
+        ];
+
+        for (let i = 0; i < 3; i++) {
+            const sheet = new THREE.Mesh(geometry, materials[i]);
+            sheet.position.x = (Math.random() - 0.5) * 20;
+            sheet.position.y = (Math.random() - 0.5) * 10;
+            sheet.position.z = (Math.random() - 0.5) * 10 - 15;
+            
+            sheet.rotation.x = Math.random() * Math.PI;
+            sheet.rotation.y = Math.random() * Math.PI;
+            
+            // Assign custom physics properties
+            sheet.userData = {
+                rotSpeedX: (Math.random() - 0.5) * 0.005,
+                rotSpeedY: (Math.random() - 0.5) * 0.005,
+                floatSpeed: (Math.random() * 0.01) + 0.005,
+                initialY: sheet.position.y
+            };
+            
+            scene.add(sheet);
+            sheets.push(sheet);
+        }
+
+        camera.position.z = 5;
+
+        // Interactive Mouse Tracking
+        let targetMouseX = 0;
+        let targetMouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (event) => {
+            targetMouseX = (event.clientX - windowHalfX) * 0.001;
+            targetMouseY = (event.clientY - windowHalfY) * 0.001;
+        });
+
+        // Animation Loop
+        const clock = new THREE.Clock();
+        function animateWebGL() {
+            requestAnimationFrame(animateWebGL);
+            const elapsedTime = clock.getElapsedTime();
+
+            // Smooth camera movement based on mouse
+            camera.position.x += (targetMouseX * 5 - camera.position.x) * 0.05;
+            camera.position.y += (-targetMouseY * 5 - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            // Animate each sheet
+            sheets.forEach((sheet) => {
+                sheet.rotation.x += sheet.userData.rotSpeedX;
+                sheet.rotation.y += sheet.userData.rotSpeedY;
+                // Gentle floating up and down
+                sheet.position.y = sheet.userData.initialY + Math.sin(elapsedTime * sheet.userData.floatSpeed * 100) * 1.5;
+            });
+
+            renderer.render(scene, camera);
+        }
+        
+        animateWebGL();
+
+        // Handle Window Resize
+        window.addEventListener('resize', () => {
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    }
+    
 }); // <-- CRITICAL: THIS IS THE ONLY MAIN SCRIPT CLOSURE. DO NOT DELETE OR DUPLICATE IT.
 
 // ==========================================
-// 25. LAZY LOAD IMAGE REVEAL LOGIC
+//  LAZY LOAD IMAGE REVEAL LOGIC
 // ==========================================
 window.addEventListener('load', () => {
     const lazyImages = document.querySelectorAll('img[loading="lazy"]');
@@ -1700,6 +1805,7 @@ window.addEventListener('load', () => {
     }, { rootMargin: "250px 0px" });
     lazyImages.forEach(img => imageObserver.observe(img));
 });
+
 
 
 
