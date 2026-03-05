@@ -1613,13 +1613,7 @@ if (typeof VanillaTilt !== 'undefined') {
         max: 12, speed: 400, glare: true, "max-glare": 0.2, perspective: 1000
     });
 }
-
-    btn.addEventListener('mouseleave', () => {
-        btn.style.transition = 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
-        btn.style.transform = `translate(0px, 0px)`;
-    });
-});
-
+    
 // ==========================================
 // 22. CINEMATIC FOOTER PARALLAX ENGINE
 // ==========================================
@@ -1706,6 +1700,7 @@ window.addEventListener('load', () => {
     }, { rootMargin: "250px 0px" });
     lazyImages.forEach(img => imageObserver.observe(img));
 });
+
 
 
 
