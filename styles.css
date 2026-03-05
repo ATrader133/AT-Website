@@ -56,13 +56,13 @@ h1, h2, #modalProductName, .font-serif {
 /* --- 4. CORE COMPONENTS --- */
 /* Unified Glassmorphism */
 .glass {
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
     background-color: var(--glass-bg);
     border-radius: 16px;
     border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px var(--glass-shadow);
-    will-change: transform, backdrop-filter; /* GPU Performance boost */
+    box-shadow: 0 4px 20px var(--glass-shadow);
+    will-change: transform; /* Removed backdrop-filter to save massive amounts of VRAM */
 }
 
 /* Progress Bar */
@@ -223,11 +223,11 @@ h1, h2, #modalProductName, .font-serif {
 .animate-fade-in-delay { animation: fadeIn 1s ease-out 0.5s forwards; }
 .animate-slide-up { animation: slideUp 0.8s ease-out forwards; }
 .animate-blob { 
-    animation: blob 10s infinite cubic-bezier(0.64, 0.01, 0.45, 0.94); 
+    animation: blob 15s infinite ease-in-out;
     will-change: transform; 
-    /* FIX: Force hardware acceleration to prevent stuttering */
     transform: translateZ(0);
     backface-visibility: hidden;
+    filter: blur(40px) !important; /* Capped blur size */
 }
 
 /* FIX: Reduce intensive filter calculations on mobile */
@@ -436,6 +436,7 @@ img.loaded {
     background: none;
     animation: none;
 }
+
 
 
 
